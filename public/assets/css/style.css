@@ -1,0 +1,24 @@
+:root {
+	--bg: #ededf6;				/*light blue*/
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	background-color: var(--bg);
+}
+
+/* media queries */
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 980px) {
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 576px) {
+}
+
+/* smallest reasonable size: 360px */

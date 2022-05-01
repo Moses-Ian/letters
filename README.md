@@ -1,3 +1,27 @@
+# Letters
+
+## Info for the Development Team
+
+I'm not sure exactly how to blend the React server and build scripts with our custom server.
+
+So for now, use ```npm run dev``` to use the server.js file I wrote. The displayed page will be the ```public/index.html``` file.
+
+The ```index.html``` file that React created was simply renamed to ```react-index.html``` for when we need to use it later.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
