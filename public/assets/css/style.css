@@ -3,9 +3,13 @@
 }
 
 body {
-	padding: 0px;
-	margin: 0px;
+	/* padding: 0px; */
+	/* margin: 0px; */
 	background-color: var(--bg);
+}
+
+#scramble {
+	min-height: 21px;
 }
 
 /* media queries */
