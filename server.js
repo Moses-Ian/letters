@@ -14,8 +14,9 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 io.on('connection', socket => {
-	console.log(socket.id);
-	logger.error('new connection', { id: socket.id });
+	// console.log(socket.id);
+	// logger.error('new connection', { id: socket.id });
+	process.stdout.write(socket.id);
 	socket.on('send-message', (message, room) => {
 		if (room === '')
 			socket.broadcast.emit('receive-message', message);
@@ -44,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 server.listen(PORT, () => { 
-  console.log(`Server running on port ${PORT}`); 
-	logger.error('Starting server', { port: PORT });
+  // console.log(`Server running on port ${PORT}`); 
+	// logger.error('Starting server', { port: PORT });
+	process.stdout.write('running server');
 });
