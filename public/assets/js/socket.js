@@ -7,7 +7,7 @@ const form = document.getElementById('form');
 
 let name = 'Guest';
 
-const socket = io();	//front is same domain as server
+// const socket = io();	//front is same domain as server
 socket.on('connect', () => {
 	displayMessage(`You connected with id: ${socket.id}`);
 	socket.emit('custom-event', 10, 'Hi', { a: 'a'});
