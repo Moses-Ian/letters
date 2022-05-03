@@ -31,6 +31,7 @@ const io = require('socket.io')(server);
 
 io.on('connection', socket => {
 	console.log(socket.id);
+	logger.info(socket.id);
 	socket.on('send-message', (message, room) => {
 		if (room === '')
 			socket.broadcast.emit('receive-message', message);
