@@ -15,7 +15,7 @@ const io = require('socket.io')(server);
 
 io.on('connection', socket => {
 	console.log(socket.id);
-	logger.info('new connection', { id: socket.id });
+	logger.error('new connection', { id: socket.id });
 	socket.on('send-message', (message, room) => {
 		if (room === '')
 			socket.broadcast.emit('receive-message', message);
@@ -45,5 +45,5 @@ app.use(routes);
 
 server.listen(PORT, () => { 
   console.log(`Server running on port ${PORT}`); 
-	logger.info('Starting server', { port: PORT });
+	logger.error('Starting server', { port: PORT });
 });
