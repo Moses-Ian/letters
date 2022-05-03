@@ -3,19 +3,20 @@ const joinRoomButton = document.getElementById('room-button');
 const messageInput = document.getElementById('message-input');
 const nameInput = document.getElementById('name-input');
 const roomInput = document.getElementById('room-input');
+const connectButton = document.getElementById('connect');
 const form = document.getElementById('form');
 
 let name = 'Guest';
 
-// const socket = io();	//front is same domain as server
-socket.on('connect', () => {
-	displayMessage(`You connected with id: ${socket.id}`);
-	socket.emit('custom-event', 10, 'Hi', { a: 'a'});
-});
+const connectFunction = socket => {
+	socket.on('connect', () => {
+		displayMessage(`You connected with id: ${socket.id}`);
+	});
 
-socket.on('receive-message', message => {
-	displayMessage(message);
-});
+	socket.on('receive-message', message => {
+		displayMessage(message);
+	});
+};
 
 form.addEventListener('submit', e => {
 	e.preventDefault();
@@ -41,6 +42,12 @@ nameButton.addEventListener('click', () => {
 	name = nameInput.value;
 });
 
+connectButton.addEventListener('click', () => {
+	socket.disconnect();
+	socket = io();
+	connectFunction(socket);
+});
+
 function displayMessage(message) {
 	const div = document.createElement('div');
 	div.textContent = message;
@@ -48,3 +55,5 @@ function displayMessage(message) {
 }
 
 console.log('socket.js running');
+let socket = io();	//front is same domain as server
+connectFunction(socket);
