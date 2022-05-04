@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 // server.listen(PORT, () => { 
-app.listen(PORT, () => { 
+server.listen(PORT, () => { 
   console.log(`Server running on port ${PORT}`); 
 	// logger.error('Starting server', { port: PORT });
 	// process.stdout.write('running server');
