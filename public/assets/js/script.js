@@ -77,7 +77,15 @@ scoreWord = (letters, word) => {
 		if (!checklist[j])
 			return 0;
 	
+	if (!inDictionary(word))
+		return 0;
+	
 	return word.length;
+}
+
+inDictionary = word => {
+	//do something
+	return true;
 }
 
 restartLetters = event => {
