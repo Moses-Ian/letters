@@ -2,43 +2,25 @@
   "name": "letters",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "express-session": "^1.17.2",
-    "heroku-logger": "^0.3.3",
-    "mongoose": "^6.3.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
-    "session": "^0.1.0",
-    "socket.io": "^4.5.0",
-    "web-vitals": "^2.1.4"
-  },
   "scripts": {
-	"start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server/server.js",
+    "dev": "cd server && nodemon server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moses-Ian/letters.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Moses-Ian/letters/issues"
   },
+  "homepage": "https://github.com/Moses-Ian/letters#readme",
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "concurrently": "^7.2.0"
   }
 }
