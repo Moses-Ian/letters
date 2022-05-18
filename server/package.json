@@ -1,0 +1,21 @@
+{
+  "name": "letters",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeders/seeds.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express-session": "^1.17.3",
+    "heroku-logger": "^0.3.3",
+    "socket.io": "^4.5.1"
+  }
+}
