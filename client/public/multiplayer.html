@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="./assets/css/style.css" />
+		<link rel="manifest" href="manifest.json">	
+    <title>Letters</title>
+  </head>
+  <body>
+    <h1>Letters</h1>
+		
+		<div id='letters-game'>
+			<div id='scramble'>
+				<span id='letter0'></span>
+				<span id='letter1'></span>
+				<span id='letter2'></span>
+				<span id='letter3'></span>
+				<span id='letter4'></span>
+				<span id='letter5'></span>
+				<span id='letter6'></span>
+				<span id='letter7'></span>
+				<span id='letter8'></span>
+			</div>
+			<button id='vowel'>Vowel</button>
+			<button id='consonant'>Consonant</button>
+			<form id='letters-form'>
+				<input type='text' id='letters-input' />
+				<input type='submit' id='letters-submit' value='Submit' />
+			</form>
+			<ul id='words'></ul>
+			<button id='letters-restart'>Restart</button>
+		</div>
+
+    <!-- Optional JavaScript -->
+		<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+		<script src="./assets/js/multiplayer.js"></script>
+		<script src="./assets/js/idb.js"></script>
+  </body>
+</html>
