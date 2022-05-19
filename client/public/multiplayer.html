@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" href="./assets/css/style.css" />
 		<link rel="manifest" href="manifest.json">	
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Source+Code+Pro:wght@200&display=swap" rel="stylesheet">
     <title>Letters</title>
   </head>
   <body>
-    <h1 class="game-header">L<span class="game-header-3">3</span>tters</h1>
+    <h1>Letters</h1>
 		
 		<div id='letters-game'>
 			<div id='scramble'>
@@ -25,7 +22,6 @@
 				<span id='letter7'></span>
 				<span id='letter8'></span>
 			</div>
-		</br>
 			<button id='vowel'>Vowel</button>
 			<button id='consonant'>Consonant</button>
 			<form id='letters-form'>
@@ -37,18 +33,8 @@
 		</div>
 
     <!-- Optional JavaScript -->
-		<script src="./assets/js/script.js"></script>
+		<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+		<script src="./assets/js/multiplayer.js"></script>
 		<script src="./assets/js/idb.js"></script>
   </body>
-
-	<script>
-	(function() {
-		if("serviceWorker" in navigator) {
-			navigator.serviceWorker.register("./service-worker.js")
-				.then(() => console.log("Service Worker registered successfully."))
-				.catch(error => console.log("Service Worker registration failed:", error));
-		}
-	})();
-	</script>
-
 </html>
