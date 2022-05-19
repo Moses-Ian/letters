@@ -11,8 +11,14 @@ const PORT = process.env.PORT || 3001;
 
 //socket.io stuff
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+// const io = require('socket.io')(server);	//deployed
+const io = require('socket.io')(server, {	//development
+	cors: {
+		origin: ['http://localhost:3000']
+	}
+});
 io.on('connection', (socket) => registerHandlers(io, socket));
+// io.on('connection', (socket) => console.log(socket.id));
 
 const sess = {
   secret: 'Super secret secret',

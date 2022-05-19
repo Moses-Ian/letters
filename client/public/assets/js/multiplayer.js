@@ -23,6 +23,7 @@ const connectFunction = socket => {
 };
 
 const addVowel = event => {
+	console.log("addVowel");
 	socket.emit('add-vowel');
 };
 
@@ -42,6 +43,7 @@ const restartLetters = event => {
 };
 
 const addLetter = (letter, index) => {
+	console.log("addLetter");
 	letterElArr[index].textContent = letter;
 };
 
@@ -72,5 +74,30 @@ lettersRestartBtn.addEventListener('click', restartLetters);
 
 //body
 //=====================================
-let socket = io();	//front is same domain as server
+// let socket = io();	//front is same domain as server
+let socket = io('http://localhost:3001');	//local
 connectFunction(socket);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
