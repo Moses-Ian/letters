@@ -23,7 +23,6 @@ const connectFunction = socket => {
 };
 
 const addVowel = event => {
-	console.log("addVowel");
 	socket.emit('add-vowel');
 };
 
@@ -43,7 +42,6 @@ const restartLetters = event => {
 };
 
 const addLetter = (letter, index) => {
-	console.log("addLetter");
 	letterElArr[index].textContent = letter.toUpperCase();
 };
 

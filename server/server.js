@@ -19,7 +19,6 @@ const io = require('socket.io')(server, {	//development
 	}
 });
 io.on('connection', (socket) => registerHandlers(io, socket));
-// io.on('connection', (socket) => console.log(socket.id));
 
 const sess = {
   secret: 'Super secret secret',

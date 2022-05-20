@@ -17,7 +17,6 @@ let words = [];
 //functions
 //====================================
 addVowel = () => {
-	console.log("addVowel");
 	if (vowelCount == 5)
 		return;
 	if (letters.length == 9)
