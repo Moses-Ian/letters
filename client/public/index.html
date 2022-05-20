@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" href="./assets/css/style.css" />
 		<link rel="manifest" href="manifest.json">	
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Source+Code+Pro:wght@200&display=swap" rel="stylesheet">
     <title>Letters</title>
   </head>
   <body>
-    <h1>Letters</h1>
+    <h1 class="game-header">L<span class="game-header-3">3</span>tters</h1>
 		
 		<div id='letters-game'>
 			<div id='scramble'>
@@ -22,14 +25,34 @@
 				<span id='letter7'></span>
 				<span id='letter8'></span>
 			</div>
-			<button id='vowel'>Vowel</button>
-			<button id='consonant'>Consonant</button>
-			<form id='letters-form'>
-				<input type='text' id='letters-input' />
-				<input type='submit' id='letters-submit' value='Submit' />
-			</form>
-			<ul id='words'></ul>
-			<button id='letters-restart'>Restart</button>
+
+			<div class="container">
+			  	<div class="vc-btn">
+					<button id='vowel'>Vowel</button>
+					<button id='consonant'>Consonant</button>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="submit-btn">
+					<form id='letters-form'>
+						<input type='text' id='letters-input' />
+
+						<div >
+							<input type='submit' id="letters-submit" value='Submit' />
+						</div>
+					</form>
+					<ul id='words'></ul>
+				</div>
+			</div>
+				
+			<div class="container">
+				<div class="restart-btn">
+					<button id='letters-restart'>Restart</button>
+				</div>
+			</div>
+			  
+
 		</div>
 
     <!-- Optional JavaScript -->
