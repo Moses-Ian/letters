@@ -1,73 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="stylesheet" href="./assets/css/style.css" />
-		<link rel="manifest" href="manifest.json">	
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Source+Code+Pro:wght@200&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Source+Code+Pro:wght@200&display=swap"
+      rel="stylesheet"
+    />
     <title>Letters</title>
   </head>
   <body>
-    <h1 class="game-header">L<span class="game-header-3">3</span>tters</h1>
-		
-		<div id='letters-game'>
-			<div id='scramble'>
-				<span id='letter0'></span>
-				<span id='letter1'></span>
-				<span id='letter2'></span>
-				<span id='letter3'></span>
-				<span id='letter4'></span>
-				<span id='letter5'></span>
-				<span id='letter6'></span>
-				<span id='letter7'></span>
-				<span id='letter8'></span>
-			</div>
-
-			<div class="container">
-			  	<div class="vc-btn">
-					<button id='vowel'>Vowel</button>
-					<button id='consonant'>Consonant</button>
-				</div>
-			</div>
-
-			<div class="container">
-				<div class="submit-btn">
-					<form id='letters-form'>
-						<input type='text' id='letters-input' />
-
-						<div >
-							<input type='submit' id="letters-submit" value='Submit' />
-						</div>
-					</form>
-					<ul id='words'></ul>
-				</div>
-			</div>
-				
-			<div class="container">
-				<div class="restart-btn">
-					<button id='letters-restart'>Restart</button>
-				</div>
-			</div>
-			  
-
-		</div>
-
+    <div id="root">
+      <noscript>You need to enable JavaScript to run this app.</noscript>
+    </div>
     <!-- Optional JavaScript -->
-		<script src="./assets/js/script.js"></script>
-		<script src="./assets/js/idb.js"></script>
+    <script src="..src/assets/js/script.js"></script>
+    <script src="..src/assets/js/idb.js"></script>
   </body>
 
-	<script>
-	(function() {
-		if("serviceWorker" in navigator) {
-			navigator.serviceWorker.register("./service-worker.js")
-				.then(() => console.log("Service Worker registered successfully."))
-				.catch(error => console.log("Service Worker registration failed:", error));
-		}
-	})();
-	</script>
-
+  <script>
+    (function () {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .then(() => console.log("Service Worker registered successfully."))
+          .catch((error) =>
+            console.log("Service Worker registration failed:", error)
+          );
+      }
+    })();
+  </script>
 </html>
