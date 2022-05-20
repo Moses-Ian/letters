@@ -76,7 +76,7 @@ lettersRestartBtn.addEventListener('click', restartLetters);
 let socket = io('http://localhost:3001');	//local
 connectFunction(socket);
 
-
+console.log(room);
 
 
 
