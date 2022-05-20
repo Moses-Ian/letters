@@ -11,16 +11,29 @@ const roomNameInput = document.querySelector('#room-name-input');
 //functions
 //====================================
 const joinGlobal = () => {
-	socket.emit('join-room', 'Global Game', message => console.log(message));
-	console.log(socket.id);
+	socket.emit('join-game', 'Global Game', (success, newRoom) => {
+		if (success) {
+			room = newRoom;
+			roomNameEl.textContent = newRoom;
+			// socket.emit('game-state', room, setGameState);
+		}
+	});
+	console.log(`joinRoom Global Game`);
 };
 
 const joinRoom = () => {
-	socket.emit('join-room', roomNameInput.value, message => console.log(message));
+	socket.emit('join-game', roomNameInput.value, message => console.log(message));
+	console.log(`joinRoom ${roomNameInput.value}`);
 };
 
 const createRoom = () => {
-	socket.emit('join-room', roomNameInput.value, message => console.log(message));
+	socket.emit('join-game', roomNameInput.value, (success, newRoom) => {
+		if (success) {
+			room = newRoom;
+			roomNameEl.textContent = newRoom;
+		}
+	});
+	console.log(`joinRoom ${roomNameInput.value}`);
 };
 
 
@@ -42,4 +55,4 @@ createRoomBtn.addEventListener('click', createRoom);
 
 //body
 //=====================================
-joinGlobal();
+// joinGlobal();

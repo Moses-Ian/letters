@@ -16,7 +16,8 @@ let words = [];
 
 //functions
 //====================================
-addVowel = () => {
+addVowel = (room) => {
+	console.log(room);
 	if (vowelCount == 5)
 		return;
 	if (letters.length == 9)
@@ -25,7 +26,7 @@ addVowel = () => {
 	let index = letters.length;
 	letters.push(vowel);	
 	vowelCount++;
-	io.emit('add-letter', vowel, index);
+	io.to(room).emit('add-letter', vowel, index);
 };
 
 addConsonant = () => {
@@ -94,6 +95,13 @@ restartLetters = () => {
 	io.emit('clear-letters');
 };
 
+joinRoom = (socket, room, callback) => {
+	socket.join(room);
+	callback(true, room);
+	io.to(socket.id).emit('set-game-state', letters, words);
+};
+
+
 //listeners
 //=====================================
 const registerGameHandler = (newio, socket) => {
@@ -104,8 +112,28 @@ const registerGameHandler = (newio, socket) => {
 	socket.on('submit-word', submitWord);
 	socket.on('restart-letters', restartLetters);
 	socket.on('game-state', cb => cb(letters, words));
+	socket.on('join-game', (room, cb) => joinRoom(socket, room, cb));
 }
 
 //export
 //=====================================
 module.exports = registerGameHandler;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
