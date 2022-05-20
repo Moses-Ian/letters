@@ -44,7 +44,7 @@ const restartLetters = event => {
 
 const addLetter = (letter, index) => {
 	console.log("addLetter");
-	letterElArr[index].textContent = letter;
+	letterElArr[index].textContent = letter.toUpperCase();
 };
 
 const appendWord = (word, score) => {

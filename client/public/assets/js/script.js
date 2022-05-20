@@ -45,7 +45,7 @@ addConsonant = event => {
 addLetter = letter => {
 	if (lettersArr.length == 9)
 		return false;
-	letterElArr[lettersArr.length].textContent = letter;
+	letterElArr[lettersArr.length].textContent = letter.toUpperCase();
 	lettersArr.push(letter);	
 	return true;
 }
