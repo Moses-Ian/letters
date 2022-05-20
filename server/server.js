@@ -5,6 +5,7 @@ const helpers = require('./utils/helpers');
 const mongoose = require('./config/connection');
 const session = require('express-session');
 const registerHandlers = require('./handlers');
+require('dotenv').config({path:'../.env'});
 
 const app = express();
 const PORT = process.env.PORT || 3001;

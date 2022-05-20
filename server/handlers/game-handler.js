@@ -1,5 +1,7 @@
 //variables
 //==================================
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 let io;
 
 const vowels = ['a','e','i','o','u'];
@@ -10,6 +12,7 @@ let letters = [];
 let vowelCount = 0;
 let consonantCount = 0;
 let words = [];
+
 
 //functions
 //====================================
@@ -45,13 +48,13 @@ addConsonant = () => {
 	io.emit('add-letter', consonant, index);
 };
 
-submitWord = word => {
-	const score = scoreWord(word);
+submitWord = async word => {
+	const score = await scoreWord(word);
 	words.push({ word, score });
 	io.emit('append-word', word, score);
 }
 
-scoreWord = word => {
+scoreWord = async word => {
 	let checklist = new Array(word.length);
 	checklist.fill(false);
 	
@@ -67,15 +70,21 @@ scoreWord = word => {
 			return 0;
 	
 	//make sure it's in the dictionary
-	if (!inDictionary(word))
+	if (! await inDictionary(word))
 		return 0;
 	
 	return word.length;
 }
 
-inDictionary = word => {
-	//do something
-	return true;
+inDictionary = async word => {
+	try {
+		const response = await fetch(`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`);
+		const data = await response.json();
+		return typeof data[0] != 'string';
+	} catch (err) {
+		console.error(err);
+		return false;
+	}
 }
 
 restartLetters = () => {
