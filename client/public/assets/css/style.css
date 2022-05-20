@@ -9,12 +9,11 @@
   	--tertiary-color: #FEF9C7;
   	--quanternary-color: #9FEDD7;
   	--quinary-color: #026670;	
+	--sixth-color: #5D909A;
 	  font-family: 'Fugaz one', cursive;		
 }
 
 body {
-	/* padding: 0px; */
-	/* margin: 0px; */
 	background-color: var(--quinary-color);
 	color: var(--secondary-color);
 	font-size: 20px;
@@ -23,16 +22,22 @@ body {
 
  /* HEADER COMPONENT */
 
+
 .game-header {
 	color: var(--secondary-color);
 	text-align: center;
 	font-size: 60px;
-	text-shadow: 2px 2px 8px black;
-	/* border-top: solid 10px;
-	border-bottom: solid 10px; */
-	/* border-radius: 50px; */
-	/* border-style: inset; */
-	/* border-color: #FCE181; */	
+	text-shadow: 3px 3px 2px black;
+	transition: text-shadow 250ms ease,
+				font-size 250ms ease;	
+	border: 1px solid #5D909A;
+	background-color: #5D909A;
+	
+}
+
+.game-header:hover {
+	text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+	font-size: 65px;	
 }
 
 .game-header-3 {
@@ -41,24 +46,42 @@ body {
 
 /* HEADER COMPONENT END */
 
-/* MAIN GAME PAGE */
 
-#vowel {
-	
-}
-/* MAIN GAME PAGE END */
+
+
+
+
+
+/* MAIN GAME PAGE */
 
 #scramble {
 	min-height: 21px;
 	font-size: 40px;
+	text-align: center;
 }
 
-/* #letter0, #letter1, #letter2, #letter3, #letter4, #letter5, #letter6, #letter7, #letter8 {
-	border: solid 1px;
-	padding: 10px;
-	margin: 10px;
-	padding-bottom: 20px;
-} */
+.container {
+	height: 50px;
+  	position: relative;
+	/* border: 3px solid green; */
+}
+
+.vc-btn, .restart-btn, #letters-form  {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+  }
+
+  #letters-submit {
+	  margin-left: 48px; 
+  }
+
+/* MAIN GAME PAGE END */
+
+
 
 
 
