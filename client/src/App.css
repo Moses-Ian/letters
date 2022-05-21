@@ -1,21 +1,28 @@
-.App {
-  text-align: center;
+/* FYI hadas */
+.background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.field button {
+  width: 50vw;
+  box-shadow: 3px 2px 8px #888888;
+}
+
+#letters-input {
+  width: 60vw;
+}
+
+.rendered-letters {
+  height: 30vh;
 }
 
 /* hadas */
-.main {
-  background-image: url("./assets/brick-wall.svg");
-}
-/* hadas */
 
-/* * {
-	font-family: 'Fugaz one', sans-serif,
-} */
+* {
+  font-family: "Fugaz one", sans-serif;
+}
 
 :root {
   --bg: #ededf6;
@@ -29,9 +36,18 @@
 }
 
 body {
+  height: 100vh;
   background-color: var(--quinary-color);
   color: var(--secondary-color);
   font-size: 20px;
+
+  /* hadas */
+  background-image: url("./assets/images/white-bricks.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  /* hadas */
 }
 
 /* HEADER COMPONENT */
@@ -42,7 +58,7 @@ body {
   font-size: 60px;
   text-shadow: 3px 3px 2px black;
   transition: text-shadow 250ms ease, font-size 250ms ease;
-  border: 1px solid #5d909a;
+  /* border: 1px solid #5d909a; */
   background-color: #5d909a;
 }
 
@@ -64,41 +80,3 @@ body {
   font-size: 40px;
   text-align: center;
 }
-
-.container {
-  height: 50px;
-  position: relative;
-  /* border: 3px solid green; */
-}
-
-.vc-btn,
-.restart-btn,
-#letters-form {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-#letters-submit {
-  margin-left: 48px;
-}
-
-/* MAIN GAME PAGE END */
-
-/* media queries */
-@media screen and (max-width: 1200px) {
-}
-
-@media screen and (max-width: 980px) {
-}
-
-@media screen and (max-width: 768px) {
-}
-
-@media screen and (max-width: 576px) {
-}
-
-/* smallest reasonable size: 360px */
