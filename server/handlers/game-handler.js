@@ -95,8 +95,9 @@ restartLetters = () => {
 	io.emit('clear-letters');
 };
 
-joinRoom = (socket, room, callback) => {
+joinRoom = (socket, room, oldRoom, callback) => {
 	socket.join(room);
+	socket.leave(oldRoom);
 	callback(true, room);
 	io.to(socket.id).emit('set-game-state', letters, words);
 };
@@ -112,7 +113,7 @@ const registerGameHandler = (newio, socket) => {
 	socket.on('submit-word', submitWord);
 	socket.on('restart-letters', restartLetters);
 	socket.on('game-state', cb => cb(letters, words));
-	socket.on('join-game', (room, cb) => joinRoom(socket, room, cb));
+	socket.on('join-game', (room, oldRoom, cb) => joinRoom(socket, room, oldRoom, cb));
 }
 
 //export
