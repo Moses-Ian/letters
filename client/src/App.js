@@ -1,6 +1,9 @@
 // import React, { useState } from 'react';
+import React from 'react';
 import "./App.css";
-import LandingPage from './components/LandingPage'
+import LandingPage from './components/LandingPage';
+
+
 
 
 
@@ -9,11 +12,12 @@ function App() {
   
 
   return (
-    <div>
+    <div className="App">
 
-      <main>
-        <LandingPage />
-      </main>
+   
+       <LandingPage />
+       
+     
 
     </div>
   );

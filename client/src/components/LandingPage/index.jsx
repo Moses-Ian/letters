@@ -5,40 +5,42 @@ import 'bulma/css/bulma.min.css';
 
 function LandingPage() {
 
+
+    const [modalState, setModalState] = useState(false);
+
+    // change state
+
     return (
 
-        <div className='landing-page'>
-            {/* PLACEHOLDER */}
-            <h1 class="game-header">L<span class="game-header-3">3</span>tters</h1>
-            {/* PLACEHOLDER */}
-            
-            <form className='login-form pt-6 '>
-                <p className='sub-header mx-6'>Login:</p>
-                <input className="input is-small mt-3 mx-6" type="email" placeholder="Email"></input>
-                <input className="input is-small mt-3 mx-6" type="password" placeholder="Password"></input>
-                <button className="button mt-3 mb-3 mx-6 is-warning">Enter</button>
-            </form>
-            
-            
-            
-            <form className='register-form pt-6'>
-                <p className='sub-header mx-6'>Register:</p>
-                <input className="input is-small mt-3 mx-6" type="email" placeholder="Email"></input>
-                <input className="input is-small mt-3 mx-6" type="password" placeholder="Password"></input>
-                <input className="input is-small mt-3 mx-6" type="text" placeholder="Username"></input>
-                <button className="button mt-3 mx-6 is-warning">Enter</button>
-            </form>
-            
-        
+        <div>
+        <button class="js-modal-trigger" data-target="modal-login">
+            LOGIN
+        </button>
+
+        <div class="modal-login">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Login</p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    
+                    {/* Login  */}
+                    <input className="input is-small mt-3" type="email" placeholder="Email"></input>
+                    <input className="input is-small mt-3" type="password" placeholder="Password"></input>
+                
            
-            <div className='has-text-centered mt-6 pb-6'>
-                <button className="button mt-3 mx-6 is-medium is-warning">Start Game</button>
-                <button className="button mt-3 mx-6 is-medium is-warning">Join Game</button>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success is-primary">Login</button>
+                    <button class="button is-warning">Cancel</button>
+                </footer>
             </div>
-           
-
-
         </div>
+        </div>
+
+
 
         
         

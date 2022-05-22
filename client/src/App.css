@@ -41,6 +41,7 @@
 
 * {
 	font-family: 'Fugaz one', sans-serif,
+  
 }
 
 :root {
@@ -64,15 +65,17 @@ body {
 /* LANDING PAGE */
 
 
-.login-form, .register-form, .start-game {
+/* .login-form, .register-form, .start-game {
 	color: #FCE181;
 	width: 40%;
-	/* margin-top: 10vw; */
+
 }
 
 .sub-header {
 	font-size: 20px;
-}
+} */
+
+
 
 
 
