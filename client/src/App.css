@@ -74,23 +74,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* opacity: 0;
-  transition: all 0.3s ease-in-out;
-  pointer-events: none; */
+  color: var(--secondary-color);
 }
-
-/* .modal.show {
-  opacity: 1;
-  pointer-events: visible;
-} */
 
 .modal-content {
   width: 500px;
-  background-color: #fff;
-
-  /* transform: translateY(-200px);
-  transition: all 0.3s ease-in-out; */
+  background-color: var(--sixth-color);
+  border-radius: 15px;
 }
 
 .modal-show .modal-content {
@@ -111,6 +101,22 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+.modal-enter-button, .modal-close-button, .modal-toggle-button {
+  color: var(--quinary-color);
+  background-color: var(--secondary-color);
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.modal-toggle-button {
+  font-size: 20px;
+}
+
+.modal-toggle-button:hover {
+  /* font-size: 25px; */
+  opacity: 80%;
+}
+
 
 /* MODAL END */
 
@@ -120,18 +126,12 @@ body {
 /* LANDING PAGE */
 
 
-/* .login-form, .register-form, .start-game {
-	color: #FCE181;
-	width: 40%;
-
-}
-
-.sub-header {
-	font-size: 20px;
-} */
 
 
 /* LANDING PAGE END */
+
+
+
 
 
  /* HEADER COMPONENT */
