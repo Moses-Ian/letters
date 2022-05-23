@@ -29,18 +29,18 @@ const addVowel = event => {
 };
 
 const addConsonant = event => {
-	socket.emit('add-consonant');
+	socket.emit('add-consonant', room);
 };
 
 const submitWord = event => {
 	event.preventDefault();
 	const word = lettersInput.value;
 	lettersInput.value = '';
-	socket.emit('submit-word', word);
+	socket.emit('submit-word', word, room);
 };
 
 const restartLetters = event => {
-	socket.emit('restart-letters');
+	socket.emit('restart-letters', room);
 };
 
 const addLetter = (letter, index) => {
@@ -61,6 +61,7 @@ const clearLetters = () => {
 };
 
 const setGameState = (letters, words) => {
+	clearLetters();
 	letters.forEach((letter, index) => addLetter(letter, index));
 	words.forEach(({ word, score }) => appendWord(word, score));
 };
