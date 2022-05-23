@@ -3,41 +3,60 @@ import Modal from '../Modal';
 // import 'bulma/css/bulma.min.css';
 
 
-
-// MOVE TO LANDINGPAGE
-export default function LandingPage() {
+export default function LandingPage(Modal1, Modal2) {
     const [show, setShow] = useState(false)
+
+    // const [isLoginModalOpen, toggleLoginModal] = useState(false);
+    // const [isRegisterModalOpen, toggleRegisterModal] = useState(false);
+
+    // const [ShowModal1, setShowModal1] = useState(false);
+    // const [ShowModal2, setShowModal2] = useState(false);
   
     return (
-        <div> 
+    <>
         
-      <div className='LandingPage'>
-        <button className='modal-toggle-button' onClick={() => setShow(true) }>Login</button>
+    <div className='LandingPage'>
+
+        <div className='container'>
+            <div className='center'>
+                <button className='modal-toggle-button' onClick={() => setShow(true) }>Login / Register</button>
+            </div>
+        </div>
+
         <Modal title='Login' onClose={() => setShow(false)} show={show}>
             <div>
-                <input type="email" placeholder="Email"></input>
-            </div>
-            <div>
-                <input type="password" placeholder="Password"></input>
+                <input className='type-box' type="email" placeholder="Email"></input>
+                <input className='type-box' type="password" placeholder="Password"></input>
             </div>
         </Modal>
-      </div>
+   
+
+        <br></br>
 
 
-      {/* <div className='LandingPage'>
-        <button onClick={() => setShow(true) }>Register</button>
-        <Modal title='Login' onClose={() => setShow(false)} show={show}>
+        <Modal title='Register' onClose={() => setShow(false)} show={show}>
             <div>
-                <input type="email" placeholder="Email"></input>
+                <input className="type-box" type="text" placeholder="Username"></input>
+                <input className='type-box' type="email" placeholder="Email"></input>
+                <input className='type-box' type="password" placeholder="Password"></input>
             </div>
-            <div>
-                <input type="password" placeholder="Password"></input>
-            </div>
-            
         </Modal>
-      </div> */}
+    </div>
 
-      </div>    
-    )
+    <div className='container'>
+        <div className='center'>
+            <button className='game-btn'>Join Game</button>
+        </div>
+    </div>
+
+
+    </>
+
+    );
   }
+
+
+
+
+
 

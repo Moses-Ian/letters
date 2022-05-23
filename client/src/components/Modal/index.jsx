@@ -9,9 +9,10 @@ const Modal = props => {
         return null
     }
 
-    
+
     return (
-       <div className={`modal ${props.show ? 'show' : ''}`} onClick={props.onClose}>
+        <>
+        <div className={`modal ${props.show ? 'show' : ''}`} onClick={props.onClose}>
             <div className='modal-content' onClick={e => e.stopPropagation()}>
                 <div className='modal-header'>
                     <h4 className='modal-title'>{props.title}</h4>
@@ -19,13 +20,16 @@ const Modal = props => {
                 <div className='modal-body'>{props.children}</div>
                 <div className='modal-footer'>
                     {/* TODO enter button should not be on close add function to landingPage */}
-                    <button onClick={props.onClick} className='modal-enter-button'>Enter</button>
+                    <button onClick={props.onSubmit} className='modal-enter-button'>Enter</button>
                     <button onClick={props.onClose} className='modal-close-button'>Close</button>
                 </div>
             </div>
-       </div>
+        </div>
+
+
        
-        
+       
+       </>
     )
 }
 
