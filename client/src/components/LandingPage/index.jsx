@@ -17,8 +17,8 @@ export default function LandingPage(Modal1, Modal2) {
         
     <div className='LandingPage'>
 
-        <div className='container'>
-            <div className='center'>
+        <div className='container1'>
+            <div className='center1'>
                 <button className='modal-toggle-button' onClick={() => setShow(true) }>Login / Register</button>
             </div>
         </div>
@@ -43,11 +43,11 @@ export default function LandingPage(Modal1, Modal2) {
         </Modal>
     </div>
 
-    <div className='container'>
+    {/* <div className='container1'> */}
         <div className='center'>
             <button className='game-btn'>Join Game</button>
         </div>
-    </div>
+    {/* </div> */}
 
 
     </>
