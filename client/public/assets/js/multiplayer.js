@@ -15,8 +15,6 @@ const lettersRestartBtn = document.querySelector('#letters-restart');
 const connectFunction = socket => {
 	socket.on('connect', () => {
 		console.log(`You connected with id: ${socket.id}`);
-		joinGlobal();
-		// socket.emit('game-state', room, setGameState);
 	});
 	socket.on('add-letter', addLetter);
 	socket.on('append-word', appendWord);
@@ -79,8 +77,7 @@ lettersRestartBtn.addEventListener('click', restartLetters);
 let socket = io('http://localhost:3001');	//local
 connectFunction(socket);
 
-console.log(room);
-joinGlobal();
+joinRoom(getRoom());
 
 
 

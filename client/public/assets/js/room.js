@@ -11,50 +11,56 @@ const roomNameInput = document.querySelector('#room-name-input');
 //functions
 //====================================
 const joinGlobal = () => {
-	console.log('global');
 	socket.emit('join-game', 'Global Game', room, (success, newRoom) => {
-		if (success) {
-			room = newRoom;
-			roomNameEl.textContent = newRoom;
-		}
+		if (success)
+			setRoom(newRoom);
 	});
 	console.log(`joinRoom Global Game`);
 };
 
-const joinRoom = () => {
-	console.log('join');
-	socket.emit('join-game', roomNameInput.value, room, (success, newRoom) => {
-		if (success) {
-			room = newRoom;
-			roomNameEl.textContent = newRoom;
-		}
+const joinRoom = name => {
+	socket.emit('join-game', name, room, (success, newRoom) => {
+		if (success)
+			setRoom(newRoom);
 	});
-	console.log(`joinRoom ${roomNameInput.value}`);
+	console.log(`joinRoom ${name}`);
 };
 
 const createRoom = () => {
-	console.log('create');
-	socket.emit('join-game', roomNameInput.value, room, (success, newRoom) => {
-		if (success) {
-			room = newRoom;
-			roomNameEl.textContent = newRoom;
-		}
+	socket.emit('join-game', name, room, (success, newRoom) => {
+		if (success) 
+			setRoom(newRoom);
 	});
 	console.log(`joinRoom ${roomNameInput.value}`);
 };
 
+const setRoom = newRoom => {
+	room = newRoom;
+	roomNameEl.textContent = room;
+	localStorage.setItem('room', room);
+};
 
+const getRoom = () => {
+	let r = localStorage.getItem('room');
+	if (!r)
+		return 'Global Game';
+	return r;
+};
 
+const joinGlobalHandler = () => joinGlobal();
 
+const joinRoomHandler = () => joinRoom(roomNameInput.value);
+
+const createRoomHandler = () => createRoom(roomNameInput.value);
 
 
 
 
 //listeners
 //=====================================
-joinGlobalBtn.addEventListener('click', joinGlobal);
-joinRoomBtn.addEventListener('click', joinRoom);
-createRoomBtn.addEventListener('click', createRoom);
+joinGlobalBtn.addEventListener('click', joinGlobalHandler);
+joinRoomBtn.addEventListener('click', joinRoomHandler);
+createRoomBtn.addEventListener('click', createRoomHandler);
 
 
 
@@ -62,4 +68,3 @@ createRoomBtn.addEventListener('click', createRoom);
 
 //body
 //=====================================
-// joinGlobal();
