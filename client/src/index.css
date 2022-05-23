@@ -12,12 +12,10 @@ code {
     monospace;
 } */
 
-
 :root {
-  --primary-color: #EDEAE5;
-  --secondary-color: #FCE181;
-  --tertiary-color: #FEF9C7;
-  --quanternary-color: #9FEDD7;
+  --primary-color: #edeae5;
+  --secondary-color: #fce181;
+  --tertiary-color: #fef9c7;
+  --quanternary-color: #9fedd7;
   --quinary-color: #026670;
 }
-
