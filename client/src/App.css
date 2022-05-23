@@ -18,6 +18,17 @@
   height: 30vh;
 }
 
+.button,
+input {
+  box-shadow: 3px 2px 8px #888888 !important;
+  font-family: Sedgwick Ave;
+}
+
+.restart {
+  background-color: #026670 !important;
+  border-color: #026670 !important;
+}
+
 /* hadas */
 
 * {
@@ -53,18 +64,24 @@ body {
 /* HEADER COMPONENT */
 
 .game-header {
-  color: var(--secondary-color);
+  color: var(--quinary-color);
   text-align: center;
-  font-size: 60px;
-  text-shadow: 3px 3px 2px black;
+  font-size: 80px;
+  text-shadow: 4px 4px 3px black;
   transition: text-shadow 250ms ease, font-size 250ms ease;
   /* border: 1px solid #5d909a; */
-  background-color: #5d909a;
+  /* background-color: #5d909a; */
+  font-family: Sedgwick Ave Display;
+  font-weight: 600;
+}
+
+.game-header-3 {
+  font-family: Sedgwick Ave Display;
 }
 
 .game-header:hover {
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  font-size: 65px;
+  font-size: 90px;
 }
 
 .game-header-3 {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import bricks from "../../assets/images/white-bricks.jpg";
 import "bulma/css/bulma.min.css";
 
@@ -6,17 +6,20 @@ const MainGame = () => {
   //variables
   //==================================
   let letterElArr = [];
+
+  const letter = useRef();
   for (let i = 0; i < 9; i++)
     letterElArr.push(document.querySelector(`#letter${i}`));
+
   // const vowelBtn = document.querySelector("#vowel");
   // const consonantBtn = document.querySelector("#consonant");
   // const lettersForm = document.querySelector("#letters-form");
-  // FYI lettersInput was replaced with useState
-  const lettersInput = document.querySelector("#letters-input");
-  const wordsEl = document.querySelector("#words");
+  // FYI lettersInput was replaced with useRef:
+  // const lettersInput = document.querySelector("#letters-input");
+  const lettersInput = useRef();
+  // const wordsEl = document.querySelector("#words");
+  const wordsEl = useRef();
   // const lettersRestartBtn = document.querySelector("#letters-restart");
-
-  // const [lettersInput, setLettersInput] = useState("");
 
   let lettersArr = [];
   let vowelCount = 0;
@@ -83,8 +86,12 @@ const MainGame = () => {
     lettersInput.value = "";
     if (lettersArr.length !== 9) return;
     const score = scoreWord(lettersArr, word);
-    const wordEl = document.createElement("li");
-    wordEl.textContent = `${word} -> ${score} points`;
+    // FYI
+    // const wordEl = document.createElement("li");
+    // wordEl.textContent = `${word} -> ${score} points`;
+    // converted to react:
+    const wordEl = React.createElement("li", {}, `${word} -> ${score} points`);
+    console.log(word);
     wordsEl.appendChild(wordEl);
   };
 
@@ -131,15 +138,16 @@ const MainGame = () => {
       {/* <img className="background" src={bricks} alt="bricks" /> */}
 
       <div className="rendered-letters" id="scramble">
-        <span id="letter0"></span>
-        <span id="letter1"></span>
-        <span id="letter2"></span>
-        <span id="letter3"></span>
-        <span id="letter4"></span>
-        <span id="letter5"></span>
-        <span id="letter6"></span>
-        <span id="letter7"></span>
-        <span id="letter8"></span>
+        <span ref={letter} id="letter0"></span>
+        <span ref={letter} id="letter1"></span>
+        <span ref={letter} id="letter2"></span>
+        <span ref={letter} id="letter3"></span>
+        <span ref={letter} id="letter4"></span>
+        <span ref={letter} id="letter5"></span>
+        <span ref={letter} id="letter6"></span>
+        <span ref={letter} id="letter7"></span>
+        <span ref={letter} id="letter8"></span>
+        {}
       </div>
 
       <div className="field m-3 is-flex">
@@ -164,6 +172,7 @@ const MainGame = () => {
           <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">
               <input
+                ref={lettersInput}
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
@@ -179,18 +188,19 @@ const MainGame = () => {
                 value="Submit"
                 onClick={submitWord}
               />
+              {}
             </div>
           </div>
         </form>
       </div>
 
       <div className="p-5">
-        <ul id="words"></ul>
+        <ul id="words" ref={wordsEl}></ul>
       </div>
 
       <div className="m-3">
         <button
-          className="button has-background-grey-light is-fullwidth"
+          className="button restart has-text-light is-fullwidth"
           id="letters-restart"
           onClick={restartLetters}
         >
