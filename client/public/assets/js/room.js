@@ -67,8 +67,4 @@ createRoomBtn.addEventListener('click', createRoomHandler);
 
 
 //body
-<<<<<<< HEAD
 //=====================================
-=======
-//=====================================
->>>>>>> 1bc5236bd0db3c980d6ba91ff4cfe58c059d7468

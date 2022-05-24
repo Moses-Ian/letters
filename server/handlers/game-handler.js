@@ -22,6 +22,7 @@ rooms.set(global.name, global);
 //functions
 //====================================
 addVowel = (room) => {
+	console.log(room);
 	let g = rooms.get(room);
 	if (g.vowelCount == 5)
 		return;

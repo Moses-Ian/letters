@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
 import userImg from '../../assets/images/user.png';
+import '../../App.css';
 // import 'bulma/css/bulma.min.css';
 
 
@@ -45,6 +46,12 @@ export default function LandingPage() {
             </div>
         </Modal>
     </div>
+
+        {/* <div className='container'>
+            <div className='containerbackground'>
+                <p>L3tters</p>
+            </div>
+        </div> */}
 
     {/* <div className='container1'> */}
         <div className='center'>
