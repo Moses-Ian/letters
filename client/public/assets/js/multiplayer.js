@@ -23,6 +23,7 @@ const connectFunction = socket => {
 };
 
 const addVowel = event => {
+	console.log(room);
 	socket.emit('add-vowel', room);
 };
 
