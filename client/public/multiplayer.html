@@ -32,9 +32,19 @@
 			<ul id='words'></ul>
 			<button id='letters-restart'>Restart</button>
 		</div>
+		
+		<div id='room' style='border: 3px solid #880088; margin-top:100px'>
+			<h2 id='room-name'>Global Game</h2>
+			<button id='join-global'>Join Global Game</button>
+			<button id='join-room'>Join Game</button>
+			<button id='create-room'>Create Game</button>
+			<input type='text' id='room-name-input' />
+		</div>
 
     <!-- Optional JavaScript -->
-		<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+		<script src="./assets/js/socket.io.min.js"></script>
+		<!-- <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script> -->
+		<script src="./assets/js/room.js"></script>
 		<script src="./assets/js/multiplayer.js"></script>
 		<script src="./assets/js/idb.js"></script>
   </body>

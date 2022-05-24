@@ -5,6 +5,7 @@ const helpers = require('./utils/helpers');
 const mongoose = require('./config/connection');
 const session = require('express-session');
 const registerHandlers = require('./handlers');
+require('dotenv').config({path:'../.env'});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,7 +19,6 @@ const io = require('socket.io')(server, {	//development
 	}
 });
 io.on('connection', (socket) => registerHandlers(io, socket));
-// io.on('connection', (socket) => console.log(socket.id));
 
 const sess = {
   secret: 'Super secret secret',
