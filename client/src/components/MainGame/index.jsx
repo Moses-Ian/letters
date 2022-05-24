@@ -1,36 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "bulma/css/bulma.min.css";
 import { io } from "socket.io-client";
 
-const MainGame = () => {
-  // FYI FYI FYI
-  let room;
+const MainGame = (props) => {
+  console.log(props);
+  let socket = props.socket;
+  let room = "My room";
 
   //variables
   //==================================
   let letterElArr = [];
   for (let i = 0; i < 9; i++)
     letterElArr.push(document.querySelector(`#letter${i}`));
-  // const vowelBtn = document.querySelector("#vowel");
-  // const consonantBtn = document.querySelector("#consonant");
-  // const lettersForm = document.querySelector("#letters-form");
-  // const lettersInput = document.querySelector("#letters-input");
   const lettersInput = useRef();
-  // const wordsEl = document.querySelector("#words");
   const wordsEl = useRef();
-  // const lettersRestartBtn = document.querySelector("#letters-restart");
 
   //functions
   //====================================
-  const connectFunction = (socket) => {
-    socket.on("connect", () => {
-      console.log(`You connected with id: ${socket.id}`);
-    });
-    socket.on("add-letter", addLetter);
-    socket.on("append-word", appendWord);
-    socket.on("clear-letters", clearLetters);
-    socket.on("set-game-state", setGameState);
-  };
 
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
@@ -72,23 +58,41 @@ const MainGame = () => {
     words.forEach(({ word, score }) => appendWord(word, score));
   };
 
-  //listeners
-  //=====================================
-  // vowelBtn.addEventListener("click", addVowel);
-  // consonantBtn.addEventListener("click", addConsonant);
-  // lettersForm.addEventListener("submit", submitWord);
-  // lettersRestartBtn.addEventListener("click", restartLetters);
-
   //body
   //=====================================
-  // let socket = io();	//front is same domain as server
-  let socket = io("http://localhost:3001"); //local
-  connectFunction(socket);
+
+  // JOIN ROOM:
+  const joinRoom = (name) => {
+    console.log(props.socket);
+    socket.emit("join-game", name, room, (success, newRoom) => {
+      if (success) setRoom(newRoom);
+    });
+    console.log(`joinRoom ${name}`);
+  };
+
+  const setRoom = (newRoom) => {
+    room = newRoom;
+    // roomNameEl.textContent = room;
+    localStorage.setItem("room", room);
+  };
+
+  const getRoom = () => {
+    let r = localStorage.getItem("room");
+    if (!r) return "Global Game";
+    return r;
+  };
 
   // joinRoom(getRoom());
+  // {
+  //   useEffect(() => joinRoom(room));
+  // }
 
   return (
     <div className="" id="letters-game">
+      <h1>{room}</h1>
+
+      {/* {useEffect(() => joinRoom(room))} */}
+
       <div className="rendered-letters" id="scramble">
         <span id="letter0"></span>
         <span id="letter1"></span>
