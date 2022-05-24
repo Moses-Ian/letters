@@ -81,16 +81,12 @@ body {
 .modal-content {
   width: 330px;
   background-color: var(--sixth-color);
-  border-radius: 15px;
+  border-radius: 10px;
   border: solid 1px var(--quanternary-color);
 }
 
 .modal-show .modal-content {
   transform: translateY(0);
-}
-
-.modal-body:hover {
-  background-color: #FCE181;
 }
 
 .modal-header, .modal-footer {
@@ -111,6 +107,13 @@ body {
 
 .type-box {
   width: 300px;
+  border-radius: 5px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.type-box:hover {
+  background-color: var(--quanternary-color);
 }
 
 .modal-enter-button, .modal-close-button, .modal-toggle-button, .game-btn {
@@ -118,15 +121,15 @@ body {
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
-  
+  size: 30px;
+  font-size: 18px;
 }
 
 .modal-toggle-button {
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .modal-toggle-button:hover {
-  /* font-size: 25px; */
   opacity: 80%;
 }
 
@@ -142,7 +145,7 @@ body {
 
 .game-btn {
   font-size: 30px;
-  margin-top: 300px;
+  margin-top: 450px;
 }
 
 /* .container {

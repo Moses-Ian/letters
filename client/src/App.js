@@ -6,19 +6,7 @@ import LandingPage from './components/LandingPage';
 
 
 
-// MOVE TO LANDINGPAGE
-// export default function App() {
-//   const [show, setShow] = useState(false)
 
-//   return (
-//     <div className='App'>
-//       <button onClick={() => setShow(true) }>Show Modal</button>
-//       <Modal title='My Modal' onClose={() => setShow(false)} show={show}>
-//         <p>Modal Body</p>
-//       </Modal>
-//     </div>
-//   )
-// }
 
 
 function App() {
@@ -26,8 +14,7 @@ function App() {
   return (
     <div className="App">
 
-      {/* <button>Show Modal</button>
-      <Modal /> */}
+     
       <LandingPage />
        
      

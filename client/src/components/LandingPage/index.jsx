@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
-import UserImg from '../../../public/assets/images/user'
+import userImg from '../../assets/images/user.png';
 // import 'bulma/css/bulma.min.css';
 
 
-export default function LandingPage(props) {
+export default function LandingPage() {
     const [show, setShow] = useState(false)
 
     // const [isLoginModalOpen, toggleLoginModal] = useState(false);
@@ -18,11 +18,11 @@ export default function LandingPage(props) {
         
     <div className='LandingPage'>
 
+
+        {/* check container1 center 1 */}
         <div className='container1'>
             <div className='center1'>
-                <button className='modal-toggle-button' onClick={() => setShow(true) }> Login / Register </button>
-                {/* <img src={process.env.PUBLIC_URL + props.projectArr.img}></img> */}
-                <img src={UserImg} alt='login img'></img>
+                <button className='modal-toggle-button' onClick={() => setShow(true) }><img className='user-img' src={userImg} alt='login img' /></button>
             </div>
         </div>
 
