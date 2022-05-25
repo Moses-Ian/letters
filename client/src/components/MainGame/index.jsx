@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useReducer } from "react";
 import "bulma/css/bulma.min.css";
 import { io } from "socket.io-client";
 
@@ -12,12 +12,25 @@ const MainGame = ({ socket, room }) => {
       socket.disconnect();
     };
   }, []);
-
+	
   //variables
   //==================================
   const lettersInput = useRef();
   const wordsEl = useRef();
-  const [letters, setLetters] = useState([]);
+  const [letters, setLetters] = useReducer(reducer, []);
+
+	function reducer(letters, action) {
+		let newLetters;
+		switch (action.type) {
+			case 'PUSH':
+				newLetters = [...letters, action.letter];
+				break;
+			default:
+				throw new Error();
+		}
+		console.log(newLetters);
+		return newLetters;
+	};
 
   //functions
   //====================================
@@ -31,9 +44,13 @@ const MainGame = ({ socket, room }) => {
   };
 
   const addLetter = (letter, index) => {
-    console.log(letter);
-    setLetters(() => [...letters, letter]);
-    console.log(letters);
+		console.log(letter);
+		console.log(letters);
+		setLetters({
+			type: 'PUSH',
+			letter,
+			index
+		});
   };
 
   const submitWord = (event) => {
