@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import MainGame from "./components/MainGame";
+
 import Room from "./components/Room";
 import Header from "./components/Header";
-// import React, { useState } from 'react';
+
 import "./App.css";
 import LandingPage from "./components/LandingPage";
 import { io } from "socket.io-client";
@@ -17,9 +17,6 @@ function App() {
     // socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
   };
-  // let socket = io();	//front is same domain as server
-  // let socket = io("http://localhost:3001"); //local
-  // attachListeners(socket);
 
   const [socket, setSocket] = useState(null);
 
@@ -32,12 +29,9 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-
-      {/* <MainGame room={room} /> */}
-      <MainGame socket={socket} />
-
       <LandingPage />
+      <Header />
+      <Room socket={socket}></Room>
     </div>
   );
 }

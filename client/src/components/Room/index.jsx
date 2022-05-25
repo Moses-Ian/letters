@@ -1,68 +1,32 @@
-// import React from "react";
-// import { io } from "socket.io-client";
+import React, { useState } from "react";
+import MainGame from "../MainGame";
 
-// function Room() {
-//   //variables
-//   //==================================
-//   let room = "myRoom";
+function Room({ socket }) {
+  const [room, setRoom] = useState("");
 
-//   const roomNameEl = document.querySelector("#room-name");
-//   const joinGlobalBtn = document.querySelector("#join-global");
-//   const joinRoomBtn = document.querySelector("#join-room");
-//   const createRoomBtn = document.querySelector("#create-room");
-//   const roomNameInput = document.querySelector("#room-name-input");
+  const joinRoom = (name) => {
+    socket.emit("join-game", name, room, (success, newRoom) => {
+      setRoom(newRoom);
+    });
+    console.log(`joinRoom ${name}`);
+  };
 
-//   //functions
-//   //====================================
-//   const joinGlobal = () => {
-//     socket.emit("join-game", "Global Game", room, (success, newRoom) => {
-//       if (success) setRoom(newRoom);
-//     });
-//     console.log(`joinRoom Global Game`);
-//   };
+  const joinRoomHandler = () => {
+    joinRoom("My Cool Room");
+  };
 
-//   const joinRoom = (name) => {
-//     socket.emit("join-game", name, room, (success, newRoom) => {
-//       if (success) setRoom(newRoom);
-//     });
-//     console.log(`joinRoom ${name}`);
-//   };
+  return (
+    <div>
+      <button className="game-btn" onClick={joinRoomHandler}>
+        Join Game
+      </button>
+      {room !== "" ? (
+        <MainGame socket={socket} />
+      ) : (
+        <p>You need to type a room name</p>
+      )}
+    </div>
+  );
+}
 
-//   const createRoom = () => {
-//     socket.emit("join-game", name, room, (success, newRoom) => {
-//       if (success) setRoom(newRoom);
-//     });
-//     console.log(`joinRoom ${roomNameInput.value}`);
-//   };
-
-//   const setRoom = (newRoom) => {
-//     room = newRoom;
-//     roomNameEl.textContent = room;
-//     localStorage.setItem("room", room);
-//   };
-
-//   const getRoom = () => {
-//     let r = localStorage.getItem("room");
-//     if (!r) return "Global Game";
-//     return r;
-//   };
-
-//   const joinGlobalHandler = () => joinGlobal();
-
-//   const joinRoomHandler = () => joinRoom(roomNameInput.value);
-
-//   const createRoomHandler = () => createRoom(roomNameInput.value);
-
-//   //listeners
-//   //=====================================
-//   joinGlobalBtn.addEventListener("click", joinGlobalHandler);
-//   joinRoomBtn.addEventListener("click", joinRoomHandler);
-//   createRoomBtn.addEventListener("click", createRoomHandler);
-
-//   //body
-//   //=====================================
-
-//   return <div>Room</div>;
-// }
-
-// export default Room;
+export default Room;

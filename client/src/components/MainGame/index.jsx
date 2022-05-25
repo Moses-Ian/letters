@@ -2,9 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "bulma/css/bulma.min.css";
 import { io } from "socket.io-client";
 
-const MainGame = (props) => {
-  console.log(props);
-  let socket = props.socket;
+const MainGame = ({ socket }) => {
   let room = "My room";
 
   //variables
@@ -61,31 +59,19 @@ const MainGame = (props) => {
   //body
   //=====================================
 
-  // JOIN ROOM:
-  const joinRoom = (name) => {
-    console.log(props.socket);
-    socket.emit("join-game", name, room, (success, newRoom) => {
-      if (success) setRoom(newRoom);
-    });
-    console.log(`joinRoom ${name}`);
-  };
+  // const setRoom = (newRoom) => {
+  //   room = newRoom;
+  //   // roomNameEl.textContent = room;
+  //   localStorage.setItem("room", room);
+  // };
 
-  const setRoom = (newRoom) => {
-    room = newRoom;
-    // roomNameEl.textContent = room;
-    localStorage.setItem("room", room);
-  };
-
-  const getRoom = () => {
-    let r = localStorage.getItem("room");
-    if (!r) return "Global Game";
-    return r;
-  };
+  // const getRoom = () => {
+  //   let r = localStorage.getItem("room");
+  //   if (!r) return "Global Game";
+  //   return r;
+  // };
 
   // joinRoom(getRoom());
-  // {
-  //   useEffect(() => joinRoom(room));
-  // }
 
   return (
     <div className="" id="letters-game">
