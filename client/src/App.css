@@ -74,14 +74,17 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--secondary-color);
-
 }
 
 .modal-content {
   width: 330px;
   background-color: var(--sixth-color);
   border-radius: 10px;
-  border: solid 1px var(--quanternary-color);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.3);
+   
+    
+   
 }
 
 .modal-show .modal-content {
@@ -95,7 +98,7 @@ body {
 .modal-title {
   margin: 0;
   font-size: 25px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .modal-body {
@@ -109,28 +112,46 @@ body {
   border-radius: 5px;
   height: 25px;
   margin-top: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .type-box:hover {
   background-color: var(--quanternary-color);
 }
 
-.modal-enter-button, .modal-close-button, .modal-toggle-button, .game-btn {
+.modal-enter-button, .modal-close-button, .modal-toggle-button, .join-game-button, .sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
   size: 30px;
   font-size: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.modal-toggle-button {
+/* .modal-toggle-button {
   font-size: 15px;
-}
+} */
 
-.modal-toggle-button:hover {
+.modal-toggle-button:hover, .join-game-button:hover, .sign-up-button:hover {
   opacity: 80%;
 }
+
+.join-game-button {
+  /* color: var(--quinary-color); */
+  /* background-color: var(--secondary-color); */
+  font-size: 30px;
+  margin-top: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* .sign-up-button {
+  .no-focus-outline a:focus,
+  .no-focus-outline button:focus {
+  outline: none;
+} */
+
+
 
 
 /* MODAL END */
@@ -140,10 +161,10 @@ body {
 
 /* LANDING PAGE */
 
-.game-btn {
+/* .game-btn {
   font-size: 30px;
   margin-top: 450px;
-}
+} */
 
 .container {
   height: 200px;
@@ -161,9 +182,17 @@ body {
   transform: translate(-50%, -50%);
 }
 
-
-
 /* LANDING PAGE END */
+
+
+
+/* JOIN GAME */
+
+/* .jg {
+  color: #FCE181;
+} */
+
+/* JOIN GAME END */
 
 
 

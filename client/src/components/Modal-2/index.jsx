@@ -1,13 +1,9 @@
 import React from 'react';
 import "../../App.css";
 
-// import Register from '../Register';
-// import Modal from 'react-bootstrap/Modal';
-// import 'bulma/css/bulma.min.css';
-// import { Button } from 'react'
 
 
-const Modal = props => {
+const Modal2 = props => {
     if (!props.show) {
         return null
     }
@@ -25,13 +21,6 @@ const Modal = props => {
                     {/* TODO enter button should not be on close add function to landingPage */}
                     <button onClick={props.onSubmit} className='modal-enter-button'>Enter</button>
                     <button onClick={props.onClose} className='modal-close-button'>Close</button>
-                    
-                {/* <div className='container'>
-                    <div className='center'>
-                        <p className='modal-register-button'> <Register /> </p>
-                    </div>
-                </div> */}
-
                 
                 </div>
             </div>
@@ -47,4 +36,4 @@ const Modal = props => {
 
 
 
-export default Modal;
+export default Modal2;
