@@ -1,4 +1,7 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { authMiddleware } = require('./utils/auth');
+const { typeDefs, resolvers } = require('./schemas');
 const routes = require('./routes');
 const path = require('path');
 const helpers = require('./utils/helpers');
@@ -19,15 +22,6 @@ const io = require('socket.io')(server, {	//development
 	}
 });
 io.on('connection', (socket) => registerHandlers(io, socket));
-
-const sess = {
-  secret: 'Super secret secret',
-  cookie: {},
-  resave: false,
-  saveUninitialized: true
-};
-
-app.use(session(sess));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
