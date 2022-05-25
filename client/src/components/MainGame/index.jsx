@@ -101,7 +101,7 @@ const MainGame = ({ socket, room }) => {
         {}
       </div>
 
-      <div className="field m-3 is-flex">
+      <div className="field m-3 has-text-centered">
         <button
           className="button mr-3 is-warning"
           id="vowel"
@@ -148,9 +148,9 @@ const MainGame = ({ socket, room }) => {
         <ul id="words" ref={wordsEl}></ul>
       </div>
 
-      <div className="m-3">
+      <div className="m-3 has-text-centered">
         <button
-          className="button restart has-text-light is-fullwidth"
+          className="button restart is-warning"
           id="letters-restart"
           onClick={restartLetters}
         >

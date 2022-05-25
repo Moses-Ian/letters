@@ -6,12 +6,14 @@
 }
 
 .field button {
-  width: 50vw;
+  width: 20vw;
   box-shadow: 3px 2px 8px #888888;
+  margin-top: 5vw;
+ 
 }
 
 #letters-input {
-  width: 60vw;
+  width: 40vw;
 }
 
 .rendered-letters {
@@ -21,12 +23,13 @@
 .button,
 input {
   box-shadow: 3px 2px 8px #888888 !important;
-  font-family: Sedgwick Ave;
+  font-family: Fugaz one;
 }
 
 .restart {
-  background-color: #026670 !important;
-  border-color: #026670 !important;
+  /* background-color: #026670 !important;
+  border-color: #026670 !important; */
+  
 }
 
 /* hadas */
@@ -53,11 +56,11 @@ body {
   font-size: 20px;
 
   /* hadas */
-  background-image: url("./assets/images/white-bricks.jpg");
+  /* background-image: url("./assets/images/white-bricks.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-position: center;
+  background-position: center; */
   /* hadas */
   /* .App {
   text-align: center;

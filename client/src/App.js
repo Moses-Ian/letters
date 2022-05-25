@@ -1,11 +1,12 @@
 // import React from 'react';
 // import "./App.css";
 // import LandingPage from './components/LandingPage';
-
 // import Register from '../src/components/Register';
 
 
 import React, { useState, useEffect } from "react";
+
+
 
 import Room from "./components/Room";
 import Header from "./components/Header";
@@ -36,7 +37,7 @@ function App() {
 
   return (
     <div className="App">
-      <LandingPage />
+      {/* <LandingPage /> */}
       <Header />
       <Room socket={socket}></Room>
     </div>
