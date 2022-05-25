@@ -46,7 +46,7 @@ rooms.set(global.name, global);
 //functions
 //====================================
 addVowel = (room) => {
-  console.log(room);
+  console.log("Add vowel", room);
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letters.length == 9) return;
@@ -54,7 +54,7 @@ addVowel = (room) => {
   let index = g.letters.length;
   g.letters.push(vowel);
   g.vowelCount++;
-  io.to(room).emit("add-letter", vowel, index);
+  io.emit("add-letter", vowel, index);
 };
 
 addConsonant = (room) => {

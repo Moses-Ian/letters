@@ -2,16 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import "bulma/css/bulma.min.css";
 import { io } from "socket.io-client";
 
-const MainGame = ({ socket }) => {
-  let room = "My room";
+const MainGame = ({ socket, room }) => {
+  useEffect(() => {
+    console.log("test #2");
+    socket.on("add-letter", addLetter);
+  }, []);
 
   //variables
   //==================================
-  let letterElArr = [];
-  for (let i = 0; i < 9; i++)
-    letterElArr.push(document.querySelector(`#letter${i}`));
   const lettersInput = useRef();
   const wordsEl = useRef();
+  const [letters, setLetters] = useState([]);
 
   //functions
   //====================================
@@ -36,17 +37,19 @@ const MainGame = ({ socket }) => {
   };
 
   const addLetter = (letter, index) => {
-    letterElArr[index].textContent = letter.toUpperCase();
+    console.log("test");
+
+    // letters[index].text = letter.toUpperCase();
   };
 
   const appendWord = (word, score) => {
     const wordEl = document.createElement("li");
-    wordEl.textContent = `${word} -> ${score} points`;
+    wordEl.text = `${word} -> ${score} points`;
     wordsEl.appendChild(wordEl);
   };
 
   const clearLetters = () => {
-    for (let i = 0; i < 9; i++) letterElArr[i].textContent = "";
+    for (let i = 0; i < 9; i++) letters[i].textContent = "";
     wordsEl.innerHTML = "";
   };
 
@@ -73,22 +76,29 @@ const MainGame = ({ socket }) => {
 
   // joinRoom(getRoom());
 
+  // socket.on("add-letter", addLetter);
+  // socket.on("append-word", appendWord);
+  // socket.on("clear-letters", clearLetters);
+  // socket.on("set-game-state", setGameState);
+
+  console.log("MainGame rendered");
+
   return (
     <div className="" id="letters-game">
       <h1>{room}</h1>
 
-      {/* {useEffect(() => joinRoom(room))} */}
-
       <div className="rendered-letters" id="scramble">
-        <span id="letter0"></span>
-        <span id="letter1"></span>
-        <span id="letter2"></span>
-        <span id="letter3"></span>
-        <span id="letter4"></span>
-        <span id="letter5"></span>
-        <span id="letter6"></span>
-        <span id="letter7"></span>
-        <span id="letter8"></span>
+        {/* <span id="letter0">{letters[0]}</span>
+        <span id="letter1">{letters[1]}</span>
+        <span id="letter2">{letters[2]}</span>
+        <span id="letter3">{letters[3]}</span>
+        <span id="letter4">{letters[4]}</span>
+        <span id="letter5">{letters[5]}</span>
+        <span id="letter6">{letters[6]}</span>
+        <span id="letter7">{letters[7]}</span>
+        <span id="letter8">{letters[8]}</span> */}
+
+        {}
       </div>
 
       <div className="field m-3 is-flex">

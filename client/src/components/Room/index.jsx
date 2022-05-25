@@ -15,13 +15,15 @@ function Room({ socket }) {
     joinRoom("My Cool Room");
   };
 
+  console.log("Room rendered");
+
   return (
     <div>
       <button className="game-btn" onClick={joinRoomHandler}>
         Join Game
       </button>
       {room !== "" ? (
-        <MainGame socket={socket} />
+        <MainGame socket={socket} room={room} />
       ) : (
         <p>You need to type a room name</p>
       )}
