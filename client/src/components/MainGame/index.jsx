@@ -1,39 +1,63 @@
 import React, { useState, useRef, useEffect, useReducer } from "react";
 import "bulma/css/bulma.min.css";
-import { io } from "socket.io-client";
 
 const MainGame = ({ socket, room }) => {
   useEffect(() => {
     console.log("test #2");
     socket.on("add-letter", addLetter);
-    console.log(socket);
+    socket.on("append-word", appendWord);
+    socket.on("clear-letters", clearLetters);
+    // socket.on("set-game-state", setGameState);
 
     return () => {
       socket.disconnect();
     };
   }, []);
-	
+
   //variables
   //==================================
-  const lettersInput = useRef();
-  const wordsEl = useRef();
-  const [letters, setLetters] = useReducer(reducer, []);
+  const [lettersInput, setLettersInput] = useState("");
 
-	function reducer(letters, action) {
-		let newLetters;
-		switch (action.type) {
-			case 'PUSH':
-				newLetters = [...letters, action.letter];
-				break;
-			default:
-				throw new Error();
-		}
-		console.log(newLetters);
-		return newLetters;
-	};
+  const [letters, setLetters] = useReducer(letterReducer, []);
+  const [words, setWords] = useReducer(wordReducer, []);
 
-  //functions
-  //====================================
+  function letterReducer(letters, action) {
+    let newLetters;
+    switch (action.type) {
+      case "PUSH":
+        newLetters = [...letters, action.letter];
+        break;
+      case "CLEAR":
+        newLetters = [];
+        break;
+      case "RENDER_LETTERS":
+        newLetters = [...action.letters];
+        break;
+      default:
+        throw new Error();
+    }
+    console.log(newLetters);
+    return newLetters;
+  }
+
+  function wordReducer(words, action) {
+    let newWordsArr;
+    switch (action.type) {
+      case "PUSH":
+        newWordsArr = [...words, { word: action.word, score: action.score }];
+        break;
+      case "CLEAR":
+        newWordsArr = [];
+        break;
+      case "RENDER_WORDS":
+        newWordsArr = [...action.words];
+        break;
+      default:
+        throw new Error();
+    }
+    console.log(newWordsArr);
+    return newWordsArr;
+  }
 
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
@@ -44,19 +68,22 @@ const MainGame = ({ socket, room }) => {
   };
 
   const addLetter = (letter, index) => {
-		console.log(letter);
-		console.log(letters);
-		setLetters({
-			type: 'PUSH',
-			letter,
-			index
-		});
+    setLetters({
+      type: "PUSH",
+      letter,
+      index,
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    setLettersInput(inputValue);
   };
 
   const submitWord = (event) => {
     event.preventDefault();
-    const word = lettersInput.value;
-    lettersInput.value = "";
+    const word = lettersInput;
+    setLettersInput("");
     socket.emit("submit-word", word, room);
   };
 
@@ -65,28 +92,21 @@ const MainGame = ({ socket, room }) => {
   };
 
   const appendWord = (word, score) => {
-    const wordEl = document.createElement("li");
-    wordEl.text = `${word} -> ${score} points`;
-    wordsEl.appendChild(wordEl);
+    console.log("append word");
+    setWords({ type: "PUSH", word, score });
   };
 
   const clearLetters = () => {
-    for (let i = 0; i < 9; i++) letters[i].textContent = "";
-    wordsEl.innerHTML = "";
+    setLetters({ type: "CLEAR" });
+    setWords({ type: "CLEAR" });
   };
 
   const setGameState = (letters, words) => {
-    clearLetters();
-    letters.forEach((letter, index) => addLetter(letter, index));
-    words.forEach(({ word, score }) => appendWord(word, score));
+    // clearLetters();
+
+    setLetters({ type: "RENDER_LETTERS", letters });
+    setWords({ type: "RENDER_WORDS", words });
   };
-
-  // socket.on("add-letter", addLetter);
-  // socket.on("append-word", appendWord);
-  // socket.on("clear-letters", clearLetters);
-  // socket.on("set-game-state", setGameState);
-
-  console.log("MainGame rendered");
 
   return (
     <div className="" id="letters-game">
@@ -120,7 +140,7 @@ const MainGame = ({ socket, room }) => {
           <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">
               <input
-                ref={lettersInput}
+                onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
@@ -142,7 +162,13 @@ const MainGame = ({ socket, room }) => {
       </div>
 
       <div className="p-5">
-        <ul id="words" ref={wordsEl}></ul>
+        <ul id="words">
+          {words.map((word, index) => (
+            <li key={index}>
+              {word.word}: {word.score} points
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="m-3">
