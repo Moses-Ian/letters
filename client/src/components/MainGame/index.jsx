@@ -7,13 +7,17 @@ const MainGame = ({ socket, room }) => {
     console.log("test #2");
     socket.on("add-letter", addLetter);
     console.log(socket);
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   //variables
   //==================================
   const lettersInput = useRef();
   const wordsEl = useRef();
-  const [letters, setLetters] = useState(["a", "b", "c"]);
+  const [letters, setLetters] = useState([]);
 
   //functions
   //====================================
@@ -26,6 +30,12 @@ const MainGame = ({ socket, room }) => {
     socket.emit("add-consonant", room);
   };
 
+  const addLetter = (letter, index) => {
+    console.log(letter);
+    setLetters(() => [...letters, letter]);
+    console.log(letters);
+  };
+
   const submitWord = (event) => {
     event.preventDefault();
     const word = lettersInput.value;
@@ -35,12 +45,6 @@ const MainGame = ({ socket, room }) => {
 
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
-  };
-
-  const addLetter = (letter, index) => {
-    console.log(letter);
-    setLetters([letter]);
-    // letters[index].text = letter.toUpperCase();
   };
 
   const appendWord = (word, score) => {
@@ -59,23 +63,6 @@ const MainGame = ({ socket, room }) => {
     letters.forEach((letter, index) => addLetter(letter, index));
     words.forEach(({ word, score }) => appendWord(word, score));
   };
-
-  //body
-  //=====================================
-
-  // const setRoom = (newRoom) => {
-  //   room = newRoom;
-  //   // roomNameEl.textContent = room;
-  //   localStorage.setItem("room", room);
-  // };
-
-  // const getRoom = () => {
-  //   let r = localStorage.getItem("room");
-  //   if (!r) return "Global Game";
-  //   return r;
-  // };
-
-  // joinRoom(getRoom());
 
   // socket.on("add-letter", addLetter);
   // socket.on("append-word", appendWord);
