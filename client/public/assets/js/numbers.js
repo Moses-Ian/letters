@@ -9,8 +9,6 @@ for (let i = 0; i < 6; i++)
     answerElArr.push(document.querySelector(`#answer${i}`));
 
 let operationArr = [];
-for (let i = 0; i < 6; i++)
-    operationArr.push(document.querySelector(`#answer${i}`));
 
 const randomNumberEl = document.querySelector('#random-number-value');
 
@@ -18,6 +16,8 @@ const answerSection = document.querySelector('#answer-section')
 
 const smallNumberBtn = document.querySelector('#small-number-btn');
 const largeNumberBtn = document.querySelector('#large-number-btn');
+
+const checkAnswer = document.querySelector('#check-answer')
 
 const targetBtn = document.querySelector('#target');
 const numbersRestartBtn = document.querySelector('#restart');
@@ -32,11 +32,13 @@ const answer5 = document.querySelector('#answer5');
 
 //operations
 const operation = document.querySelector('#operation')
+const showOperation = document.querySelector('#show-operation')
 const multiply = document.querySelector('#multiply');
 const add = document.querySelector('#add');
 const subtract = document.querySelector('#subtract');
 const divide = document.querySelector('#divide');
-
+const open = document.querySelector('#open')
+const close = document.querySelector('#close')
 
 
 let numbersArr = [];
@@ -122,14 +124,96 @@ restartNumbers = event => {
         numberElArr[i].textContent = '';
 };
 
-addSymbol = event => {
-    operationArr.textContent = 'hello'
+function addSymbol(button)  {
+    operationArr.push(button);
+    console.log('something')
+}
+
+function showSymbols () {
+    showOperation.textContent = operationArr.join(' ');
+    console.log(operationArr.join(' '));
+    return showOperation.textContent;
+    console.log(showOperation.textContent)
+};
+
+function scoreAnswer () {
+    console.log(showSymbols);
+    console.log('scoreAnswer function was called')
 }
 // Listeners
 //====================================
 
+
+checkAnswer.addEventListener('click', scoreAnswer);
 smallNumberBtn.addEventListener('click', addSmallNumber);
 largeNumberBtn.addEventListener('click', addLargeNumber);
 targetBtn.addEventListener('click', getRandomNumber);
-answer0.addEventListener('click', operationArr.push('1'))
-console.log(operationArr)
+answer0.addEventListener('click', function(button){
+    document.getElementById("answer0").disabled = true
+	operationArr.push(answer0.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+answer1.addEventListener('click', function(button){
+    document.getElementById("answer1").disabled = true
+	operationArr.push(answer1.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+answer2.addEventListener('click', function(button){
+    document.getElementById("answer2").disabled = true
+	operationArr.push(answer2.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+answer3.addEventListener('click', function(button){
+    document.getElementById("answer3").disabled = true
+	operationArr.push(answer3.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+answer4.addEventListener('click', function(button){
+    document.getElementById("answer4").disabled = true
+	operationArr.push(answer4.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+answer5.addEventListener('click', function(button){
+    document.getElementById("answer5").disabled = true
+	operationArr.push(answer5.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+
+subtract.addEventListener('click', function(button){
+	operationArr.push(subtract.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+add.addEventListener('click', function(button){
+	operationArr.push(add.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+multiply.addEventListener('click', function(button){
+	operationArr.push(multiply.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+divide.addEventListener('click', function(button){
+	operationArr.push(divide.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+
+open.addEventListener('click', function(button){
+	operationArr.push(open.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
+
+close.addEventListener('click', function(button){
+	operationArr.push(close.textContent);
+    console.log(operationArr)
+    showSymbols();
+});
