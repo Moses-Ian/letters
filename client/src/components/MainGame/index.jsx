@@ -6,13 +6,14 @@ const MainGame = ({ socket, room }) => {
   useEffect(() => {
     console.log("test #2");
     socket.on("add-letter", addLetter);
+    console.log(socket);
   }, []);
 
   //variables
   //==================================
   const lettersInput = useRef();
   const wordsEl = useRef();
-  const [letters, setLetters] = useState([]);
+  const [letters, setLetters] = useState(["a", "b", "c"]);
 
   //functions
   //====================================
@@ -37,8 +38,8 @@ const MainGame = ({ socket, room }) => {
   };
 
   const addLetter = (letter, index) => {
-    console.log("test");
-
+    console.log(letter);
+    setLetters([letter]);
     // letters[index].text = letter.toUpperCase();
   };
 
@@ -88,17 +89,9 @@ const MainGame = ({ socket, room }) => {
       <h1>{room}</h1>
 
       <div className="rendered-letters" id="scramble">
-        {/* <span id="letter0">{letters[0]}</span>
-        <span id="letter1">{letters[1]}</span>
-        <span id="letter2">{letters[2]}</span>
-        <span id="letter3">{letters[3]}</span>
-        <span id="letter4">{letters[4]}</span>
-        <span id="letter5">{letters[5]}</span>
-        <span id="letter6">{letters[6]}</span>
-        <span id="letter7">{letters[7]}</span>
-        <span id="letter8">{letters[8]}</span> */}
-
-        {}
+        {letters.map((letter, index) => (
+          <span key={index}>{letter}</span>
+        ))}
       </div>
 
       <div className="field m-3 is-flex">
