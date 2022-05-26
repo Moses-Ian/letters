@@ -6,6 +6,11 @@ import '../../App.css';
 
 import Register from '../Register';
 
+//graphql
+import { useMutation } from '@apollo/client';
+import Auth from '../../utils/auth';
+import { LOGIN } from '../../utils/mutations';
+
 
 export default function Login() {
     const [show, setShow] = useState(false)
@@ -15,6 +20,35 @@ export default function Login() {
 
     // const [ShowModal, setShowModal] = useState(false);
     // const [ShowModal2, setShowModal2] = useState(false);
+		
+		// Ian's cool graphql code
+		//====================================================
+
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN);
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const mutationResponse = await login({
+        variables: { email: formState.email, password: formState.password },
+      });
+      const token = mutationResponse.data.login.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+		//====================================================
   
     return (
         <>
@@ -25,17 +59,29 @@ export default function Login() {
             <Register />
             {/* TODO Add functionality to logout */}
             {/* <button className='modal-toggle-button'><img className='logout-img' src={logoutImg} alt='logout button' /></button> */}
-            <button className='modal-toggle-button'>Logout</button>
+            <button className='modal-toggle-button' onClick={() => Auth.logout()}>Logout</button>
             
-
-                <Modal title='Login' onClose={() => setShow(false)} show={show}>
+							<form onSubmit={handleFormSubmit}>
+                <Modal title='Login' onClose={() => setShow(false)} show={true}>
                     <div>
-                        <input className='type-box' type="email" placeholder="Email"></input>
-                        <input className='type-box' type="password" placeholder="Password"></input>
+                        <input 
+													className='type-box' 
+													type="email" 
+													placeholder="Email"
+													name="email"
+													onChange={handleChange}
+												></input>
+                        <input 
+													className='type-box' 
+													type="password" 
+													placeholder="Password"
+													name="password"
+													onChange={handleChange}
+												></input>
                         {/* <Register /> */}
                     </div>
                 </Modal> 
-                
+							</form>
         </div>
 
         </>
