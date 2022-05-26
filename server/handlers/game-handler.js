@@ -37,6 +37,10 @@ const weights = [
   4, 8, 12, 16, 20, 23, 26, 29, 31, 33, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45,
   46,
 ];
+const weights2 = [
+  4.3, 6.1, 9.1, 6.7, 6.3, 1.9, 2.0, 2.2, 2.0, 2.8, 6.0, 4.0, 0.01, 0.15, 0.77,
+  0.15, 1.5, 2.4, 2.4, 0.98, 0.07,
+];
 
 let global = new Game();
 global.name = "Global Game";
@@ -60,19 +64,34 @@ addConsonant = (room) => {
   let g = rooms.get(room);
   if (g.consonantCount == 6) return;
   if (g.letters.length == 9) return;
-  let random = Math.floor(Math.random() * (weights[20] + 1));
-  let consonant;
-  for (let i = 0; i < 21; i++) {
-    if (weights[i] > random) {
-      consonant = consonants[i];
-      break;
-    }
-  }
+  let consonant = generateConsonant();
   let index = g.letters.length;
   g.letters.push(consonant);
   g.consonantCount++;
-
   io.to(room).emit("add-letter", consonant, index);
+};
+
+// generateConsonant = {
+// let random = Math.floor(Math.random() * (weights[20]+1));
+// for (let i=0; i<21; i++) {
+// if (weights[i] > random) {
+// consonant = consonants[i]
+// break;
+// }
+// }
+// }
+
+generateConsonant = () => {
+  let consonant;
+  let random = Math.floor(Math.random() * 61.5);
+  for (let i = 0; i < 21; i++) {
+    if (weights2[i] > random) {
+      consonant = consonants[i];
+      break;
+    }
+    random -= weights2[i];
+  }
+  return consonant;
 };
 
 submitWord = async (word, room) => {

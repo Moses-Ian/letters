@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useReducer } from "react";
 import "bulma/css/bulma.min.css";
 
+
+
 const MainGame = ({ socket, room }) => {
   useEffect(() => {
     console.log("test #2");
@@ -112,13 +114,19 @@ const MainGame = ({ socket, room }) => {
     <div className="" id="letters-game">
       <h1>{room}</h1>
 
+      
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
           <span key={index}>{letter}</span>
         ))}
       </div>
 
-      <div className="field m-3 is-flex">
+        
+
+
+
+
+      <div className="field m-3 has-text-centered">
         <button
           className="button mr-3 is-warning"
           id="vowel"
@@ -171,9 +179,9 @@ const MainGame = ({ socket, room }) => {
         </ul>
       </div>
 
-      <div className="m-3">
+      <div className="m-3 has-text-centered">
         <button
-          className="button restart has-text-light is-fullwidth"
+          className="button restart is-warning"
           id="letters-restart"
           onClick={restartLetters}
         >
