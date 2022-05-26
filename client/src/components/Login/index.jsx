@@ -62,7 +62,7 @@ export default function Login() {
             <button className='modal-toggle-button' onClick={() => Auth.logout()}>Logout</button>
             
 							<form onSubmit={handleFormSubmit}>
-                <Modal title='Login' onClose={() => setShow(false)} show={true}>
+                <Modal title='Login' onClose={() => setShow(false)} show={show}>
                     <div>
                         <input 
 													className='type-box' 
