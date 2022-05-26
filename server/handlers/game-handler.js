@@ -22,7 +22,6 @@ rooms.set(global.name, global);
 //functions
 //====================================
 addVowel = (room) => {
-  console.log("Add vowel", room);
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letters.length == 9) return;
@@ -34,39 +33,37 @@ addVowel = (room) => {
 };
 
 addConsonant = (room) => {
-	let g = rooms.get(room);
-	if (g.consonantCount == 6)
-		return;
-	if (g.letters.length == 9)
-		return;
-	let consonant = generateConsonant();
-	let index = g.letters.length;
-	g.letters.push(consonant);
-	g.consonantCount++;
-	io.to(room).emit('add-letter', consonant, index);
+  let g = rooms.get(room);
+  if (g.consonantCount == 6) return;
+  if (g.letters.length == 9) return;
+  let consonant = generateConsonant();
+  let index = g.letters.length;
+  g.letters.push(consonant);
+  g.consonantCount++;
+  io.to(room).emit("add-letter", consonant, index);
 };
 
 // generateConsonant = {
-	// let random = Math.floor(Math.random() * (weights[20]+1));
-	// for (let i=0; i<21; i++) {
-		// if (weights[i] > random) {
-			// consonant = consonants[i]
-			// break;
-		// }
-	// }
+// let random = Math.floor(Math.random() * (weights[20]+1));
+// for (let i=0; i<21; i++) {
+// if (weights[i] > random) {
+// consonant = consonants[i]
+// break;
+// }
+// }
 // }
 
 generateConsonant = () => {
-	let consonant;
-	let random = Math.floor(Math.random() * 61.5);
-	for (let i=0; i<21; i++) {
-		if (weights2[i] > random) {
-			consonant = consonants[i];
-			break;
-		}
-		random -= weights2[i];
-	}
-	return consonant
+  let consonant;
+  let random = Math.floor(Math.random() * 61.5);
+  for (let i = 0; i < 21; i++) {
+    if (weights2[i] > random) {
+      consonant = consonants[i];
+      break;
+    }
+    random -= weights2[i];
+  }
+  return consonant;
 };
 
 submitWord = async (word, room) => {
@@ -96,16 +93,18 @@ scoreWord = async (word, letters) => {
 };
 
 inDictionary = async (word) => {
-  try {
-    const response = await fetch(
-      `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
-    );
-    const data = await response.json();
-    return typeof data[0] != "string";
-  } catch (err) {
-    console.error(err);
-    return false;
-  }
+  // try {
+  //   const response = await fetch(
+  //     `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
+  //   );
+  //   const data = await response.json();
+  //   return typeof data[0] != "string";
+  // } catch (err) {
+  //   console.error(err);
+  //   return false;
+  // }
+
+  return true;
 };
 
 restartLetters = (room) => {
@@ -115,7 +114,6 @@ restartLetters = (room) => {
 };
 
 joinRoom = (socket, room, oldRoom, callback) => {
-  console.log(room);
   //get the rooms
   let g = rooms.get(room);
   if (!g) {
