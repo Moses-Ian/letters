@@ -1,17 +1,7 @@
-// import React from 'react';
-// import "./App.css";
-// import LandingPage from './components/LandingPage';
-// import Register from '../src/components/Register';
-
-
 import React, { useState, useEffect } from "react";
-
-
-
+// import Register from '../src/components/Register';
 import Room from "./components/Room";
 import Header from "./components/Header";
-
-import "./App.css";
 import LandingPage from "./components/LandingPage";
 import { io } from "socket.io-client";
 
@@ -23,19 +13,19 @@ import {
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: "/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem("id_token");
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
@@ -64,19 +54,18 @@ function App() {
     setSocket(newSocket);
     return () => newSocket.close();
   }, [setSocket]);
-	
-	const profile = Auth.getProfile();
-	const username = profile ? profile.data.username : 'Guest';	//updates on refresh
+
+  const profile = Auth.getProfile();
+  const username = profile ? profile.data.username : "Guest"; //updates on refresh
 
   return (
     <ApolloProvider client={client}>
-			<div className="App">
-				<h1 style={{color: 'yellow'}}>Welcome, {username}!</h1>
-				<LandingPage />
-				<Header />
-				<Room socket={socket}></Room>
-				
-			</div>
+      <div className="App">
+        <h1 style={{ color: "yellow" }}>Welcome, {username}!</h1>
+        <LandingPage />
+        <Header />
+        <Room socket={socket}></Room>
+      </div>
     </ApolloProvider>
   );
 }
