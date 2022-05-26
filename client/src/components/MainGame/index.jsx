@@ -4,7 +4,6 @@ import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, room }) => {
   useEffect(() => {
-    console.log("test #2");
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
@@ -28,7 +27,6 @@ const MainGame = ({ socket, room }) => {
       case "PUSH":
 				const {letter, index} = action;
         newLetters = [...letters.slice(0,index), letter, ...letters.slice(index + 1)];
-				console.log(newLetters);
         break;
       case "CLEAR":
         newLetters = new Array(9).fill('');
@@ -57,7 +55,6 @@ const MainGame = ({ socket, room }) => {
       default:
         throw new Error();
     }
-    console.log(newWordsArr);
     return newWordsArr;
   }
 
@@ -94,7 +91,6 @@ const MainGame = ({ socket, room }) => {
   };
 
   const appendWord = (word, score) => {
-    console.log("append word");
     setWords({ type: "PUSH", word, score });
   };
 
@@ -109,8 +105,6 @@ const MainGame = ({ socket, room }) => {
     setWords({ type: "RENDER_WORDS", words });
   };
 	
-	console.log(letters);
-
   return (
     <div>
       <h1>{room}</h1>
