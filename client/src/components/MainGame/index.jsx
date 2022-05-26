@@ -18,7 +18,7 @@ const MainGame = ({ socket, room }) => {
   // variables
   const [lettersInput, setLettersInput] = useState("");
 
-  const [letters, setLetters] = useReducer(letterReducer, []);
+  const [letters, setLetters] = useReducer(letterReducer, new Array(9).fill(''));
   const [words, setWords] = useReducer(wordReducer, []);
 
   // functions
@@ -26,10 +26,12 @@ const MainGame = ({ socket, room }) => {
     let newLetters;
     switch (action.type) {
       case "PUSH":
-        newLetters = [...letters, action.letter];
+				const {letter, index} = action;
+        newLetters = [...letters.slice(0,index), letter, ...letters.slice(index + 1)];
+				console.log(newLetters);
         break;
       case "CLEAR":
-        newLetters = [];
+        newLetters = new Array(9).fill('');
         break;
       case "RENDER_LETTERS":
         newLetters = [...action.letters];
@@ -37,7 +39,6 @@ const MainGame = ({ socket, room }) => {
       default:
         throw new Error();
     }
-    console.log(newLetters);
     return newLetters;
   }
 
@@ -107,6 +108,8 @@ const MainGame = ({ socket, room }) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
+	
+	console.log(letters);
 
   return (
     <div>
@@ -114,7 +117,7 @@ const MainGame = ({ socket, room }) => {
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span key={index}>{letter}</span>
+          <span style={{border: 'solid 2px red', width: '15px'}} key={index}>{letter}</span>
         ))}
       </div>
 
