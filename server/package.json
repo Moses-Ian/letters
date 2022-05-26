@@ -13,11 +13,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "2.11.0",
     "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
-    "heroku-logger": "^0.3.3",
+    "graphql": "15.5.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.3",
+    "node-fetch": "^2.6.7",
     "socket.io": "^4.5.1"
   }
 }

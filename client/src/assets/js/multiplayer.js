@@ -19,32 +19,31 @@ const connectFunction = socket => {
 	socket.on('add-letter', addLetter);
 	socket.on('append-word', appendWord);
 	socket.on('clear-letters', clearLetters);
-	socket.emit('game-state', setGameState);
+	socket.on('set-game-state', setGameState);
 };
 
 const addVowel = event => {
-	console.log("addVowel");
-	socket.emit('add-vowel');
+	console.log(room);
+	socket.emit('add-vowel', room);
 };
 
 const addConsonant = event => {
-	socket.emit('add-consonant');
+	socket.emit('add-consonant', room);
 };
 
 const submitWord = event => {
 	event.preventDefault();
 	const word = lettersInput.value;
 	lettersInput.value = '';
-	socket.emit('submit-word', word);
+	socket.emit('submit-word', word, room);
 };
 
 const restartLetters = event => {
-	socket.emit('restart-letters');
+	socket.emit('restart-letters', room);
 };
 
 const addLetter = (letter, index) => {
-	console.log("addLetter");
-	letterElArr[index].textContent = letter;
+	letterElArr[index].textContent = letter.toUpperCase();
 };
 
 const appendWord = (word, score) => {
@@ -61,6 +60,7 @@ const clearLetters = () => {
 };
 
 const setGameState = (letters, words) => {
+	clearLetters();
 	letters.forEach((letter, index) => addLetter(letter, index));
 	words.forEach(({ word, score }) => appendWord(word, score));
 };
@@ -78,8 +78,7 @@ lettersRestartBtn.addEventListener('click', restartLetters);
 let socket = io('http://localhost:3001');	//local
 connectFunction(socket);
 
-
-
+joinRoom(getRoom());
 
 
 

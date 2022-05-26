@@ -20,7 +20,11 @@
 .env.test.local
 .env.production.local
 .env
+ref
+ref/node_modules
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.DS_Store

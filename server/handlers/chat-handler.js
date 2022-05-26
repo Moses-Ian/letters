@@ -5,10 +5,11 @@ const registerChatHandler = (io, socket) => {
 		else
 			socket.to(room).emit('receive-message', message);
 	});
-	socket.on('join-room', (room, callback) => {
-		socket.join(room);
-		callback(`Joined ${room}`);
-	});
+	// socket.on('join-room', (room, callback) => {
+		// socket.join(room);
+////		callback(`Joined ${room}`);	// the chat used this
+		// callback(true, room);
+	// });
 }
 
 module.exports = registerChatHandler;

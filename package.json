@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "node server/server.js",
-    "dev": "cd server && nodemon server.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run start\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed"
@@ -22,5 +21,19 @@
   "homepage": "https://github.com/Moses-Ian/letters#readme",
   "devDependencies": {
     "concurrently": "^7.2.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "bulma": "^0.9.4",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3",
+    "nodemon": "^2.0.16",
+    "react-bootstrap": "^2.4.0",
+    "react-bulma-components": "^4.1.0",
+    "react-dom": "^18.1.0",
+    "react-spring": "^9.4.5",
+    "sass": "^1.52.1",
+    "socket.io-client": "^4.5.1"
   }
 }

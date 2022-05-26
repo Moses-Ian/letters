@@ -1,24 +1,72 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+// import Register from '../src/components/Register';
+import Room from "./components/Room";
+import Header from "./components/Header";
+import LandingPage from "./components/LandingPage";
+import { io } from "socket.io-client";
+
+import Auth from "./utils/auth";
+
+//graphql
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+
+const httpLink = createHttpLink({
+  uri: "/graphql",
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+// end graphql
 
 function App() {
+  const attachListeners = (socket) => {
+    socket.on("connect", () => {
+      console.log(`You connected with id: ${socket.id}`);
+    });
+  };
+
+  // const [currentPage, setCurrentPage] = useState('LandingPage');
+
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(`http://localhost:3001`);
+    attachListeners(newSocket);
+    setSocket(newSocket);
+    return () => newSocket.close();
+  }, [setSocket]);
+
+  const profile = Auth.getProfile();
+  const username = profile ? profile.data.username : "Guest"; //updates on refresh
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+        <h1 style={{ color: "yellow" }}>Welcome, {username}!</h1>
+        <LandingPage />
+        <Header />
+        <Room socket={socket}></Room>
+      </div>
+    </ApolloProvider>
   );
 }
 
