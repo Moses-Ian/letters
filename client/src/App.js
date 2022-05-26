@@ -26,6 +26,8 @@ function App() {
     // socket.on("set-game-state", setGameState);
   };
 
+  // const [currentPage, setCurrentPage] = useState('LandingPage');
+
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -37,9 +39,11 @@ function App() {
 
   return (
     <div className="App">
+      
       {/* <LandingPage /> */}
       <Header />
       <Room socket={socket}></Room>
+      
     </div>
   );
 }

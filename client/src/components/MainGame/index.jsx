@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "bulma/css/bulma.min.css";
 import { io } from "socket.io-client";
 
+
+
 const MainGame = ({ socket, room }) => {
   useEffect(() => {
     console.log("test #2");
@@ -87,6 +89,7 @@ const MainGame = ({ socket, room }) => {
     <div className="" id="letters-game">
       <h1>{room}</h1>
 
+      
       <div className="rendered-letters" id="scramble">
         {/* <span id="letter0">{letters[0]}</span>
         <span id="letter1">{letters[1]}</span>
@@ -100,6 +103,11 @@ const MainGame = ({ socket, room }) => {
 
         {}
       </div>
+
+        
+
+
+
 
       <div className="field m-3 has-text-centered">
         <button

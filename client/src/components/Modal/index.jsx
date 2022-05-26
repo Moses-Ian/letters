@@ -1,9 +1,10 @@
 import React from 'react';
 import "../../App.css";
 
+// import 'bulma/css/bulma.min.css';
+
 // import Register from '../Register';
 // import Modal from 'react-bootstrap/Modal';
-// import 'bulma/css/bulma.min.css';
 // import { Button } from 'react'
 
 
