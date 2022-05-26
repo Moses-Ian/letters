@@ -66,11 +66,11 @@ generateConsonant = () => {
   return consonant;
 };
 
-submitWord = async (word, room) => {
+submitWord = async (word, username, room) => {
   let g = rooms.get(room);
   const score = await scoreWord(word, g.letters);
-  g.words.push({ word, score });
-  io.to(room).emit("append-word", word, score);
+  g.words.push({ word, username, score });
+  io.to(room).emit("append-word", word, username, score);
 };
 
 scoreWord = async (word, letters) => {

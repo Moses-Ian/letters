@@ -2,9 +2,8 @@ import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
-const MainGame = ({ socket, room }) => {
+const MainGame = ({ socket, username, room }) => {
   useEffect(() => {
-    console.log("test #2");
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
@@ -18,7 +17,7 @@ const MainGame = ({ socket, room }) => {
   // variables
   const [lettersInput, setLettersInput] = useState("");
 
-  const [letters, setLetters] = useReducer(letterReducer, []);
+  const [letters, setLetters] = useReducer(letterReducer, new Array(9).fill(''));
   const [words, setWords] = useReducer(wordReducer, []);
 
   // functions
@@ -26,10 +25,11 @@ const MainGame = ({ socket, room }) => {
     let newLetters;
     switch (action.type) {
       case "PUSH":
-        newLetters = [...letters, action.letter];
+				const {letter, index} = action;
+        newLetters = [...letters.slice(0,index), letter, ...letters.slice(index + 1)];
         break;
       case "CLEAR":
-        newLetters = [];
+        newLetters = new Array(9).fill('');
         break;
       case "RENDER_LETTERS":
         newLetters = [...action.letters];
@@ -37,7 +37,6 @@ const MainGame = ({ socket, room }) => {
       default:
         throw new Error();
     }
-    console.log(newLetters);
     return newLetters;
   }
 
@@ -45,7 +44,8 @@ const MainGame = ({ socket, room }) => {
     let newWordsArr;
     switch (action.type) {
       case "PUSH":
-        newWordsArr = [...words, { word: action.word, score: action.score }];
+				const {word, username, score} = action;
+        newWordsArr = [...words, { word, username, score }];
         break;
       case "CLEAR":
         newWordsArr = [];
@@ -56,7 +56,6 @@ const MainGame = ({ socket, room }) => {
       default:
         throw new Error();
     }
-    console.log(newWordsArr);
     return newWordsArr;
   }
 
@@ -85,16 +84,15 @@ const MainGame = ({ socket, room }) => {
     event.preventDefault();
     const word = lettersInput;
     setLettersInput("");
-    socket.emit("submit-word", word, room);
+    socket.emit("submit-word", word, username, room);
   };
 
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
   };
 
-  const appendWord = (word, score) => {
-    console.log("append word");
-    setWords({ type: "PUSH", word, score });
+  const appendWord = (word, username, score) => {
+    setWords({ type: "PUSH", word, username, score });
   };
 
   const clearLetters = () => {
@@ -107,14 +105,14 @@ const MainGame = ({ socket, room }) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
-
+	
   return (
     <div>
       <h1>{room}</h1>
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span key={index}>{letter}</span>
+          <span style={{border: 'solid 2px red'}} key={index}>{letter}</span>
         ))}
       </div>
 
@@ -160,7 +158,7 @@ const MainGame = ({ socket, room }) => {
         <ul id="words">
           {words.map((word, index) => (
             <li key={index}>
-              {word.word}: {word.score} points
+              {word.username}: {word.word}: {word.score} points
             </li>
           ))}
         </ul>
