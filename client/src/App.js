@@ -65,7 +65,8 @@ function App() {
     return () => newSocket.close();
   }, [setSocket]);
 	
-	const username = Auth.getProfile().data.username;	//updates on refresh
+	const profile = Auth.getProfile();
+	const username = profile ? profile.data.username : 'Guest';	//updates on refresh
 
   return (
     <ApolloProvider client={client}>
