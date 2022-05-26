@@ -7,6 +7,7 @@ import '../../App.css';
 import Register from '../Register';
 
 
+
 export default function Login() {
     const [show, setShow] = useState(false)
 
@@ -15,6 +16,7 @@ export default function Login() {
 
     // const [ShowModal, setShowModal] = useState(false);
     // const [ShowModal2, setShowModal2] = useState(false);
+		
   
     return (
         <>
@@ -28,14 +30,13 @@ export default function Login() {
             <button className='modal-toggle-button'>Logout</button>
             
 
-                <Modal title='Login' onClose={() => setShow(false)} show={show}>
+                <Modal title='Login' onClose={() => setShow(false)} show={true}>
                     <div>
                         <input className='type-box' type="email" placeholder="Email"></input>
                         <input className='type-box' type="password" placeholder="Password"></input>
                         {/* <Register /> */}
                     </div>
                 </Modal> 
-                
         </div>
 
         </>
