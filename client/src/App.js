@@ -63,8 +63,8 @@ function App() {
       <div className="App">
         <h1 style={{ color: "yellow" }}>Welcome, {username}!</h1>
         <LandingPage />
-        <Header />
-        <Room socket={socket}></Room>
+        {/* <Header />
+        <Room socket={socket}></Room> */}
       </div>
     </ApolloProvider>
   );

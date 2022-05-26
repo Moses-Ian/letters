@@ -12,7 +12,9 @@ function Room({ socket }) {
   };
 
   const joinRoomHandler = () => {
-    joinRoom("My Cool Room");
+
+
+    joinRoom("New Room");
   };
 
   console.log("Room rendered");

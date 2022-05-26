@@ -63,7 +63,7 @@ export default function Login() {
             
 							<form onSubmit={handleFormSubmit}>
                 <Modal title='Login' onClose={() => setShow(false)} show={true}>
-                    <div>
+                    <div >
                         <input 
 													className='type-box' 
 													type="email" 
@@ -71,6 +71,8 @@ export default function Login() {
 													name="email"
 													onChange={handleChange}
 												></input>
+                    </div>
+                    <div>
                         <input 
 													className='type-box' 
 													type="password" 

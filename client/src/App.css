@@ -46,6 +46,7 @@ input {
   --quanternary-color: #9fedd7;
   --quinary-color: #026670;
   --sixth-color: #5d909a;
+  --seventh-color: #4A4A4A;
   font-family: "Fugaz one", cursive;
 }
 
@@ -125,6 +126,8 @@ body {
   justify-content: center;
   color: var(--secondary-color);
   font-family: Fugaz One;
+ 
+  
 }
 
 .modal-content {
@@ -132,10 +135,7 @@ body {
   background-color: var(--sixth-color);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.3);
-   
-    
-   
+  box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.3);
 }
 
 .modal-show .modal-content {
@@ -150,20 +150,24 @@ body {
 .modal-title {
   margin: 0;
   font-size: 25px;
+  color: var(--seventh-color);
+
   /* text-align: center; */
 }
+
 
 .modal-body {
   padding: 10px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  /* width: 330px; */
 }
 
 .type-box {
   width: 300px;
   border-radius: 5px;
   height: 25px;
-  margin-top: 5px;
+  margin: 5px 0 5px 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -171,7 +175,12 @@ body {
   background-color: var(--tertiary-color);
 }
 
-.modal-enter-button, .modal-close-button, .modal-toggle-button, .join-game-button, .sign-up-button {
+.modal-enter-button, 
+.modal-close-button, 
+.modal-toggle-button, 
+.join-game-button, 
+.sign-up-button {
+
   color: var(--quinary-color);
   background-color: var(--secondary-color);
   margin-right: 5px;
@@ -180,13 +189,21 @@ body {
   font-size: 18px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-family: Fugaz One;
+
+  /* change font color for modal buttons */
+  color: var(--seventh-color);
+  
 }
 
 /* .modal-toggle-button {
   font-size: 15px;
 } */
 
-.modal-toggle-button:hover, .join-game-button:hover, .sign-up-button:hover {
+.modal-enter-button:hover, 
+.modal-close-button:hover, 
+.modal-toggle-button:hover, 
+.join-game-button:hover, 
+.sign-up-button:hover {
   opacity: 80%;
 }
 
