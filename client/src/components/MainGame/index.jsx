@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
-const MainGame = ({ socket, room }) => {
+const MainGame = ({ socket, username, room }) => {
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
@@ -44,7 +44,8 @@ const MainGame = ({ socket, room }) => {
     let newWordsArr;
     switch (action.type) {
       case "PUSH":
-        newWordsArr = [...words, { word: action.word, score: action.score }];
+				const {word, username, score} = action;
+        newWordsArr = [...words, { word, username, score }];
         break;
       case "CLEAR":
         newWordsArr = [];
@@ -83,15 +84,15 @@ const MainGame = ({ socket, room }) => {
     event.preventDefault();
     const word = lettersInput;
     setLettersInput("");
-    socket.emit("submit-word", word, room);
+    socket.emit("submit-word", word, username, room);
   };
 
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
   };
 
-  const appendWord = (word, score) => {
-    setWords({ type: "PUSH", word, score });
+  const appendWord = (word, username, score) => {
+    setWords({ type: "PUSH", word, username, score });
   };
 
   const clearLetters = () => {
@@ -111,7 +112,7 @@ const MainGame = ({ socket, room }) => {
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span style={{border: 'solid 2px red', width: '15px'}} key={index}>{letter}</span>
+          <span style={{border: 'solid 2px red'}} key={index}>{letter}</span>
         ))}
       </div>
 
@@ -157,7 +158,7 @@ const MainGame = ({ socket, room }) => {
         <ul id="words">
           {words.map((word, index) => (
             <li key={index}>
-              {word.word}: {word.score} points
+              {word.username}: {word.word}: {word.score} points
             </li>
           ))}
         </ul>
