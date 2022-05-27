@@ -3,6 +3,8 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
+	socket.emit('print-all-rooms');
+	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);

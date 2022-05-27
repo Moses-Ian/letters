@@ -19,6 +19,17 @@ global.name = "Global Game";
 let rooms = new Map();
 rooms.set(global.name, global);
 
+//debug functions
+//====================================
+printAllRooms = () =>
+	console.log(rooms);
+	
+printRoom = (room) =>
+	console.log(rooms.get(room));
+	
+printPlayers = (room) =>
+	console.log(rooms.get(room).players);
+	
 //functions
 //====================================
 addVowel = (room) => {
@@ -120,16 +131,35 @@ joinRoom = (socket, room, oldRoom, callback) => {
     g = new Game(room); //create the room
     rooms.set(room, g);
   }
-  let oldG = rooms.get(oldRoom);
-  //join/leave the rooms
+  //join the rooms
   socket.join(room);
-  socket.leave(oldRoom);
-  //add/remove the players
+  //add the players
   g.add(socket.id);
-  oldG?.remove(socket.id);
+	//leave the old room
+  leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
   io.to(socket.id).emit("set-game-state", g.letters, g.words);
+};
+
+leaveRoom = (socket, room) => {
+  socket.leave(room);
+  let g = rooms.get(room);
+	if (g) {
+		g.remove(socket.id);
+		if (g.players.length == 0) {
+			rooms.delete(room);
+		}
+	}
+	
+}
+
+disconnect = (socket, reason) => {
+	console.log(`disconnect:  ${socket.id}`);
+	const socketRooms = socket.adapter.rooms;
+	socketRooms.forEach((value,key) => {
+		leaveRoom(socket, key);
+	});
 };
 
 //listeners
@@ -145,6 +175,11 @@ const registerGameHandler = (newio, socket) => {
   socket.on("join-game", (room, oldRoom, cb) =>
     joinRoom(socket, room, oldRoom, cb)
   );
+	socket.on('disconnecting', reason => disconnect(socket, reason));
+	//debug
+	socket.on('print-all-rooms', printAllRooms);
+	socket.on('print-room', printRoom);
+	socket.on('print-players', printPlayers);
 };
 
 //export
