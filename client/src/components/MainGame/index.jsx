@@ -3,11 +3,14 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
+	// socket.emit('print-all-rooms');
+	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
+		socket.on('your-turn', () => setTurn(true));
 
     return () => {
       socket.disconnect();
@@ -17,19 +20,29 @@ const MainGame = ({ socket, username, room }) => {
   // variables
   const [lettersInput, setLettersInput] = useState("");
 
-  const [letters, setLetters] = useReducer(letterReducer, new Array(9).fill(''));
+  const [letters, setLetters] = useReducer(
+    letterReducer,
+    new Array(9).fill("")
+  );
   const [words, setWords] = useReducer(wordReducer, []);
+	
+	const [isYourTurn, setTurn] = useState(false);
+  const [activeTimer, setActiveTimer] = useState(false);
 
   // functions
   function letterReducer(letters, action) {
     let newLetters;
     switch (action.type) {
       case "PUSH":
-				const {letter, index} = action;
-        newLetters = [...letters.slice(0,index), letter, ...letters.slice(index + 1)];
+        const { letter, index } = action;
+        newLetters = [
+          ...letters.slice(0, index),
+          letter,
+          ...letters.slice(index + 1),
+        ];
         break;
       case "CLEAR":
-        newLetters = new Array(9).fill('');
+        newLetters = new Array(9).fill("");
         break;
       case "RENDER_LETTERS":
         newLetters = [...action.letters];
@@ -44,7 +57,7 @@ const MainGame = ({ socket, username, room }) => {
     let newWordsArr;
     switch (action.type) {
       case "PUSH":
-				const {word, username, score} = action;
+        const { word, username, score } = action;
         newWordsArr = [...words, { word, username, score }];
         break;
       case "CLEAR":
@@ -73,6 +86,10 @@ const MainGame = ({ socket, username, room }) => {
       letter,
       index,
     });
+    if (index === 8) {
+      setActiveTimer(true);
+    }
+    console.log(index);
   };
 
   const handleInputChange = (e) => {
@@ -98,6 +115,7 @@ const MainGame = ({ socket, username, room }) => {
   const clearLetters = () => {
     setLetters({ type: "CLEAR" });
     setWords({ type: "CLEAR" });
+		setTurn(false);
   };
 
   const setGameState = (letters, words) => {
@@ -105,10 +123,16 @@ const MainGame = ({ socket, username, room }) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
-	
+
   return (
     <div>
       <h1>{room}</h1>
+			<h2>{isYourTurn ? 'It is your turn' : 'It is not your turn'}</h2>
+
+      <div>
+        <h3>Time:</h3>
+        {activeTimer ? <Timer /> : <div></div>}
+      </div>
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
@@ -123,11 +147,6 @@ const MainGame = ({ socket, username, room }) => {
         <button className="button is-warning" onClick={addConsonant}>
           Consonant
         </button>
-      </div>
-
-      <div>
-        <h3>Time:</h3>
-        <Timer />
       </div>
 
       <div className="field m-3">
@@ -168,6 +187,10 @@ const MainGame = ({ socket, username, room }) => {
         <button className="button restart is-warning" onClick={restartLetters}>
           Restart
         </button>
+        <button className="button restart is-warning" onClick={() => socket.emit('next-round', room)}>
+          Next Round
+        </button>
+				
       </div>
     </div>
   );
