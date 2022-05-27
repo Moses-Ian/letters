@@ -17,8 +17,8 @@ export default function JoinGame({ socket, username }) {
           <div>
             <p>
               {" "}
-              Enter whatever body we need in here/ Create another Modal for Game
-              so can remove buttons, maybe another one for register also
+              What is the name of the room you would like to join?
+              <input className="m-2" type="text" placeholder="Type room name" />
             </p>
           </div>
         </Modal2>

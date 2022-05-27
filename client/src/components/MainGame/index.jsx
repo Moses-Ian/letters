@@ -153,7 +153,7 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="field m-3">
         <form id="letters-form">
-          <div className="field has-addons mt-3 ">
+          <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">
               <input
                 onChange={handleInputChange}

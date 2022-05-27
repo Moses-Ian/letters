@@ -10,7 +10,6 @@ import HostGame from "../HostGame";
 function LandingPage({ socket, username }) {
   const renderButtons = () => {
     if (username === "Guest") {
-      console.log("Guest");
       return (
         <>
           <Login />
@@ -19,6 +18,7 @@ function LandingPage({ socket, username }) {
       );
     } else {
       console.log("Registered user");
+
       return (
         <>
           <button className="modal-toggle-button" onClick={() => Auth.logout()}>
