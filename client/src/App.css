@@ -8,7 +8,7 @@
 .field button {
   width: 20vw;
   box-shadow: 3px 2px 8px #888888;
-  margin-top: 5vw;
+  /* margin-top: 1vw; */
 }
 
 #letters-input {
@@ -117,19 +117,20 @@ body {
 
 .rendered-letters {
   text-align: center;
-  margin-top: 50px;
-  
+  margin-top: 5vh;
+ 
 }
 
 .letter-span {
-  padding: 20px;
-  margin: 40px 0 0 20px;
-  font-size: 20px;
+  padding: 2vh 2vw;
+  margin: 1vh;
   background-color: #02677065;
   border: 1px solid; 
   border-color: #02677000;
   font-size: 30px;
   color: #fce181;
+
+  
   
   
 }
