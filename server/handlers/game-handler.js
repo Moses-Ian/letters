@@ -124,6 +124,17 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
+nextRound = (room) => {
+	console.log('nextRound');
+	let g = rooms.get(room);
+	let turn = g.nextTurn();
+	let player = g.players[turn];
+	io.to(room).emit('clear-letters');
+	io.to(player).emit('your-turn');
+	console.log(turn);
+	console.log(player);
+}
+
 joinRoom = (socket, room, oldRoom, callback) => {
   //get the rooms
   let g = rooms.get(room);
@@ -175,6 +186,7 @@ const registerGameHandler = (newio, socket) => {
   socket.on("join-game", (room, oldRoom, cb) =>
     joinRoom(socket, room, oldRoom, cb)
   );
+	socket.on('next-round', nextRound);
 	socket.on('disconnecting', reason => disconnect(socket, reason));
 	//debug
 	socket.on('print-all-rooms', printAllRooms);
