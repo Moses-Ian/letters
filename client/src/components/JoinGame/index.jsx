@@ -7,13 +7,14 @@ export default function JoinGame({ socket, username, room }) {
 
   return (
     <>
-      <div className="container1">
-        <div className="center1">
-          <button className="join-game-button" onClick={() => setShow(true)}>
-            {" "}
-            Join as {username}{" "}
-          </button>
-        </div>
+      <div className="column">
+        <button
+          className="join-game-button button is-warning"
+          onClick={() => setShow(true)}
+        >
+          {" "}
+          Join as {username}{" "}
+        </button>
       </div>
 
       <Modal2 title="Join Game" onClose={() => setShow(false)} show={show}>

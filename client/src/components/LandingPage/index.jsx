@@ -4,44 +4,38 @@ import JoinGame from "../JoinGame";
 import Room from "../Room";
 import Login from "../Login";
 import Register from "../Register";
-import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
 function LandingPage({ socket, username, room }) {
   const renderButtons = () => {
     if (username === "Guest") {
       return (
-        <>
+        <div className="column">
           <Login />
           <Register />
-          <div className="container">
+          <div>
             <div className="center">
               <h1 className="landing-letters">
                 L<span className="landing-letters-3">3</span>tters
               </h1>
             </div>
           </div>
-          <JoinGame />
-        </>
+        </div>
       );
     } else {
       console.log("Registered user");
 
       return (
-        <>
-          <button className="modal-toggle-button" onClick={() => Auth.logout()}>
-            Logout
-          </button>
+        <div className="column">
           <Room socket={socket} username={username}></Room>
           {<Room /> ? (
             ""
           ) : (
-            <>
+            <div>
               <HostGame />
-              <JoinGame username={username} />
-            </>
+            </div>
           )}
-        </>
+        </div>
       );
     }
   };
@@ -52,7 +46,9 @@ function LandingPage({ socket, username, room }) {
   return (
     <>
       <div>{renderButtons()}</div>
-      <JoinGame socket={socket} username={username} room={room} />
+      <div>
+        <JoinGame socket={socket} username={username} room={room} />
+      </div>
     </>
   );
 }
