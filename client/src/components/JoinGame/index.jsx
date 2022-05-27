@@ -8,8 +8,8 @@ export default function JoinGame({username}) {
 
   return (
     <>
-      <div className="container">
-        <div className="center">
+      <div className="container1">
+        <div className="center1">
           <button className="join-game-button" onClick={() => setShow(true)}>
             {" "}
             Join as {username}{" "}
