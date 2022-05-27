@@ -5,6 +5,7 @@ function Timer() {
 
   useEffect(() => {
     setTimeout(() => {
+      // TODO add a condition for submit click, restart click
       if (counter > 0) {
         setCounter(counter - 1);
       }
