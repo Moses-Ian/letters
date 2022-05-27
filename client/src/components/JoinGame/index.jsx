@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Modal2 from "../Modal-2";
 import "../../App.css";
 
-export default function JoinGame() {
+
+export default function JoinGame({username}) {
   const [show, setShow] = useState(false);
 
   return (
@@ -11,7 +12,7 @@ export default function JoinGame() {
         <div className="center">
           <button className="join-game-button" onClick={() => setShow(true)}>
             {" "}
-            Join as username{" "}
+            Join as {username}{" "}
           </button>
         </div>
       </div>

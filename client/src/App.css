@@ -123,12 +123,13 @@ body {
 
 .letter-span {
   padding: 20px;
-  margin: 40px 0 0 40px;
+  margin: 40px 0 0 20px;
   font-size: 20px;
-  
-  /* border: 1px solid; */
-  /* border-color: #4A4A4A; */
- 
+  background-color: #02677065;
+  border: 1px solid; 
+  border-color: #02677000;
+  font-size: 30px;
+  color: #fce181;
   
   
 }
@@ -156,7 +157,7 @@ body {
 }
 
 .modal-content {
-  width: 330px;
+  width: 330px !important;
   background-color: var(--sixth-color);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -274,13 +275,13 @@ body {
 }
 
 .container1 {
-  height: 300px;
+  height: 30vh;
   position: relative;
   /* background-color: #0267705f; */
 }
 
 .container {
-  height: 100px;
+  height: 10vh;
   position: relative;
   /* background-color: #026770ba; */
   /* margin-top: 500px; */
@@ -346,16 +347,17 @@ body {
 /* border: 3px solid green; */
 /* } */
 
-.vc-btn,
+/* .vc-btn,
 .restart-btn,
 #letters-form {
   margin: 0;
-  position: absolute;
+  margin-top: 20px;
+  position: relative;
   top: 75%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
+} */
 
 #letters-submit {
   margin-left: 45px;
