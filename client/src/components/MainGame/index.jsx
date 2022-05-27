@@ -143,13 +143,14 @@ const MainGame = ({ socket, username, room }) => {
     <div>
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
-      <div>{activeTimer ? <Timer /> : <div></div>}</div>
-
-      <div className="rendered-letters" id="scramble">
+      <div className="rendered-letters m-3">
         {letters.map((letter, index) => (
-          <span className="letter-span" key={index}>{letter}</span>
+          <span className="letter-span" key={index}>
+            {letter}
+          </span>
         ))}
       </div>
+      <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
 
       <div className="field m-3 has-text-centered">
         <button className="button mr-3 is-warning" onClick={addVowel}>
@@ -161,7 +162,7 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="field m-3">
-        <form id="letters-form">
+        <form>
           <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">
               <input
@@ -185,7 +186,7 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="p-5">
-        <ul id="words">
+        <ul>
           {words.map((word, index) => (
             <li key={index}>
               {word.username}: {word.word}: {word.score} points
