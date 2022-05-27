@@ -78,7 +78,12 @@ generateConsonant = () => {
 };
 
 submitWord = async (word, username, room) => {
+	console.log('submitWord:');
+	console.log(word);
+	console.log(username);
+	console.log(room);
   let g = rooms.get(room);
+	console.log(g);
   const score = await scoreWord(word, g.letters);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
