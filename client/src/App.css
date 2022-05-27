@@ -58,39 +58,18 @@ body {
   color: var(--secondary-color);
   font-size: 20px;
 
-  /* hadas */
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  /* hadas */
-  /* .App {
-  text-align: center;
-}
-
-/* HEADER COMPONENT */
-
-  /* .game-header {
-  color: var(--quinary-color);
-  text-align: center;
-  font-size: 80px;
-  text-shadow: 4px 4px 3px black;
-  transition: text-shadow 250ms ease, font-size 250ms ease;
-  /* border: 1px solid #5d909a; */
-  /* background-color: #5d909a; */
   font-family: Fugaz One;
   font-weight: 600;
 }
 
-*/ .game-header-3 {
+.game-header-3 {
   font-family: Fugaz One;
 }
-
-/* .game-header:hover {
-  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  font-size: 90px;
-} */
 
 .game-header-3 {
   color: var(--quanternary-color);
@@ -335,18 +314,6 @@ body {
 /* HEADER COMPONENT END */
 
 /* MAIN GAME PAGE */
-
-/* #scramble {
-  min-height: 21px;
-  font-size: 40px;
-  text-align: center;
-} */
-
-/* .container {
-  height: 50px;
-  position: relative; */
-/* border: 3px solid green; */
-/* } */
 
 .vc-btn,
 .restart-btn,
