@@ -34,11 +34,21 @@ io.on('connection', (socket) => registerHandlers(io, socket));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
 app.use(routes);
 
 server.listen(PORT, () => { 
 	console.log(`Server running on port ${PORT}`); 
 	console.log(`Use GraphQL at http://localhost:${PORT}${apolloServer.graphqlPath}`);
 });
+
+
+// if (process.env.NODE_ENV === 'production') {
+  // app.use(express.static(path.join(__dirname, '../client/build')));
+// }
+
+// app.get('/', (req, res) => {
+  // res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
