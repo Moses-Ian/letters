@@ -20,21 +20,29 @@ const MainGame = ({ socket, username, room }) => {
   // variables
   const [lettersInput, setLettersInput] = useState("");
 
-  const [letters, setLetters] = useReducer(letterReducer, new Array(9).fill(''));
+  const [letters, setLetters] = useReducer(
+    letterReducer,
+    new Array(9).fill("")
+  );
   const [words, setWords] = useReducer(wordReducer, []);
 	
 	const [isYourTurn, setTurn] = useState(false);
+  const [activeTimer, setActiveTimer] = useState(false);
 
   // functions
   function letterReducer(letters, action) {
     let newLetters;
     switch (action.type) {
       case "PUSH":
-				const {letter, index} = action;
-        newLetters = [...letters.slice(0,index), letter, ...letters.slice(index + 1)];
+        const { letter, index } = action;
+        newLetters = [
+          ...letters.slice(0, index),
+          letter,
+          ...letters.slice(index + 1),
+        ];
         break;
       case "CLEAR":
-        newLetters = new Array(9).fill('');
+        newLetters = new Array(9).fill("");
         break;
       case "RENDER_LETTERS":
         newLetters = [...action.letters];
@@ -49,7 +57,7 @@ const MainGame = ({ socket, username, room }) => {
     let newWordsArr;
     switch (action.type) {
       case "PUSH":
-				const {word, username, score} = action;
+        const { word, username, score } = action;
         newWordsArr = [...words, { word, username, score }];
         break;
       case "CLEAR":
@@ -78,6 +86,10 @@ const MainGame = ({ socket, username, room }) => {
       letter,
       index,
     });
+    if (index === 8) {
+      setActiveTimer(true);
+    }
+    console.log(index);
   };
 
   const handleInputChange = (e) => {
@@ -111,7 +123,7 @@ const MainGame = ({ socket, username, room }) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
-	
+
   return (
     <div>
       <h1>{room}</h1>
@@ -119,7 +131,9 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span style={{border: 'solid 2px red'}} key={index}>{letter}</span>
+          <span style={{ border: "solid 2px red" }} key={index}>
+            {letter}
+          </span>
         ))}
       </div>
 
@@ -134,7 +148,7 @@ const MainGame = ({ socket, username, room }) => {
 
       <div>
         <h3>Time:</h3>
-        <Timer />
+        {activeTimer ? <Timer /> : <div></div>}
       </div>
 
       <div className="field m-3">
