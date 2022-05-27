@@ -14,7 +14,7 @@ function Timer() {
 
   return (
     <div>
-      Time:
+      <h3>Time:</h3>
       <div className="timer">{counter}</div>
     </div>
   );
