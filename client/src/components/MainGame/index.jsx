@@ -147,6 +147,7 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
+<<<<<<< HEAD
           <span
             className="letter-span"
             style={{ border: "solid 2px red" }}
@@ -154,6 +155,9 @@ const MainGame = ({ socket, username, room }) => {
           >
             {letter}
           </span>
+=======
+          <span className="letter-span" key={index}>{letter}</span>
+>>>>>>> bbe491a0575cdefc80c22a5ca1554db5e6b668a6
         ))}
       </div>
 

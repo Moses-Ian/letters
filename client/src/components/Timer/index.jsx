@@ -1,24 +1,7 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import {
-  CountdownCircleTimer,
-  useCountdown,
-} from "react-countdown-circle-timer";
+import React from "react";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Timer() {
-  // const [counter, setCounter] = useState(30);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     // TODO add a condition for submit click, restart click, next round click
-  //     // QUESTION - condition based on active turn or button clicks?
-  //     if (counter > 0) {
-  //       setCounter(counter - 1);
-  //     }
-  //     return;
-  //   }, 1000);
-  // });
-
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
       return <div className="timer">0</div>;
@@ -34,23 +17,18 @@ function Timer() {
   };
 
   return (
-    <div>
-      {/* <div className="timer">{counter}</div> */}
-
-      <div className="timer-wrapper">
-        <CountdownCircleTimer
-          isPlaying
-          duration={30}
-          size={90}
-          strokeWidth={8}
-          // colors={["#fce181", "#fef9c7", "#026670"]}
-          colors={"#fce181"}
-          // colorsTime={[10, 6, 0]}
-          onComplete={() => ({ shouldRepeat: false, delay: 1 })}
-        >
-          {renderTime}
-        </CountdownCircleTimer>
-      </div>
+    <div className="timer-wrapper">
+      <CountdownCircleTimer
+        isPlaying
+        duration={30}
+        size={90}
+        strokeWidth={7}
+        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+        colorsTime={[15, 8, 5, 0]}
+        onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+      >
+        {renderTime}
+      </CountdownCircleTimer>
     </div>
   );
 }

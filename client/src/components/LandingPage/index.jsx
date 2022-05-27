@@ -14,6 +14,14 @@ function LandingPage({ socket, username, room }) {
         <>
           <Login />
           <Register />
+          <div className="container">
+            <div className="center">
+              <h1 className="landing-letters">
+                L<span className="landing-letters-3">3</span>tters
+              </h1>
+            </div>
+          </div>
+          <JoinGame />
         </>
       );
     } else {
@@ -30,6 +38,7 @@ function LandingPage({ socket, username, room }) {
           ) : (
             <>
               <HostGame />
+              <JoinGame username={username} />
             </>
           )}
         </>
