@@ -21,7 +21,7 @@ function Room({ socket, username }) {
 
   return (
     <div>
-      <Header />
+      <Header username={username} />
       <button className="game-btn" onClick={joinRoomHandler}>
         Join Game
       </button>
