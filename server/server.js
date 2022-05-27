@@ -24,12 +24,12 @@ apolloServer.applyMiddleware({ app });
 
 //socket.io stuff
 const server = require('http').createServer(app);	
-// const io = require('socket.io')(server);	//deployed
-const io = require('socket.io')(server, {	//development
-	cors: {
-		origin: ['http://localhost:3000']
-	}
-});
+const io = require('socket.io')(server);	//deployed
+// const io = require('socket.io')(server, {	//development
+	// cors: {
+		// origin: ['http://localhost:3000']
+	// }
+// });
 io.on('connection', (socket) => registerHandlers(io, socket));
 
 app.use(express.json());
