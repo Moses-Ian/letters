@@ -50,7 +50,7 @@ export default function Register() {
         <div className='Register'>
             <button className='sign-up-button' onClick={() => setShow(true) }> Sign Up </button>
               <form onSubmit={handleFormSubmit}>
-                <Modal title='Sign up' onClose={() => setShow(false)} show={true}>
+                <Modal title='Sign up' onClose={() => setShow(false)} show={show}>
                     <div>
                         <input 
 													className="type-box" 

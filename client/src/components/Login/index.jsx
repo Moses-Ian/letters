@@ -55,15 +55,14 @@ export default function Login() {
     
         <div className='Login'>
             {/* <button className='modal-toggle-button' onClick={() => setShow(true) }><img className='user-img' src={userImg} alt='login button' /></button> */}
+
             <button className='modal-toggle-button' onClick={() => setShow(true) }>Login</button>
             <Register />
-            {/* TODO Add functionality to logout */}
-            {/* <button className='modal-toggle-button'><img className='logout-img' src={logoutImg} alt='logout button' /></button> */}
             <button className='modal-toggle-button' onClick={() => Auth.logout()}>Logout</button>
-            
-							<form onSubmit={handleFormSubmit}>
-                <Modal title='Login' onClose={() => setShow(false)} show={true}>
-                    <div >
+
+						<form onSubmit={handleFormSubmit}>
+              <Modal title='Login' onClose={() => setShow(false)} show={show}>
+                    <div>
                         <input 
 													className='type-box' 
 													type="email" 
@@ -80,10 +79,11 @@ export default function Login() {
 													name="password"
 													onChange={handleChange}
 												></input>
-                        {/* <Register /> */}
                     </div>
-                </Modal> 
-							</form>
+              </Modal> 
+              
+              
+						</form>
         </div>
 
         </>

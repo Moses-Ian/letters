@@ -96,9 +96,9 @@ body {
 
 /* HEADER COMPONENT END */
 
+
+
 /* MAIN GAME PAGE */
-
-
 
 #scramble {
   min-height: 21px;
@@ -113,6 +113,11 @@ body {
   }
 }
 
+/* MAIN GAME PAGE END */
+
+
+
+
 /* MODAL */
 
 .modal {
@@ -126,8 +131,6 @@ body {
   justify-content: center;
   color: var(--secondary-color);
   font-family: Fugaz One;
- 
-  
 }
 
 .modal-content {
@@ -151,10 +154,7 @@ body {
   margin: 0;
   font-size: 25px;
   color: var(--seventh-color);
-
-  /* text-align: center; */
 }
-
 
 .modal-body {
   padding: 10px;
@@ -180,62 +180,84 @@ body {
 .modal-toggle-button, 
 .join-game-button, 
 .sign-up-button {
-
   color: var(--quinary-color);
   background-color: var(--secondary-color);
-  margin-right: 5px;
+  margin: 5px 0 0 20px;
   border-radius: 5px;
-  size: 30px;
   font-size: 18px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-family: Fugaz One;
-
-  /* change font color for modal buttons */
   color: var(--seventh-color);
-  
+  transition: background-color 500ms ease;
 }
 
-/* .modal-toggle-button {
-  font-size: 15px;
-} */
+.modal-toggle-button, 
+.sign-up-button {
+  width: 90px;
+  /* box-shadow: 2px 2px 8px black; */
+}
+
+
 
 .modal-enter-button:hover, 
 .modal-close-button:hover, 
 .modal-toggle-button:hover, 
 .join-game-button:hover, 
 .sign-up-button:hover {
-  opacity: 80%;
+  background-color: var(--quanternary-color);
+  /* transition: color 250ms ease; */
 }
 
 .join-game-button {
   /* color: var(--quinary-color); */
   /* background-color: var(--secondary-color); */
   font-size: 30px;
-  margin-top: 50px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin-top: 300px;
+  box-shadow: 2px 2px 10px black;
 }
-
-/* .sign-up-button {
-  .no-focus-outline a:focus,
-  .no-focus-outline button:focus {
-  outline: none;
-} */
-
-
-
 
 /* MODAL END */
 
+
+
+
 /* LANDING PAGE */
 
-/* .game-btn {
-  font-size: 30px;
-  margin-top: 450px;
-} */
+.welcome {
+  color: #fce181;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.landing-letters {
+  position: relative;
+  font-size: 200px;
+  text-align: center;
+  margin-top: 80px;
+  color: var(--secondary-color);
+  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+  transition: text-shadow 400ms ease, font-size 500ms ease;
+}
+
+.landing-letters-3 {
+  color: var(--quanternary-color);
+}
+
+.landing-letters:hover {
+  text-shadow: 10px 10px 4px black, 6px 6px 10px black;
+  font-size: 230px;
+}
+
+.container1 {
+  height: 300px;
+  position: relative;
+  /* background-color: #0267705f; */
+}
 
 .container {
-  height: 200px;
+  height: 100px;
   position: relative;
+  /* background-color: #026770ba; */
   /* margin-top: 500px; */
   /* border: 3px solid green; */
 }
@@ -243,7 +265,7 @@ body {
 .center {
   margin: 0;
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -252,12 +274,6 @@ body {
 /* LANDING PAGE END */
 
 
-
-/* JOIN GAME */
-
-
-
-/* JOIN GAME END */
 
 
 
@@ -270,7 +286,7 @@ body {
   text-align: center;
   font-size: 60px;
   /* text-shadow: 3px 3px 2px black; */
-  transition: text-shadow 250ms ease, font-size 250ms ease;
+  /* transition: text-shadow 250ms ease, font-size 250ms ease; */
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   /* border: 1px solid #026670; */
   background-color: #026770a3;
@@ -337,3 +353,137 @@ body {
 }
 
 /* smallest reasonable size: 360px */
+
+
+
+
+
+
+
+
+/* .bouncing-text {
+  position: relative;
+  display: flex;
+  font-size: 70px;
+  font-family: arial black;  
+}
+
+.l, .e1, .t1, .t, .e, .r, .s {
+  position: relative;
+  font-size: 200px;
+  text-align: center;
+  margin-top: 90px;
+  color: var(--secondary-color);
+  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+  transition: text-shadow 400ms ease, font-size 400ms ease;
+}
+
+.e1 {
+  color: var(--quanternary-color);
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1,1) translateY(0); }
+  10%  { transform: scale(1.1,.9) translateY(0); }
+  30%  { transform: scale(.9,1.1)   translateY(-55px);}
+  50%  { transform: scale(1.05,.95) translateY(0); }
+  58%  { transform: scale(1,1) translateY(-7px); }
+  65%  { transform: scale(1,1) translateY(0);}
+  100% { transform: scale(1,1) translateY(0);}
+}
+
+.l {
+animation: bounce 1s ease ;
+}
+
+.e1 {
+animation: bounce 1s ease .1s;
+}
+
+.t1 {
+animation: bounce 1s ease .2s;
+}
+
+.t {
+animation: bounce 1s ease  .3s;
+}
+
+.e {
+animation: bounce 1s ease  .4s;
+}
+
+.r {
+animation: bounce 1s ease  .5s;
+}
+
+.s {
+  animation: bounce 1s ease  .6s;
+}
+
+
+
+
+.bouncing-text:before, .bouncing-text:after {
+  content:"";
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  width: 50px;
+  height:5px;
+  border-radius:50%;
+  top:82px;
+  z-index:-1;
+}
+
+.shadow, .shadow-two {
+  position: absolute;
+  top:82px;
+  z-index:-1;
+}
+
+.shadow:before, .shadow:after, .shadow-two:before, .shadow-two:after {
+  content:"";
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  width: 50px;
+  height:5px;
+  border-radius:50%;
+  top:0;  
+}
+
+.bouncing-text:before {
+  left:0;
+  animation: scale 1s linear infinite;
+}
+
+@keyframes scale {
+  0% {transform: scaleX(1);}
+  25% {transform: scaleX(0.4);}
+  50% {transform: scaleX(1);}
+  75% {transform: scaleX(0.9);}
+  100% {transform: scaleX(1);}
+}
+
+.bouncing-text:after {
+  left: 57px;
+  animation: scale 1s linear infinite .1s;
+}
+
+.shadow:before {
+  left: 116px;
+  animation: scale 1s linear infinite .2s;
+}
+
+.shadow:after {
+  left:175px;
+  animation: scale 1s linear infinite .3s;
+}
+
+.shadow-two:before {
+  left:232px;
+  animation: scale 1s linear infinite .4s;
+}
+
+.shadow-two:after {
+  left: 285px;
+  animation: scale 1s linear infinite .5s;
+} */

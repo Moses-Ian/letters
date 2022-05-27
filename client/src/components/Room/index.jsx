@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MainGame from "../MainGame";
 
-function Room({ socket }) {
+function Room({ socket, username }) {
   const [room, setRoom] = useState("");
 
   const joinRoom = (name) => {
@@ -25,7 +25,7 @@ function Room({ socket }) {
         Join Game
       </button>
       {room !== "" ? (
-        <MainGame socket={socket} room={room} />
+        <MainGame socket={socket} username={username} room={room} />
       ) : (
         <p>You need to type a room name</p>
       )}
