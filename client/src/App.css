@@ -113,6 +113,24 @@ body {
   }
 }
 
+.rendered-letters {
+  text-align: center;
+  margin-top: 50px;
+  
+}
+
+.letter-span {
+  padding: 20px;
+  margin: 40px 0 0 40px;
+  font-size: 20px;
+  
+  /* border: 1px solid; */
+  /* border-color: #4A4A4A; */
+ 
+  
+  
+}
+
 /* MAIN GAME PAGE END */
 
 
@@ -121,6 +139,10 @@ body {
 /* MODAL */
 
 .modal {
+  /* z-index: 9999999; */
+
+
+
   position: relative;
   left: 0;
   top: 0;
@@ -182,7 +204,7 @@ body {
 .sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
-  margin: 5px 0 0 20px;
+  margin-right: 5px;
   border-radius: 5px;
   font-size: 18px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -194,6 +216,7 @@ body {
 .modal-toggle-button, 
 .sign-up-button {
   width: 90px;
+  margin: 5px 0 0 20px;
   /* box-shadow: 2px 2px 8px black; */
 }
 
@@ -230,7 +253,9 @@ body {
 }
 
 .landing-letters {
-  position: relative;
+  /* z-index: 1;
+  position: relative; */
+  
   font-size: 200px;
   text-align: center;
   margin-top: 80px;
@@ -355,135 +380,3 @@ body {
 /* smallest reasonable size: 360px */
 
 
-
-
-
-
-
-
-/* .bouncing-text {
-  position: relative;
-  display: flex;
-  font-size: 70px;
-  font-family: arial black;  
-}
-
-.l, .e1, .t1, .t, .e, .r, .s {
-  position: relative;
-  font-size: 200px;
-  text-align: center;
-  margin-top: 90px;
-  color: var(--secondary-color);
-  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  transition: text-shadow 400ms ease, font-size 400ms ease;
-}
-
-.e1 {
-  color: var(--quanternary-color);
-}
-
-@keyframes bounce {
-  0%   { transform: scale(1,1) translateY(0); }
-  10%  { transform: scale(1.1,.9) translateY(0); }
-  30%  { transform: scale(.9,1.1)   translateY(-55px);}
-  50%  { transform: scale(1.05,.95) translateY(0); }
-  58%  { transform: scale(1,1) translateY(-7px); }
-  65%  { transform: scale(1,1) translateY(0);}
-  100% { transform: scale(1,1) translateY(0);}
-}
-
-.l {
-animation: bounce 1s ease ;
-}
-
-.e1 {
-animation: bounce 1s ease .1s;
-}
-
-.t1 {
-animation: bounce 1s ease .2s;
-}
-
-.t {
-animation: bounce 1s ease  .3s;
-}
-
-.e {
-animation: bounce 1s ease  .4s;
-}
-
-.r {
-animation: bounce 1s ease  .5s;
-}
-
-.s {
-  animation: bounce 1s ease  .6s;
-}
-
-
-
-
-.bouncing-text:before, .bouncing-text:after {
-  content:"";
-  position: absolute;
-  background-color: rgba(0,0,0,0.4);
-  width: 50px;
-  height:5px;
-  border-radius:50%;
-  top:82px;
-  z-index:-1;
-}
-
-.shadow, .shadow-two {
-  position: absolute;
-  top:82px;
-  z-index:-1;
-}
-
-.shadow:before, .shadow:after, .shadow-two:before, .shadow-two:after {
-  content:"";
-  position: absolute;
-  background-color: rgba(0,0,0,0.4);
-  width: 50px;
-  height:5px;
-  border-radius:50%;
-  top:0;  
-}
-
-.bouncing-text:before {
-  left:0;
-  animation: scale 1s linear infinite;
-}
-
-@keyframes scale {
-  0% {transform: scaleX(1);}
-  25% {transform: scaleX(0.4);}
-  50% {transform: scaleX(1);}
-  75% {transform: scaleX(0.9);}
-  100% {transform: scaleX(1);}
-}
-
-.bouncing-text:after {
-  left: 57px;
-  animation: scale 1s linear infinite .1s;
-}
-
-.shadow:before {
-  left: 116px;
-  animation: scale 1s linear infinite .2s;
-}
-
-.shadow:after {
-  left:175px;
-  animation: scale 1s linear infinite .3s;
-}
-
-.shadow-two:before {
-  left:232px;
-  animation: scale 1s linear infinite .4s;
-}
-
-.shadow-two:after {
-  left: 285px;
-  animation: scale 1s linear infinite .5s;
-} */
