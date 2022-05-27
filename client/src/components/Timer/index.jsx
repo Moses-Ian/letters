@@ -12,7 +12,12 @@ function Timer() {
     }, 1000);
   });
 
-  return <div className="timer">{counter}</div>;
+  return (
+    <div>
+      Time:
+      <div className="timer">{counter}</div>
+    </div>
+  );
 }
 
 export default Timer;

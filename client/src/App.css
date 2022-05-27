@@ -29,7 +29,7 @@ input {
   margin: 20px;
   padding: 5px;
   background-color: #fff;
-  /* width: auto; */
+  width: 8vw;
   border-radius: 5px;
   box-sizing: border-box;
 }
