@@ -59,6 +59,8 @@ export default function Register() {
 													name="username"
 													onChange={handleChange}
 												></input>
+                    </div>
+                    <div>
                         <input 
 													className='type-box' 
 													type="email" 
@@ -66,6 +68,8 @@ export default function Register() {
 													name="email"
 													onChange={handleChange}
 												></input>
+                    </div>
+                    <div>
                         <input 
 													className='type-box' 
 													type="password" 

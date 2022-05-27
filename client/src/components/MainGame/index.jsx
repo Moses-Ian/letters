@@ -136,9 +136,7 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span style={{ border: "solid 2px red" }} key={index}>
-            {letter}
-          </span>
+          <span className="letter-span" style={{border: 'solid 2px red'}} key={index}>{letter}</span>
         ))}
       </div>
 
