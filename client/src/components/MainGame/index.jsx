@@ -129,6 +129,11 @@ const MainGame = ({ socket, username, room }) => {
       <h1>{room}</h1>
 			<h2>{isYourTurn ? 'It is your turn' : 'It is not your turn'}</h2>
 
+      <div>
+        <h3>Time:</h3>
+        {activeTimer ? <Timer /> : <div></div>}
+      </div>
+
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
           <span style={{ border: "solid 2px red" }} key={index}>
@@ -144,11 +149,6 @@ const MainGame = ({ socket, username, room }) => {
         <button className="button is-warning" onClick={addConsonant}>
           Consonant
         </button>
-      </div>
-
-      <div>
-        <h3>Time:</h3>
-        {activeTimer ? <Timer /> : <div></div>}
       </div>
 
       <div className="field m-3">

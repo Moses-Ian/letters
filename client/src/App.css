@@ -23,13 +23,15 @@
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
-
 }
 
-.restart {
-  /* background-color: #026670 !important;
-  border-color: #026670 !important; */
-  
+.timer {
+  margin: 20px;
+  padding: 5px;
+  background-color: #fff;
+  /* width: auto; */
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 /* hadas */
@@ -97,8 +99,6 @@ body {
 
 /* MAIN GAME PAGE */
 
-
-
 #scramble {
   min-height: 21px;
   font-size: 40px;
@@ -133,9 +133,6 @@ body {
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.3);
-   
-    
-   
 }
 
 .modal-show .modal-content {
@@ -171,7 +168,11 @@ body {
   background-color: var(--quanternary-color);
 }
 
-.modal-enter-button, .modal-close-button, .modal-toggle-button, .join-game-button, .sign-up-button {
+.modal-enter-button,
+.modal-close-button,
+.modal-toggle-button,
+.join-game-button,
+.sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
   margin-right: 5px;
@@ -186,7 +187,9 @@ body {
   font-size: 15px;
 } */
 
-.modal-toggle-button:hover, .join-game-button:hover, .sign-up-button:hover {
+.modal-toggle-button:hover,
+.join-game-button:hover,
+.sign-up-button:hover {
   opacity: 80%;
 }
 
@@ -203,9 +206,6 @@ body {
   .no-focus-outline button:focus {
   outline: none;
 } */
-
-
-
 
 /* MODAL END */
 
@@ -234,19 +234,11 @@ body {
 
 /* LANDING PAGE END */
 
-
-
 /* JOIN GAME */
-
-
 
 /* JOIN GAME END */
 
-
-
-
-
- /* HEADER COMPONENT */
+/* HEADER COMPONENT */
 
 .game-header {
   color: var(--secondary-color);
@@ -259,14 +251,13 @@ body {
   background-color: #026770a3;
 
   transition: border-color 250ms ease;
-  
+
   /* opacity: 60%; */
 }
 
 .game-header:hover {
   /* text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   font-size: 65px; */
-
 }
 
 .game-header-3 {
@@ -286,7 +277,7 @@ body {
 /* .container {
   height: 50px;
   position: relative; */
-  /* border: 3px solid green; */
+/* border: 3px solid green; */
 /* } */
 
 .vc-btn,
