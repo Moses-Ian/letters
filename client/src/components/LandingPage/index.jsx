@@ -7,7 +7,7 @@ import Register from "../Register";
 import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket, username }) {
+function LandingPage({ socket, username, room }) {
   const renderButtons = () => {
     if (username === "Guest") {
       return (
@@ -24,7 +24,7 @@ function LandingPage({ socket, username }) {
           <button className="modal-toggle-button" onClick={() => Auth.logout()}>
             Logout
           </button>
-          <Room socket={socket} username={username}></Room>;
+          <Room socket={socket} username={username}></Room>
           {<Room /> ? (
             ""
           ) : (
@@ -43,7 +43,7 @@ function LandingPage({ socket, username }) {
   return (
     <>
       <div>{renderButtons()}</div>
-      <JoinGame socket={socket} username={username} />
+      <JoinGame socket={socket} username={username} room={room} />
     </>
   );
 }

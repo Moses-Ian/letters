@@ -25,12 +25,8 @@ input {
 }
 
 .timer {
-  margin: 20px;
-  padding: 5px;
-  background-color: #fff;
-  /* width: auto; */
-  border-radius: 5px;
-  box-sizing: border-box;
+  font-size: 35px;
+  color: white;
 }
 
 /* hadas */

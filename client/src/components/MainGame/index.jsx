@@ -19,6 +19,7 @@ const MainGame = ({ socket, username, room }) => {
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
+  const [inputState, inputDispatch] = useReducer(lettersInputReducer, "");
 
   const [letters, setLetters] = useReducer(
     letterReducer,
@@ -51,6 +52,18 @@ const MainGame = ({ socket, username, room }) => {
         throw new Error();
     }
     return newLetters;
+  }
+
+  function lettersInputReducer(action) {
+    let newInputState;
+    switch (action.type) {
+      case "CLEAR":
+        newInputState = "";
+        break;
+      default:
+        throw new Error();
+    }
+    return newInputState;
   }
 
   function wordReducer(words, action) {
@@ -100,7 +113,7 @@ const MainGame = ({ socket, username, room }) => {
   const submitWord = (event) => {
     event.preventDefault();
     const word = lettersInput;
-    setLettersInput("");
+    // setInput({ type: "CLEAR" });
     socket.emit("submit-word", word, username, room);
   };
 
@@ -115,6 +128,8 @@ const MainGame = ({ socket, username, room }) => {
   const clearLetters = () => {
     setLetters({ type: "CLEAR" });
     setWords({ type: "CLEAR" });
+    // setInput({ type: "CLEAR" });
+    setLettersInput("");
     setTurn(false);
   };
 

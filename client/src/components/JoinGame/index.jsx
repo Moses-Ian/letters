@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Modal2 from "../Modal-2";
 import "../../App.css";
 
-export default function JoinGame({ socket, username }) {
+export default function JoinGame({ socket, username, room }) {
   const [show, setShow] = useState(false);
 
   return (
     <>
+      {/* {username === "Guest" ? } */}
+
       <div className="JoinGame">
         <button className="join-game-button" onClick={() => setShow(true)}>
           {" "}
