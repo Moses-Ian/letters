@@ -278,7 +278,7 @@ body {
 
 .center1 {
   margin: 0;
-  position: fixed;
+  position: relative;
   top: 60%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
@@ -333,10 +333,6 @@ body {
 .restart-btn,
 #letters-form {
   margin: 0;
-<<<<<<< HEAD
-=======
-  margin-top: 20px;
->>>>>>> bbe491a0575cdefc80c22a5ca1554db5e6b668a6
   position: relative;
   top: 75%;
   left: 50%;
