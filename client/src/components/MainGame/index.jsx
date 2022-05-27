@@ -3,11 +3,14 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
+	// socket.emit('print-all-rooms');
+	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
+		socket.on('your-turn', () => setTurn(true));
 
     return () => {
       socket.disconnect();
@@ -22,6 +25,8 @@ const MainGame = ({ socket, username, room }) => {
     new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
+	
+	const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
 
   // functions
@@ -110,6 +115,7 @@ const MainGame = ({ socket, username, room }) => {
   const clearLetters = () => {
     setLetters({ type: "CLEAR" });
     setWords({ type: "CLEAR" });
+		setTurn(false);
   };
 
   const setGameState = (letters, words) => {
@@ -121,6 +127,7 @@ const MainGame = ({ socket, username, room }) => {
   return (
     <div>
       <h1>{room}</h1>
+			<h2>{isYourTurn ? 'It is your turn' : 'It is not your turn'}</h2>
 
       <div>
         <h3>Time:</h3>
@@ -182,6 +189,10 @@ const MainGame = ({ socket, username, room }) => {
         <button className="button restart is-warning" onClick={restartLetters}>
           Restart
         </button>
+        <button className="button restart is-warning" onClick={() => socket.emit('next-round', room)}>
+          Next Round
+        </button>
+				
       </div>
     </div>
   );
