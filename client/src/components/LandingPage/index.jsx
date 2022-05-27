@@ -7,20 +7,18 @@ import Register from "../Register";
 import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket, username }) {
-  
-  
-
+function LandingPage({ socket, username, room }) {
   const renderButtons = () => {
     if (username === "Guest") {
-      console.log("Guest");
       return (
         <>
           <Login />
           <Register />
           <div className="container">
             <div className="center">
-              <h1 className="landing-letters">L<span className='landing-letters-3'>3</span>tters</h1>
+              <h1 className="landing-letters">
+                L<span className="landing-letters-3">3</span>tters
+              </h1>
             </div>
           </div>
           <JoinGame />
@@ -28,19 +26,19 @@ function LandingPage({ socket, username }) {
       );
     } else {
       console.log("Registered user");
+
       return (
         <>
           <button className="modal-toggle-button" onClick={() => Auth.logout()}>
             Logout
           </button>
-          <Room socket={socket} username={username}></Room>;
+          <Room socket={socket} username={username}></Room>
           {<Room /> ? (
             ""
           ) : (
             <>
               <HostGame />
-              <JoinGame username={username}/> 
-              
+              <JoinGame username={username} />
             </>
           )}
         </>
@@ -51,7 +49,12 @@ function LandingPage({ socket, username }) {
   if (username !== "Guest") {
   }
 
-  return <div>{renderButtons()}</div>;
+  return (
+    <>
+      <div>{renderButtons()}</div>
+      <JoinGame socket={socket} username={username} room={room} />
+    </>
+  );
 }
 
 export default LandingPage;

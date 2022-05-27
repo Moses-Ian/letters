@@ -1,18 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Timer() {
-  const [counter, setCounter] = useState(30);
+  const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+      return <div className="timer">0</div>;
+    }
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (counter > 0) {
-        setCounter(counter - 1);
-      }
-      return;
-    }, 1000);
-  });
+    return (
+      <div className="timer">
+        {/* <div className="text">Remaining</div> */}
+        <div className="value">{remainingTime}</div>
+        {/* <div className="text">seconds</div> */}
+      </div>
+    );
+  };
 
-  return <div className="timer">{counter}</div>;
+  return (
+    <div className="timer-wrapper">
+      <CountdownCircleTimer
+        isPlaying
+        duration={30}
+        size={90}
+        strokeWidth={7}
+        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+        colorsTime={[15, 8, 5, 0]}
+        onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+      >
+        {renderTime}
+      </CountdownCircleTimer>
+    </div>
+  );
 }
 
 export default Timer;
