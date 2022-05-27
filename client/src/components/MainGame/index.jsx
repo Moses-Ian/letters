@@ -184,10 +184,10 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="m-3 has-text-centered">
-        <button className="button restart is-warning" onClick={restartLetters}>
+        <button className="button restart is-warning mx-2" onClick={restartLetters}>
           Restart
         </button>
-        <button className="button restart is-warning" onClick={() => socket.emit('next-round', room)}>
+        <button className="button restart ml-2 is-warning" onClick={() => socket.emit('next-round', room)}>
           Next Round
         </button>
 				
