@@ -23,17 +23,10 @@ const Modal = props => {
                 </div>
                 <div className='modal-body'>{props.children}</div>
                 <div className='modal-footer'>
-                    {/* TODO enter button should not be on close add function to landingPage */}
+        
                     <button className='modal-enter-button'>Enter</button>
                     <button onClick={props.onClose} className='modal-close-button'>Close</button>
                     
-                {/* <div className='container'>
-                    <div className='center'>
-                        <p className='modal-register-button'> <Register /> </p>
-                    </div>
-                </div> */}
-
-                
                 </div>
             </div>
         </div>
