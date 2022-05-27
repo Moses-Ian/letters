@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Modal2 from "../Modal-2";
 import "../../App.css";
 
-
-export default function JoinGame({username}) {
+export default function JoinGame({ socket, username, room }) {
   const [show, setShow] = useState(false);
 
   return (
@@ -16,19 +15,16 @@ export default function JoinGame({username}) {
           </button>
         </div>
       </div>
-          
-        
 
-        <Modal2 title="Join Game" onClose={() => setShow(false)} show={show}>
-          <div>
-            <p>
-              {" "}
-              Enter whatever body we need in here/ Create another Modal for Game
-              so can remove buttons, maybe another one for register also
-            </p>
-          </div>
-        </Modal2>
-      
+      <Modal2 title="Join Game" onClose={() => setShow(false)} show={show}>
+        <div>
+          <p>
+            {" "}
+            What is the name of the room you would like to join?
+            <input className="m-2" type="text" placeholder="Type room name" />
+          </p>
+        </div>
+      </Modal2>
     </>
   );
 }

@@ -14,8 +14,6 @@ function Room({ socket, username }) {
   };
 
   const joinRoomHandler = () => {
-
-
     joinRoom("New Room");
   };
 

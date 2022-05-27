@@ -1,4 +1,3 @@
-/* FYI hadas */
 .background {
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,12 +25,8 @@ input {
 }
 
 .timer {
-  margin: 20px;
-  padding: 5px;
-  background-color: #fff;
-  /* width: auto; */
-  border-radius: 5px;
-  box-sizing: border-box;
+  font-size: 35px;
+  color: white;
 }
 
 /* hadas */
@@ -48,7 +43,7 @@ input {
   --quanternary-color: #9fedd7;
   --quinary-color: #026670;
   --sixth-color: #5d909a;
-  --seventh-color: #4A4A4A;
+  --seventh-color: #4a4a4a;
   font-family: "Fugaz one", cursive;
 }
 
@@ -98,8 +93,6 @@ body {
 
 /* HEADER COMPONENT END */
 
-
-
 /* MAIN GAME PAGE */
 
 #scramble {
@@ -118,33 +111,25 @@ body {
 .rendered-letters {
   text-align: center;
   margin-top: 5vh;
- 
 }
 
 .letter-span {
   padding: 2vh 2vw;
   margin: 1vh;
   background-color: #02677065;
-  border: 1px solid; 
+  border: 1px solid;
   border-color: #02677000;
   font-size: 30px;
   color: #fce181;
-
-  
-  
-  
 }
 
 /* MAIN GAME PAGE END */
-
-
-
 
 /* MODAL */
 
 .modal-main {
   z-index: 1;
-  position:fixed;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
@@ -154,7 +139,6 @@ body {
   align-items: center;
   justify-content: center;
 
-  
   /* color: var(--secondary-color);
   font-family: Fugaz One; */
 }
@@ -201,10 +185,10 @@ body {
   background-color: var(--tertiary-color);
 }
 
-.modal-enter-button, 
-.modal-close-button, 
-.modal-toggle-button, 
-.join-game-button, 
+.modal-enter-button,
+.modal-close-button,
+.modal-toggle-button,
+.join-game-button,
 .sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
@@ -217,18 +201,16 @@ body {
   transition: background-color 500ms ease;
 }
 
-.modal-toggle-button, 
+.modal-toggle-button,
 .sign-up-button {
   width: 90px;
   margin: 5px 0 0 20px;
 }
 
-
-
-.modal-enter-button:hover, 
-.modal-close-button:hover, 
-.modal-toggle-button:hover, 
-.join-game-button:hover, 
+.modal-enter-button:hover,
+.modal-close-button:hover,
+.modal-toggle-button:hover,
+.join-game-button:hover,
 .sign-up-button:hover {
   background-color: var(--quanternary-color);
   /* transition: color 250ms ease; */
@@ -242,9 +224,6 @@ body {
 
 /* MODAL END */
 
-
-
-
 /* LANDING PAGE */
 
 .welcome {
@@ -254,7 +233,6 @@ body {
 }
 
 .landing-letters {
- 
   /* position: relative; */
   font-size: 200px;
   text-align: center;
@@ -307,13 +285,7 @@ body {
 
 /* LANDING PAGE END */
 
-
-
-
-
-
-
- /* HEADER COMPONENT */
+/* HEADER COMPONENT */
 
 .game-header {
   color: var(--secondary-color);
@@ -359,7 +331,10 @@ body {
 .restart-btn,
 #letters-form {
   margin: 0;
+<<<<<<< HEAD
+=======
   margin-top: 20px;
+>>>>>>> bbe491a0575cdefc80c22a5ca1554db5e6b668a6
   position: relative;
   top: 75%;
   left: 50%;
@@ -367,9 +342,9 @@ body {
   transform: translate(-50%, -50%);
 } */
 
-#letters-submit {
+/* #letters-submit {
   margin-left: 45px;
-}
+} */
 
 /* MAIN GAME PAGE END */
 
@@ -387,5 +362,3 @@ body {
 }
 
 /* smallest reasonable size: 360px */
-
-
