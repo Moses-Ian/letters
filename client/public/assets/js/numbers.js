@@ -7,7 +7,7 @@ for (let i = 0; i < 6; i++)
 let answerElArr = [];
 for (let i = 0; i < 6; i++)
     answerElArr.push(document.querySelector(`#answer${i}`));
-
+// track a final answer variable
 let operationArr = [];
 
 const randomNumberEl = document.querySelector('#random-number-value');
@@ -18,6 +18,8 @@ const smallNumberBtn = document.querySelector('#small-number-btn');
 const largeNumberBtn = document.querySelector('#large-number-btn');
 
 const checkAnswer = document.querySelector('#check-answer')
+
+const numberSection = document.querySelector('#numbers-section');
 
 const targetBtn = document.querySelector('#target');
 const numbersRestartBtn = document.querySelector('#restart');
@@ -37,8 +39,8 @@ const multiply = document.querySelector('#multiply');
 const add = document.querySelector('#add');
 const subtract = document.querySelector('#subtract');
 const divide = document.querySelector('#divide');
-const open = document.querySelector('#open')
-const close = document.querySelector('#close')
+const score = document.querySelector('#score');
+
 
 
 let numbersArr = [];
@@ -93,8 +95,8 @@ addNumber = number => {
     }
     if (numbersArr.length === 5) {
         targetBtn.style.display = 'block';
-        answerSection.style.display = 'block'
-        
+        smallNumberBtn.style.display = 'none';
+        largeNumberBtn.style.display = 'none';
 
     }
 
@@ -110,6 +112,11 @@ function getRandomNumber() {
         randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
         randomNumberEl.textContent = randomNumber;
     }
+    answerSection.style.display = 'block'
+    targetBtn.style.display = 'none'
+    numberSection.style.display = 'none'
+    return randomNumber;
+
 }
 
 // scoreNumber
@@ -124,96 +131,144 @@ restartNumbers = event => {
         numberElArr[i].textContent = '';
 };
 
-function addSymbol(button)  {
+function addSymbol(button) {
     operationArr.push(button);
     console.log('something')
 }
 
-function showSymbols () {
+function showSymbols() {
     showOperation.textContent = operationArr.join(' ');
     console.log(operationArr.join(' '));
-    return showOperation.textContent;
+    console.log(operationArr.length);
     console.log(showOperation.textContent)
+    if (operationArr.length === 11) {
+        checkAnswer.style.display = 'block'
+        operation.style.display = 'none'
+        console.log('max array length')
+    }
 };
 
-function scoreAnswer () {
-    console.log(showSymbols);
+function calculateTotal() {
+    // iterate over operationArr
+    total = parseInt(operationArr[0])
+    for (let i = 1; i < operationArr.length; i += 2) {
+        if (operationArr[i] === "+") {
+            total += parseInt(operationArr[i + 1])
+        } else if (operationArr[i] === "-") {
+            total -= parseInt(operationArr[i + 1])
+        } else if (operationArr[i] === "*") {
+            total = total * parseInt(operationArr[i + 1])
+        } else if (operationArr[i] === "/") {
+            total = total / parseInt(operationArr[i + 1])
+        }
+    }
+
+    console.log(total);
+    operation.style.display = 'none'
+    scoreAnswer();
+    return total;
+}
+
+function scoreAnswer() {
     console.log('scoreAnswer function was called')
+    difference = randomNumber - total
+    console.log(difference)
+    if (difference === 0) {
+        score.textContent = '10 points!'
+    }
+    if (difference >= 1 && difference <= 20) {
+        score.textContent = '7 points!'
+    }
+   
+    if (difference >= 21 && difference <= 40) {
+        score.textContent = '5 points!'
+    }
+    if (difference >= 41 && difference <= 60) {
+        score.textContent = '5 points!'
+    }
+    if (difference >= 0 && difference <= 999) {
+        score.textContent = 'TEST SCORE!'
+    }
 }
 // Listeners
 //====================================
 
 
-checkAnswer.addEventListener('click', scoreAnswer);
+checkAnswer.addEventListener('click', calculateTotal);
 smallNumberBtn.addEventListener('click', addSmallNumber);
 largeNumberBtn.addEventListener('click', addLargeNumber);
 targetBtn.addEventListener('click', getRandomNumber);
-answer0.addEventListener('click', function(button){
+answer0.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer0").disabled = true
-	operationArr.push(answer0.textContent);
+    operationArr.push(answer0.textContent);
     console.log(operationArr)
     showSymbols();
 });
-answer1.addEventListener('click', function(button){
+answer1.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer1").disabled = true
-	operationArr.push(answer1.textContent);
+    operationArr.push(answer1.textContent);
     console.log(operationArr)
     showSymbols();
 });
-answer2.addEventListener('click', function(button){
+answer2.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer2").disabled = true
-	operationArr.push(answer2.textContent);
+    operationArr.push(answer2.textContent);
     console.log(operationArr)
     showSymbols();
 });
-answer3.addEventListener('click', function(button){
+answer3.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer3").disabled = true
-	operationArr.push(answer3.textContent);
+    operationArr.push(answer3.textContent);
     console.log(operationArr)
     showSymbols();
 });
-answer4.addEventListener('click', function(button){
+answer4.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer4").disabled = true
-	operationArr.push(answer4.textContent);
+    operationArr.push(answer4.textContent);
     console.log(operationArr)
     showSymbols();
 });
-answer5.addEventListener('click', function(button){
+answer5.addEventListener('click', function (button) {
+    operation.style.display = 'block'
     document.getElementById("answer5").disabled = true
-	operationArr.push(answer5.textContent);
+    operationArr.push(answer5.textContent);
     console.log(operationArr)
     showSymbols();
 });
 
-subtract.addEventListener('click', function(button){
-	operationArr.push(subtract.textContent);
+subtract.addEventListener('click', function (button) {
+    operation.style.display = 'none'
+    operationArr.push(subtract.textContent);
     console.log(operationArr)
     showSymbols();
 });
-add.addEventListener('click', function(button){
-	operationArr.push(add.textContent);
+add.addEventListener('click', function (button) {
+    operation.style.display = 'none'
+    operationArr.push(add.textContent);
     console.log(operationArr)
     showSymbols();
 });
-multiply.addEventListener('click', function(button){
-	operationArr.push(multiply.textContent);
+multiply.addEventListener('click', function (button) {
+    operation.style.display = 'none'
+    operationArr.push(multiply.textContent);
     console.log(operationArr)
     showSymbols();
 });
-divide.addEventListener('click', function(button){
-	operationArr.push(divide.textContent);
+divide.addEventListener('click', function (button) {
+    operation.style.display = 'none'
+    operationArr.push(divide.textContent);
     console.log(operationArr)
     showSymbols();
 });
 
-open.addEventListener('click', function(button){
-	operationArr.push(open.textContent);
-    console.log(operationArr)
-    showSymbols();
-});
 
-close.addEventListener('click', function(button){
-	operationArr.push(close.textContent);
-    console.log(operationArr)
-    showSymbols();
-});
+
+
+
+
+
