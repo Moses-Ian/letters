@@ -126,14 +126,19 @@ const MainGame = ({ socket, username, room }) => {
 
   return (
     <div>
-      <h1>{room}</h1>
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
       <div>{activeTimer ? <Timer /> : <div></div>}</div>
 
       <div className="rendered-letters" id="scramble">
         {letters.map((letter, index) => (
-          <span className="letter-span" style={{border: 'solid 2px red'}} key={index}>{letter}</span>
+          <span
+            className="letter-span"
+            style={{ border: "solid 2px red" }}
+            key={index}
+          >
+            {letter}
+          </span>
         ))}
       </div>
 
@@ -148,7 +153,7 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="field m-3">
         <form id="letters-form">
-          <div className="field has-addons mt-3 is-justify-content-center">
+          <div className="field has-addons mt-3 ">
             <div className="control">
               <input
                 onChange={handleInputChange}
@@ -158,7 +163,7 @@ const MainGame = ({ socket, username, room }) => {
               />
             </div>
 
-            <div className="control is-flex">
+            <div className="control">
               <input
                 className="button is-warning"
                 type="submit"
@@ -181,11 +186,12 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="m-3 has-text-centered">
-        <button className="button restart is-warning" onClick={restartLetters}>
+        <button className="button is-warning m-2" onClick={restartLetters}>
           Restart
         </button>
+
         <button
-          className="button restart is-warning"
+          className="button is-warning m-2"
           onClick={() => socket.emit("next-round", room)}
         >
           Next Round

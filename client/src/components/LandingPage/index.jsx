@@ -7,10 +7,7 @@ import Register from "../Register";
 import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket }) {
-  const profile = Auth.getProfile();
-  const username = profile ? profile.data.username : "Guest"; //updates on refresh
-
+function LandingPage({ socket, username }) {
   const renderButtons = () => {
     if (username === "Guest") {
       console.log("Guest");
@@ -18,7 +15,6 @@ function LandingPage({ socket }) {
         <>
           <Login />
           <Register />
-          <JoinGame />
         </>
       );
     } else {
@@ -34,7 +30,6 @@ function LandingPage({ socket }) {
           ) : (
             <>
               <HostGame />
-              <JoinGame />
             </>
           )}
         </>
@@ -45,7 +40,12 @@ function LandingPage({ socket }) {
   if (username !== "Guest") {
   }
 
-  return <div>{renderButtons()}</div>;
+  return (
+    <>
+      <div>{renderButtons()}</div>
+      <JoinGame socket={socket} username={username} />
+    </>
+  );
 }
 
 export default LandingPage;

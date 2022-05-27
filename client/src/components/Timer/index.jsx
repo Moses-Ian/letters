@@ -5,7 +5,8 @@ function Timer() {
 
   useEffect(() => {
     setTimeout(() => {
-      // TODO add a condition for submit click, restart click
+      // TODO add a condition for submit click, restart click, next round click
+      // QUESTION - condition based on active turn or button clicks?
       if (counter > 0) {
         setCounter(counter - 1);
       }

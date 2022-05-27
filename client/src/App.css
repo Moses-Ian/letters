@@ -1,4 +1,3 @@
-/* FYI hadas */
 .background {
   background-repeat: no-repeat;
   background-size: cover;
@@ -29,7 +28,7 @@ input {
   margin: 20px;
   padding: 5px;
   background-color: #fff;
-  width: 8vw;
+  /* width: auto; */
   border-radius: 5px;
   box-sizing: border-box;
 }
@@ -48,7 +47,7 @@ input {
   --quanternary-color: #9fedd7;
   --quinary-color: #026670;
   --sixth-color: #5d909a;
-  --seventh-color: #4A4A4A;
+  --seventh-color: #4a4a4a;
   font-family: "Fugaz one", cursive;
 }
 
@@ -98,8 +97,6 @@ body {
 
 /* HEADER COMPONENT END */
 
-
-
 /* MAIN GAME PAGE */
 
 #scramble {
@@ -118,32 +115,25 @@ body {
 .rendered-letters {
   text-align: center;
   margin-top: 50px;
-  
 }
 
 .letter-span {
   padding: 20px;
-  margin: 40px 0 0 40px;
+  margin: 40px 0 0 20px;
   font-size: 20px;
-  
-  /* border: 1px solid; */
-  /* border-color: #4A4A4A; */
- 
-  
-  
+  background-color: #02677065;
+  border: 1px solid;
+  border-color: #02677000;
+  font-size: 30px;
+  color: #fce181;
 }
 
 /* MAIN GAME PAGE END */
-
-
-
 
 /* MODAL */
 
 .modal {
   /* z-index: 9999999; */
-
-
 
   position: relative;
   left: 0;
@@ -199,10 +189,10 @@ body {
   background-color: var(--tertiary-color);
 }
 
-.modal-enter-button, 
-.modal-close-button, 
-.modal-toggle-button, 
-.join-game-button, 
+.modal-enter-button,
+.modal-close-button,
+.modal-toggle-button,
+.join-game-button,
 .sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
@@ -215,19 +205,17 @@ body {
   transition: background-color 500ms ease;
 }
 
-.modal-toggle-button, 
+.modal-toggle-button,
 .sign-up-button {
   width: 90px;
   margin: 5px 0 0 20px;
   /* box-shadow: 2px 2px 8px black; */
 }
 
-
-
-.modal-enter-button:hover, 
-.modal-close-button:hover, 
-.modal-toggle-button:hover, 
-.join-game-button:hover, 
+.modal-enter-button:hover,
+.modal-close-button:hover,
+.modal-toggle-button:hover,
+.join-game-button:hover,
 .sign-up-button:hover {
   background-color: var(--quanternary-color);
   /* transition: color 250ms ease; */
@@ -243,9 +231,6 @@ body {
 
 /* MODAL END */
 
-
-
-
 /* LANDING PAGE */
 
 .welcome {
@@ -257,7 +242,7 @@ body {
 .landing-letters {
   /* z-index: 1;
   position: relative; */
-  
+
   font-size: 200px;
   text-align: center;
   margin-top: 80px;
@@ -300,13 +285,7 @@ body {
 
 /* LANDING PAGE END */
 
-
-
-
-
-
-
- /* HEADER COMPONENT */
+/* HEADER COMPONENT */
 
 .game-header {
   color: var(--secondary-color);
@@ -348,20 +327,20 @@ body {
 /* border: 3px solid green; */
 /* } */
 
-.vc-btn,
+/* .vc-btn,
 .restart-btn,
 #letters-form {
   margin: 0;
-  position: absolute;
-  top: 50%;
+  position: relative;
+  top: 75%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
+} */
 
-#letters-submit {
+/* #letters-submit {
   margin-left: 45px;
-}
+} */
 
 /* MAIN GAME PAGE END */
 
@@ -379,5 +358,3 @@ body {
 }
 
 /* smallest reasonable size: 360px */
-
-
