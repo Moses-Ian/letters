@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import Modal2 from "../Modal-2";
 import "../../App.css";
 
-export default function JoinGame() {
+
+export default function JoinGame({username}) {
   const [show, setShow] = useState(false);
 
   return (
     <>
-      <div className="JoinGame">
-        <button className="join-game-button" onClick={() => setShow(true)}>
-          {" "}
-          Join as guest{" "}
-        </button>
+      <div className="container1">
+        <div className="center1">
+          <button className="join-game-button" onClick={() => setShow(true)}>
+            {" "}
+            Join as {username}{" "}
+          </button>
+        </div>
+      </div>
+          
+        
 
         <Modal2 title="Join Game" onClose={() => setShow(false)} show={show}>
           <div>
@@ -22,7 +28,7 @@ export default function JoinGame() {
             </p>
           </div>
         </Modal2>
-      </div>
+      
     </>
   );
 }

@@ -7,9 +7,9 @@ import Register from "../Register";
 import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket }) {
-  const profile = Auth.getProfile();
-  const username = profile ? profile.data.username : "Guest"; //updates on refresh
+function LandingPage({ socket, username }) {
+  
+  
 
   const renderButtons = () => {
     if (username === "Guest") {
@@ -18,6 +18,11 @@ function LandingPage({ socket }) {
         <>
           <Login />
           <Register />
+          <div className="container">
+            <div className="center">
+            <h1 className="landing-letters">L<span className='landing-letters-3'>3</span>tters</h1>
+            </div>
+          </div>
           <JoinGame />
         </>
       );
@@ -34,7 +39,8 @@ function LandingPage({ socket }) {
           ) : (
             <>
               <HostGame />
-              <JoinGame />
+              <JoinGame username={username}/> 
+              
             </>
           )}
         </>
