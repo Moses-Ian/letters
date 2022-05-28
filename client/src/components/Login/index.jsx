@@ -64,6 +64,8 @@ export default function Login() {
                 name="email"
                 onChange={handleChange}
               ></input>
+            </div>
+            <div>
               <input
                 className="type-box"
                 type="password"
@@ -72,6 +74,7 @@ export default function Login() {
                 onChange={handleChange}
               ></input>
             </div>
+            
           </Modal>
         </form>
       </div>

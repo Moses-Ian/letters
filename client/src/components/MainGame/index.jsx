@@ -6,13 +6,13 @@ const MainGame = ({ socket, username, room }) => {
 	// socket.emit('print-all-rooms');
 	// socket.emit('print-players', room);
 	// socket.emit('print-room', room);
-	
+
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
-		socket.on('your-turn', () => setTurn(true));
+    socket.on("your-turn", () => setTurn(true));
 
     return () => {
       socket.disconnect();
@@ -21,14 +21,15 @@ const MainGame = ({ socket, username, room }) => {
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
+  const [inputState, inputDispatch] = useReducer(lettersInputReducer, "");
 
   const [letters, setLetters] = useReducer(
     letterReducer,
     new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-	
-	const [isYourTurn, setTurn] = useState(false);
+
+  const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
 
   // functions
@@ -53,6 +54,18 @@ const MainGame = ({ socket, username, room }) => {
         throw new Error();
     }
     return newLetters;
+  }
+
+  function lettersInputReducer(action) {
+    let newInputState;
+    switch (action.type) {
+      case "CLEAR":
+        newInputState = "";
+        break;
+      default:
+        throw new Error();
+    }
+    return newInputState;
   }
 
   function wordReducer(words, action) {
@@ -116,7 +129,9 @@ const MainGame = ({ socket, username, room }) => {
   const clearLetters = () => {
     setLetters({ type: "CLEAR" });
     setWords({ type: "CLEAR" });
-		setTurn(false);
+
+    setLettersInput("");
+    setTurn(false);
   };
 
   const setGameState = (letters, words) => {
@@ -126,19 +141,17 @@ const MainGame = ({ socket, username, room }) => {
 
   return (
     <div>
-      <h1>{room}</h1>
-			<h2>{isYourTurn ? 'It is your turn' : 'It is not your turn'}</h2>
+      <h1>You are playing in: {room}</h1>
+      <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
-      <div>
-        <h3>Time:</h3>
-        {activeTimer ? <Timer /> : <div></div>}
-      </div>
-
-      <div className="rendered-letters" id="scramble">
+      <div className="rendered-letters m-3">
         {letters.map((letter, index) => (
-          <span className="letter-span" style={{border: 'solid 2px red'}} key={index}>{letter}</span>
+          <span className="letter-span" key={index}>
+            {letter}
+          </span>
         ))}
       </div>
+      <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
 
       <div className="field m-3 has-text-centered">
         <button disabled={!isYourTurn || activeTimer} className="button mr-3 is-warning" onClick={addVowel}>
@@ -150,19 +163,20 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="field m-3">
-        <form id="letters-form">
+        <form>
           <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">
               <input
                 onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
+                value={lettersInput}
                 placeholder="Your word here"
 								value={lettersInput}
               />
             </div>
 
-            <div className="control is-flex">
+            <div className="control">
               <input
                 className="button is-warning"
                 type="submit"
@@ -175,7 +189,7 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="p-5">
-        <ul id="words">
+        <ul>
           {words.map((word, index) => (
             <li key={index}>
               {word.username}: {word.word}: {word.score} points
@@ -185,13 +199,16 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="m-3 has-text-centered">
-        <button className="button restart is-warning" onClick={restartLetters}>
+        <button className="button is-warning m-2" onClick={restartLetters}>
           Restart
         </button>
-        <button className="button restart is-warning" onClick={() => socket.emit('next-round', room)}>
+
+        <button
+          className="button is-warning m-2"
+          onClick={() => socket.emit("next-round", room)}
+        >
           Next Round
         </button>
-				
       </div>
     </div>
   );

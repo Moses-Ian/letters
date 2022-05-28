@@ -1,43 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../App.css";
 import JoinGame from "../JoinGame";
 import Room from "../Room";
 import Login from "../Login";
 import Register from "../Register";
-import Auth from "../../utils/auth";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket }) {
-  const profile = Auth.getProfile();
-  const username = profile ? profile.data.username : "Guest"; //updates on refresh
+function LandingPage({ socket, username }) {
+  const [room, setRoom] = useState("");
 
   const renderButtons = () => {
     if (username === "Guest") {
-      console.log("Guest");
       return (
-        <>
+        <div className="column">
           <Login />
           <Register />
-          <JoinGame />
-        </>
+          <div>
+            <div className="center">
+              <h1 className="landing-letters">
+                L<span className="landing-letters-3">3</span>tters
+              </h1>
+            </div>
+          </div>
+        </div>
       );
     } else {
       console.log("Registered user");
+
       return (
-        <>
-          <button className="modal-toggle-button" onClick={() => Auth.logout()}>
-            Logout
-          </button>
-          <Room socket={socket} username={username}></Room>;
-          {<Room /> ? (
-            ""
-          ) : (
-            <>
-              <HostGame />
-              <JoinGame />
-            </>
-          )}
-        </>
+        <div className="column">
+          <Room socket={socket} username={username}></Room>
+          <HostGame />
+        </div>
       );
     }
   };
@@ -45,7 +39,19 @@ function LandingPage({ socket }) {
   if (username !== "Guest") {
   }
 
-  return <div>{renderButtons()}</div>;
+  return (
+    <>
+      <div>{renderButtons()}</div>
+      <div>
+        <JoinGame
+          socket={socket}
+          username={username}
+          room={room}
+          setRoom={setRoom}
+        />
+      </div>
+    </>
+  );
 }
 
 export default LandingPage;

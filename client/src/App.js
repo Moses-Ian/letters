@@ -55,9 +55,10 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <h1 className='welcome'>Welcome, {username}!</h1>
-        <LandingPage socket={socket} />
+      <div className="App container p-3">
+        <div>
+          <LandingPage socket={socket} username={username} />
+        </div>
       </div>
     </ApolloProvider>
   );
