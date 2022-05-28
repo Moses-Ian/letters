@@ -44,7 +44,7 @@ function App() {
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io();
+    const newSocket = io();		//works in production and dev ???
     attachListeners(newSocket);
     setSocket(newSocket);
     return () => newSocket.close();

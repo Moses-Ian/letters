@@ -24,12 +24,15 @@ apolloServer.applyMiddleware({ app });
 
 //socket.io stuff
 const server = require('http').createServer(app);	
-const io = require('socket.io')(server);	//deployed
-// const io = require('socket.io')(server, {	//development
-	// cors: {
-		// origin: ['http://localhost:3000']
-	// }
-// });
+
+console.log(process.env.NODE_ENV);
+const coorsPolicy = process.env.NODE_ENV == 'development' ? 
+	{
+		cors: {
+			origin: ['http://localhost:3000']
+		}
+	} : {};
+const io = require('socket.io')(server, coorsPolicy)
 io.on('connection', (socket) => registerHandlers(io, socket));
 
 app.use(express.json());
@@ -43,12 +46,3 @@ server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`); 
 	console.log(`Use GraphQL at http://localhost:${PORT}${apolloServer.graphqlPath}`);
 });
-
-
-// if (process.env.NODE_ENV === 'production') {
-  // app.use(express.static(path.join(__dirname, '../client/build')));
-// }
-
-// app.get('/', (req, res) => {
-  // res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });

@@ -119,7 +119,6 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   const setGameState = (letters, words) => {
-    // clearLetters();
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };

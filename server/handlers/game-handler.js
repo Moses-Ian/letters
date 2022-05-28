@@ -129,11 +129,8 @@ nextRound = (room) => {
 	console.log('nextRound');
 	let g = rooms.get(room);
 	let turn = g.nextTurn();
-	let player = g.players[turn];
 	io.to(room).emit('clear-letters');
-	io.to(player).emit('your-turn');
-	console.log(turn);
-	console.log(player);
+	tellTurn(g, turn);
 }
 
 joinRoom = (socket, room, oldRoom, callback) => {
@@ -146,7 +143,8 @@ joinRoom = (socket, room, oldRoom, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  g.add(socket.id);
+  let turn = g.add(socket.id);
+	tellTurn(g, turn);
 	//leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
@@ -158,12 +156,18 @@ leaveRoom = (socket, room) => {
   socket.leave(room);
   let g = rooms.get(room);
 	if (g) {
-		g.remove(socket.id);
+		let turn = g.remove(socket.id);
 		if (g.players.length == 0) {
 			rooms.delete(room);
-		}
+			return;
+		} 
+		tellTurn(g, turn);
 	}
-	
+}
+
+tellTurn = (g, turn) => {
+	let player = g.players[turn];
+	io.to(player).emit('your-turn');	
 }
 
 disconnect = (socket, reason) => {
