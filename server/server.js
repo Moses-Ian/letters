@@ -24,18 +24,22 @@ apolloServer.applyMiddleware({ app });
 
 //socket.io stuff
 const server = require('http').createServer(app);	
-// const io = require('socket.io')(server);	//deployed
-const io = require('socket.io')(server, {	//development
-	cors: {
-		origin: ['http://localhost:3000']
-	}
-});
+
+console.log(process.env.NODE_ENV);
+const coorsPolicy = process.env.NODE_ENV == 'development' ? 
+	{
+		cors: {
+			origin: ['http://localhost:3000']
+		}
+	} : {};
+const io = require('socket.io')(server, coorsPolicy)
 io.on('connection', (socket) => registerHandlers(io, socket));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
 app.use(routes);
 
 server.listen(PORT, () => { 
