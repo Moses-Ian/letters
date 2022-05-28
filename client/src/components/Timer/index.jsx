@@ -21,7 +21,7 @@ function Timer() {
       <CountdownCircleTimer
         isPlaying
         duration={30}
-        size={75}
+        size={65}
         strokeWidth={7}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[15, 8, 5, 0]}

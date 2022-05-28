@@ -44,9 +44,8 @@ input {
 
 
 
-/* ADDED -CHRIS */
+/* CHRIS ADDED */
 
-/* TESTING */
 .timer-wrapper {
   /* margin-left: 38vw; */
   margin-top: 40px;
@@ -55,16 +54,18 @@ input {
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
+  opacity: 80%;
 }
 
 .live-chat-message {
-  color: var(--seventh-color);
+  color: var(--quinary-color);
   font-size: 15px;
 }
 
 .live-chat {
   font-size: 15px;
   color: var(--quinary-color);
+  opacity: 80%;
 }
 
 .live-chat-input {
@@ -78,8 +79,18 @@ input {
   margin-top: 1vh;
   margin-left: 8vw; */
   margin-left: 1vw;
+  background-color: var(--quanternary-color);
+  border-radius: 5px;
+  font-size: 11px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  font-family: Fugaz One;
+  color: var(--seventh-color);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  
+  
 }
 
+/* CHRIS ADDED END */
 
 
 
@@ -134,13 +145,15 @@ input {
 }
 
 .letter-span {
-  padding: 2vh 2vw;
+  padding: 2vh;
   margin: 1vh;
   background-color: #02677065;
-  border: 1px solid;
-  border-color: #02677000;
+  /* border: 1px solid; */
+  /* border-color: #02677000; */
   font-size: 30px;
   color: var(--secondary-color);
+
+  /* display: inline-flex; */
 }
 
 .modal-main {
@@ -206,7 +219,7 @@ input {
 .modal-toggle-button,
 .join-game-button,
 .sign-up-button {
-  color: var(--quinary-color);
+  /* color: var(--quinary-color); */
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;

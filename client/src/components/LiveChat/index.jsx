@@ -68,13 +68,13 @@ function LiveChat({ socket, username, room }) {
 	
   return (
 		<div className='live-chat-header' >
-			Chat
+			{/* Chat */}
 			<div className='live-chat-message' id='message-container'>
 				{messages.map((m, index) => (<p key={index}>{m.username}: {m.message}</p>))}
 			</div>
 				<form className='live-chat' id='form' onSubmit={handleFormSubmit}>
 					<label>
-						Message:
+						Chat:
 						<input className='live-chat-input ml-2'  
 							type='text' 
 							id='message-input' 
