@@ -29,6 +29,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
     const [showTargetBtn, setShowTargetBtn] = useState(false);
     const [targetNumber, setTargetNumber] = useState(null);
+    const [total, setTotal] = useState(null);
     const [showAnswerBtn, setShowAnswerBtn] = useState(false);
 
     const [showNumberSection, setShowNumberSection] = useState(true);
@@ -150,15 +151,7 @@ const NumbersGame = ({ socket, username, room }) => {
         //     numberElArr[i].textContent = '';
     };
 
-    function addSymbol(button) {
-        // operationArr.push(button);
-        // console.log('something')
-        console.log('addSymbol');
-    }
-
     function showSymbols() {
-
-
         if (operationArr.length === 10) {
             setShowCheckAnswerBtn(true);
             setShowOperationBtn(false);
@@ -168,7 +161,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
     function calculateTotal() {
         // iterate over operationArr
-        // total = parseInt(operationArr[0])
+        // let total = parseInt(operationArr[0])
         // for (let i = 1; i < operationArr.length; i += 2) {
         //     if (operationArr[i] === "+") {
         //         total += parseInt(operationArr[i + 1])
@@ -182,15 +175,16 @@ const NumbersGame = ({ socket, username, room }) => {
         // }
 
         // console.log(total);
-        // operation.style.display = 'none'
+
         // scoreAnswer();
         // return total;
-        console.log('calculateTotal')
+        // console.log('calculateTotal')
     }
 
     function scoreAnswer() {
         // console.log('scoreAnswer function was called')
-        // difference = Math.abs(randomNumber - total)
+        // let difference = Math.abs(targetNumber - total)
+        // console.log(difference)
         // numberDifference.textContent = difference + " away from target!"
         // console.log(difference)
         // if (difference === 0) {
