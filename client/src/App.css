@@ -24,6 +24,8 @@ body {
   background-position: center;
 }
 
+
+
 .button,
 input {
   box-shadow: 3px 8px 10px #026670 !important;
@@ -31,9 +33,16 @@ input {
 }
 
 .timer {
-  font-size: 35px;
-  color: white;
+  font-size: 30px;
+  color: #9fedd7;
 }
+
+
+/* TESTING */
+/* .timer-wrapper {
+  margin-left: 10vw;
+  margin-top: 40px;
+} */
 
 .landing-letters {
   font-size: 6rem;
@@ -62,7 +71,7 @@ input {
 
 .game-header {
   color: var(--secondary-color);
-  font-size: 40px;
+  font-size: 50px;
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   transition: border-color 250ms ease;
 }
@@ -79,6 +88,7 @@ input {
 
 .rendered-letters {
   text-align: center;
+ 
 }
 
 .letter-span {
