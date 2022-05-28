@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
+import { set } from "mongoose";
 
 // small numbers
 const smallNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 // large numbers
 const largeNumbers = ['25', '50', '75', '100'];
-const weights = [4, 8, 12, 16]
 
 const NumbersGame = ({ socket, username, room }) => {
     // variables 
@@ -20,9 +20,26 @@ const NumbersGame = ({ socket, username, room }) => {
 
     const [numbersArr, setNumbersArr] = useReducer(numbersReducer, [])
 
-    const [smallNumberCount, setSmallNumberCount] = useState(0)
-    const [largeNumberCount, setLargeNumberCount] = useState(0)
+    
+
+    const [smallNumberCount, setSmallNumberCount] = useState(0);
+    const [largeNumberCount, setLargeNumberCount] = useState(0);
+
+    const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
+
     const [showTargetBtn, setShowTargetBtn] = useState(false);
+    const [targetNumber, setTargetNumber] = useState(null);
+    const [showAnswerBtn, setShowAnswerBtn] = useState(false);
+
+    const [showNumberSection, setShowNumberSection] = useState(true);
+
+    const [showOperationBtn, setShowOperationBtn] = useState(false);
+    const [disabledBtn, setDisabledBtn] = useReducer(disabledReducer, new Array(6).fill(false));
+
+    function disabledReducer (disabledBtn, action) {
+
+    }
+
 
     function operationReducer(action) {
         return [];
@@ -56,18 +73,14 @@ const NumbersGame = ({ socket, username, room }) => {
     };
     // addLargeNumber
     const addLargeNumber = event => {
-        // if (largeNumberCount == 4) {
-        //     return;
-        // }
-        // let random = Math.floor(Math.random() * weights[3]);
-        // for (let i = 0; i < 4; i++) {
-        //     if (weights[i] > random) {
-        //         if (addNumber(largeNumbers[i]))
-        //             largeNumberCount++;
-        //         break;
-        //     }
+        if (largeNumberCount == 4) {
+            return;
+        }
+        let number = largeNumbers[Math.floor(Math.random() * 4)]
 
-        // }
+        if (addNumber(number))
+            setLargeNumberCount(largeNumberCount + 1);
+
         console.log('addLargeNumber')
     };
 
@@ -83,6 +96,7 @@ const NumbersGame = ({ socket, username, room }) => {
         if (numbersArr.length === 5) {
 
             setShowTargetBtn(true);
+            setShowAddNumberBtns(false);
         }
 
         const action = {
@@ -95,14 +109,15 @@ const NumbersGame = ({ socket, username, room }) => {
 
     // generateNumber
     function getRandomNumber() {
-        // if (numbersArr.length == 6) {
-        //     randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
-        //     randomNumberEl.textContent = randomNumber;
-        // }
-        // answerSection.style.display = 'block'
-        // targetBtn.style.display = 'none'
-        // numberSection.style.display = 'none'
-        // return randomNumber;
+        if (numbersArr.length == 6) {
+            let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
+            setTargetNumber(randomNumber);
+        }
+        setShowAnswerBtn(true);
+        setShowTargetBtn(false);
+        setShowNumberSection(false);
+
+
         console.log('getRandomNumber');
 
     }
@@ -183,8 +198,11 @@ const NumbersGame = ({ socket, username, room }) => {
     }
 
 
-    const answer0Function = button => {
-        // operation.style.display = 'block'
+    const answer0Function = event => {
+        let text = event.target.innerText
+        setShowOperationBtn(true);
+
+        
         // document.getElementById("answer0").disabled = true
         // operationArr.push(answer0.textContent);
         // console.log(operationArr)
@@ -259,40 +277,54 @@ const NumbersGame = ({ socket, username, room }) => {
     return (
         <>
             <div>
-                <h1 id="random-number-value"></h1>
+                <h1 id="random-number-value">{targetNumber}</h1>
             </div>
+
             <div id="root">
-                <div id='numbers-section'>
-                    {numbersArr.map(number => (
-                        <span>{number}</span>
-                    ))}
+                {showNumberSection ?
+                    <div id='numbers-section'>
+                        {numbersArr.map((number, index) => (
+                            <span key={index}>{number}</span>
+                        ))}
 
-                </div>
-
-                {showTargetBtn
-                    ? <button id="target" onClick={getRandomNumber}>Target</button>
+                    </div>
                     :
+                    ''
+                }
+                {showAddNumberBtns ?
                     <>
                         <button id="small-number-btn" onClick={addSmallNumber}>Small Number</button>
                         <button id="large-number-btn" onClick={addLargeNumber}>Large Number</button>
                     </>
+                    :
+                    ''
+                }
+                {showTargetBtn
+                    ? <button id="target" onClick={getRandomNumber}>Target</button>
+                    :
+                    ''
                 }
 
-                <div id='answer-section'>
-                    {numbersArr.map(number => (
-                        <button onClick={showSymbols}>{number}</button>
-                    ))}
+                {showAnswerBtn ?
+                    <div id='answer-section'>
+                        {numbersArr.map((number, index) => (
+                            <button key={index} onClick={answer0Function}>{number}</button>
+                        ))}
+                    </div>
+                    :
+                    ''
+                }
 
-
-                </div>
-
-                <div id='operation'>
-                    <button id=" multiply" onClick={showSymbols}>*</button>
-                    <button id="subtract" onClick={showSymbols}>-</button>
-                    <button id="divide" onClick={showSymbols}>/</button>
-                    <button id="add" onClick={showSymbols}>+</button>
-                </div>
-
+                {showOperationBtn ?
+                    <div id='operation'>
+                        <button id=" multiply" onClick={showSymbols}>*</button>
+                        <button id="subtract" onClick={showSymbols}>-</button>
+                        <button id="divide" onClick={showSymbols}>/</button>
+                        <button id="add" onClick={showSymbols}>+</button>
+                    </div>
+                    :
+                    ''
+                }
                 <div id="work">
                     <h1 id="show-operation">
                     </h1>
