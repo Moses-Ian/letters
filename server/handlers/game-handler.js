@@ -36,18 +36,25 @@ addVowel = (room) => {
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letters.length == 9) return;
-  let vowel = vowels[Math.floor(Math.random() * 5)];
+	let vowel = generateVowel(g.letters);
   let index = g.letters.length;
   g.letters.push(vowel);
   g.vowelCount++;
   io.emit("add-letter", vowel, index);
 };
 
+generateVowel = (letters, firstTry=true) => {
+  let vowel = vowels[Math.floor(Math.random() * 5)];
+	if (firstTry && letters.includes(vowel))
+		vowel = generateVowel(letters, false);
+	return vowel;
+};
+
 addConsonant = (room) => {
   let g = rooms.get(room);
   if (g.consonantCount == 6) return;
   if (g.letters.length == 9) return;
-  let consonant = generateConsonant();
+  let consonant = generateConsonant(g.letters);
   let index = g.letters.length;
   g.letters.push(consonant);
   g.consonantCount++;
@@ -64,7 +71,7 @@ addConsonant = (room) => {
 // }
 // }
 
-generateConsonant = () => {
+generateConsonant = (letters, firstTry=true) => {
   let consonant;
   let random = Math.floor(Math.random() * 61.5);
   for (let i = 0; i < 21; i++) {
@@ -74,6 +81,8 @@ generateConsonant = () => {
     }
     random -= weights2[i];
   }
+	if (firstTry && letters.includes(consonant))
+		consonant = generateConsonant(letters, false);
   return consonant;
 };
 
@@ -167,9 +176,7 @@ leaveRoom = (socket, room) => {
 }
 
 tellTurn = (g, turn) => {
-	console.log(g.players);
 	let player = g.players[turn];
-	console.log('player:' + player);
 	setTimeout(() => io.to(player).emit('your-turn'), 1000);	
 }
 
