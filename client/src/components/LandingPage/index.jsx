@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../App.css";
 import JoinGame from "../JoinGame";
 import Room from "../Room";
@@ -6,7 +6,9 @@ import Login from "../Login";
 import Register from "../Register";
 import HostGame from "../HostGame";
 
-function LandingPage({ socket, username, room }) {
+function LandingPage({ socket, username }) {
+  const [room, setRoom] = useState("");
+
   const renderButtons = () => {
     if (username === "Guest") {
       return (
@@ -28,13 +30,7 @@ function LandingPage({ socket, username, room }) {
       return (
         <div className="column">
           <Room socket={socket} username={username}></Room>
-          {<Room /> ? (
-            ""
-          ) : (
-            <div>
-              <HostGame />
-            </div>
-          )}
+          <HostGame />
         </div>
       );
     }
@@ -47,7 +43,12 @@ function LandingPage({ socket, username, room }) {
     <>
       <div>{renderButtons()}</div>
       <div>
-        <JoinGame socket={socket} username={username} room={room} />
+        <JoinGame
+          socket={socket}
+          username={username}
+          room={room}
+          setRoom={setRoom}
+        />
       </div>
     </>
   );
