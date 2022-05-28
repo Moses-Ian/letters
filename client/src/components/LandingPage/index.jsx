@@ -30,7 +30,7 @@ function LandingPage({ socket, username }) {
       return (
         <div className="column">
           <Room socket={socket} username={username}></Room>
-          <HostGame />
+          {/* <HostGame /> */}
         </div>
       );
     }
