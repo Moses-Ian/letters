@@ -20,6 +20,7 @@ class GameObj {
 		this.players.push(player);
 		if (this.turn == -1)
 			this.turn = 0;
+		return this.turn;
 	}
 	
 	remove(player) {
@@ -27,6 +28,7 @@ class GameObj {
 		this.players.splice(index, 1);
 		if (this.turn >= this.players.length)
 			this.turn = 0;
+		return this.turn;
 	}
 	
 	nextTurn() {

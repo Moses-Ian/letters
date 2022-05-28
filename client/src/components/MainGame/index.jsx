@@ -3,7 +3,9 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
-  // socket.emit('print-all-rooms');
+	// socket.emit('print-all-rooms');
+	// socket.emit('print-players', room);
+	// socket.emit('print-room', room);
 
   useEffect(() => {
     socket.on("add-letter", addLetter);
@@ -102,7 +104,6 @@ const MainGame = ({ socket, username, room }) => {
     if (index === 8) {
       setActiveTimer(true);
     }
-    console.log(index);
   };
 
   const handleInputChange = (e) => {
@@ -134,7 +135,6 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   const setGameState = (letters, words) => {
-    // clearLetters();
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
@@ -154,10 +154,10 @@ const MainGame = ({ socket, username, room }) => {
       <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
 
       <div className="field m-3 has-text-centered">
-        <button className="button mr-3 is-warning" onClick={addVowel}>
+        <button disabled={!isYourTurn || activeTimer} className="button mr-3 is-warning" onClick={addVowel}>
           Vowel
         </button>
-        <button className="button is-warning" onClick={addConsonant}>
+        <button disabled={!isYourTurn || activeTimer} className="button is-warning" onClick={addConsonant}>
           Consonant
         </button>
       </div>
@@ -172,6 +172,7 @@ const MainGame = ({ socket, username, room }) => {
                 type="text"
                 value={lettersInput}
                 placeholder="Your word here"
+								value={lettersInput}
               />
             </div>
 

@@ -60,6 +60,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+  
 }
 
 .live-chat {
