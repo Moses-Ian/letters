@@ -105,18 +105,18 @@ scoreWord = async (word, letters) => {
 };
 
 inDictionary = async (word) => {
-  // try {
-  //   const response = await fetch(
-  //     `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
-  //   );
-  //   const data = await response.json();
-  //   return typeof data[0] != "string";
-  // } catch (err) {
-  //   console.error(err);
-  //   return false;
-  // }
-
-  return true;
+	if (process.env.NODE_ENV == 'development')
+		return true;
+  try {
+    const response = await fetch(
+      `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
+    );
+    const data = await response.json();
+    return typeof data[0] != "string";
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 };
 
 restartLetters = (room) => {
