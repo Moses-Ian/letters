@@ -17,32 +17,72 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  background-attachment: inherit;
 }
-
-
 
 .button,
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
+  transition: background-color 500ms ease;
+}
+
+.button:hover {
+  background-color: var(--quanternary-color);
 }
 
 .timer {
   font-size: 30px;
-  color: #9fedd7;
+  color: var(--quinary-color);
 }
 
 
+
+
+/* ADDED -CHRIS */
+
 /* TESTING */
-/* .timer-wrapper {
-  margin-left: 10vw;
+.timer-wrapper {
+  /* margin-left: 38vw; */
   margin-top: 40px;
-} */
+}
+
+.live-chat-header {
+  color: var(--secondary-color);
+  font-size: 20px;
+}
+
+.live-chat-message {
+  color: var(--seventh-color);
+  font-size: 15px;
+}
+
+.live-chat {
+  font-size: 15px;
+  color: var(--quinary-color);
+}
+
+.live-chat-input {
+  opacity: 30%;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.live-chat-button {
+  /* display: block;
+  margin-top: 1vh;
+  margin-left: 8vw; */
+  margin-left: 1vw;
+}
+
+
+
+
 
 .landing-letters {
   font-size: 6rem;
@@ -50,6 +90,7 @@ input {
   color: var(--secondary-color);
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   transition: text-shadow 400ms ease, font-size 500ms ease;
+  margin-top: 10vh;
 }
 
 .landing-letters-3 {
@@ -61,13 +102,14 @@ input {
   font-size: 7rem;
 }
 
-.center {
+
+/* .center {
   position: fixed;
   top: 35%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
+} */
 
 .game-header {
   color: var(--secondary-color);
@@ -82,13 +124,13 @@ input {
 }
 
 .welcome {
-  color: #fce181;
+  color: var(--secondary-color);
   font-size: 20px;
 }
 
 .rendered-letters {
   text-align: center;
- 
+  padding-top: 6vh;
 }
 
 .letter-span {
@@ -98,7 +140,7 @@ input {
   border: 1px solid;
   border-color: #02677000;
   font-size: 30px;
-  color: #fce181;
+  color: var(--secondary-color);
 }
 
 .modal-main {
@@ -143,6 +185,10 @@ input {
   border-bottom: 1px solid #eee;
 }
 
+.join-modal-body {
+  color: var(--secondary-color);
+}
+
 .type-box {
   width: 300px;
   border-radius: 5px;
@@ -152,12 +198,13 @@ input {
 }
 
 .type-box:hover {
-  background-color: var(--tertiary-color);
+  background-color: var(--quanternary-color);
 }
 
 .modal-enter-button,
 .modal-close-button,
 .modal-toggle-button,
+.join-game-button,
 .sign-up-button {
   color: var(--quinary-color);
   background-color: var(--secondary-color);
@@ -173,7 +220,7 @@ input {
 .modal-toggle-button,
 .sign-up-button {
   width: 90px;
-  margin: 5px 0 0 20px;
+  margin-top: 1vh;
 }
 
 .modal-enter-button:hover,
