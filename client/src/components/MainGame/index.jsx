@@ -19,15 +19,14 @@ const MainGame = ({ socket, username, room }) => {
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
-
   const [letters, setLetters] = useReducer(
     letterReducer,
     new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
+  const [playersArr, setPlayersArr] = useReducer(playersReducer, []);
 
   // functions
   function letterReducer(letters, action) {
@@ -72,6 +71,22 @@ const MainGame = ({ socket, username, room }) => {
     return newWordsArr;
   }
 
+  function playersReducer(playersArr, action) {
+    let newPlayersArr;
+    switch (action.type) {
+      case "PUSH":
+        const { player, room } = action;
+        newPlayersArr = [...playersArr, { player, username, room }];
+        break;
+      default:
+        throw new Error();
+    }
+    return newPlayersArr;
+  }
+
+  // TODO add backend functionality to get players in room and wire to socket.
+  const displayPlayers = (player, room) => {};
+
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
   };
@@ -106,6 +121,7 @@ const MainGame = ({ socket, username, room }) => {
 
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
+    setActiveTimer(false);
   };
 
   const appendWord = (word, username, score) => {
@@ -118,6 +134,7 @@ const MainGame = ({ socket, username, room }) => {
 
     setLettersInput("");
     setTurn(false);
+    setActiveTimer(false);
   };
 
   const setGameState = (letters, words) => {
@@ -135,10 +152,11 @@ const MainGame = ({ socket, username, room }) => {
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
       {/* TODO add players in room */}
+      {/* TODO add active turn highlighted */}
       <div className="players">
-        <p>{username}</p>
-        <ul>{/* map through list pf players */}</ul>
+        <ul>{}</ul>
       </div>
+      {/*  */}
 
       <div className="rendered-letters column m-0 p-0">
         <ul>
@@ -149,9 +167,9 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
-      <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
+      <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
-      <div className="field m-3 has-text-centered">
+      <div className="field letters-buttons m-3 has-text-centered">
         <button className="button mr-3 is-warning" onClick={addVowel}>
           Vowel
         </button>
