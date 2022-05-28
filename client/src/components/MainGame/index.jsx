@@ -141,10 +141,10 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
       <div className="field m-3 has-text-centered">
-        <button className="button mr-3 is-warning" onClick={addVowel}>
+        <button disabled={!isYourTurn || activeTimer} className="button mr-3 is-warning" onClick={addVowel}>
           Vowel
         </button>
-        <button className="button is-warning" onClick={addConsonant}>
+        <button disabled={!isYourTurn || activeTimer} className="button is-warning" onClick={addConsonant}>
           Consonant
         </button>
       </div>
@@ -158,6 +158,7 @@ const MainGame = ({ socket, username, room }) => {
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
+								value={lettersInput}
               />
             </div>
 
