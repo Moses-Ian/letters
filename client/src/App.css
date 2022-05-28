@@ -97,6 +97,10 @@ input {
   color: #fce181;
 }
 
+.hidden {
+  display: none;
+}
+
 .modal-main {
   z-index: 1;
   position: fixed;

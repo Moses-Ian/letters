@@ -18,6 +18,7 @@ const MainGame = ({ socket, username, room }) => {
   }, []);
 
   // variables
+  const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
@@ -103,6 +104,7 @@ const MainGame = ({ socket, username, room }) => {
     });
     if (index === 8) {
       setActiveTimer(true);
+      setBtnDivDisplay("hidden");
     }
     console.log(index);
   };
@@ -122,6 +124,7 @@ const MainGame = ({ socket, username, room }) => {
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
     setActiveTimer(false);
+    setBtnDivDisplay("");
   };
 
   const appendWord = (word, username, score) => {
@@ -169,13 +172,15 @@ const MainGame = ({ socket, username, room }) => {
       </div>
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
-      <div className="field letters-buttons m-3 has-text-centered">
-        <button className="button mr-3 is-warning" onClick={addVowel}>
-          Vowel
-        </button>
-        <button className="button is-warning" onClick={addConsonant}>
-          Consonant
-        </button>
+      <div className="field m-3 has-text-centered">
+        <div className={"letters-buttons " + btnDivDisplay}>
+          <button className="button mr-3 is-warning" onClick={addVowel}>
+            Vowel
+          </button>
+          <button className="button is-warning" onClick={addConsonant}>
+            Consonant
+          </button>
+        </div>
       </div>
 
       <div className="field m-3">
