@@ -159,7 +159,7 @@ const NumbersGame = ({ socket, username, room }) => {
     function showSymbols() {
 
 
-        if (operationArr.length === 11) {
+        if (operationArr.length === 10) {
             setShowCheckAnswerBtn(true);
             setShowOperationBtn(false);
         }
@@ -211,7 +211,7 @@ const NumbersGame = ({ socket, username, room }) => {
     }
 
 
-    const answer0Function = event => {
+    const answerFunction = event => {
         let text = event.target.innerText
         setShowOperationBtn(true);
         let index = event.target.dataset.index;
@@ -227,68 +227,21 @@ const NumbersGame = ({ socket, username, room }) => {
         setOperationArr(action);
 
         showSymbols();
-        console.log('answer0Function')
+        console.log('answerFunction')
     };
 
-    const answer1Function = button => {
-        // operation.style.display = 'block'
-        // document.getElementById("answer1").disabled = true
-        // operationArr.push(answer1.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const answer2Function = button => {
-        // operation.style.display = 'block'
-        // document.getElementById("answer2").disabled = true
-        // operationArr.push(answer2.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const answer3Function = button => {
-        // operation.style.display = 'block'
-        // document.getElementById("answer3").disabled = true
-        // operationArr.push(answer3.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const answer4Function = button => {
-        // operation.style.display = 'block'
-        // document.getElementById("answer4").disabled = true
-        // operationArr.push(answer4.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const answer5Function = button => {
-        // operation.style.display = 'block'
-        // document.getElementById("answer5").disabled = true
-        // operationArr.push(answer5.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
 
-    const subtractFunction = button => {
-        // operation.style.display = 'none'
-        // operationArr.push(subtract.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const addFunction = button => {
-        // operation.style.display = 'none'
-        // operationArr.push(add.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const multiplyFunction = button => {
-        // operation.style.display = 'none'
-        // operationArr.push(multiply.textContent);
-        // console.log(operationArr)
-        // showSymbols();
-    };
-    const divideFunction = button => {
-        // operation.style.display = 'none'
-        // operationArr.push(divide.textContent);
-        // console.log(operationArr)
-        // showSymbols();
+
+    const operationSymbol = event => {
+        let text = event.target.innerText
+         setShowOperationBtn(false);
+        let action = {
+            type: 'PUSH',
+            operation: text
+        }
+        setOperationArr(action);
+
+        showSymbols();
     };
 
     console.log(smallNumberCount);
@@ -328,7 +281,7 @@ const NumbersGame = ({ socket, username, room }) => {
                 {showAnswerBtn ?
                     <div id='answer-section'>
                         {numbersArr.map((numberObj, index) => (
-                            <button data-index={index} disabled={numberObj.disabled} key={index} onClick={answer0Function}>{numberObj.number}</button>
+                            <button data-index={index} disabled={numberObj.disabled} key={index} onClick={answerFunction}>{numberObj.number}</button>
                         ))}
                     </div>
                     :
@@ -337,10 +290,10 @@ const NumbersGame = ({ socket, username, room }) => {
 
                 {showOperationBtn ?
                     <div id='operation'>
-                        <button id=" multiply" onClick={showSymbols}>*</button>
-                        <button id="subtract" onClick={showSymbols}>-</button>
-                        <button id="divide" onClick={showSymbols}>/</button>
-                        <button id="add" onClick={showSymbols}>+</button>
+                        <button id=" multiply" onClick={operationSymbol}>*</button>
+                        <button id="subtract" onClick={operationSymbol}>-</button>
+                        <button id="divide" onClick={operationSymbol}>/</button>
+                        <button id="add" onClick={operationSymbol}>+</button>
                     </div>
                     :
                     ''
