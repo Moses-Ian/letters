@@ -31,12 +31,15 @@ const NumbersGame = ({ socket, username, room }) => {
     const [targetNumber, setTargetNumber] = useState(null);
     const [total, setTotal] = useState(null);
     const [showAnswerBtn, setShowAnswerBtn] = useState(false);
+    const [differenceNumber, setDifferenceNumber] = useState(null);
 
     const [showNumberSection, setShowNumberSection] = useState(true);
+    const [showNumberDifference, setShowNumberDifference] = useState(false);
 
     const [showOperationBtn, setShowOperationBtn] = useState(false);
     const [disabledBtn, setDisabledBtn] = useReducer(disabledReducer, new Array(6).fill(false));
     const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
+
 
     function disabledReducer(disabledBtn, action) {
 
@@ -129,16 +132,16 @@ const NumbersGame = ({ socket, username, room }) => {
         if (numbersArr.length == 6) {
             let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
             setTargetNumber(randomNumber);
+            console.log('local '+ targetNumber);
         }
         setShowAnswerBtn(true);
         setShowTargetBtn(false);
         setShowNumberSection(false);
 
 
-        console.log('getRandomNumber');
 
     }
-
+console.log('global' + targetNumber);
     // scoreNumber
 
     // restartNumbers
@@ -161,29 +164,42 @@ const NumbersGame = ({ socket, username, room }) => {
 
     function calculateTotal() {
         // iterate over operationArr
-        // let total = parseInt(operationArr[0])
-        // for (let i = 1; i < operationArr.length; i += 2) {
-        //     if (operationArr[i] === "+") {
-        //         total += parseInt(operationArr[i + 1])
-        //     } else if (operationArr[i] === "-") {
-        //         total -= parseInt(operationArr[i + 1])
-        //     } else if (operationArr[i] === "*") {
-        //         total = total * parseInt(operationArr[i + 1])
-        //     } else if (operationArr[i] === "/") {
-        //         total = total / parseInt(operationArr[i + 1])
-        //     }
-        // }
+        console.log(operationArr);
+        
+        let newTotal = parseInt(operationArr[0])
+        for (let i = 1; i < operationArr.length; i += 2) {
+                if (operationArr[i] === "+") {
+                    newTotal += parseInt(operationArr[i + 1])
+            setTotal(parseInt(operationArr[i + 1]));
 
-        // console.log(total);
+                } else if (operationArr[i] === "-") {
+                    newTotal -= parseInt(operationArr[i + 1])
+                } else if (operationArr[i] === "*") {
+                    newTotal = newTotal * parseInt(operationArr[i + 1])
+                } else if (operationArr[i] === "/") {
+                    newTotal = newTotal / parseInt(operationArr[i + 1])
+                }
+                console.log(newTotal);
+setTotal(newTotal);
 
-        // scoreAnswer();
-        // return total;
+        }
+        setShowCheckAnswerBtn(false);
+        setShowNumberDifference(true);
+        
+
+        scoreAnswer();
+        // return newTotal;
         // console.log('calculateTotal')
     }
-
+    console.log('total globally is now '+ total)
     function scoreAnswer() {
         // console.log('scoreAnswer function was called')
-        // let difference = Math.abs(targetNumber - total)
+        let difference = Math.abs(targetNumber - total)
+        console.log(difference);
+        console.log('targetNumber in scoreAnswer() number is: '+ targetNumber)
+        
+        console.log('total in scoreAnswer() is '+ total)
+        setDifferenceNumber(difference);
         // console.log(difference)
         // numberDifference.textContent = difference + " away from target!"
         // console.log(difference)
@@ -228,13 +244,13 @@ const NumbersGame = ({ socket, username, room }) => {
 
     const operationSymbol = event => {
         let text = event.target.innerText
-         setShowOperationBtn(false);
+        setShowOperationBtn(false);
         let action = {
             type: 'PUSH',
             operation: text
         }
         setOperationArr(action);
-
+        console.log(operationArr)
         showSymbols();
     };
 
@@ -298,7 +314,11 @@ const NumbersGame = ({ socket, username, room }) => {
                     </h1>
                     <h1 id="score">
                     </h1>
-                    <h1 id="number-difference"></h1>
+                    {showNumberDifference ?
+                    <h1 id="number-difference">{differenceNumber +' away from target'}</h1>
+                    :
+                    ''
+                }
                 </div>
 
                 {showCheckAnswerBtn ?
