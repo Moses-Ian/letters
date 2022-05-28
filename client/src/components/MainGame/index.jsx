@@ -113,7 +113,7 @@ const MainGame = ({ socket, username, room }) => {
   const submitWord = (event) => {
     event.preventDefault();
     const word = lettersInput;
-    // setInput({ type: "CLEAR" });
+    setLettersInput("");
     socket.emit("submit-word", word, username, room);
   };
 
@@ -128,7 +128,7 @@ const MainGame = ({ socket, username, room }) => {
   const clearLetters = () => {
     setLetters({ type: "CLEAR" });
     setWords({ type: "CLEAR" });
-    // setInput({ type: "CLEAR" });
+
     setLettersInput("");
     setTurn(false);
   };
@@ -141,6 +141,7 @@ const MainGame = ({ socket, username, room }) => {
 
   return (
     <div>
+      <h1>You are playing in: {room}</h1>
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
       <div className="rendered-letters m-3">
@@ -169,6 +170,7 @@ const MainGame = ({ socket, username, room }) => {
                 onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
+                value={lettersInput}
                 placeholder="Your word here"
               />
             </div>
