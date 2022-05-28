@@ -20,7 +20,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
     const [numbersArr, setNumbersArr] = useReducer(numbersReducer, [])
 
-    
+
 
     const [smallNumberCount, setSmallNumberCount] = useState(0);
     const [largeNumberCount, setLargeNumberCount] = useState(0);
@@ -35,21 +35,34 @@ const NumbersGame = ({ socket, username, room }) => {
 
     const [showOperationBtn, setShowOperationBtn] = useState(false);
     const [disabledBtn, setDisabledBtn] = useReducer(disabledReducer, new Array(6).fill(false));
+    const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
 
-    function disabledReducer (disabledBtn, action) {
+    function disabledReducer(disabledBtn, action) {
 
     }
 
 
-    function operationReducer(action) {
-        return [];
+    function operationReducer(operationArr, action) {
+        let newOperation;
+        switch (action.type) {
+            case 'PUSH':
+                newOperation = [...operationArr, action.operation]
+                break;
+            default:
+                throw new Error();
+        }
+        return newOperation;
     };
 
     function numbersReducer(numbersArr, action) {
         let newNumbers;
         switch (action.type) {
             case 'PUSH':
-                newNumbers = [...numbersArr, action.number];
+                newNumbers = [...numbersArr, action.numberObj];
+                break;
+            case 'DISABLE':
+                newNumbers = numbersArr;
+                newNumbers[action.index].disabled = true;
                 break;
             default:
                 throw new Error();
@@ -101,7 +114,10 @@ const NumbersGame = ({ socket, username, room }) => {
 
         const action = {
             type: 'PUSH',
-            number
+            numberObj: {
+                number,
+                disabled: false
+            }
         }
         setNumbersArr(action);
         return true;
@@ -141,15 +157,12 @@ const NumbersGame = ({ socket, username, room }) => {
     }
 
     function showSymbols() {
-        // showOperation.textContent = operationArr.join(' ');
-        // console.log(operationArr.join(' '));
-        // console.log(operationArr.length);
-        // console.log(showOperation.textContent)
-        // if (operationArr.length === 11) {
-        //     checkAnswer.style.display = 'block'
-        //     operation.style.display = 'none'
-        //     console.log('max array length')
-        // }
+
+
+        if (operationArr.length === 11) {
+            setShowCheckAnswerBtn(true);
+            setShowOperationBtn(false);
+        }
         console.log('showSymbols')
     };
 
@@ -201,12 +214,19 @@ const NumbersGame = ({ socket, username, room }) => {
     const answer0Function = event => {
         let text = event.target.innerText
         setShowOperationBtn(true);
+        let index = event.target.dataset.index;
+        setNumbersArr({
+            type: 'DISABLE',
+            index
+        })
 
-        
-        // document.getElementById("answer0").disabled = true
-        // operationArr.push(answer0.textContent);
-        // console.log(operationArr)
-        // showSymbols();
+        let action = {
+            type: 'PUSH',
+            operation: text
+        }
+        setOperationArr(action);
+
+        showSymbols();
         console.log('answer0Function')
     };
 
@@ -283,8 +303,8 @@ const NumbersGame = ({ socket, username, room }) => {
             <div id="root">
                 {showNumberSection ?
                     <div id='numbers-section'>
-                        {numbersArr.map((number, index) => (
-                            <span key={index}>{number}</span>
+                        {numbersArr.map((numberObj, index) => (
+                            <span key={index}>{numberObj.number}</span>
                         ))}
 
                     </div>
@@ -307,8 +327,8 @@ const NumbersGame = ({ socket, username, room }) => {
 
                 {showAnswerBtn ?
                     <div id='answer-section'>
-                        {numbersArr.map((number, index) => (
-                            <button key={index} onClick={answer0Function}>{number}</button>
+                        {numbersArr.map((numberObj, index) => (
+                            <button data-index={index} disabled={numberObj.disabled} key={index} onClick={answer0Function}>{numberObj.number}</button>
                         ))}
                     </div>
                     :
@@ -327,14 +347,18 @@ const NumbersGame = ({ socket, username, room }) => {
                 }
                 <div id="work">
                     <h1 id="show-operation">
+                        {operationArr.join(' ')}
                     </h1>
                     <h1 id="score">
                     </h1>
                     <h1 id="number-difference"></h1>
                 </div>
 
-                <button id="check-answer" onClick={calculateTotal}>Check Answer</button>
-
+                {showCheckAnswerBtn ?
+                    <button id="check-answer" onClick={calculateTotal}>Check Answer</button>
+                    :
+                    ''
+                }
             </div>
         </>
     )
