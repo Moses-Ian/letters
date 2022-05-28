@@ -145,6 +145,7 @@ joinRoom = (socket, room, oldRoom, callback) => {
   //add the players
   let turn = g.add(socket.id);
 	tellTurn(g, turn);
+	console.log(turn);
 	//leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
@@ -166,8 +167,10 @@ leaveRoom = (socket, room) => {
 }
 
 tellTurn = (g, turn) => {
+	console.log(g.players);
 	let player = g.players[turn];
-	io.to(player).emit('your-turn');	
+	console.log('player:' + player);
+	setTimeout(() => io.to(player).emit('your-turn'), 1000);	
 }
 
 disconnect = (socket, reason) => {

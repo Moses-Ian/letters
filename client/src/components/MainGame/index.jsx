@@ -4,13 +4,19 @@ import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
 	// socket.emit('print-all-rooms');
+	// socket.emit('print-players', room);
+	socket.emit('print-room', room);
 	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
-		socket.on('your-turn', () => setTurn(true));
+		// socket.on('your-turn', () => setTurn(true));
+		socket.on('your-turn', () => {
+			console.log('set turn');
+			setTurn(true);
+		});
 
     return () => {
       socket.disconnect();
