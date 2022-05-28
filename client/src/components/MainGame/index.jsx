@@ -19,7 +19,6 @@ const MainGame = ({ socket, username, room }) => {
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
-  const [inputState, inputDispatch] = useReducer(lettersInputReducer, "");
 
   const [letters, setLetters] = useReducer(
     letterReducer,
@@ -52,18 +51,6 @@ const MainGame = ({ socket, username, room }) => {
         throw new Error();
     }
     return newLetters;
-  }
-
-  function lettersInputReducer(action) {
-    let newInputState;
-    switch (action.type) {
-      case "CLEAR":
-        newInputState = "";
-        break;
-      default:
-        throw new Error();
-    }
-    return newInputState;
   }
 
   function wordReducer(words, action) {
@@ -141,15 +128,26 @@ const MainGame = ({ socket, username, room }) => {
 
   return (
     <div>
-      <h1>You are playing in: {room}</h1>
+      <h1 className="room-name has-text-centered is-size-4">
+        You are playing in: {room}
+      </h1>
+      {/* TODO remove this */}
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
-      <div className="rendered-letters m-3">
-        {letters.map((letter, index) => (
-          <span className="letter-span" key={index}>
-            {letter}
-          </span>
-        ))}
+      {/* TODO add players in room */}
+      <div className="players">
+        <p>{username}</p>
+        <ul>{/* map through list pf players */}</ul>
+      </div>
+
+      <div className="rendered-letters column m-0 p-0">
+        <ul>
+          {letters.map((letter, index) => (
+            <li className="letter-box" key={index}>
+              <span className="letter-span">{letter}</span>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
 
