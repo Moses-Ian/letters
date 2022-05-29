@@ -59,6 +59,8 @@ printPlayers = (room) => console.log(rooms.get(room).players);
 //====================================
 addVowel = (room) => {
   let g = rooms.get(room);
+	if (!g)
+		return;
   if (g.vowelCount == 5) return;
   if (g.letterCount == 9) return;
   let vowel = generateVowel(g.letters);
@@ -78,6 +80,8 @@ generateVowel = (letters, firstTry = true) => {
 
 addConsonant = (room) => {
   let g = rooms.get(room);
+	if (!g)
+		return;
   if (g.consonantCount == 6) return;
   if (g.letterCount == 9) return;
   let consonant = generateConsonant(g.letters);
@@ -115,7 +119,8 @@ generateConsonant = (letters, firstTry = true) => {
 
 submitWord = async (word, username, room) => {
   let g = rooms.get(room);
-  if (!g) return;
+  if (!g) 
+		return;
   const score = await scoreWord(word, g.letters);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
@@ -156,6 +161,8 @@ inDictionary = async (word) => {
 
 restartLetters = (room) => {
   let g = rooms.get(room);
+	if (!g)
+		return;
   let turn = g.restart();
   tellTurn(g, turn);
   io.to(room).emit("clear-letters");
@@ -164,6 +171,8 @@ restartLetters = (room) => {
 nextRound = (room) => {
   console.log("nextRound");
   let g = rooms.get(room);
+	if (!g)
+		return;
   let turn = g.nextTurn();
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
@@ -197,15 +206,15 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
 leaveRoom = (socket, room) => {
   socket.leave(room);
   let g = rooms.get(room);
-  if (g) {
-    let turn = g.remove(socket.id);
-    if (g.players.length == 0) {
-      rooms.delete(room);
-      return;
-    }
-    tellTurn(g, turn);
-		console.log(g.players);
-  }
+	if (!g)
+		return
+	let turn = g.remove(socket.id);
+	if (g.players.length == 0) {
+		rooms.delete(room);
+		return;
+	}
+	tellTurn(g, turn);
+	console.log(g.players);
 };
 
 tellTurn = (g, turn) => {
