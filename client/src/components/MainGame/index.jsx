@@ -140,6 +140,7 @@ const MainGame = ({ socket, username, room }) => {
     setLettersInput("");
     setTurn(false);
     setActiveTimer(false);
+    setBtnDivDisplay("");
   };
 
   const nextRound = () => {
