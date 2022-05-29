@@ -162,7 +162,8 @@ joinRoom = (socket, room, oldRoom, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-  io.to(socket.id).emit("set-game-state", g.letters, g.words);
+	setTimeout(() => 
+		io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000)
 };
 
 leaveRoom = (socket, room) => {
