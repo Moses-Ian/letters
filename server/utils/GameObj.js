@@ -26,9 +26,12 @@ class GameObj {
 		return this.turn;
 	}
 	
-	remove(player) {
-		const index = this.players.indexOf(player);
-		this.players.splice(index, 1);
+	remove(playerID) {
+		for(let i=0; i<this.players.length; i++)
+			if (this.players[i].id == playerID) {
+				this.players.splice(i, 1);
+				break;
+			}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
 		return this.turn;
