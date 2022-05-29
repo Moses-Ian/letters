@@ -36,18 +36,25 @@ addVowel = (room) => {
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letters.length == 9) return;
-  let vowel = vowels[Math.floor(Math.random() * 5)];
+	let vowel = generateVowel(g.letters);
   let index = g.letters.length;
   g.letters.push(vowel);
   g.vowelCount++;
   io.emit("add-letter", vowel, index);
 };
 
+generateVowel = (letters, firstTry=true) => {
+  let vowel = vowels[Math.floor(Math.random() * 5)];
+	if (firstTry && letters.includes(vowel))
+		vowel = generateVowel(letters, false);
+	return vowel;
+};
+
 addConsonant = (room) => {
   let g = rooms.get(room);
   if (g.consonantCount == 6) return;
   if (g.letters.length == 9) return;
-  let consonant = generateConsonant();
+  let consonant = generateConsonant(g.letters);
   let index = g.letters.length;
   g.letters.push(consonant);
   g.consonantCount++;
@@ -64,7 +71,7 @@ addConsonant = (room) => {
 // }
 // }
 
-generateConsonant = () => {
+generateConsonant = (letters, firstTry=true) => {
   let consonant;
   let random = Math.floor(Math.random() * 61.5);
   for (let i = 0; i < 21; i++) {
@@ -74,11 +81,14 @@ generateConsonant = () => {
     }
     random -= weights2[i];
   }
+	if (firstTry && letters.includes(consonant))
+		consonant = generateConsonant(letters, false);
   return consonant;
 };
 
 submitWord = async (word, username, room) => {
   let g = rooms.get(room);
+	if (!g) return;
   const score = await scoreWord(word, g.letters);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
@@ -104,18 +114,18 @@ scoreWord = async (word, letters) => {
 };
 
 inDictionary = async (word) => {
-  // try {
-  //   const response = await fetch(
-  //     `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
-  //   );
-  //   const data = await response.json();
-  //   return typeof data[0] != "string";
-  // } catch (err) {
-  //   console.error(err);
-  //   return false;
-  // }
-
-  return true;
+	if (process.env.NODE_ENV == 'development')
+		return true;
+  try {
+    const response = await fetch(
+      `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
+    );
+    const data = await response.json();
+    return typeof data[0] != "string";
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 };
 
 restartLetters = (room) => {
@@ -128,11 +138,8 @@ nextRound = (room) => {
 	console.log('nextRound');
 	let g = rooms.get(room);
 	let turn = g.nextTurn();
-	let player = g.players[turn];
 	io.to(room).emit('clear-letters');
-	io.to(player).emit('your-turn');
-	console.log(turn);
-	console.log(player);
+	tellTurn(g, turn);
 }
 
 joinRoom = (socket, room, oldRoom, callback) => {
@@ -145,7 +152,9 @@ joinRoom = (socket, room, oldRoom, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  g.add(socket.id);
+  let turn = g.add(socket.id);
+	tellTurn(g, turn);
+	console.log(turn);
 	//leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
@@ -157,12 +166,18 @@ leaveRoom = (socket, room) => {
   socket.leave(room);
   let g = rooms.get(room);
 	if (g) {
-		g.remove(socket.id);
+		let turn = g.remove(socket.id);
 		if (g.players.length == 0) {
 			rooms.delete(room);
-		}
+			return;
+		} 
+		tellTurn(g, turn);
 	}
-	
+}
+
+tellTurn = (g, turn) => {
+	let player = g.players[turn];
+	setTimeout(() => io.to(player).emit('your-turn'), 1000);	
 }
 
 disconnect = (socket, reason) => {
