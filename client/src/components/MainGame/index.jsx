@@ -172,7 +172,6 @@ const MainGame = ({ socket, username, room }) => {
                 type="text"
                 value={lettersInput}
                 placeholder="Your word here"
-								value={lettersInput}
               />
             </div>
 

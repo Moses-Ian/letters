@@ -55,11 +55,19 @@ input {
   color: var(--secondary-color);
   font-size: 20px;
   opacity: 80%;
+  
+  /* background-color: #9fedd74e;
+  background-size: 50px;
+  border-radius: 5px;
+  padding: 1vw;
+  width: 25vw; */
+  
 }
 
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+  
   
 }
 
@@ -67,6 +75,7 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   opacity: 80%;
+  padding-top: 1vh;
 }
 
 .live-chat-input {
@@ -147,12 +156,10 @@ input {
   padding: 2vh;
   margin: 1vh;
   background-color: #02677065;
-  /* border: 1px solid; */
-  /* border-color: #02677000; */
   font-size: 30px;
   color: var(--secondary-color);
 
-  /* display: inline-flex; */
+  /* display: inline-block; */
 }
 
 .modal-main {
