@@ -4,7 +4,6 @@ import JoinGame from "../JoinGame";
 import Room from "../Room";
 import Login from "../Login";
 import Register from "../Register";
-import HostGame from "../HostGame";
 
 function LandingPage({ socket, username }) {
   const [room, setRoom] = useState("");
@@ -30,14 +29,11 @@ function LandingPage({ socket, username }) {
       return (
         <div className="column">
           <Room socket={socket} username={username}></Room>
-          <HostGame />
+          {/* <HostGame /> */}
         </div>
       );
     }
   };
-
-  if (username !== "Guest") {
-  }
 
   return (
     <>

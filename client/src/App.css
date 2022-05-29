@@ -17,11 +17,11 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
-  background-position: center;
+  background-position: top;
 }
 
 .button,
@@ -81,14 +81,24 @@ input {
   text-align: center;
 }
 
-.letter-span {
-  padding: 2vh 2vw;
-  margin: 1vh;
+.letter-box {
+  /* width: 45px !important; */
+  list-style-type: none;
+  display: inline;
+  margin: 0px 2px;
+  padding-top: 2px;
   background-color: #02677065;
-  border: 1px solid;
-  border-color: #02677000;
-  font-size: 30px;
+}
+
+.letter-span {
+  padding: 2px 5px;
+  margin: 1px 4px;
+  font-size: 27px;
   color: #fce181;
+}
+
+.hidden {
+  display: none;
 }
 
 .modal-main {
@@ -175,8 +185,6 @@ input {
   /* transition: color 250ms ease; */
 }
 
-/* .join-game-button {
-  font-size: 30px;
-  margin-top: 300px;
-  box-shadow: 2px 2px 10px black;
-} */
+.room-name {
+  color: var(--primary-color);
+}
