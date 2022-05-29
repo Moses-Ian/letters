@@ -1,6 +1,6 @@
 class GameObj {
 	constructor (name) {
-		this.letters = [];
+		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
 		this.words = [];
