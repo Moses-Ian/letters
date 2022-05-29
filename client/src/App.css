@@ -38,7 +38,14 @@ input {
 .timer {
   font-size: 30px;
   color: var(--quinary-color);
-  font-family: "Courier New", Courier, monospace;
+  color: #fce181;
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
+  font-weight: 500;
+  font-size: 45px;
+}
+
+.timer-fonts {
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
 }
 
 /* CHRIS ADDED */

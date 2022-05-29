@@ -13,6 +13,7 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("clear-letters", clearLetters);
     // socket.on("set-game-state", setGameState);
     socket.on("your-turn", () => setTurn(true));
+    socket.on("send-players", generatePlayerList);
 
     return () => {
       socket.disconnect();
@@ -141,6 +142,16 @@ const MainGame = ({ socket, username, room }) => {
     setActiveTimer(false);
   };
 
+  const nextRound = () => {
+    console.log("Next Round");
+    socket.emit("next-round", room);
+  };
+
+  const generatePlayerList = (playersArr) => {
+    console.log("players list");
+    console.log(playersArr);
+  };
+
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
@@ -231,10 +242,7 @@ const MainGame = ({ socket, username, room }) => {
           Restart
         </button>
 
-        <button
-          className="button is-warning m-2"
-          onClick={() => socket.emit("next-round", room)}
-        >
+        <button className="button is-warning m-2" onClick={nextRound}>
           Next Round
         </button>
       </div>

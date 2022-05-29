@@ -22,8 +22,8 @@ export default function JoinGame({ socket, username }) {
 
   return (
     <>
-      <div className="field m-6 has-text-centered">
-        {room == "" ? (
+      <div className="field has-text-centered">
+        {room === "" ? (
           <button
             className="join-game-button button is-warning"
             onClick={() => setShow(true)}
