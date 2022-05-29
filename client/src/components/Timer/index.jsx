@@ -17,7 +17,7 @@ function Timer() {
   };
 
   return (
-    <div className="timer-wrapper">
+    <div className="timer-wrapper is-flex is-justify-content-center m-0">
       <CountdownCircleTimer
         isPlaying
         duration={30}

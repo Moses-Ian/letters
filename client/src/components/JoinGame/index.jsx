@@ -59,7 +59,8 @@ export default function JoinGame({ socket, username }) {
           <LiveChat socket={socket} username={username} room={room} />
         </>
       ) : (
-        <p>You need to type a room name</p>
+        // <p>You need to type a room name</p>
+        ""
       )}
     </>
   );
