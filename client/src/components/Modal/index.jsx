@@ -24,6 +24,7 @@ const Modal = ({ onClose, show, title, children }) => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

@@ -22,7 +22,7 @@ export default function JoinGame({ socket, username }) {
 
   return (
     <>
-      <div className="column">
+      <div className="field m-6 has-text-centered">
         {room == "" ? (
           <button
             className="join-game-button button is-warning"
@@ -42,10 +42,10 @@ export default function JoinGame({ socket, username }) {
         joinRoomHandler={joinRoomHandler}
       >
         <div>
-          <p>
+          <p className="join-modal-body">
             What is the name of the room you would like to join?
             <input
-              className="input mt-2"
+              className="type-box mt-2"
               type="text"
               placeholder="Type room name"
             />

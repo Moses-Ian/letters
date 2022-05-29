@@ -67,15 +67,15 @@ function LiveChat({ socket, username, room }) {
 	
 	
   return (
-		<div style={{border: 'solid 2px purple'}}>
-			LiveChat
-			<div id='message-container'>
+		<div className='live-chat-header' >
+			{/* Chat */}
+			<div className='live-chat-message' id='message-container'>
 				{messages.map((m, index) => (<p key={index}>{m.username}: {m.message}</p>))}
 			</div>
-				<form id='form' onSubmit={handleFormSubmit}>
+				<form className='live-chat' id='form' onSubmit={handleFormSubmit}>
 					<label>
-						Message
-						<input 
+						Chat:
+						<input className='live-chat-input ml-2'  
 							type='text' 
 							id='message-input' 
 							value={formState.message}
@@ -83,7 +83,7 @@ function LiveChat({ socket, username, room }) {
 							onChange={handleChange}
 						/>
 					</label>
-					<button type='submit' id='send-button'>Send</button>
+					<button className='live-chat-button' type='submit' id='send-button'>Send</button>
 				</form>
 		</div>
 	)

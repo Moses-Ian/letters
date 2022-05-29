@@ -28,12 +28,74 @@ body {
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
+  transition: background-color 500ms ease;
+}
+
+.button:hover {
+  background-color: var(--quanternary-color);
 }
 
 .timer {
-  font-size: 35px;
-  color: white;
+  font-size: 30px;
+  color: var(--quinary-color);
 }
+
+
+
+
+/* CHRIS ADDED */
+
+
+
+.live-chat-header {
+  color: var(--secondary-color);
+  font-size: 20px;
+  opacity: 80%;
+  
+  /* background-color: #9fedd74e;
+  background-size: 50px;
+  border-radius: 5px;
+  padding: 1vw;
+  width: 25vw; */
+  
+}
+
+.live-chat-message {
+  color: var(--quinary-color);
+  font-size: 15px;
+}
+
+.live-chat {
+  font-size: 15px;
+  color: var(--quinary-color);
+  opacity: 80%;
+  padding-top: 1vh;
+}
+
+.live-chat-input {
+  opacity: 30%;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.live-chat-button {
+  /* display: block;
+  margin-top: 1vh;
+  margin-left: 8vw; */
+  margin-left: 1vw;
+  background-color: var(--quanternary-color);
+  border-radius: 5px;
+  font-size: 11px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  font-family: Fugaz One;
+  color: var(--seventh-color);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  
+  
+}
+
+/* CHRIS ADDED END */
+
 
 .landing-letters {
   font-size: 6rem;
@@ -41,6 +103,7 @@ input {
   color: var(--secondary-color);
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   transition: text-shadow 400ms ease, font-size 500ms ease;
+  margin-top: 10vh;
 }
 
 .landing-letters-3 {
@@ -52,17 +115,18 @@ input {
   font-size: 7rem;
 }
 
-.center {
+
+/* .center {
   position: fixed;
   top: 35%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
+} */
 
 .game-header {
   color: var(--secondary-color);
-  font-size: 40px;
+  font-size: 50px;
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   transition: border-color 250ms ease;
 }
@@ -73,12 +137,13 @@ input {
 }
 
 .welcome {
-  color: #fce181;
+  color: var(--secondary-color);
   font-size: 20px;
 }
 
 .rendered-letters {
   text-align: center;
+  padding-top: 6vh;
 }
 
 .letter-box {
@@ -143,6 +208,10 @@ input {
   border-bottom: 1px solid #eee;
 }
 
+.join-modal-body {
+  color: var(--secondary-color);
+}
+
 .type-box {
   width: 300px;
   border-radius: 5px;
@@ -152,14 +221,15 @@ input {
 }
 
 .type-box:hover {
-  background-color: var(--tertiary-color);
+  background-color: var(--quanternary-color);
 }
 
 .modal-enter-button,
 .modal-close-button,
 .modal-toggle-button,
+.join-game-button,
 .sign-up-button {
-  color: var(--quinary-color);
+  /* color: var(--quinary-color); */
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -173,7 +243,7 @@ input {
 .modal-toggle-button,
 .sign-up-button {
   width: 90px;
-  margin: 5px 0 0 20px;
+  margin-top: 1vh;
 }
 
 .modal-enter-button:hover,
