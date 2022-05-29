@@ -139,8 +139,6 @@ const MainGame = ({ socket, username, room }) => {
     setWords({ type: "RENDER_WORDS", words });
   };
 
-	console.log(letters);
-	
   return (
     <div>
       <h1>You are playing in: {room}</h1>

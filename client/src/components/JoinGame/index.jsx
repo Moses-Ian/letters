@@ -21,7 +21,6 @@ export default function JoinGame({ socket, username }) {
 		if (r != '' && r != room)
 			joinRoom(roomInput);
     setShow(false);
-		console.log(roomInput);
   };
 
   const handleInputChange = (e) => {
@@ -34,8 +33,6 @@ export default function JoinGame({ socket, username }) {
 		setShow(false);
 	}
 	
-	console.log(roomInput);
-
   return (
     <>
       <div className="column">

@@ -3,6 +3,7 @@ class GameObj {
 		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
+		this.letterCount = 0;
 		this.words = [];
 		this.name = name || '';	
 		this.players = [];
@@ -10,10 +11,12 @@ class GameObj {
 	}
 	
 	restart() {
-		this.letters = [];
+		this.letters.fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
+		this.letterCount = 0;
 		this.words = [];
+		return this.turn;
 	}
 	
 	add(player) {
