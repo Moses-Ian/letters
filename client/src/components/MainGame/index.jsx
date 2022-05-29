@@ -179,7 +179,7 @@ const MainGame = ({ socket, username, room }) => {
         <ul>
           {players.map((player, index) => (
             <li className="playerLi" key={index}>
-              => {player}
+              - {player}
             </li>
           ))}
         </ul>
