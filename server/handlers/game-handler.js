@@ -188,8 +188,10 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-  io.to(socket.id).emit("set-game-state", g.letters, g.words);
-  io.to(room).emit("send-players", g.players);
+	setTimeout(() => 
+		io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
+	setTimeout(() => 
+		io.to(room).emit("send-players", g.players), 1500);
 };
 
 leaveRoom = (socket, room) => {
@@ -202,6 +204,7 @@ leaveRoom = (socket, room) => {
       return;
     }
     tellTurn(g, turn);
+		console.log(g.players);
   }
 };
 
