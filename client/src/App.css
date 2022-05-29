@@ -54,6 +54,9 @@ input {
   color: var(--secondary-color);
   font-size: 20px;
   opacity: 80%;
+  margin-top: 3vh;
+  /* text-align: center; */
+  
 
   /* background-color: #9fedd74e;
   background-size: 50px;
@@ -65,6 +68,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+  opacity: 80%;
 }
 
 .live-chat {
@@ -81,9 +85,6 @@ input {
 }
 
 .live-chat-button {
-  /* display: block;
-  margin-top: 1vh;
-  margin-left: 8vw; */
   margin-left: 1vw;
   background-color: var(--quanternary-color);
   border-radius: 5px;
@@ -93,8 +94,6 @@ input {
   color: var(--seventh-color);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
-
-/* CHRIS ADDED END */
 
 .landing-letters {
   font-size: 6rem;
@@ -139,21 +138,32 @@ input {
   font-size: 20px;
 }
 
+.players-ul {
+  display: inline;
+}
+
 .players {
-  background: #026670;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  /* background: #026670; */
+  /* background: rgba(0, 0, 0, 0.1); */
+  /* border-radius: 5px; */
   /* width: fit-content;
   height: fit-content; */
   padding: 10px 20px;
+  opacity: 60%;
+  display: flex;
 }
 
 .players h1 {
   font-size: larger;
+  margin-right: .5vw;
 }
 
 .playerLi {
   color: var(--primary-color);
+}
+
+.players ul {
+  display: flex;
 }
 
 .rendered-letters {

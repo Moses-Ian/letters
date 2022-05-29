@@ -175,12 +175,12 @@ const MainGame = ({ socket, username, room }) => {
       {/* TODO add active turn highlighted */}
       <div className="players is-align-self-center">
         <div>
-          <h1 className="has-text-warning">players:</h1>
+          <h1 className="has-text-warning">Players:</h1>
         </div>
         <ul>
           {players.map((player, index) => (
             <li className="playerLi" key={index}>
-              - {player}
+              {player}
             </li>
           ))}
         </ul>
@@ -251,6 +251,7 @@ const MainGame = ({ socket, username, room }) => {
         </ul>
       </div>
 
+
       <div className="m-3 has-text-centered">
         <button className="button is-warning m-2" onClick={restartLetters}>
           Restart
@@ -260,6 +261,7 @@ const MainGame = ({ socket, username, room }) => {
           Next Round
         </button>
       </div>
+      
     </div>
   );
 };
