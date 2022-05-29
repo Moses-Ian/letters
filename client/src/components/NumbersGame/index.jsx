@@ -39,6 +39,7 @@ const NumbersGame = ({ socket, username, room }) => {
     const [showOperationBtn, setShowOperationBtn] = useState(false);
     const [disabledBtn, setDisabledBtn] = useReducer(disabledReducer, new Array(6).fill(false));
     const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
+    const [score, setScore] = useState(0);
 
 
     function disabledReducer(disabledBtn, action) {
@@ -86,7 +87,7 @@ const NumbersGame = ({ socket, username, room }) => {
         if (addNumber(number)) {
             setSmallNumberCount(smallNumberCount + 1);
         }
-        console.log('addSmallNumber');
+        
     };
     // addLargeNumber
     const addLargeNumber = event => {
@@ -98,13 +99,13 @@ const NumbersGame = ({ socket, username, room }) => {
         if (addNumber(number))
             setLargeNumberCount(largeNumberCount + 1);
 
-        console.log('addLargeNumber')
+
     };
 
     // addNumber
 
     const addNumber = number => {
-        // console.log(numbersArr.length)
+        
         if (numbersArr.length === 6) {
 
             return false;
@@ -132,7 +133,7 @@ const NumbersGame = ({ socket, username, room }) => {
         if (numbersArr.length == 6) {
             let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
             setTargetNumber(randomNumber);
-            console.log('local '+ targetNumber);
+            
         }
         setShowAnswerBtn(true);
         setShowTargetBtn(false);
@@ -141,11 +142,11 @@ const NumbersGame = ({ socket, username, room }) => {
 
 
     }
-console.log('global' + targetNumber);
-    // scoreNumber
+
+    
 
     // restartNumbers
-    // eslint-disable-next-line no-undef
+   
     const restartNumbers = event => {
         // numbersArr = [];
         // smallNumberCount = 0;
@@ -159,12 +160,12 @@ console.log('global' + targetNumber);
             setShowCheckAnswerBtn(true);
             setShowOperationBtn(false);
         }
-        console.log('showSymbols')
+        
     };
 
     function calculateTotal() {
         // iterate over operationArr
-        console.log(operationArr);
+        
         
         let newTotal = parseInt(operationArr[0])
         for (let i = 1; i < operationArr.length; i += 2) {
@@ -179,44 +180,42 @@ console.log('global' + targetNumber);
                 } else if (operationArr[i] === "/") {
                     newTotal = newTotal / parseInt(operationArr[i + 1])
                 }
-                console.log(newTotal);
+                
 setTotal(newTotal);
+
 
         }
         setShowCheckAnswerBtn(false);
         setShowNumberDifference(true);
         
 
-        scoreAnswer();
+        scoreAnswer(newTotal);
         // return newTotal;
-        // console.log('calculateTotal')
-    }
-    console.log('total globally is now '+ total)
-    function scoreAnswer() {
-        // console.log('scoreAnswer function was called')
-        let difference = Math.abs(targetNumber - total)
-        console.log(difference);
-        console.log('targetNumber in scoreAnswer() number is: '+ targetNumber)
         
-        console.log('total in scoreAnswer() is '+ total)
+    }
+    
+    function scoreAnswer(total) {
+        
+        let difference = Math.abs(targetNumber - total)
+        
+        
+        
+        
         setDifferenceNumber(difference);
-        // console.log(difference)
-        // numberDifference.textContent = difference + " away from target!"
-        // console.log(difference)
-        // if (difference === 0) {
-        //     score.textContent = 'Score: 10 points!'
-        // }
-        // if (difference >= 1 && difference <= 20) {
-        //     score.textContent = 'Score: 7 points!'
-        // }
-        // if (difference >= 21 && difference <= 40) {
-        //     score.textContent = 'Score: 5 points!'
-        // }
-        // if (difference >= 41 && difference <= 60) {
-        //     score.textContent = 'Score: 2 points!'
-        // }
-        // else (difference >= 0 && difference <= 999999999) 
-        //     score.textContent = 'TEST SCORE!'
+       
+        if (difference === 0) {
+        setScore(10)
+        }
+        else if  (difference >= 1 && difference <= 20) {
+        setScore(7)
+        }
+        else if (difference >= 21 && difference <= 40) {
+        setScore(5)
+        }
+        else if (difference >= 41 && difference <= 60) {
+        setScore(2)
+        }
+        else (setScore(0))
 
     }
 
@@ -237,7 +236,7 @@ setTotal(newTotal);
         setOperationArr(action);
 
         showSymbols();
-        console.log('answerFunction')
+        
     };
 
 
@@ -250,12 +249,12 @@ setTotal(newTotal);
             operation: text
         }
         setOperationArr(action);
-        console.log(operationArr)
+        
         showSymbols();
     };
 
-    console.log(smallNumberCount);
-    console.log(numbersArr);
+    
+    
 
     return (
         <>
@@ -313,6 +312,7 @@ setTotal(newTotal);
                         {operationArr.join(' ')}
                     </h1>
                     <h1 id="score">
+                    Score: {score} points!
                     </h1>
                     {showNumberDifference ?
                     <h1 id="number-difference">{differenceNumber +' away from target'}</h1>
