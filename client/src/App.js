@@ -11,6 +11,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import NumbersGame from "./components/NumbersGame";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -57,7 +58,8 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App container p-3">
         <div>
-          <LandingPage socket={socket} username={username} />
+          {/* <LandingPage socket={socket} username={username} /> */}
+          <NumbersGame />
         </div>
       </div>
     </ApolloProvider>
