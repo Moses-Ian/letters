@@ -11,7 +11,7 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-    // socket.on("set-game-state", setGameState);
+    socket.on("set-game-state", setGameState);
     socket.on("your-turn", () => setTurn(true));
     socket.on("send-players", generatePlayerList);
 
@@ -218,7 +218,6 @@ const MainGame = ({ socket, username, room }) => {
                 onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
-                value={lettersInput}
                 placeholder="Your word here"
               />
             </div>

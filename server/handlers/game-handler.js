@@ -60,12 +60,13 @@ printPlayers = (room) => console.log(rooms.get(room).players);
 addVowel = (room) => {
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
-  if (g.letters.length == 9) return;
+  if (g.letterCount == 9) return;
   let vowel = generateVowel(g.letters);
   let index = g.letters.length;
-  g.letters.push(vowel);
+  g.letters[g.letterCount] = vowel;
   g.vowelCount++;
-  io.emit("add-letter", vowel, index);
+  io.emit("add-letter", vowel, g.letterCount);
+  g.letterCount++;
 };
 
 generateVowel = (letters, firstTry = true) => {
@@ -78,12 +79,13 @@ generateVowel = (letters, firstTry = true) => {
 addConsonant = (room) => {
   let g = rooms.get(room);
   if (g.consonantCount == 6) return;
-  if (g.letters.length == 9) return;
+  if (g.letterCount == 9) return;
   let consonant = generateConsonant(g.letters);
   let index = g.letters.length;
-  g.letters.push(consonant);
+  g.letters[g.letterCount] = consonant;
   g.consonantCount++;
-  io.to(room).emit("add-letter", consonant, index);
+  io.to(room).emit("add-letter", consonant, g.letterCount);
+  g.letterCount++;
 };
 
 // generateConsonant = {
@@ -154,7 +156,8 @@ inDictionary = async (word) => {
 
 restartLetters = (room) => {
   let g = rooms.get(room);
-  g.restart();
+  let turn = g.restart();
+  tellTurn(g, turn);
   io.to(room).emit("clear-letters");
 };
 
