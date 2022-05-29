@@ -45,7 +45,7 @@ export default function JoinGame({ socket, username }) {
 	
   return (
     <>
-      <div className="column">
+      <div className="field m-6 has-text-centered">
         {room == "" ? (
           <button
             className="join-game-button button is-warning"
@@ -59,18 +59,18 @@ export default function JoinGame({ socket, username }) {
       </div>
 			
 			{show ?
-      <div onClick={closeModal}>
+      <div className="modal-main" onClick={closeModal}>
 				<form className='modal-content'>
           <div className="modal-header">
             <h4 className="modal-title">Join Game</h4>
           </div>
           <div className="modal-body">
-						<p>
+						<p className="join-modal-body">
 							What is the name of the room you would like to join?
 						</p>
 						<input
 							autoFocus
-							className='input mt-2'
+							className='type-box input mt-2'
 							type='text'
 							placeholder='Type room name'
 							onChange={handleInputChange}
@@ -96,14 +96,14 @@ export default function JoinGame({ socket, username }) {
 			: ''
 			}
 
-
       {room !== "" ? (
         <>
           <MainGame socket={socket} username={username} room={room} />
           <LiveChat socket={socket} username={username} room={room} />
         </>
       ) : (
-        <p>You need to type a room name</p>
+        // <p>You need to type a room name</p>
+        ""
       )}
     </>
   );

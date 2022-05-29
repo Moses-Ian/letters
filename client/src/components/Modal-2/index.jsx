@@ -1,7 +1,7 @@
 import React from "react";
 import "../../App.css";
 
-const Modal = ({ onClose, show, title, children }) => {
+const Modal2 = ({ show, children, title, onClose, joinRoomHandler }) => {
   if (!show) {
     return null;
   }
@@ -13,20 +13,21 @@ const Modal = ({ onClose, show, title, children }) => {
           <div className="modal-header">
             <h4 className="modal-title">{title}</h4>
           </div>
-
           <div className="modal-body">{children}</div>
 
           <div className="modal-footer">
-            <button className="modal-enter-button">Enter</button>
+            <button onClick={joinRoomHandler} className="modal-enter-button">
+              Enter Game
+            </button>
+
             <button onClick={onClose} className="modal-close-button">
               Close
             </button>
           </div>
         </div>
       </div>
-      
     </>
   );
 };
 
-export default Modal;
+export default Modal2;

@@ -3,9 +3,9 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
-	// socket.emit('print-all-rooms');
-	// socket.emit('print-players', room);
-	// socket.emit('print-room', room);
+  // socket.emit('print-all-rooms');
+  // socket.emit('print-players', room);
+  // socket.emit('print-room', room);
 
   useEffect(() => {
     socket.on("add-letter", addLetter);
@@ -20,17 +20,16 @@ const MainGame = ({ socket, username, room }) => {
   }, []);
 
   // variables
+  const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
-  const [inputState, inputDispatch] = useReducer(lettersInputReducer, "");
-
   const [letters, setLetters] = useReducer(
     letterReducer,
     new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
+  const [playersArr, setPlayersArr] = useReducer(playersReducer, []);
 
   // functions
   function letterReducer(letters, action) {
@@ -56,18 +55,6 @@ const MainGame = ({ socket, username, room }) => {
     return newLetters;
   }
 
-  function lettersInputReducer(action) {
-    let newInputState;
-    switch (action.type) {
-      case "CLEAR":
-        newInputState = "";
-        break;
-      default:
-        throw new Error();
-    }
-    return newInputState;
-  }
-
   function wordReducer(words, action) {
     let newWordsArr;
     switch (action.type) {
@@ -87,6 +74,22 @@ const MainGame = ({ socket, username, room }) => {
     return newWordsArr;
   }
 
+  function playersReducer(playersArr, action) {
+    let newPlayersArr;
+    switch (action.type) {
+      case "PUSH":
+        const { player, room } = action;
+        newPlayersArr = [...playersArr, { player, username, room }];
+        break;
+      default:
+        throw new Error();
+    }
+    return newPlayersArr;
+  }
+
+  // TODO add backend functionality to get players in room and wire to socket.
+  const displayPlayers = (player, room) => {};
+
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
   };
@@ -103,6 +106,7 @@ const MainGame = ({ socket, username, room }) => {
     });
     if (index === 8) {
       setActiveTimer(true);
+      setBtnDivDisplay("hidden");
     }
   };
 
@@ -120,6 +124,8 @@ const MainGame = ({ socket, username, room }) => {
 
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
+    setActiveTimer(false);
+    setBtnDivDisplay("");
   };
 
   const appendWord = (word, username, score) => {
@@ -132,6 +138,7 @@ const MainGame = ({ socket, username, room }) => {
 
     setLettersInput("");
     setTurn(false);
+    setActiveTimer(false);
   };
 
   const setGameState = (letters, words) => {
@@ -141,25 +148,47 @@ const MainGame = ({ socket, username, room }) => {
 
   return (
     <div>
-      <h1>You are playing in: {room}</h1>
+      <h1 className="room-name has-text-centered is-size-4">
+        You are playing in: {room}
+      </h1>
+      {/* TODO remove this */}
       <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
 
-      <div className="rendered-letters m-3">
-        {letters.map((letter, index) => (
-          <span className="letter-span" key={index}>
-            {letter}
-          </span>
-        ))}
+      {/* TODO add players in room */}
+      {/* TODO add active turn highlighted */}
+      <div className="players">
+        <ul>{}</ul>
       </div>
-      <div className="timer m-3">{activeTimer ? <Timer /> : <div></div>}</div>
+      {/*  */}
+
+      <div className="rendered-letters column m-0 p-0">
+        <ul>
+          {letters.map((letter, index) => (
+            <li className="letter-box" key={index}>
+              <span className="letter-span">{letter}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
       <div className="field m-3 has-text-centered">
-        <button disabled={!isYourTurn || activeTimer} className="button mr-3 is-warning" onClick={addVowel}>
-          Vowel
-        </button>
-        <button disabled={!isYourTurn || activeTimer} className="button is-warning" onClick={addConsonant}>
-          Consonant
-        </button>
+        <div className={"letters-buttons " + btnDivDisplay}>
+          <button
+            disabled={!isYourTurn || activeTimer}
+            className="button mr-3 is-warning"
+            onClick={addVowel}
+          >
+            Vowel
+          </button>
+          <button
+            disabled={!isYourTurn || activeTimer}
+            className="button is-warning"
+            onClick={addConsonant}
+          >
+            Consonant
+          </button>
+        </div>
       </div>
 
       <div className="field m-3">
@@ -171,7 +200,6 @@ const MainGame = ({ socket, username, room }) => {
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
-								value={lettersInput}
               />
             </div>
 

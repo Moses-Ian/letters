@@ -1,5 +1,12 @@
 # Letters
 
+## Authors
+
+[Hadas Kamin](https://github.com/hadasss/)  
+[Ian Moses](https://github.com/Moses-Ian/)  
+[Chris Masters](https://github.com/CWMasters/)  
+[David Griffin](https://github.com/DavidTJGriffin/)
+
 ## Project Description
 
 A Real-Time multiplayer letters and numbers game app.
@@ -10,6 +17,7 @@ A Real-Time multiplayer letters and numbers game app.
 - [App Usage](#usage)
 - [Tests](#tests)
 - [Technologies](#technologies)
+- [Credits](#credits)
 - [Screenshots](#screenshots)
 - [Deployment](#deployment)
 - [Questions](#questions)
@@ -40,6 +48,10 @@ There are no tests for this program.
 - JWT
 - GraphQL
 - Bulma
+
+## Credits
+
+(dictionary API)
 
 ## Screenshots
 
