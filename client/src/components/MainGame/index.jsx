@@ -13,6 +13,7 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
     socket.on("your-turn", () => setTurn(true));
+    socket.on("send-players", generatePlayerList);
 
     return () => {
       socket.disconnect();
@@ -29,7 +30,7 @@ const MainGame = ({ socket, username, room }) => {
   const [words, setWords] = useReducer(wordReducer, []);
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
-  const [playersArr, setPlayersArr] = useReducer(playersReducer, []);
+  const [players, setPlayers] = useState([]);
 
   // functions
   function letterReducer(letters, action) {
@@ -74,18 +75,18 @@ const MainGame = ({ socket, username, room }) => {
     return newWordsArr;
   }
 
-  function playersReducer(playersArr, action) {
-    let newPlayersArr;
-    switch (action.type) {
-      case "PUSH":
-        const { player, room } = action;
-        newPlayersArr = [...playersArr, { player, username, room }];
-        break;
-      default:
-        throw new Error();
-    }
-    return newPlayersArr;
-  }
+  // function playersReducer(playersArr, action) {
+  //   let newPlayersArr;
+  //   switch (action.type) {
+  //     case "PUSH":
+  //       const { player, room } = action;
+  //       newPlayersArr = [...playersArr, { player, username, room }];
+  //       break;
+  //     default:
+  //       throw new Error();
+  //   }
+  //   return newPlayersArr;
+  // }
 
   // TODO add backend functionality to get players in room and wire to socket.
   const displayPlayers = (player, room) => {};
@@ -141,6 +142,21 @@ const MainGame = ({ socket, username, room }) => {
     setActiveTimer(false);
   };
 
+  const nextRound = () => {
+    console.log("Next Round");
+    socket.emit("next-round", room);
+  };
+
+  const generatePlayerList = (playersArr) => {
+    console.log("players list");
+    console.log(playersArr[0].username);
+
+    const newPlayersArr = playersArr.map((player) => {
+      return player.username;
+    });
+    setPlayers(newPlayersArr);
+  };
+
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
@@ -157,9 +173,12 @@ const MainGame = ({ socket, username, room }) => {
       {/* TODO add players in room */}
       {/* TODO add active turn highlighted */}
       <div className="players">
-        <ul>{}</ul>
+        <ul>
+          {players.map((player, index) => (
+            <li key={index}>{player}</li>
+          ))}
+        </ul>
       </div>
-      {/*  */}
 
       <div className="rendered-letters column m-0 p-0">
         <ul>
@@ -230,10 +249,7 @@ const MainGame = ({ socket, username, room }) => {
           Restart
         </button>
 
-        <button
-          className="button is-warning m-2"
-          onClick={() => socket.emit("next-round", room)}
-        >
+        <button className="button is-warning m-2" onClick={nextRound}>
           Next Round
         </button>
       </div>
