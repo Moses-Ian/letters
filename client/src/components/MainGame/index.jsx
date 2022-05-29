@@ -219,6 +219,7 @@ const MainGame = ({ socket, username, room }) => {
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
+								value={lettersInput}
               />
             </div>
 
