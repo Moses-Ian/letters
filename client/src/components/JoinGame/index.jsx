@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MainGame from "../MainGame";
 import LiveChat from "../LiveChat";
 import "../../App.css";
+import {sanitize} from '../../utils';
 
 export default function JoinGame({ socket, username }) {
   const [show, setShow] = useState(false);
@@ -26,8 +27,9 @@ export default function JoinGame({ socket, username }) {
 
   const joinRoomHandler = (e) => {
     e.preventDefault();
-    let r = roomInput.trim();
-    if (r != "" && r != room) joinRoom(roomInput);
+    // let r = roomInput.trim();
+    let r = sanitize(roomInput);
+    if (r != "" && r != room) joinRoom(r);
     setShow(false);
   };
 
