@@ -45,10 +45,7 @@ input {
 
 /* CHRIS ADDED */
 
-.timer-wrapper {
-  /* margin-left: 38vw; */
-  margin-top: 40px;
-}
+
 
 .live-chat-header {
   color: var(--secondary-color);
@@ -66,8 +63,6 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
-  
-  
 }
 
 .live-chat {
