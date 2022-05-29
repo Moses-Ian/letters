@@ -39,13 +39,12 @@ input {
   font-size: 30px;
   color: var(--quinary-color);
   color: #fce181;
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
   font-weight: 500;
   font-size: 45px;
 }
 
-.timer-fonts {
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
+.fixed-container {
+  height: 15vh;
 }
 
 /* CHRIS ADDED */
