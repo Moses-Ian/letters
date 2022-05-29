@@ -61,11 +61,7 @@ addVowel = (room) => {
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letterCount == 9) return;
-<<<<<<< HEAD
-	let vowel = generateVowel(g.letters);
-=======
   let vowel = generateVowel(g.letters);
->>>>>>> 726a77dd263285e9c06573dc1cc1b6b0bc9652c1
   let index = g.letters.length;
   g.letters[g.letterCount] = vowel;
   g.vowelCount++;
