@@ -61,7 +61,11 @@ addVowel = (room) => {
   let g = rooms.get(room);
   if (g.vowelCount == 5) return;
   if (g.letterCount == 9) return;
+<<<<<<< HEAD
+	let vowel = generateVowel(g.letters);
+=======
   let vowel = generateVowel(g.letters);
+>>>>>>> 726a77dd263285e9c06573dc1cc1b6b0bc9652c1
   let index = g.letters.length;
   g.letters[g.letterCount] = vowel;
   g.vowelCount++;
@@ -188,8 +192,10 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-  io.to(socket.id).emit("set-game-state", g.letters, g.words);
-  io.to(room).emit("send-players", g.players);
+	setTimeout(() => 
+		io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
+	setTimeout(() => 
+		io.to(room).emit("send-players", g.players), 1500);
 };
 
 leaveRoom = (socket, room) => {
@@ -202,6 +208,7 @@ leaveRoom = (socket, room) => {
       return;
     }
     tellTurn(g, turn);
+		console.log(g.players);
   }
 };
 
