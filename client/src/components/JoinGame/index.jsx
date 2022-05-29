@@ -9,7 +9,7 @@ export default function JoinGame({ socket, username }) {
   const [room, setRoom] = useState("");
 
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, (success, newRoom) => {
+    socket.emit("join-game", name, room, username, (success, newRoom) => {
       setRoom(newRoom);
     });
     console.log(`joinRoom ${name}`);

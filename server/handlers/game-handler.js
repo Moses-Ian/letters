@@ -167,7 +167,7 @@ nextRound = (room) => {
   tellTurn(g, turn);
 };
 
-joinRoom = (socket, room, oldRoom, callback) => {
+joinRoom = (socket, room, oldRoom, username, callback) => {
   //get the rooms
   let g = rooms.get(room);
   if (!g) {
@@ -177,7 +177,8 @@ joinRoom = (socket, room, oldRoom, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  let turn = g.add(socket.id);
+  let turn = g.add({ id: socket.id, username: username });
+  console.log(turn);
   tellTurn(g, turn);
   console.log(turn);
   //leave the old room
@@ -185,6 +186,7 @@ joinRoom = (socket, room, oldRoom, callback) => {
   //send it back to client
   callback(true, room);
   io.to(socket.id).emit("set-game-state", g.letters, g.words);
+  io.to(room).emit("send-players", g.players);
 };
 
 leaveRoom = (socket, room) => {
@@ -202,7 +204,7 @@ leaveRoom = (socket, room) => {
 
 tellTurn = (g, turn) => {
   let player = g.players[turn];
-  setTimeout(() => io.to(player).emit("your-turn"), 1000);
+  setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
 };
 
 disconnect = (socket, reason) => {
@@ -223,8 +225,8 @@ const registerGameHandler = (newio, socket) => {
   socket.on("submit-word", submitWord);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
-  socket.on("join-game", (room, oldRoom, cb) =>
-    joinRoom(socket, room, oldRoom, cb)
+  socket.on("join-game", (room, oldRoom, username, cb) =>
+    joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
