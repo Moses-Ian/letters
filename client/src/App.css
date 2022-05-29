@@ -38,26 +38,21 @@ input {
 .timer {
   font-size: 30px;
   color: var(--quinary-color);
+  font-family: "Courier New", Courier, monospace;
 }
 
-
-
-
 /* CHRIS ADDED */
-
-
 
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
   opacity: 80%;
-  
+
   /* background-color: #9fedd74e;
   background-size: 50px;
   border-radius: 5px;
   padding: 1vw;
   width: 25vw; */
-  
 }
 
 .live-chat-message {
@@ -90,12 +85,9 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-  
-  
 }
 
 /* CHRIS ADDED END */
-
 
 .landing-letters {
   font-size: 6rem;
@@ -114,7 +106,6 @@ input {
   text-shadow: 10px 10px 4px black, 6px 6px 10px black;
   font-size: 7rem;
 }
-
 
 /* .center {
   position: fixed;
@@ -213,9 +204,8 @@ input {
 }
 
 .type-box {
-  width: 300px;
+  height: 32px !important;
   border-radius: 5px;
-  height: 25px;
   margin: 5px 0 5px 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }

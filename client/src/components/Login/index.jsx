@@ -58,7 +58,7 @@ export default function Login() {
           <Modal title="Login" onClose={() => setShow(false)} show={show}>
             <div>
               <input
-                className="type-box"
+                className="type-box input"
                 type="email"
                 placeholder="Email"
                 name="email"
@@ -67,14 +67,13 @@ export default function Login() {
             </div>
             <div>
               <input
-                className="type-box"
+                className="type-box input"
                 type="password"
                 placeholder="Password"
                 name="password"
                 onChange={handleChange}
               ></input>
             </div>
-            
           </Modal>
         </form>
       </div>

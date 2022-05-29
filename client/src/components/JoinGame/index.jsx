@@ -45,7 +45,7 @@ export default function JoinGame({ socket, username }) {
           <p className="join-modal-body">
             What is the name of the room you would like to join?
             <input
-              className="type-box mt-2"
+              className="type-box mt-2 input"
               type="text"
               placeholder="Type room name"
             />
