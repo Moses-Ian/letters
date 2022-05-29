@@ -163,19 +163,24 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   return (
-    <div>
+    <div className="is-flex is-flex-direction-column">
       <h1 className="room-name has-text-centered is-size-4">
         You are playing in: {room}
       </h1>
       {/* TODO remove this */}
-      <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2>
+      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
 
       {/* TODO add players in room */}
       {/* TODO add active turn highlighted */}
-      <div className="players">
+      <div className="players is-align-self-center">
+        <div>
+          <h1 className="has-text-warning">players:</h1>
+        </div>
         <ul>
           {players.map((player, index) => (
-            <li key={index}>{player}</li>
+            <li className="playerLi" key={index}>
+              => {player}
+            </li>
           ))}
         </ul>
       </div>
@@ -210,7 +215,7 @@ const MainGame = ({ socket, username, room }) => {
         </div>
       </div>
 
-      <div className="field m-3">
+      <div className="field mb-3">
         <form>
           <div className="field has-addons mt-3 is-justify-content-center">
             <div className="control">

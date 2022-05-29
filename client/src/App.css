@@ -139,6 +139,23 @@ input {
   font-size: 20px;
 }
 
+.players {
+  background: #026670;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  /* width: fit-content;
+  height: fit-content; */
+  padding: 10px 20px;
+}
+
+.players h1 {
+  font-size: larger;
+}
+
+.playerLi {
+  color: var(--primary-color);
+}
+
 .rendered-letters {
   text-align: center;
   padding-top: 6vh;
@@ -151,6 +168,7 @@ input {
   margin: 0px 2px;
   padding-top: 2px;
   background-color: #02677065;
+  border-radius: 3px;
 }
 
 .letter-span {
