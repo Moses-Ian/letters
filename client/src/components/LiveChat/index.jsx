@@ -65,7 +65,7 @@ function LiveChat({ socket, username, room }) {
   };
 
   return (
-    <div className="live-chat-header">
+    <div className="live-chat-header pl-3">
       {/* Chat */}
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (

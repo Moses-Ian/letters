@@ -119,6 +119,7 @@ submitWord = async (word, username, room) => {
   const score = await scoreWord(word, g.letters);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
+  console.log(g.score); // returns undefined
 };
 
 scoreWord = async (word, letters) => {
@@ -167,6 +168,7 @@ nextRound = (room) => {
   let turn = g.nextTurn();
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
+  io.to(room).emit("send-score", g.players); // TODO
   tellTurn(g, turn);
 };
 
@@ -188,10 +190,11 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-	setTimeout(() => 
-		io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
-	setTimeout(() => 
-		io.to(room).emit("send-players", g.players), 1500);
+  setTimeout(
+    () => io.to(socket.id).emit("set-game-state", g.letters, g.words),
+    1000
+  );
+  setTimeout(() => io.to(room).emit("send-players", g.players), 1500);
 };
 
 leaveRoom = (socket, room) => {
@@ -204,7 +207,7 @@ leaveRoom = (socket, room) => {
       return;
     }
     tellTurn(g, turn);
-		console.log(g.players);
+    console.log(g.players);
   }
 };
 

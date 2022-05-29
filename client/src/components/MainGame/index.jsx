@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
+import MW from "../../assets/images/Merriam-Webster.png";
 import "bulma/css/bulma.min.css";
 
 const MainGame = ({ socket, username, room }) => {
@@ -14,6 +15,7 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("set-game-state", setGameState);
     socket.on("your-turn", () => setTurn(true));
     socket.on("send-players", generatePlayerList);
+    socket.on("send-score", savePlayerScore);
 
     return () => {
       socket.disconnect();
@@ -31,6 +33,7 @@ const MainGame = ({ socket, username, room }) => {
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
   const [players, setPlayers] = useState([]);
+  const [score, setScore] = useState("");
 
   // functions
   function letterReducer(letters, action) {
@@ -75,22 +78,6 @@ const MainGame = ({ socket, username, room }) => {
     return newWordsArr;
   }
 
-  // function playersReducer(playersArr, action) {
-  //   let newPlayersArr;
-  //   switch (action.type) {
-  //     case "PUSH":
-  //       const { player, room } = action;
-  //       newPlayersArr = [...playersArr, { player, username, room }];
-  //       break;
-  //     default:
-  //       throw new Error();
-  //   }
-  //   return newPlayersArr;
-  // }
-
-  // TODO add backend functionality to get players in room and wire to socket.
-  const displayPlayers = (player, room) => {};
-
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
   };
@@ -117,10 +104,20 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   const submitWord = (event) => {
+    // TODO
     event.preventDefault();
     const word = lettersInput;
-    setLettersInput("");
+    // if (word.length === 8) {
     socket.emit("submit-word", word, username, room);
+    setLettersInput("");
+    // } else {
+    //   setLettersInput("");
+    //   return (
+    //     <div className="is-flex is-justify-content-center">
+    //       <p>Please select all letters first</p>
+    //     </div>
+    //   );
+    // }
   };
 
   const restartLetters = (event) => {
@@ -131,6 +128,8 @@ const MainGame = ({ socket, username, room }) => {
 
   const appendWord = (word, username, score) => {
     setWords({ type: "PUSH", word, username, score });
+    console.log(score);
+    savePlayerScore(players);
   };
 
   const clearLetters = () => {
@@ -150,12 +149,22 @@ const MainGame = ({ socket, username, room }) => {
 
   const generatePlayerList = (playersArr) => {
     console.log("players list");
-    console.log(playersArr[0].username);
-
+    console.log(playersArr[0].id);
     const newPlayersArr = playersArr.map((player) => {
       return player.username;
     });
+    console.log(newPlayersArr);
     setPlayers(newPlayersArr);
+    console.log(players); // returns empty array!
+  };
+
+  const savePlayerScore = (players) => {
+    console.log("player score");
+    const playerScore = players.map((player) => {
+      return player.score;
+    });
+    setScore(playerScore); // TODO change!
+    console.log(players); // returns empty array
   };
 
   const setGameState = (letters, words) => {
@@ -168,11 +177,9 @@ const MainGame = ({ socket, username, room }) => {
       <h1 className="room-name has-text-centered is-size-4">
         You are playing in: {room}
       </h1>
-      {/* TODO remove this */}
-      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
 
-      {/* TODO add players in room */}
-      {/* TODO add active turn highlighted */}
+      {/* TODO add active turn highlighted and then remove next line*/}
+      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
       <div className="players is-align-self-center">
         <div>
           <h1 className="has-text-warning">players:</h1>
@@ -244,7 +251,7 @@ const MainGame = ({ socket, username, room }) => {
         </form>
       </div>
 
-      <div className="p-5">
+      <div className="words-list pl-2">
         <ul>
           {words.map((word, index) => (
             <li key={index}>
@@ -262,6 +269,10 @@ const MainGame = ({ socket, username, room }) => {
         <button className="button is-warning m-2" onClick={nextRound}>
           Next Round
         </button>
+      </div>
+
+      <div className="webster is-flex is-align-self-flex-end pr-2">
+        <img className="MW" src={MW} alt="Merriam Webster API" />
       </div>
     </div>
   );
