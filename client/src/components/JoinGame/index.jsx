@@ -18,7 +18,7 @@ export default function JoinGame({ socket, username }) {
 	}, [socket]);
 	
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, (success, newRoom) => {
+    socket.emit("join-game", name, room, username, (success, newRoom) => {
       setRoom(newRoom);
 			localStorage.setItem('room', newRoom);
     });
@@ -45,8 +45,8 @@ export default function JoinGame({ socket, username }) {
 	
   return (
     <>
-      <div className="field m-6 has-text-centered">
-        {room == "" ? (
+      <div className="field has-text-centered">
+        {room === "" ? (
           <button
             className="join-game-button button is-warning"
             onClick={() => setShow(true)}
