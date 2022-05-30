@@ -17,11 +17,11 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100vh;
+  height: 120vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top;
+  background-position: center;
 }
 
 .button,
@@ -55,20 +55,18 @@ input {
   font-size: 20px;
   opacity: 80%;
   margin-top: 3vh;
-  /* text-align: center; */
-  
-
-  /* background-color: #9fedd74e;
+  background-color: #9fedd77e;
   background-size: 50px;
   border-radius: 5px;
-  padding: 1vw;
-  width: 25vw; */
+  padding: 2vh;
+  width: auto;
+  /* text-align: center; */
 }
 
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
-  opacity: 80%;
+  opacity: 70%;
 }
 
 .live-chat {
@@ -149,8 +147,8 @@ input {
   /* width: fit-content;
   height: fit-content; */
   padding: 10px 20px;
-  opacity: 60%;
-  display: flex;
+  opacity: 70%;
+  /* display: flex; */
 }
 
 .players h1 {

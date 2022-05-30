@@ -68,6 +68,7 @@ export default function JoinGame({ socket, username }) {
             <div className="modal-body">
               <p className="join-modal-body">
                 What is the name of the room you would like to join?
+                {/* Which room would you like to join? */}
               </p>
               <input
                 autoFocus
