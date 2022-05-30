@@ -8,7 +8,7 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 let io;
-
+// letters game
 const vowels = ["a", "e", "i", "o", "u"];
 const consonants = [
   "d",
@@ -42,6 +42,13 @@ const weights2 = [
   0.15, 1.5, 2.4, 2.4, 0.98, 0.07,
 ];
 
+// small numbers
+const smallNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const AVAILABLE_SMALL_NUMBERS = 9;
+// large numbers
+const largeNumbers = ['25', '50', '75', '100'];
+const AVAILABLE_LARGE_NUMBERS = 4;
+
 let global = new Game();
 global.name = "Global Game";
 let rooms = new Map();
@@ -65,7 +72,7 @@ addVowel = (room) => {
   let index = g.letters.length;
   g.letters[g.letterCount] = vowel;
   g.vowelCount++;
-  io.emit("add-letter", vowel, g.letterCount);
+  io.to(room).emit("add-letter", vowel, g.letterCount);
   g.letterCount++;
 };
 
@@ -221,16 +228,48 @@ disconnect = (socket, reason) => {
   });
 };
 
+addSmallNumber = (room) => {
+  let g = rooms.get(room);
+   if (g.smallNumberCount == 4) return;
+        let number = smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
+        if (addNumber(g, number)) g.smallNumberCount++;
+      
+        io.to(room).emit("add-number", number, g.numberCount);
+        g.numberCount++;
+  console.log('addSmallNumber');
+}
+
+const addLargeNumber = (room) => {
+  let g = rooms.get(room);
+  if (g.largeNumberCount == 4) return;
+  let number = largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)]
+
+  if (addNumber(g, number)) g.largeNumberCount++;
+  io.to(room).emit("add-number", number, g.numberCount);
+  g.numberCount++;
+};
+
+const addNumber = (g, number) => {
+  if (g.numberCount === 6) return false;
+
+  
+  g.numbers[g.numberCount] = number;
+  
+  return true;
+}
+
 //listeners
 //=====================================
 const registerGameHandler = (newio, socket) => {
   console.log(socket.id);
   io = newio;
+  // letters game
   socket.on("add-vowel", addVowel);
   socket.on("add-consonant", addConsonant);
   socket.on("submit-word", submitWord);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
+  // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
@@ -240,6 +279,10 @@ const registerGameHandler = (newio, socket) => {
   socket.on("print-all-rooms", printAllRooms);
   socket.on("print-room", printRoom);
   socket.on("print-players", printPlayers);
+  // numbers game
+  socket.on("add-small", addSmallNumber);
+  socket.on("add-large", addLargeNumber);
+
 };
 
 //export

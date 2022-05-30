@@ -3,15 +3,20 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { set } from "mongoose";
 
-// small numbers
-const smallNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-// large numbers
+
 const largeNumbers = ['25', '50', '75', '100'];
+
 
 const NumbersGame = ({ socket, username, room }) => {
     // variables 
     //====================================
+useEffect(() => {
+socket.on('add-number', addNumber)
 
+
+// socket.on("your-turn", () => setTurn(true));
+
+},[]) 
 
 
 
@@ -80,53 +85,32 @@ const NumbersGame = ({ socket, username, room }) => {
     //====================================
     // addSmallNumber
     const addSmallNumber = event => {
-        if (smallNumberCount == 4) {
-            return;
-        }
-        let number = smallNumbers[Math.floor(Math.random() * 9)];
-        if (addNumber(number)) {
-            setSmallNumberCount(smallNumberCount + 1);
-        }
-        
+        socket.emit('add-small', room);
     };
     // addLargeNumber
     const addLargeNumber = event => {
-        if (largeNumberCount == 4) {
-            return;
-        }
-        let number = largeNumbers[Math.floor(Math.random() * 4)]
-
-        if (addNumber(number))
-            setLargeNumberCount(largeNumberCount + 1);
-
+        socket.emit('add-large', room);
 
     };
 
     // addNumber
+const addNumber = (number, index) => {
+    console.log(number);
+    if (index === 5) {
+      setShowTargetBtn(true);
+      setShowAddNumberBtns(false);
+  }
 
-    const addNumber = number => {
-        
-        if (numbersArr.length === 6) {
+  const action = {
+      type: 'PUSH',
+      numberObj: {
+          number,
+          disabled: false
+      }
+  }
+  setNumbersArr(action);
+}
 
-            return false;
-
-        }
-        if (numbersArr.length === 5) {
-
-            setShowTargetBtn(true);
-            setShowAddNumberBtns(false);
-        }
-
-        const action = {
-            type: 'PUSH',
-            numberObj: {
-                number,
-                disabled: false
-            }
-        }
-        setNumbersArr(action);
-        return true;
-    }
 
     // generateNumber
     function getRandomNumber() {

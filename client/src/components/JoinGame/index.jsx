@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MainGame from "../MainGame";
 import LiveChat from "../LiveChat";
 import "../../App.css";
+import NumbersGame from "../NumbersGame";
 
 export default function JoinGame({ socket, username }) {
   const [show, setShow] = useState(false);
@@ -9,12 +10,12 @@ export default function JoinGame({ socket, username }) {
   const [roomInput, setRoomInput] = useState("");
 
   // if we don't want the room on refresh function, comment the useEffect
-  useEffect(() => {
-    if (socket) {
-      const savedRoom = localStorage.getItem("room");
-      if (savedRoom) joinRoom(savedRoom);
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socket) {
+  //     const savedRoom = localStorage.getItem("room");
+  //     if (savedRoom) joinRoom(savedRoom);
+  //   }
+  // }, [socket]);
 
   const joinRoom = (name) => {
     socket.emit("join-game", name, room, username, (success, newRoom) => {
@@ -94,7 +95,8 @@ export default function JoinGame({ socket, username }) {
 
       {room !== "" ? (
         <>
-          <MainGame socket={socket} username={username} room={room} />
+          {/* <MainGame socket={socket} username={username} room={room} /> */}
+          <NumbersGame socket={socket} username={username} room={room} />
           <LiveChat socket={socket} username={username} room={room} />
         </>
       ) : (
