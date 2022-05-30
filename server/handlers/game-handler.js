@@ -146,12 +146,13 @@ scoreWord = async (word, letters) => {
 };
 
 inDictionary = async (word) => {
-  if (process.env.NODE_ENV == "development") return true;
+  // if (process.env.NODE_ENV == "development") return true;
   try {
     const response = await fetch(
       `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
     );
     const data = await response.json();
+		if (data.length == 0) throw `Problem contacting DictionaryApi: Got []`;
     return typeof data[0] != "string";
   } catch (err) {
     console.error(err);
