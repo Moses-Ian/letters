@@ -10,12 +10,12 @@ export default function JoinGame({ socket, username }) {
   const [roomInput, setRoomInput] = useState("");
 
   // if we don't want the room on refresh function, comment the useEffect
-  useEffect(() => {
-    if (socket) {
-      const savedRoom = localStorage.getItem("room");
-      if (savedRoom) joinRoom(savedRoom);
-    }
-  }, [socket]);
+  // useEffect(() => {
+    // if (socket) {
+      // const savedRoom = localStorage.getItem("room");
+      // if (savedRoom) joinRoom(savedRoom);
+    // }
+  // }, [socket]);
 
   const joinRoom = (name) => {
     socket.emit("join-game", name, room, username, (success, newRoom) => {
@@ -60,7 +60,7 @@ export default function JoinGame({ socket, username }) {
 
       {show ? (
         <div className="modal-main" onClick={closeModal}>
-          <form className="modal-content">
+          <form className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h4 className="modal-title">Join Game</h4>
             </div>
