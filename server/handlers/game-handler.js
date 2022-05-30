@@ -1,6 +1,7 @@
 //classes
 //==================================
 const Game = require("../utils/GameObj.js");
+const PlayerObj = require("../utils/PlayerObj.js");
 
 //variables
 //==================================
@@ -113,6 +114,14 @@ generateConsonant = (letters, firstTry = true) => {
   return consonant;
 };
 
+// g.words[0].score
+
+// {
+//   username: hadas,
+//   word: hello,
+//   score: 5
+// }
+
 submitWord = async (word, username, room) => {
   let g = rooms.get(room);
   if (!g) return;
@@ -168,8 +177,16 @@ nextRound = (room) => {
   let turn = g.nextTurn();
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
-  io.to(room).emit("send-score", g.players); // TODO
   tellTurn(g, turn);
+};
+
+saveScore = (score, room, username) => {
+  let g = rooms.get(room);
+  if (!g) return;
+
+  let player = g.getPlayer(username);
+  player.score += score;
+  // TODO add getPlayer function
 };
 
 joinRoom = (socket, room, oldRoom, username, callback) => {
@@ -182,7 +199,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  let turn = g.add({ id: socket.id, username: username });
+  let turn = g.add(new PlayerObj(username, socket.id));
   console.log(turn);
   tellTurn(g, turn);
   console.log(turn);
@@ -238,6 +255,7 @@ const registerGameHandler = (newio, socket) => {
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
+  socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
   socket.on("print-all-rooms", printAllRooms);

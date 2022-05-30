@@ -15,7 +15,6 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("set-game-state", setGameState);
     socket.on("your-turn", () => setTurn(true));
     socket.on("send-players", generatePlayerList);
-    socket.on("send-score", savePlayerScore);
 
     return () => {
       socket.disconnect();
@@ -33,7 +32,7 @@ const MainGame = ({ socket, username, room }) => {
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
   const [players, setPlayers] = useState([]);
-  const [score, setScore] = useState("");
+  // const [score, setScore] = useState("");
 
   // functions
   function letterReducer(letters, action) {
@@ -129,7 +128,6 @@ const MainGame = ({ socket, username, room }) => {
   const appendWord = (word, username, score) => {
     setWords({ type: "PUSH", word, username, score });
     console.log(score);
-    savePlayerScore(players);
   };
 
   const clearLetters = () => {
@@ -145,6 +143,7 @@ const MainGame = ({ socket, username, room }) => {
   const nextRound = () => {
     console.log("Next Round");
     socket.emit("next-round", room);
+    savePlayerScore(words);
   };
 
   const generatePlayerList = (playersArr) => {
@@ -155,16 +154,22 @@ const MainGame = ({ socket, username, room }) => {
     });
     console.log(newPlayersArr);
     setPlayers(newPlayersArr);
-    console.log(players); // returns empty array!
+    console.log(newPlayersArr); // returns empty array!
   };
 
-  const savePlayerScore = (players) => {
-    console.log("player score");
-    const playerScore = players.map((player) => {
-      return player.score;
-    });
-    setScore(playerScore); // TODO change!
-    console.log(players); // returns empty array
+  const savePlayerScore = (words) => {
+    const score = words.reduce((maxScore, word) => {
+      if (username === word.username) {
+        console.log("this is an if statement");
+        console.log(maxScore, word.score);
+        return Math.max(maxScore, word.score);
+      }
+      return maxScore;
+    }, 0);
+    console.log(words);
+    console.log(score);
+
+    socket.emit("save-score", score, room, username);
   };
 
   const setGameState = (letters, words) => {
