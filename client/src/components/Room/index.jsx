@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 
+import MW from "../../assets/images/Merriam-Webster.png";
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
@@ -10,6 +11,8 @@ function Room({ socket, username, room }) {
   const [activeTimer, setActiveTimer] = useState(false);
   const [isYourTurn, setTurn] = useState(false);
 	const [round, setRound] = useState(1);
+  const [activePlayer, setActivePlayer] = useState("");
+	const [score, setScore] = useState(0);
 
 	useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -33,6 +36,8 @@ function Room({ socket, username, room }) {
 
   const nextRound = () => {
     socket.emit("next-round", room);
+    socket.emit("save-score", score, room, username);
+		setScore(0);
   };
 
   const restartLetters = (event) => {
@@ -57,8 +62,16 @@ function Room({ socket, username, room }) {
         </div>
         <ul>
           {players.map((player, index) => (
-            <li className="playerLi" key={index}>
-              {player}
+            <li
+              className={
+                "playerLi " +
+                (activePlayer === player.username
+                  ? "active-player"
+                  : "not-active")
+              }
+              key={index}
+            >
+              - {player}
             </li>
           ))}
         </ul>
@@ -73,6 +86,8 @@ function Room({ socket, username, room }) {
 					setActiveTimer={setActiveTimer}
 					isYourTurn={isYourTurn}
 					setTurn={setTurn}
+					score={score}
+					setScore={setScore}
 				/>
 			: <NumbersGame 
 					socket={socket} 
@@ -82,6 +97,8 @@ function Room({ socket, username, room }) {
 					setActiveTimer={setActiveTimer}
 					isYourTurn={isYourTurn}
 					setTurn={setTurn}
+					score={score}
+					setScore={setScore}
 				/>
 			}
  
@@ -94,6 +111,10 @@ function Room({ socket, username, room }) {
           Next Round
         </button>
       </div>
+			
+			<div className="webster is-flex is-align-self-flex-end pr-2">
+				<img className="MW" src={MW} alt="Merriam Webster API" />
+			</div>
 			
 			<LiveChat socket={socket} username={username} room={room} />
     </div>

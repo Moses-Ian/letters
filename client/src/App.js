@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
+import Footer from "./components/Footer";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 import Header from "./components/Header";
@@ -48,7 +49,7 @@ function App() {
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io();		//works in production and dev ???
+    const newSocket = io(); //works in production and dev ???
     attachListeners(newSocket);
     setSocket(newSocket);
     return () => {
@@ -64,29 +65,29 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App container p-3">
-			{username === 'Guest' && room === ''
-				? <LandingPage socket={socket} username={username} />
-				: <Header username={username} /> 
-			}
-			{/*<div>
-          <LandingPage socket={socket} username={username} />
-			</div>*/}
-			<JoinGame
-				socket={socket}
-				username={username}
-				room={room}
-				setRoom={setRoom}
-			/>
-			{room !== "" ? (
-				<Room
+				{username === 'Guest' && room === ''
+					? <LandingPage socket={socket} username={username} />
+					: <Header username={username} /> 
+				}
+				
+				<JoinGame
 					socket={socket}
 					username={username}
 					room={room}
+					setRoom={setRoom}
 				/>
-      ) : (
-        // <p>You need to type a room name</p>
-        ""
-      )}
+				{room !== "" ? (
+					<Room
+						socket={socket}
+						username={username}
+						room={room}
+					/>
+				) : (
+					// <p>You need to type a room name</p>
+					""
+				)}
+				
+        <Footer />
       </div>
     </ApolloProvider>
   );

@@ -82,6 +82,14 @@ class GameObj {
 			...player
 		};
 	}
+
+  getPlayer(username) {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].username === username) {
+        return this.players[i];
+      }
+    }
+  }
 }
 
 module.exports = GameObj;

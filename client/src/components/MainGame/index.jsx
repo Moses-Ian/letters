@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
-import {sanitize} from '../../utils';
+import { sanitize } from "../../utils";
 
-const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn }) => {
+const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn, score, setScore }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
@@ -18,7 +18,6 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
     };
   }, []);
 
-  
   // variables
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
@@ -28,13 +27,9 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
   const [words, setWords] = useReducer(wordReducer, []);
 
   useEffect(() => {
-    if (isYourTurn) 
-      document.body.classList.add ('your-turn');
-    else 
-      document.body.classList.remove('your-turn')
-
-  } ,[isYourTurn])
-
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
 
   // functions
   function letterReducer(letters, action) {
@@ -79,22 +74,6 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
     return newWordsArr;
   }
 
-  // function playersReducer(playersArr, action) {
-  //   let newPlayersArr;
-  //   switch (action.type) {
-  //     case "PUSH":
-  //       const { player, room } = action;
-  //       newPlayersArr = [...playersArr, { player, username, room }];
-  //       break;
-  //     default:
-  //       throw new Error();
-  //   }
-  //   return newPlayersArr;
-  // }
-
-  // TODO add backend functionality to get players in room and wire to socket.
-  const displayPlayers = (player, room) => {};
-
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
   };
@@ -121,14 +100,24 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
 
   const submitWord = (event) => {
     event.preventDefault();
-    const word = sanitize(lettersInput, {upper:true});
+    const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
     socket.emit("submit-word", word, username, room);
+    setLettersInput("");
   };
 
 
-  const appendWord = (word, username, score) => {
-    setWords({ type: "PUSH", word, username, score });
+  const appendWord = (submittedWord, submittedUser, submittedScore) => {
+    setWords(
+		{ 
+			type: "PUSH", 
+			word: submittedWord, 
+			username: submittedUser, 
+			score: submittedScore 
+		});
+    console.log(submittedScore);
+		if (submittedUser === username && submittedScore > score)
+			setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -156,8 +145,8 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
           ))}
         </ul>
       </div>
+			
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
-      
 
       <div className="field m-3 has-text-centered">
         <div className={"letters-buttons " + (activeTimer ? 'hidden' : '')}>
@@ -168,7 +157,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
           >
             Vowel
           </button>
-          <button 
+          <button
             disabled={!isYourTurn || activeTimer}
             className="hover-transititon is-warning"
             onClick={addConsonant}
@@ -187,7 +176,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
-								value={lettersInput}
+                value={lettersInput}
               />
             </div>
 
@@ -196,6 +185,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
                 className="button is-warning"
                 type="submit"
                 value="Submit"
+                disabled={activeTimer ? false : true}
                 onClick={submitWord}
               />
             </div>
@@ -203,7 +193,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
         </form>
       </div>
 
-      <div className="p-5">
+      <div className="words-list pl-2">
         <ul>
           {words.map((word, index) => (
             <li key={index}>
@@ -212,8 +202,6 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
           ))}
         </ul>
       </div>
-
-
     </>  
   );
 };
