@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import {sanitize} from '../../utils';
 
 const MAX_MESSAGE_LENGTH = 80;
 
@@ -36,7 +37,7 @@ function LiveChat({ socket, username, room }) {
     //append message to element
     setMessages({
       type: "PUSH",
-      message: formState.message.trim(),
+      message: sanitize(formState.message),
       username,
     });
     setFormState({ message: "" });
@@ -65,7 +66,7 @@ function LiveChat({ socket, username, room }) {
   };
 
   return (
-    <div className="live-chat-header">
+    <div className="live-chat-header pl-3">
       {/* Chat */}
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (

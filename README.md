@@ -17,7 +17,6 @@ A Real-Time multiplayer letters and numbers game app.
 - [App Usage](#usage)
 - [Tests](#tests)
 - [Technologies](#technologies)
-- [Credits](#credits)
 - [Screenshots](#screenshots)
 - [Deployment](#deployment)
 - [Questions](#questions)
@@ -49,11 +48,15 @@ There are no tests for this program.
 - GraphQL
 - Bulma
 
-## Credits
-
-(dictionary API)
-
 ## Screenshots
+
+![image](https://user-images.githubusercontent.com/80355222/170894421-8dabbe88-8c07-46e5-a55a-6b160bc15c45.png)
+
+![image](https://user-images.githubusercontent.com/80355222/170894448-1db644b4-52a5-48fe-aeb6-9ffb09e6e1aa.png)
+
+![image](https://user-images.githubusercontent.com/80355222/170894554-f2f28bc1-cd7f-49e8-9128-5082387ea6cc.png)
+
+![image](https://user-images.githubusercontent.com/80355222/170894575-4f21cbc7-670e-49d4-b15a-55a26167916a.png)
 
 ## Deployment
 
