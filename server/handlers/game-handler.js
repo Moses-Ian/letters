@@ -185,10 +185,10 @@ restartLetters = (room) => {
 // nextTurn ??
 
 nextRound = (room) => {
-  console.log("nextRound");
   let g = rooms.get(room);
   if (!g) return;
   let turn = g.nextTurn();
+	io.to(room).emit('new-round', g.round);
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
@@ -213,9 +213,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   socket.join(room);
   //add the players
   let turn = g.add(new PlayerObj(username, socket.id));
-  console.log(turn);
   tellTurn(g, turn);
-  console.log(turn);
   //leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
@@ -237,7 +235,6 @@ leaveRoom = (socket, room) => {
     return;
   }
   tellTurn(g, turn);
-  console.log(g.players);
 };
 
 tellTurn = (g, turn) => {

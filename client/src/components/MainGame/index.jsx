@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
-import MW from "../../assets/images/Merriam-Webster.png";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
 
-const MainGame = ({ socket, username, room }) => {
+const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn, score, setScore }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
@@ -14,27 +13,18 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
-    socket.on("your-turn", () => setTurn(true));
-    socket.on("send-players", generatePlayerList);
 
     return () => {
-      socket.disconnect();
     };
   }, []);
 
   // variables
-  const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
     new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-  const [isYourTurn, setTurn] = useState(false);
-  const [activePlayer, setActivePlayer] = useState("");
-  const [activeTimer, setActiveTimer] = useState(false);
-  const [players, setPlayers] = useState([]);
-  // const [score, setScore] = useState("");
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -100,7 +90,6 @@ const MainGame = ({ socket, username, room }) => {
     });
     if (index === 8) {
       setActiveTimer(true);
-      setBtnDivDisplay("hidden");
     }
   };
 
@@ -117,15 +106,18 @@ const MainGame = ({ socket, username, room }) => {
     setLettersInput("");
   };
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
-    setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
 
-  const appendWord = (word, username, score) => {
-    setWords({ type: "PUSH", word, username, score });
-    console.log(score);
+  const appendWord = (submittedWord, submittedUser, submittedScore) => {
+    setWords(
+		{ 
+			type: "PUSH", 
+			word: submittedWord, 
+			username: submittedUser, 
+			score: submittedScore 
+		});
+    console.log(submittedScore);
+		if (submittedUser === username && submittedScore > score)
+			setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -135,37 +127,6 @@ const MainGame = ({ socket, username, room }) => {
     setLettersInput("");
     setTurn(false);
     setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
-
-  const nextRound = () => {
-    console.log("Next Round");
-    socket.emit("next-round", room);
-    savePlayerScore(words);
-  };
-
-  const generatePlayerList = (playersArr) => {
-    console.log(playersArr[0].id);
-    const newPlayersArr = playersArr.map((player) => {
-      return player.username;
-    });
-    console.log(newPlayersArr);
-    setPlayers(newPlayersArr);
-  };
-
-  const savePlayerScore = (words) => {
-    const score = words.reduce((maxScore, word) => {
-      if (username === word.username) {
-        console.log("this is an if statement");
-        console.log(maxScore, word.score);
-        return Math.max(maxScore, word.score);
-      }
-      return maxScore;
-    }, 0);
-    console.log(words);
-    console.log(score);
-
-    socket.emit("save-score", score, room, username);
   };
 
   const setGameState = (letters, words) => {
@@ -173,37 +134,8 @@ const MainGame = ({ socket, username, room }) => {
     setWords({ type: "RENDER_WORDS", words });
   };
 
-  console.log(activePlayer, players);
-
   return (
-    <div className="is-flex is-flex-direction-column">
-      <h1 className="room-name has-text-centered is-size-4">
-        You are playing in: {room}
-      </h1>
-
-      {/* TODO add active turn highlighted and then remove next line*/}
-      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
-      <div className="players is-align-self-center">
-        <div>
-          <h1 className="has-text-warning">Players:</h1>
-        </div>
-        <ul>
-          {players.map((player, index) => (
-            <li
-              className={
-                "playerLi " +
-                (activePlayer === player.username
-                  ? "active-player"
-                  : "not-active")
-              }
-              key={index}
-            >
-              - {player}
-            </li>
-          ))}
-        </ul>
-      </div>
-
+		<>
       <div className="rendered-letters column m-0 p-0">
         <ul>
           {letters.map((letter, index) => (
@@ -213,10 +145,11 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
+			
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
       <div className="field m-3 has-text-centered">
-        <div className={"letters-buttons " + btnDivDisplay}>
+        <div className={"letters-buttons " + (activeTimer ? 'hidden' : '')}>
           <button
             disabled={!isYourTurn || activeTimer}
             className="button mr-3 is-warning"
@@ -269,21 +202,7 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
-
-      <div className="m-3 has-text-centered">
-        <button className="button is-warning m-2" onClick={restartLetters}>
-          Restart
-        </button>
-
-        <button className="button is-warning m-2" onClick={nextRound}>
-          Next Round
-        </button>
-      </div>
-
-      <div className="webster is-flex is-align-self-flex-end pr-2">
-        <img className="MW" src={MW} alt="Merriam Webster API" />
-      </div>
-    </div>
+    </>  
   );
 };
 
