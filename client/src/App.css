@@ -308,3 +308,33 @@ input {
 .hover-transititon {
   padding: 6px;
 }
+
+.MW {
+  height: 50px;
+}
+
+.footer {
+  background-color: var(--seventh-color) !important;
+  opacity: 0.7;
+  color: #edeae5;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 15px !important;
+  text-shadow: 1px 1px 0px black;
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--quinary-color);
+}
+
+.name-background {
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  width: 8vw;
+  height: 4vh;
+  box-shadow: 5px 10px 10px black;
+  line-height: 2.5;
+}
