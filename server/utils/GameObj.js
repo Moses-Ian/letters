@@ -10,6 +10,7 @@ class GameObj {
 		this.name = name || '';	
 		this.players = [];
 		this.turn = -1;
+		this.round = 1;
 		// numbers game
 		this.numbers = new Array(6).fill('');
 		this.smallNumberCount = 0;
@@ -26,6 +27,14 @@ class GameObj {
 		this.consonantCount = 0;
 		this.letterCount = 0;
 		this.words = [];
+		
+		this.numbers = new Array(6).fill('');
+		this.smallNumberCount = 0;
+		this.largeNumberCount = 0;
+		this.numberCount = 0;
+		this.target = 0;
+		this.operations = []; 
+		
 		return this.turn;
 	}
 	
@@ -54,6 +63,7 @@ class GameObj {
 		if (this.turn >= this.players.length)
 			this.turn = 0;
 		this.restart();
+		this.round++;
 		return this.turn;
 	}
 	

@@ -182,6 +182,7 @@ nextRound = (room) => {
 	if (!g)
 		return;
   let turn = g.nextTurn();
+	io.to(room).emit('new-round', g.round);
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
