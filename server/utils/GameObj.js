@@ -15,6 +15,8 @@ class GameObj {
 		this.smallNumberCount = 0;
 		this.largeNumberCount = 0;
 		this.numberCount = 0;
+		this.target = 0;
+		this.operations = []; 
 		
 	}
 	
