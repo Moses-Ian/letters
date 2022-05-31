@@ -219,7 +219,7 @@ const MainGame = ({ socket, username, room }) => {
           </button>
           <button 
             disabled={!isYourTurn || activeTimer}
-            className="hover-transititon is-warning"
+            className="button is-warning"
             onClick={addConsonant}
           >
             Consonant
