@@ -177,7 +177,6 @@ restartLetters = (room) => {
 };
 
 nextRound = (room) => {
-  console.log("nextRound");
   let g = rooms.get(room);
 	if (!g)
 		return;
@@ -199,9 +198,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   socket.join(room);
   //add the players
   let turn = g.add({ id: socket.id, username: username });
-  console.log(turn);
   tellTurn(g, turn);
-  console.log(turn);
   //leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
@@ -223,7 +220,6 @@ leaveRoom = (socket, room) => {
 		return;
 	}
 	tellTurn(g, turn);
-	console.log(g.players);
 };
 
 tellTurn = (g, turn) => {

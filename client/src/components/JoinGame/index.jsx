@@ -5,9 +5,8 @@ import "../../App.css";
 import {sanitize} from '../../utils';
 import NumbersGame from "../NumbersGame";
 
-export default function JoinGame({ socket, username }) {
+export default function JoinGame({ socket, username, room, setRoom }) {
   const [show, setShow] = useState(false);
-  const [room, setRoom] = useState("");
   const [roomInput, setRoomInput] = useState("");
 
   // if we don't want the room on refresh function, comment the useEffect
@@ -98,17 +97,6 @@ export default function JoinGame({ socket, username }) {
       ) : (
         ""
       )}
-
-      {room !== "" ? (
-        <>
-          <MainGame socket={socket} username={username} room={room} />
-          {/* <NumbersGame socket={socket} username={username} room={room} /> */}
-          <LiveChat socket={socket} username={username} room={room} />
-        </>
-      ) : (
-        // <p>You need to type a room name</p>
-        ""
-      )}
-    </>
+		</>
   );
 }

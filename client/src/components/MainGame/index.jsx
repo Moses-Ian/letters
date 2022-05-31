@@ -3,7 +3,7 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import {sanitize} from '../../utils';
 
-const MainGame = ({ socket, username, room }) => {
+const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
@@ -13,26 +13,19 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
-    socket.on("your-turn", () => setTurn(true));
-    socket.on("send-players", generatePlayerList);
 
     return () => {
-      socket.disconnect();
     };
   }, []);
 
   
   // variables
-  const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
     new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-  const [isYourTurn, setTurn] = useState(false);
-  const [activeTimer, setActiveTimer] = useState(false);
-  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     if (isYourTurn) 
@@ -118,7 +111,6 @@ const MainGame = ({ socket, username, room }) => {
     });
     if (index === 8) {
       setActiveTimer(true);
-      setBtnDivDisplay("hidden");
     }
   };
 
@@ -134,11 +126,6 @@ const MainGame = ({ socket, username, room }) => {
     socket.emit("submit-word", word, username, room);
   };
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
-    setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
 
   const appendWord = (word, username, score) => {
     setWords({ type: "PUSH", word, username, score });
@@ -151,22 +138,6 @@ const MainGame = ({ socket, username, room }) => {
     setLettersInput("");
     setTurn(false);
     setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
-
-  const nextRound = () => {
-    console.log("Next Round");
-    socket.emit("next-round", room);
-  };
-
-  const generatePlayerList = (playersArr) => {
-    console.log("players list");
-    console.log(playersArr[0].username);
-
-    const newPlayersArr = playersArr.map((player) => {
-      return player.username;
-    });
-    setPlayers(newPlayersArr);
   };
 
   const setGameState = (letters, words) => {
@@ -175,28 +146,7 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   return (
-    <div className="is-flex is-flex-direction-column">
-      <h1 className="room-name has-text-centered is-size-4">
-        You are playing in: {room}
-      </h1>
-      {/* TODO remove this */}
-      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
-
-      {/* TODO add players in room */}
-      {/* TODO add active turn highlighted */}
-      <div className="players is-align-self-center">
-        <div>
-          <h1 className="has-text-warning">Players:</h1>
-        </div>
-        <ul>
-          {players.map((player, index) => (
-            <li className="playerLi" key={index}>
-              {player}
-            </li>
-          ))}
-        </ul>
-      </div>
-
+		<>
       <div className="rendered-letters column m-0 p-0">
         <ul>
           {letters.map((letter, index) => (
@@ -210,7 +160,7 @@ const MainGame = ({ socket, username, room }) => {
       
 
       <div className="field m-3 has-text-centered">
-        <div className={"letters-buttons " + btnDivDisplay}>
+        <div className={"letters-buttons " + (activeTimer ? 'hidden' : '')}>
           <button
             disabled={!isYourTurn || activeTimer}
             className="button mr-3 is-warning"
@@ -264,17 +214,7 @@ const MainGame = ({ socket, username, room }) => {
       </div>
 
 
-      <div className="m-3 has-text-centered">
-        <button className="button is-warning m-2" onClick={restartLetters}>
-          Restart
-        </button>
-
-        <button className="button is-warning m-2" onClick={nextRound}>
-          Next Round
-        </button>
-      </div>
-      
-    </div>
+    </>  
   );
 };
 
