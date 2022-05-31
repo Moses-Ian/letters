@@ -11,6 +11,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import NumbersGame from "./components/NumbersGame";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
