@@ -1,32 +1,13 @@
-import React, { useState } from "react";
-import MainGame from "../MainGame";
+import React from "react";
 
-function Room({ socket }) {
-  const [room, setRoom] = useState("");
+import Header from "../Header";
 
-  const joinRoom = (name) => {
-    socket.emit("join-game", name, room, (success, newRoom) => {
-      setRoom(newRoom);
-    });
-    console.log(`joinRoom ${name}`);
-  };
-
-  const joinRoomHandler = () => {
-    joinRoom("My Cool Room");
-  };
-
+function Room({ username }) {
   console.log("Room rendered");
 
   return (
     <div>
-      <button className="game-btn" onClick={joinRoomHandler}>
-        Join Game
-      </button>
-      {room !== "" ? (
-        <MainGame socket={socket} room={room} />
-      ) : (
-        <p>You need to type a room name</p>
-      )}
+      <Header username={username} />
     </div>
   );
 }

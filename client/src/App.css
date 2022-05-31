@@ -1,43 +1,3 @@
-/* FYI hadas */
-.background {
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0.4;
-}
-
-.field button {
-  width: 20vw;
-  box-shadow: 3px 2px 8px #888888;
-  margin-top: 5vw;
-}
-
-#letters-input {
-  width: 40vw;
-}
-
-.rendered-letters {
-  height: 30vh;
-}
-
-.button,
-input {
-  box-shadow: 3px 8px 10px #026670 !important;
-  font-family: Fugaz one;
-
-}
-
-.restart {
-  /* background-color: #026670 !important;
-  border-color: #026670 !important; */
-  
-}
-
-/* hadas */
-
-* {
-  font-family: "Fugaz one", sans-serif;
-}
-
 :root {
   --bg: #ededf6;
   --primary-color: #edeae5;
@@ -46,96 +6,201 @@ input {
   --quanternary-color: #9fedd7;
   --quinary-color: #026670;
   --sixth-color: #5d909a;
+  --seventh-color: #4a4a4a;
   font-family: "Fugaz one", cursive;
 }
 
-body {
-  height: 100vh;
-  background-color: var(--quinary-color);
-  color: var(--secondary-color);
-  font-size: 20px;
+* {
+  font-family: "Fugaz one", sans-serif;
+}
 
-  /* hadas */
+body {
+  color: var(--secondary-color);
+  font-family: Fugaz One;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
-  background-position: center;
-  /* hadas */
-  /* .App {
-  text-align: center;
+  background-position: top;
 }
 
-/* HEADER COMPONENT */
+.button,
+input {
+  box-shadow: 3px 8px 10px #026670 !important;
+  font-family: Fugaz one;
+  transition: background-color 500ms ease;
+}
 
-  /* .game-header {
+.button:hover {
+  background-color: var(--quanternary-color);
+}
+
+.timer {
+  font-size: 30px;
   color: var(--quinary-color);
+  color: #fce181;
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
+  font-weight: 500;
+  font-size: 45px;
+}
+
+.timer-fonts {
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial !important;
+}
+
+/* CHRIS ADDED */
+
+.live-chat-header {
+  color: var(--secondary-color);
+  font-size: 20px;
+  opacity: 80%;
+
+  /* background-color: #9fedd74e;
+  background-size: 50px;
+  border-radius: 5px;
+  padding: 1vw;
+  width: 25vw; */
+}
+
+.live-chat-message {
+  color: var(--quinary-color);
+  font-size: 15px;
+}
+
+.live-chat {
+  font-size: 15px;
+  color: var(--quinary-color);
+  opacity: 80%;
+  padding-top: 1vh;
+}
+
+.live-chat-input {
+  opacity: 30%;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.live-chat-button {
+  /* display: block;
+  margin-top: 1vh;
+  margin-left: 8vw; */
+  margin-left: 1vw;
+  background-color: var(--quanternary-color);
+  border-radius: 5px;
+  font-size: 11px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  font-family: Fugaz One;
+  color: var(--seventh-color);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* CHRIS ADDED END */
+
+.landing-letters {
+  font-size: 6rem;
   text-align: center;
-  font-size: 80px;
-  text-shadow: 4px 4px 3px black;
-  transition: text-shadow 250ms ease, font-size 250ms ease;
-  /* border: 1px solid #5d909a; */
-  /* background-color: #5d909a; */
-  font-family: Fugaz One;
-  font-weight: 600;
-}
-
-*/ .game-header-3 {
-  font-family: Fugaz One;
-}
-
-/* .game-header:hover {
+  color: var(--secondary-color);
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  font-size: 90px;
-} */
+  transition: text-shadow 400ms ease, font-size 500ms ease;
+  margin-top: 10vh;
+}
 
-.game-header-3 {
+.landing-letters-3 {
   color: var(--quanternary-color);
 }
 
-/* HEADER COMPONENT END */
-
-/* MAIN GAME PAGE */
-
-
-
-#scramble {
-  min-height: 21px;
-  font-size: 40px;
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+.landing-letters:hover {
+  text-shadow: 10px 10px 4px black, 6px 6px 10px black;
+  font-size: 7rem;
 }
 
-/* MODAL */
+/* .center {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+} */
 
-.modal {
-  position: relative;
+.game-header {
+  color: var(--secondary-color);
+  font-size: 50px;
+  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+  transition: border-color 250ms ease;
+}
+
+.game-header-3 {
+  color: var(--quanternary-color);
+  font-family: Fugaz One;
+}
+
+.welcome {
+  color: var(--secondary-color);
+  font-size: 20px;
+}
+
+.players {
+  background: #026670;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  /* width: fit-content;
+  height: fit-content; */
+  padding: 10px 20px;
+}
+
+.players h1 {
+  font-size: larger;
+}
+
+.playerLi {
+  color: var(--primary-color);
+}
+
+.rendered-letters {
+  text-align: center;
+  padding-top: 6vh;
+}
+
+.letter-box {
+  /* width: 45px !important; */
+  list-style-type: none;
+  display: inline;
+  margin: 0px 2px;
+  padding-top: 2px;
+  background-color: #02677065;
+  border-radius: 3px;
+}
+
+.letter-span {
+  padding: 2px 5px;
+  margin: 1px 4px;
+  font-size: 27px;
+  color: #fce181;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-main {
+  z-index: 1;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--secondary-color);
-  font-family: Fugaz One;
 }
 
 .modal-content {
-  width: 330px;
+  width: 330px !important;
   background-color: var(--sixth-color);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.3);
-   
-    
-   
+  box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.3);
 }
 
 .modal-show .modal-content {
@@ -150,7 +215,7 @@ body {
 .modal-title {
   margin: 0;
   font-size: 25px;
-  /* text-align: center; */
+  color: var(--seventh-color);
 }
 
 .modal-body {
@@ -159,11 +224,14 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+.join-modal-body {
+  color: var(--secondary-color);
+}
+
 .type-box {
-  width: 300px;
+  height: 32px !important;
   border-radius: 5px;
-  height: 25px;
-  margin-top: 5px;
+  margin: 5px 0 5px 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -171,152 +239,37 @@ body {
   background-color: var(--quanternary-color);
 }
 
-.modal-enter-button, .modal-close-button, .modal-toggle-button, .join-game-button, .sign-up-button {
-  color: var(--quinary-color);
+.modal-enter-button,
+.modal-close-button,
+.modal-toggle-button,
+.join-game-button,
+.sign-up-button {
+  /* color: var(--quinary-color); */
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
-  size: 30px;
   font-size: 18px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-family: Fugaz One;
+  color: var(--seventh-color);
+  transition: background-color 500ms ease;
 }
 
-/* .modal-toggle-button {
-  font-size: 15px;
-} */
-
-.modal-toggle-button:hover, .join-game-button:hover, .sign-up-button:hover {
-  opacity: 80%;
+.modal-toggle-button,
+.sign-up-button {
+  width: 90px;
+  margin-top: 1vh;
 }
 
-.join-game-button {
-  /* color: var(--quinary-color); */
-  /* background-color: var(--secondary-color); */
-  font-size: 30px;
-  margin-top: 50px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+.modal-enter-button:hover,
+.modal-close-button:hover,
+.modal-toggle-button:hover,
+.join-game-button:hover,
+.sign-up-button:hover {
+  background-color: var(--quanternary-color);
+  /* transition: color 250ms ease; */
 }
 
-/* .sign-up-button {
-  .no-focus-outline a:focus,
-  .no-focus-outline button:focus {
-  outline: none;
-} */
-
-
-
-
-/* MODAL END */
-
-/* LANDING PAGE */
-
-/* .game-btn {
-  font-size: 30px;
-  margin-top: 450px;
-} */
-
-.container {
-  height: 200px;
-  position: relative;
-  /* margin-top: 500px; */
-  /* border: 3px solid green; */
+.room-name {
+  color: var(--primary-color);
 }
-
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-/* LANDING PAGE END */
-
-
-
-/* JOIN GAME */
-
-
-
-/* JOIN GAME END */
-
-
-
-
-
- /* HEADER COMPONENT */
-
-.game-header {
-  color: var(--secondary-color);
-  text-align: center;
-  font-size: 60px;
-  /* text-shadow: 3px 3px 2px black; */
-  transition: text-shadow 250ms ease, font-size 250ms ease;
-  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  /* border: 1px solid #026670; */
-  background-color: #026770a3;
-
-  transition: border-color 250ms ease;
-  
-  /* opacity: 60%; */
-}
-
-.game-header:hover {
-  /* text-shadow: 4px 4px 2px black, 6px 6px 10px black;
-  font-size: 65px; */
-
-}
-
-.game-header-3 {
-  color: var(--quanternary-color);
-}
-
-/* HEADER COMPONENT END */
-
-/* MAIN GAME PAGE */
-
-/* #scramble {
-  min-height: 21px;
-  font-size: 40px;
-  text-align: center;
-} */
-
-/* .container {
-  height: 50px;
-  position: relative; */
-  /* border: 3px solid green; */
-/* } */
-
-.vc-btn,
-.restart-btn,
-#letters-form {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-#letters-submit {
-  margin-left: 45px;
-}
-
-/* MAIN GAME PAGE END */
-
-/* media queries */
-@media screen and (max-width: 1200px) {
-}
-
-@media screen and (max-width: 980px) {
-}
-
-@media screen and (max-width: 768px) {
-}
-
-@media screen and (max-width: 576px) {
-}
-
-/* smallest reasonable size: 360px */

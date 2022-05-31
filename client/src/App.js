@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import Register from '../src/components/Register';
-import Room from "./components/Room";
-import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
 import { io } from "socket.io-client";
-
 import Auth from "./utils/auth";
 
 //graphql
@@ -44,12 +40,11 @@ function App() {
     });
   };
 
-  // const [currentPage, setCurrentPage] = useState('LandingPage');
-
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(`http://localhost:3001`);
+    // const newSocket = io(`http://localhost:3001`);
+    const newSocket = io();		//works in production and dev ???
     attachListeners(newSocket);
     setSocket(newSocket);
     return () => newSocket.close();
@@ -60,11 +55,10 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <h1 style={{ color: "yellow" }}>Welcome, {username}!</h1>
-        <LandingPage />
-        <Header />
-        <Room socket={socket}></Room>
+      <div className="App container p-3">
+        <div>
+          <LandingPage socket={socket} username={username} />
+        </div>
       </div>
     </ApolloProvider>
   );
