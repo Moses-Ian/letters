@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import MainGame from "../MainGame";
 import LiveChat from "../LiveChat";
 import "../../App.css";
+import {sanitize} from '../../utils';
+import NumbersGame from "../NumbersGame";
 
 export default function JoinGame({ socket, username }) {
   const [show, setShow] = useState(false);
@@ -26,8 +28,9 @@ export default function JoinGame({ socket, username }) {
 
   const joinRoomHandler = (e) => {
     e.preventDefault();
-    let r = roomInput.trim();
-    if (r != "" && r != room) joinRoom(roomInput);
+    // let r = roomInput.trim();
+    let r = sanitize(roomInput);
+    if (r != "" && r != room) joinRoom(r);
     setShow(false);
   };
 
@@ -43,6 +46,7 @@ export default function JoinGame({ socket, username }) {
 
   return (
     <>
+    
       <div className="field has-text-centered">
         {room === "" ? (
           <button
@@ -56,15 +60,18 @@ export default function JoinGame({ socket, username }) {
         )}
       </div>
 
+
+        
       {show ? (
         <div className="modal-main" onClick={closeModal}>
-          <form className="modal-content">
+          <form className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h4 className="modal-title">Join Game</h4>
             </div>
             <div className="modal-body">
               <p className="join-modal-body">
                 What is the name of the room you would like to join?
+                {/* Which room would you like to join? */}
               </p>
               <input
                 autoFocus
@@ -95,6 +102,7 @@ export default function JoinGame({ socket, username }) {
       {room !== "" ? (
         <>
           <MainGame socket={socket} username={username} room={room} />
+          {/* <NumbersGame socket={socket} username={username} room={room} /> */}
           <LiveChat socket={socket} username={username} room={room} />
         </>
       ) : (

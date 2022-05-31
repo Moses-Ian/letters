@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import MW from "../../assets/images/Merriam-Webster.png";
 import "bulma/css/bulma.min.css";
+import { sanitize } from "../../utils";
 
 const MainGame = ({ socket, username, room }) => {
   // socket.emit('print-all-rooms');
@@ -26,7 +27,7 @@ const MainGame = ({ socket, username, room }) => {
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill("")
+    new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [isYourTurn, setTurn] = useState(false);
@@ -34,6 +35,11 @@ const MainGame = ({ socket, username, room }) => {
   const [activeTimer, setActiveTimer] = useState(false);
   const [players, setPlayers] = useState([]);
   // const [score, setScore] = useState("");
+
+  useEffect(() => {
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
 
   // functions
   function letterReducer(letters, action) {
@@ -105,7 +111,8 @@ const MainGame = ({ socket, username, room }) => {
 
   const submitWord = (event) => {
     event.preventDefault();
-    const word = lettersInput;
+    const word = sanitize(lettersInput, { upper: true });
+    setLettersInput("");
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
   };
@@ -178,7 +185,7 @@ const MainGame = ({ socket, username, room }) => {
       {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
       <div className="players is-align-self-center">
         <div>
-          <h1 className="has-text-warning">players:</h1>
+          <h1 className="has-text-warning">Players:</h1>
         </div>
         <ul>
           {players.map((player, index) => (
@@ -206,33 +213,30 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
+      <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
-      <div className="fixed-container">
-        <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
-
-        <div className="field m-3 has-text-centered">
-          <div className={"letters-buttons " + btnDivDisplay}>
-            <button
-              disabled={!isYourTurn || activeTimer}
-              className="button mr-3 is-warning"
-              onClick={addVowel}
-            >
-              Vowel
-            </button>
-            <button
-              disabled={!isYourTurn || activeTimer}
-              className="button is-warning"
-              onClick={addConsonant}
-            >
-              Consonant
-            </button>
-          </div>
+      <div className="field m-3 has-text-centered">
+        <div className={"letters-buttons " + btnDivDisplay}>
+          <button
+            disabled={!isYourTurn || activeTimer}
+            className="button mr-3 is-warning"
+            onClick={addVowel}
+          >
+            Vowel
+          </button>
+          <button
+            disabled={!isYourTurn || activeTimer}
+            className="hover-transititon is-warning"
+            onClick={addConsonant}
+          >
+            Consonant
+          </button>
         </div>
       </div>
 
       <div className="field mb-3">
         <form>
-          <div className="field has-addons mt-3 is-justify-content-center">
+          <div className="field has-addons mt-2 is-justify-content-center">
             <div className="control">
               <input
                 onChange={handleInputChange}
