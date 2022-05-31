@@ -45,6 +45,7 @@ export default function JoinGame({ socket, username }) {
 
   return (
     <>
+    
       <div className="field has-text-centered">
         {room === "" ? (
           <button
@@ -58,6 +59,8 @@ export default function JoinGame({ socket, username }) {
         )}
       </div>
 
+
+        
       {show ? (
         <div className="modal-main" onClick={closeModal}>
           <form className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -67,6 +70,7 @@ export default function JoinGame({ socket, username }) {
             <div className="modal-body">
               <p className="join-modal-body">
                 What is the name of the room you would like to join?
+                {/* Which room would you like to join? */}
               </p>
               <input
                 autoFocus

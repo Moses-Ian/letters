@@ -17,11 +17,18 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100vh;
+  height: 120vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top;
+  background-position: center;
+
+}
+
+.your-turn {
+  border: #edeae5 5px solid;
+  border-radius: 15px;
+  margin: 5px;
 }
 
 .button,
@@ -53,25 +60,27 @@ input {
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
-  opacity: 80%;
-
-  /* background-color: #9fedd74e;
+  margin-top: 3vh;
+  background-color: #edeae5;
   background-size: 50px;
   border-radius: 5px;
-  padding: 1vw;
-  width: 25vw; */
+  padding: 2vh;
+  width: auto;
+  /* opacity: 80%; */
+  /* text-align: center; */
 }
 
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+  /* opacity: 70%; */
 }
 
 .live-chat {
   font-size: 15px;
   color: var(--quinary-color);
-  opacity: 80%;
   padding-top: 1vh;
+  /* opacity: 80%; */
 }
 
 .live-chat-input {
@@ -81,9 +90,6 @@ input {
 }
 
 .live-chat-button {
-  /* display: block;
-  margin-top: 1vh;
-  margin-left: 8vw; */
   margin-left: 1vw;
   background-color: var(--quanternary-color);
   border-radius: 5px;
@@ -94,7 +100,9 @@ input {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* CHRIS ADDED END */
+.username-chat {
+  color: #5d909a;
+}
 
 .landing-letters {
   font-size: 6rem;
@@ -139,21 +147,32 @@ input {
   font-size: 20px;
 }
 
+.players-ul {
+  display: inline;
+}
+
 .players {
-  background: #026670;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  /* background: #026670; */
+  /* background: rgba(0, 0, 0, 0.1); */
+  /* border-radius: 5px; */
   /* width: fit-content;
   height: fit-content; */
   padding: 10px 20px;
+  opacity: 70%;
+  /* display: flex; */
 }
 
 .players h1 {
   font-size: larger;
+  margin-right: .5vw;
 }
 
 .playerLi {
   color: var(--primary-color);
+}
+
+.players ul {
+  display: flex;
 }
 
 .rendered-letters {
@@ -164,15 +183,17 @@ input {
 .letter-box {
   /* width: 45px !important; */
   list-style-type: none;
-  display: inline;
+  display: inline-block;
   margin: 0px 2px;
   padding-top: 2px;
   background-color: #02677065;
   border-radius: 3px;
+  width: calc((100vw - 1.5rem - 110px) / 9);
+  max-width: 50px;
 }
 
 .letter-span {
-  padding: 2px 5px;
+  padding: 2px 0px;
   margin: 1px 4px;
   font-size: 27px;
   color: #fce181;
@@ -239,6 +260,7 @@ input {
   background-color: var(--quanternary-color);
 }
 
+.hover-transititon,
 .modal-enter-button,
 .modal-close-button,
 .modal-toggle-button,
@@ -252,7 +274,9 @@ input {
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-family: Fugaz One;
   color: var(--seventh-color);
-  transition: background-color 500ms ease;
+  transition: background-color 500ms ease; 
+  box-shadow: 3px 8px 10px #026670 !important;
+  /* padding: 6px; */
 }
 
 .modal-toggle-button,
@@ -261,6 +285,7 @@ input {
   margin-top: 1vh;
 }
 
+.hover-transititon:hover,
 .modal-enter-button:hover,
 .modal-close-button:hover,
 .modal-toggle-button:hover,
@@ -273,3 +298,14 @@ input {
 .room-name {
   color: var(--primary-color);
 }
+
+
+.hover-transititon{
+  padding: 6px;
+}
+
+
+
+
+
+
