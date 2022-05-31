@@ -6,6 +6,7 @@ import "../../App.css";
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations";
+import {sanitize} from '../../utils';
 
 export default function Register() {
   const [show, setShow] = useState(false);
@@ -22,9 +23,9 @@ export default function Register() {
     console.log(formState);
     const mutationResponse = await addUser({
       variables: {
-        email: formState.email,
+        email: sanitize(formState.email, {lower:true}),
         password: formState.password,
-        username: formState.username,
+        username: sanitize(formState.username)
       },
     });
     console.log(mutationResponse);
@@ -53,6 +54,7 @@ export default function Register() {
           <Modal title="Sign up" onClose={() => setShow(false)} show={show}>
             <div>
               <input
+								autoFocus
                 className="type-box input"
                 type="text"
                 placeholder="Username"

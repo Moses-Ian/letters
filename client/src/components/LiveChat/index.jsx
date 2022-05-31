@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import {sanitize} from '../../utils';
 
 const MAX_MESSAGE_LENGTH = 80;
 
@@ -36,7 +37,7 @@ function LiveChat({ socket, username, room }) {
     //append message to element
     setMessages({
       type: "PUSH",
-      message: formState.message.trim(),
+      message: sanitize(formState.message),
       username,
     });
     setFormState({ message: "" });
