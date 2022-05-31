@@ -20,17 +20,27 @@ const MainGame = ({ socket, username, room }) => {
     };
   }, []);
 
+  
   // variables
   const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill("")
+    new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [isYourTurn, setTurn] = useState(false);
   const [activeTimer, setActiveTimer] = useState(false);
   const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    if (isYourTurn) 
+      document.body.classList.add ('your-turn');
+    else 
+      document.body.classList.remove('your-turn')
+
+  } ,[isYourTurn])
+
 
   // functions
   function letterReducer(letters, action) {
@@ -196,6 +206,7 @@ const MainGame = ({ socket, username, room }) => {
         </ul>
       </div>
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
+      
 
       <div className="field m-3 has-text-centered">
         <div className={"letters-buttons " + btnDivDisplay}>
@@ -206,9 +217,9 @@ const MainGame = ({ socket, username, room }) => {
           >
             Vowel
           </button>
-          <button
+          <button 
             disabled={!isYourTurn || activeTimer}
-            className="button is-warning"
+            className="hover-transititon is-warning"
             onClick={addConsonant}
           >
             Consonant

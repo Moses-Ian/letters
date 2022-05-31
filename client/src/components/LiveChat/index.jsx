@@ -70,7 +70,7 @@ function LiveChat({ socket, username, room }) {
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (
           <p key={index}>
-            {m.username}: {m.message}
+            <span className='username-chat'>{m.username}: </span><span>{m.message}</span> 
           </p>
         ))}
       </div>

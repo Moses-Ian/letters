@@ -22,6 +22,13 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+
+}
+
+.your-turn {
+  border: #edeae5 5px solid;
+  border-radius: 15px;
+  margin: 5px;
 }
 
 .button,
@@ -53,27 +60,27 @@ input {
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
-  opacity: 80%;
   margin-top: 3vh;
-  background-color: #9fedd77e;
+  background-color: #edeae5;
   background-size: 50px;
   border-radius: 5px;
   padding: 2vh;
   width: auto;
+  /* opacity: 80%; */
   /* text-align: center; */
 }
 
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
-  opacity: 70%;
+  /* opacity: 70%; */
 }
 
 .live-chat {
   font-size: 15px;
   color: var(--quinary-color);
-  opacity: 80%;
   padding-top: 1vh;
+  /* opacity: 80%; */
 }
 
 .live-chat-input {
@@ -91,6 +98,10 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.username-chat {
+  color: #5d909a;
 }
 
 .landing-letters {
@@ -172,15 +183,17 @@ input {
 .letter-box {
   /* width: 45px !important; */
   list-style-type: none;
-  display: inline;
+  display: inline-block;
   margin: 0px 2px;
   padding-top: 2px;
   background-color: #02677065;
   border-radius: 3px;
+  width: calc((100vw - 1.5rem - 110px) / 9);
+  max-width: 50px;
 }
 
 .letter-span {
-  padding: 2px 5px;
+  padding: 2px 0px;
   margin: 1px 4px;
   font-size: 27px;
   color: #fce181;
@@ -247,6 +260,7 @@ input {
   background-color: var(--quanternary-color);
 }
 
+.hover-transititon,
 .modal-enter-button,
 .modal-close-button,
 .modal-toggle-button,
@@ -260,7 +274,9 @@ input {
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-family: Fugaz One;
   color: var(--seventh-color);
-  transition: background-color 500ms ease;
+  transition: background-color 500ms ease; 
+  box-shadow: 3px 8px 10px #026670 !important;
+  /* padding: 6px; */
 }
 
 .modal-toggle-button,
@@ -269,6 +285,7 @@ input {
   margin-top: 1vh;
 }
 
+.hover-transititon:hover,
 .modal-enter-button:hover,
 .modal-close-button:hover,
 .modal-toggle-button:hover,
@@ -281,3 +298,14 @@ input {
 .room-name {
   color: var(--primary-color);
 }
+
+
+.hover-transititon{
+  padding: 6px;
+}
+
+
+
+
+
+
