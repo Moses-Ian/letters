@@ -101,8 +101,8 @@ export default function JoinGame({ socket, username }) {
 
       {room !== "" ? (
         <>
-          <MainGame socket={socket} username={username} room={room} />
-          {/* <NumbersGame socket={socket} username={username} room={room} /> */}
+          {/* <MainGame socket={socket} username={username} room={room} /> */}
+          <NumbersGame socket={socket} username={username} room={room} />
           <LiveChat socket={socket} username={username} room={room} />
         </>
       ) : (
