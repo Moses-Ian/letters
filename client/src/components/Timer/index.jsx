@@ -8,7 +8,7 @@ function Timer() {
     }
 
     return (
-      <div className="timer-fonts">
+      <div className="timer">
         {/* <div className="text">Remaining</div> */}
         <div className="value">{remainingTime}</div>
         {/* <div className="text">seconds</div> */}
@@ -17,7 +17,7 @@ function Timer() {
   };
 
   return (
-    <div className="timer-wrapper is-flex is-justify-content-center m-0 timer-fonts">
+    <div className="timer-wrapper is-flex is-justify-content-center m-0">
       <CountdownCircleTimer
         isPlaying
         duration={30}

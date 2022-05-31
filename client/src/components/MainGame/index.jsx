@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
+import { sanitize } from "../../utils";
 
-const MainGame = ({ socket, username, room }) => {
+const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn, score, setScore }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
@@ -12,25 +13,23 @@ const MainGame = ({ socket, username, room }) => {
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
-    socket.on("your-turn", () => setTurn(true));
-    socket.on("send-players", generatePlayerList);
 
     return () => {
-      socket.disconnect();
     };
   }, []);
 
   // variables
-  const [btnDivDisplay, setBtnDivDisplay] = useState("");
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill("")
+    new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
-  const [isYourTurn, setTurn] = useState(false);
-  const [activeTimer, setActiveTimer] = useState(false);
-  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
 
   // functions
   function letterReducer(letters, action) {
@@ -75,22 +74,6 @@ const MainGame = ({ socket, username, room }) => {
     return newWordsArr;
   }
 
-  // function playersReducer(playersArr, action) {
-  //   let newPlayersArr;
-  //   switch (action.type) {
-  //     case "PUSH":
-  //       const { player, room } = action;
-  //       newPlayersArr = [...playersArr, { player, username, room }];
-  //       break;
-  //     default:
-  //       throw new Error();
-  //   }
-  //   return newPlayersArr;
-  // }
-
-  // TODO add backend functionality to get players in room and wire to socket.
-  const displayPlayers = (player, room) => {};
-
   const addVowel = (event) => {
     socket.emit("add-vowel", room);
   };
@@ -107,7 +90,6 @@ const MainGame = ({ socket, username, room }) => {
     });
     if (index === 8) {
       setActiveTimer(true);
-      setBtnDivDisplay("hidden");
     }
   };
 
@@ -118,19 +100,24 @@ const MainGame = ({ socket, username, room }) => {
 
   const submitWord = (event) => {
     event.preventDefault();
-    const word = lettersInput;
+    const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
     socket.emit("submit-word", word, username, room);
+    setLettersInput("");
   };
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
-    setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
 
-  const appendWord = (word, username, score) => {
-    setWords({ type: "PUSH", word, username, score });
+  const appendWord = (submittedWord, submittedUser, submittedScore) => {
+    setWords(
+		{ 
+			type: "PUSH", 
+			word: submittedWord, 
+			username: submittedUser, 
+			score: submittedScore 
+		});
+    console.log(submittedScore);
+		if (submittedUser === username && submittedScore > score)
+			setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -140,22 +127,6 @@ const MainGame = ({ socket, username, room }) => {
     setLettersInput("");
     setTurn(false);
     setActiveTimer(false);
-    setBtnDivDisplay("");
-  };
-
-  const nextRound = () => {
-    console.log("Next Round");
-    socket.emit("next-round", room);
-  };
-
-  const generatePlayerList = (playersArr) => {
-    console.log("players list");
-    console.log(playersArr[0].username);
-
-    const newPlayersArr = playersArr.map((player) => {
-      return player.username;
-    });
-    setPlayers(newPlayersArr);
   };
 
   const setGameState = (letters, words) => {
@@ -164,28 +135,7 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   return (
-    <div className="is-flex is-flex-direction-column">
-      <h1 className="room-name has-text-centered is-size-4">
-        You are playing in: {room}
-      </h1>
-      {/* TODO remove this */}
-      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
-
-      {/* TODO add players in room */}
-      {/* TODO add active turn highlighted */}
-      <div className="players is-align-self-center">
-        <div>
-          <h1 className="has-text-warning">players:</h1>
-        </div>
-        <ul>
-          {players.map((player, index) => (
-            <li className="playerLi" key={index}>
-              - {player}
-            </li>
-          ))}
-        </ul>
-      </div>
-
+		<>
       <div className="rendered-letters column m-0 p-0">
         <ul>
           {letters.map((letter, index) => (
@@ -195,10 +145,11 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
+			
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
       <div className="field m-3 has-text-centered">
-        <div className={"letters-buttons " + btnDivDisplay}>
+        <div className={"letters-buttons " + (activeTimer ? 'hidden' : '')}>
           <button
             disabled={!isYourTurn || activeTimer}
             className="button mr-3 is-warning"
@@ -218,14 +169,14 @@ const MainGame = ({ socket, username, room }) => {
 
       <div className="field mb-3">
         <form>
-          <div className="field has-addons mt-3 is-justify-content-center">
+          <div className="field has-addons mt-2 is-justify-content-center">
             <div className="control">
               <input
                 onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
                 placeholder="Your word here"
-								value={lettersInput}
+                value={lettersInput}
               />
             </div>
 
@@ -234,6 +185,7 @@ const MainGame = ({ socket, username, room }) => {
                 className="button is-warning"
                 type="submit"
                 value="Submit"
+                disabled={activeTimer ? false : true}
                 onClick={submitWord}
               />
             </div>
@@ -241,7 +193,7 @@ const MainGame = ({ socket, username, room }) => {
         </form>
       </div>
 
-      <div className="p-5">
+      <div className="words-list pl-2">
         <ul>
           {words.map((word, index) => (
             <li key={index}>
@@ -250,17 +202,7 @@ const MainGame = ({ socket, username, room }) => {
           ))}
         </ul>
       </div>
-
-      <div className="m-3 has-text-centered">
-        <button className="button is-warning m-2" onClick={restartLetters}>
-          Restart
-        </button>
-
-        <button className="button is-warning m-2" onClick={nextRound}>
-          Next Round
-        </button>
-      </div>
-    </div>
+    </>  
   );
 };
 

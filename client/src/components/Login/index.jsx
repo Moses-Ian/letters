@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
-// import userImg from '../../assets/images/user.png';
-// import logoutImg from '../../assets/images/logout2.png';
 import "../../App.css";
+import {sanitize} from '../../utils';
 
 //graphql
 import { useMutation } from "@apollo/client";
@@ -11,12 +10,6 @@ import { LOGIN } from "../../utils/mutations";
 
 export default function Login() {
   const [show, setShow] = useState(false);
-
-  // const [isLoginModalOpen, toggleLoginModal] = useState(false);
-  // const [isRegisterModalOpen, toggleRegisterModal] = useState(false);
-
-  // const [ShowModal, setShowModal] = useState(false);
-  // const [ShowModal2, setShowModal2] = useState(false);
 
   // Ian's cool graphql code
   //====================================================
@@ -28,7 +21,10 @@ export default function Login() {
     event.preventDefault();
     try {
       const mutationResponse = await login({
-        variables: { email: formState.email, password: formState.password },
+        variables: { 
+					email: sanitize(formState.email, {lower:true}), 
+					password: formState.password 
+				},
       });
       const token = mutationResponse.data.login.token;
       Auth.login(token);
@@ -58,6 +54,7 @@ export default function Login() {
           <Modal title="Login" onClose={() => setShow(false)} show={show}>
             <div>
               <input
+								autoFocus
                 className="type-box input"
                 type="email"
                 placeholder="Email"
