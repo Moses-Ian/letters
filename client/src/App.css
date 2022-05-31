@@ -30,11 +30,11 @@ body {
   margin: 5px;
 }
 
-.button,
+.button, .hover-transition,
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
-  transition: background-color 500ms ease;
+  /* transition: background-color 500ms ease; */
 }
 
 .button:hover {
@@ -59,11 +59,16 @@ input {
   color: var(--secondary-color);
   font-size: 20px;
   margin-top: 3vh;
-  background-color: #edeae5;
+  background-color: #edeae5c2;
   background-size: 50px;
   border-radius: 5px;
   padding: 2vh;
   width: auto;
+  box-shadow: 3px 8px 10px #026670;
+  border: #02677083 5px solid;
+  
+  border-radius: 25px;
+ 
   /* opacity: 80%; */
   /* text-align: center; */
 }
@@ -71,6 +76,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+ 
   /* opacity: 70%; */
 }
 
@@ -78,6 +84,7 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
+  
   /* opacity: 80%; */
 }
 
@@ -85,6 +92,7 @@ input {
   opacity: 30%;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  
 }
 
 .live-chat-button {
@@ -266,7 +274,7 @@ input {
   background-color: var(--quanternary-color);
 }
 
-.hover-transititon,
+.hover-transition,
 .modal-enter-button,
 .modal-close-button,
 .modal-toggle-button,
@@ -289,9 +297,10 @@ input {
 .sign-up-button {
   width: 90px;
   margin-top: 1vh;
+  height: 30px;
 }
 
-.hover-transititon:hover,
+.hover-transition:hover,
 .modal-enter-button:hover,
 .modal-close-button:hover,
 .modal-toggle-button:hover,
@@ -301,13 +310,18 @@ input {
   /* transition: color 250ms ease; */
 }
 
+.join-game-button {
+  box-shadow: 3px 8px 10px #026670 !important;
+  padding: 6px;
+}
+
 .room-name {
   color: var(--primary-color);
 }
 
 .hover-transititon {
   padding: 6px;
-}
+} 
 
 .MW {
   height: 50px;

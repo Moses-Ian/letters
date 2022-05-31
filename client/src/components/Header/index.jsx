@@ -10,7 +10,7 @@ const Header = ({ username }) => {
         </h1>
 
         <button
-          className="modal-toggle-button button is-warning mt-4"
+          className="modal-toggle-button is-warning mt-5"
           onClick={() => Auth.logout()}
         >
           Logout
