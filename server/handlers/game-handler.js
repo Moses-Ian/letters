@@ -1,6 +1,7 @@
 //classes
 //==================================
 const Game = require("../utils/GameObj.js");
+const PlayerObj = require("../utils/PlayerObj.js");
 
 //variables
 //==================================
@@ -43,10 +44,10 @@ const weights2 = [
 ];
 
 // small numbers
-const smallNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const AVAILABLE_SMALL_NUMBERS = 9;
 // large numbers
-const largeNumbers = ['25', '50', '75', '100'];
+const largeNumbers = ["25", "50", "75", "100"];
 const AVAILABLE_LARGE_NUMBERS = 4;
 
 let global = new Game();
@@ -66,8 +67,7 @@ printPlayers = (room) => console.log(rooms.get(room).players);
 //====================================
 addVowel = (room) => {
   let g = rooms.get(room);
-	if (!g)
-		return;
+  if (!g) return;
   if (g.vowelCount == 5) return;
   if (g.letterCount == 9) return;
   let vowel = generateVowel(g.letters);
@@ -87,8 +87,7 @@ generateVowel = (letters, firstTry = true) => {
 
 addConsonant = (room) => {
   let g = rooms.get(room);
-	if (!g)
-		return;
+  if (!g) return;
   if (g.consonantCount == 6) return;
   if (g.letterCount == 9) return;
   let consonant = generateConsonant(g.letters);
@@ -124,13 +123,21 @@ generateConsonant = (letters, firstTry = true) => {
   return consonant;
 };
 
+// g.words[0].score
+
+// {
+//   username: hadas,
+//   word: hello,
+//   score: 5
+// }
+
 submitWord = async (word, username, room) => {
   let g = rooms.get(room);
-  if (!g) 
-		return;
+  if (!g) return;
   const score = await scoreWord(word, g.letters);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
+  console.log(g.score); // returns undefined
 };
 
 scoreWord = async (word, letters) => {
@@ -159,7 +166,7 @@ inDictionary = async (word) => {
       `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.DICTIONARY_KEY}`
     );
     const data = await response.json();
-		if (data.length == 0) throw `Problem contacting DictionaryApi: Got []`;
+    if (data.length == 0) throw `Problem contacting DictionaryApi: Got []`;
     return typeof data[0] != "string";
   } catch (err) {
     console.error(err);
@@ -169,22 +176,30 @@ inDictionary = async (word) => {
 
 restartLetters = (room) => {
   let g = rooms.get(room);
-	if (!g)
-		return;
+  if (!g) return;
   let turn = g.restart();
   tellTurn(g, turn);
   io.to(room).emit("clear-letters");
 };
 
+// nextTurn ??
+
 nextRound = (room) => {
   console.log("nextRound");
   let g = rooms.get(room);
-	if (!g)
-		return;
+  if (!g) return;
   let turn = g.nextTurn();
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
+};
+
+saveScore = (score, room, username) => {
+  let g = rooms.get(room);
+  if (!g) return;
+  let player = g.getPlayer(username);
+  player.score += score;
+  console.log(player.score);
 };
 
 joinRoom = (socket, room, oldRoom, username, callback) => {
@@ -197,7 +212,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  let turn = g.add({ id: socket.id, username: username });
+  let turn = g.add(new PlayerObj(username, socket.id));
   console.log(turn);
   tellTurn(g, turn);
   console.log(turn);
@@ -205,24 +220,24 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-  setTimeout(() =>
-    io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
-  setTimeout(() =>
-    io.to(room).emit("send-players", g.players), 1500);
+  setTimeout(
+    () => io.to(socket.id).emit("set-game-state", g.letters, g.words),
+    1000
+  );
+  setTimeout(() => io.to(room).emit("send-players", g.players), 1500);
 };
 
 leaveRoom = (socket, room) => {
   socket.leave(room);
   let g = rooms.get(room);
-	if (!g)
-		return
-	let turn = g.remove(socket.id);
-	if (g.players.length == 0) {
-		rooms.delete(room);
-		return;
-	}
-	tellTurn(g, turn);
-	console.log(g.players);
+  if (!g) return;
+  let turn = g.remove(socket.id);
+  if (g.players.length == 0) {
+    rooms.delete(room);
+    return;
+  }
+  tellTurn(g, turn);
+  console.log(g.players);
 };
 
 tellTurn = (g, turn) => {
@@ -241,17 +256,19 @@ disconnect = (socket, reason) => {
 addSmallNumber = (room) => {
   let g = rooms.get(room);
   if (g.smallNumberCount == 4) return;
-  let number = smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
+  let number =
+    smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
   if (addNumber(g, number)) g.smallNumberCount++;
 
   io.to(room).emit("add-number", number, g.numberCount);
   g.numberCount++;
-}
+};
 
 const addLargeNumber = (room) => {
   let g = rooms.get(room);
   if (g.largeNumberCount == 4) return;
-  let number = largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)]
+  let number =
+    largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)];
 
   if (addNumber(g, number)) g.largeNumberCount++;
   io.to(room).emit("add-number", number, g.numberCount);
@@ -262,7 +279,7 @@ const addNumber = (g, number) => {
   if (g.numberCount === 6) return false;
   g.numbers[g.numberCount] = number;
   return true;
-}
+};
 
 function getRandomNumber(room) {
   let g = rooms.get(room);
@@ -290,9 +307,9 @@ function calculateTotal(operationArr, username, room) {
     }
   }
 
- const score = scoreAnswer(total, g);
- g.operations.push({ total, operationArr, username, score });
- io.to(room).emit("append-operations", total, operationArr, username, score);
+  const score = scoreAnswer(total, g);
+  g.operations.push({ total, operationArr, username, score });
+  io.to(room).emit("append-operations", total, operationArr, username, score);
 }
 
 function scoreAnswer(total, g) {
@@ -309,7 +326,6 @@ function scoreAnswer(total, g) {
   } else score = 0;
 
   return score;
-  
 }
 
 //listeners
@@ -328,6 +344,7 @@ const registerGameHandler = (newio, socket) => {
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
+  socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
   socket.on("print-all-rooms", printAllRooms);
@@ -338,8 +355,6 @@ const registerGameHandler = (newio, socket) => {
   socket.on("add-large", addLargeNumber);
   socket.on("set-target", getRandomNumber);
   socket.on("submit-calculation", calculateTotal);
-  
-
 };
 
 //export

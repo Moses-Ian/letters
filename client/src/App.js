@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
+import Footer from "./components/Footer";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 
@@ -45,7 +46,7 @@ function App() {
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io();		//works in production and dev ???
+    const newSocket = io(); //works in production and dev ???
     attachListeners(newSocket);
     setSocket(newSocket);
     return () => newSocket.close();
@@ -56,10 +57,9 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App container p-3">
-        <div>
-          <LandingPage socket={socket} username={username} />
-        </div>
+      <div className="App container">
+        <LandingPage socket={socket} username={username} />
+        <Footer />
       </div>
     </ApolloProvider>
   );
