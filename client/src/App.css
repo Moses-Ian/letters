@@ -177,6 +177,10 @@ input {
   color: #fce181;
 }
 
+.active-player {
+  color: red;
+}
+
 .words-list {
   height: 8vh;
 }
@@ -295,7 +299,6 @@ input {
 
 .footer a {
   text-decoration: none;
-  /* color: inherit; */
   color: var(--quinary-color);
 }
 
@@ -303,5 +306,7 @@ input {
   background-color: var(--secondary-color);
   border-radius: 50%;
   width: 8vw;
+  height: 4vh;
   box-shadow: 5px 10px 10px black;
+  line-height: 2.5;
 }

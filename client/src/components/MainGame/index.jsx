@@ -30,6 +30,7 @@ const MainGame = ({ socket, username, room }) => {
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [isYourTurn, setTurn] = useState(false);
+  const [activePlayer, setActivePlayer] = useState("");
   const [activeTimer, setActiveTimer] = useState(false);
   const [players, setPlayers] = useState([]);
   // const [score, setScore] = useState("");
@@ -103,20 +104,10 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   const submitWord = (event) => {
-    // TODO
     event.preventDefault();
     const word = lettersInput;
-    // if (word.length === 8) {
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
-    // } else {
-    //   setLettersInput("");
-    //   return (
-    //     <div className="is-flex is-justify-content-center">
-    //       <p>Please select all letters first</p>
-    //     </div>
-    //   );
-    // }
   };
 
   const restartLetters = (event) => {
@@ -147,14 +138,12 @@ const MainGame = ({ socket, username, room }) => {
   };
 
   const generatePlayerList = (playersArr) => {
-    console.log("players list");
     console.log(playersArr[0].id);
     const newPlayersArr = playersArr.map((player) => {
       return player.username;
     });
     console.log(newPlayersArr);
     setPlayers(newPlayersArr);
-    console.log(newPlayersArr); // returns empty array!
   };
 
   const savePlayerScore = (words) => {
@@ -177,6 +166,8 @@ const MainGame = ({ socket, username, room }) => {
     setWords({ type: "RENDER_WORDS", words });
   };
 
+  console.log(activePlayer, players);
+
   return (
     <div className="is-flex is-flex-direction-column">
       <h1 className="room-name has-text-centered is-size-4">
@@ -191,7 +182,15 @@ const MainGame = ({ socket, username, room }) => {
         </div>
         <ul>
           {players.map((player, index) => (
-            <li className="playerLi" key={index}>
+            <li
+              className={
+                "playerLi " +
+                (activePlayer === player.username
+                  ? "active-player"
+                  : "not-active")
+              }
+              key={index}
+            >
               - {player}
             </li>
           ))}
@@ -249,6 +248,7 @@ const MainGame = ({ socket, username, room }) => {
                 className="button is-warning"
                 type="submit"
                 value="Submit"
+                disabled={activeTimer ? false : true}
                 onClick={submitWord}
               />
             </div>

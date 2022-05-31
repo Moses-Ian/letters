@@ -171,6 +171,8 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
+// nextTurn ??
+
 nextRound = (room) => {
   console.log("nextRound");
   let g = rooms.get(room);
@@ -183,10 +185,9 @@ nextRound = (room) => {
 saveScore = (score, room, username) => {
   let g = rooms.get(room);
   if (!g) return;
-
   let player = g.getPlayer(username);
   player.score += score;
-  // TODO add getPlayer function
+  console.log(player.score);
 };
 
 joinRoom = (socket, room, oldRoom, username, callback) => {
