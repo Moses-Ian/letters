@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
 import "../../App.css";
+import {sanitize} from '../../utils';
 
 //graphql
 import { useMutation } from "@apollo/client";
@@ -20,7 +21,10 @@ export default function Login() {
     event.preventDefault();
     try {
       const mutationResponse = await login({
-        variables: { email: formState.email, password: formState.password },
+        variables: { 
+					email: sanitize(formState.email, {lower:true}), 
+					password: formState.password 
+				},
       });
       const token = mutationResponse.data.login.token;
       Auth.login(token);
@@ -50,6 +54,7 @@ export default function Login() {
           <Modal title="Login" onClose={() => setShow(false)} show={show}>
             <div>
               <input
+								autoFocus
                 className="type-box input"
                 type="email"
                 placeholder="Email"

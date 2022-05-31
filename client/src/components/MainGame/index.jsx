@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
+import {sanitize} from '../../utils';
 
 const MainGame = ({ socket, username, room }) => {
   // socket.emit('print-all-rooms');
@@ -128,7 +129,7 @@ const MainGame = ({ socket, username, room }) => {
 
   const submitWord = (event) => {
     event.preventDefault();
-    const word = lettersInput;
+    const word = sanitize(lettersInput, {upper:true});
     setLettersInput("");
     socket.emit("submit-word", word, username, room);
   };
