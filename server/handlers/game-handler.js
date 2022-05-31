@@ -42,6 +42,13 @@ const weights2 = [
   0.15, 1.5, 2.4, 2.4, 0.98, 0.07,
 ];
 
+// small numbers
+const smallNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const AVAILABLE_SMALL_NUMBERS = 9;
+// large numbers
+const largeNumbers = ['25', '50', '75', '100'];
+const AVAILABLE_LARGE_NUMBERS = 4;
+
 let global = new Game();
 global.name = "Global Game";
 let rooms = new Map();
@@ -67,7 +74,7 @@ addVowel = (room) => {
   let index = g.letters.length;
   g.letters[g.letterCount] = vowel;
   g.vowelCount++;
-  io.emit("add-letter", vowel, g.letterCount);
+  io.to(room).emit("add-letter", vowel, g.letterCount);
   g.letterCount++;
 };
 
@@ -198,10 +205,10 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   leaveRoom(socket, oldRoom);
   //send it back to client
   callback(true, room);
-	setTimeout(() => 
-		io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
-	setTimeout(() => 
-		io.to(room).emit("send-players", g.players), 1500);
+  setTimeout(() =>
+    io.to(socket.id).emit("set-game-state", g.letters, g.words), 1000);
+  setTimeout(() =>
+    io.to(room).emit("send-players", g.players), 1500);
 };
 
 leaveRoom = (socket, room) => {
@@ -231,16 +238,92 @@ disconnect = (socket, reason) => {
   });
 };
 
+addSmallNumber = (room) => {
+  let g = rooms.get(room);
+  if (g.smallNumberCount == 4) return;
+  let number = smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
+  if (addNumber(g, number)) g.smallNumberCount++;
+
+  io.to(room).emit("add-number", number, g.numberCount);
+  g.numberCount++;
+}
+
+const addLargeNumber = (room) => {
+  let g = rooms.get(room);
+  if (g.largeNumberCount == 4) return;
+  let number = largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)]
+
+  if (addNumber(g, number)) g.largeNumberCount++;
+  io.to(room).emit("add-number", number, g.numberCount);
+  g.numberCount++;
+};
+
+const addNumber = (g, number) => {
+  if (g.numberCount === 6) return false;
+  g.numbers[g.numberCount] = number;
+  return true;
+}
+
+function getRandomNumber(room) {
+  let g = rooms.get(room);
+  if (g.numberCount == 6) {
+    let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
+    g.target = randomNumber;
+    io.to(room).emit("add-target", g.target);
+  }
+}
+
+function calculateTotal(operationArr, username, room) {
+  let g = rooms.get(room);
+  let total = parseInt(operationArr[0]);
+
+  // iterate over operationArr
+  for (let i = 1; i < operationArr.length; i += 2) {
+    if (operationArr[i] === "+") {
+      total += parseInt(operationArr[i + 1]);
+    } else if (operationArr[i] === "-") {
+      total -= parseInt(operationArr[i + 1]);
+    } else if (operationArr[i] === "*") {
+      total = total * parseInt(operationArr[i + 1]);
+    } else if (operationArr[i] === "/") {
+      total = total / parseInt(operationArr[i + 1]);
+    }
+  }
+
+ const score = scoreAnswer(total, g);
+ g.operations.push({ total, operationArr, username, score });
+ io.to(room).emit("append-operations", total, operationArr, username, score);
+}
+
+function scoreAnswer(total, g) {
+  let difference = Math.abs(g.target - total);
+  let score = 0;
+  if (difference === 0) {
+    score = 10;
+  } else if (difference >= 1 && difference <= 20) {
+    score = 7;
+  } else if (difference >= 21 && difference <= 40) {
+    score = 5;
+  } else if (difference >= 41 && difference <= 60) {
+    score = 2;
+  } else score = 0;
+
+  return score;
+  
+}
+
 //listeners
 //=====================================
 const registerGameHandler = (newio, socket) => {
   console.log(socket.id);
   io = newio;
+  // letters game
   socket.on("add-vowel", addVowel);
   socket.on("add-consonant", addConsonant);
   socket.on("submit-word", submitWord);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
+  // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
@@ -250,6 +333,13 @@ const registerGameHandler = (newio, socket) => {
   socket.on("print-all-rooms", printAllRooms);
   socket.on("print-room", printRoom);
   socket.on("print-players", printPlayers);
+  // numbers game
+  socket.on("add-small", addSmallNumber);
+  socket.on("add-large", addLargeNumber);
+  socket.on("set-target", getRandomNumber);
+  socket.on("submit-calculation", calculateTotal);
+  
+
 };
 
 //export
