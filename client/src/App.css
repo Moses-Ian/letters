@@ -79,6 +79,8 @@ input {
   font-size: 15px;
 
   /* opacity: 70%; */
+	max-height: 10vh;
+	overflow-y: scroll;
 }
 
 .live-chat {

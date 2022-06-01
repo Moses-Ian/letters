@@ -111,13 +111,14 @@ const NumbersGame = ({ socket, username, room }) => {
     setTargetNumber(target);
     
     setShowAnswerBtn(true);
+		setShowOperationBtn(true);
     setShowTargetBtn(false);
     setShowNumberSection(false);
+		setShowCheckAnswerBtn(true);
   }
 
   function showSymbols() {
     if (operationArr.length === 10) {
-      setShowCheckAnswerBtn(true);
       setShowOperationBtn(false);
     }
   }
@@ -154,7 +155,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
   const operationSymbol = (event) => {
     let text = event.target.innerText;
-    setShowOperationBtn(false);
+    // setShowOperationBtn(false);
     let action = {
       type: "PUSH",
       operation: text,
@@ -230,6 +231,12 @@ const NumbersGame = ({ socket, username, room }) => {
             </button>
             <button id="add" onClick={operationSymbol}>
               +
+            </button>
+            <button id="add" onClick={operationSymbol}>
+              (
+            </button>
+            <button id="add" onClick={operationSymbol}>
+              )
             </button>
           </div>
         ) : (
