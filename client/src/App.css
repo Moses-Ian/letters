@@ -35,7 +35,6 @@ body {
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
-  /* transition: background-color 500ms ease; */
 }
 
 .button:hover {
@@ -74,6 +73,8 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
+  max-height: 10vh;
+  overflow-y: scroll;
 }
 
 .live-chat {
@@ -84,7 +85,6 @@ input {
 }
 
 .live-chat-input {
-  /* opacity: 30%; */
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -149,11 +149,8 @@ input {
 }
 
 .players {
-  /* background: #026670; */
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  /* width: fit-content;
-  height: fit-content; */
   padding: 10px 20px;
   margin: 5px;
 }
@@ -177,7 +174,6 @@ input {
 }
 
 .letter-box {
-  /* width: 45px !important; */
   list-style-type: none;
   display: inline-block;
   margin: 0px 2px;
@@ -276,7 +272,6 @@ input {
 .modal-toggle-button,
 .join-game-button,
 .sign-up-button {
-  /* color: var(--quinary-color); */
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -286,7 +281,6 @@ input {
   color: var(--seventh-color);
   transition: background-color 500ms ease;
   box-shadow: 3px 8px 10px #026670 !important;
-  /* padding: 6px; */
 }
 
 .modal-toggle-button,
@@ -303,7 +297,6 @@ input {
 .join-game-button:hover,
 .sign-up-button:hover {
   background-color: var(--quanternary-color);
-  /* transition: color 250ms ease; */
 }
 
 .join-game-button {
