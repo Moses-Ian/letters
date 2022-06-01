@@ -6,7 +6,7 @@ import "../../App.css";
 import { useMutation } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations";
-import {sanitize} from '../../utils';
+import { sanitize } from "../../utils";
 
 export default function Register() {
   const [show, setShow] = useState(false);
@@ -16,21 +16,27 @@ export default function Register() {
 
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [addUser] = useMutation(ADD_USER);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log("sign up submit");
     console.log(formState);
-    const mutationResponse = await addUser({
-      variables: {
-        email: sanitize(formState.email, {lower:true}),
-        password: formState.password,
-        username: sanitize(formState.username)
-      },
-    });
-    console.log(mutationResponse);
-    const token = mutationResponse.data.addUser.token;
-    Auth.login(token);
+    try {
+      const mutationResponse = await addUser({
+        variables: {
+          email: sanitize(formState.email, { lower: true }),
+          password: formState.password,
+          username: sanitize(formState.username),
+        },
+      });
+      console.log(mutationResponse);
+      const token = mutationResponse.data.addUser.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+      setErrorMsg(true);
+    }
   };
 
   const handleChange = (event) => {
@@ -54,7 +60,7 @@ export default function Register() {
           <Modal title="Sign up" onClose={() => setShow(false)} show={show}>
             <div>
               <input
-								autoFocus
+                autoFocus
                 className="type-box input"
                 type="text"
                 placeholder="Username"
@@ -79,6 +85,14 @@ export default function Register() {
                 name="password"
                 onChange={handleChange}
               ></input>
+              {errorMsg ? (
+                <div className="modal-error-msg">
+                  Please be sure to type a username, a valid email and at least
+                  a 5 character password.
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </Modal>
         </form>
