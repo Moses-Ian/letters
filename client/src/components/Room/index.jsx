@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import MW from "../../assets/images/Merriam-Webster.png";
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
@@ -21,12 +20,9 @@ function Room({ socket, username, room }) {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 
   const generatePlayerList = (playersArr) => {
-    console.log("players list");
-    console.log(playersArr[0].username);
-
     const newPlayersArr = playersArr.map((player) => {
       return player.username;
     });

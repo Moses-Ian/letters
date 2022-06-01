@@ -2,33 +2,24 @@ import React, { useState, useEffect, useReducer } from "react";
 import "bulma/css/bulma.min.css";
 
 const NumbersGame = ({ socket, username, room }) => {
-  // variables
-  //====================================
   useEffect(() => {
     socket.on("add-number", addNumber);
     socket.on("add-target", addTarget);
-    socket.on('append-operations', scoreAnswer);
-
+    socket.on("append-operations", scoreAnswer);
     // socket.on("your-turn", () => setTurn(true));
-  }, []);
+  }, [socket]);
 
   // track a final answer variable
   const [operationArr, setOperationArr] = useReducer(operationReducer, []);
 
   const [numbersArr, setNumbersArr] = useReducer(numbersReducer, []);
-
   const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
-
   const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
-  
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
-  const [userScore, setUserScore] = useState(0);
-//   const [userTotal, setUserTotal] = useState(0);
+  //   const [userTotal, setUserTotal] = useState(0);
   const [userTotal, setUserTotal] = useReducer(totalReducer, []);
-
   const [showNumberSection, setShowNumberSection] = useState(true);
-
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
 
@@ -73,8 +64,6 @@ const NumbersGame = ({ socket, username, room }) => {
     return newTotalArr;
   }
 
-  // functions
-  //====================================
   // addSmallNumber
   const addSmallNumber = (event) => {
     socket.emit("add-small", room);
@@ -86,7 +75,6 @@ const NumbersGame = ({ socket, username, room }) => {
 
   // addNumber
   const addNumber = (number, index) => {
-    console.log(number);
     if (index === 5) {
       setShowTargetBtn(true);
       setShowAddNumberBtns(false);
@@ -104,36 +92,30 @@ const NumbersGame = ({ socket, username, room }) => {
 
   // generateNumber
   function getRandomNumber() {
-    socket.emit("set-target", room);   
+    socket.emit("set-target", room);
   }
 
   function addTarget(target) {
     setTargetNumber(target);
-    
+
     setShowAnswerBtn(true);
-		setShowOperationBtn(true);
+    setShowOperationBtn(true);
     setShowTargetBtn(false);
     setShowNumberSection(false);
-		setShowCheckAnswerBtn(true);
-  }
-
-  function showSymbols() {
-    if (operationArr.length === 10) {
-      setShowOperationBtn(false);
-    }
+    setShowCheckAnswerBtn(true);
   }
 
   function calculateTotal() {
-    socket.emit("submit-calculation", operationArr, username, room); 
-    setShowCheckAnswerBtn(false);    
+    socket.emit("submit-calculation", operationArr, username, room);
+    setShowCheckAnswerBtn(false);
   }
 
-  function scoreAnswer (total, operationArr, username, score) {
+  function scoreAnswer(total, operationArr, username, score) {
     setUserTotal({ type: "PUSH", total, operationArr, username, score });
     // setUserScore(score);
     // setUserTotal(total);
     // console.log(username);
-  };
+  }
 
   const answerFunction = (event) => {
     let text = event.target.innerText;
@@ -149,8 +131,6 @@ const NumbersGame = ({ socket, username, room }) => {
       operation: text,
     };
     setOperationArr(action);
-
-    showSymbols();
   };
 
   const operationSymbol = (event) => {
@@ -161,8 +141,6 @@ const NumbersGame = ({ socket, username, room }) => {
       operation: text,
     };
     setOperationArr(action);
-
-    showSymbols();
   };
 
   return (
@@ -171,12 +149,13 @@ const NumbersGame = ({ socket, username, room }) => {
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
 
-    
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div id="numbers-section">
             {numbersArr.map((numberObj, index) => (
-              <span className="numbers-divide" key={index}>{numberObj.number},</span>
+              <span className="numbers-divide" key={index}>
+                {numberObj.number},
+              </span>
             ))}
           </div>
         ) : (
@@ -185,10 +164,18 @@ const NumbersGame = ({ socket, username, room }) => {
         {showAddNumberBtns ? (
           <>
             <div className="has-text-centered mt-4">
-              <button className="button is-warning mr-4" id="small-number-btn" onClick={addSmallNumber}>
+              <button
+                className="button is-warning mr-2"
+                id="small-number-btn"
+                onClick={addSmallNumber}
+              >
                 Small Number
               </button>
-              <button className="button is-warning" id="large-number-btn" onClick={addLargeNumber}>
+              <button
+                className="button is-warning"
+                id="large-number-btn"
+                onClick={addLargeNumber}
+              >
                 Large Number
               </button>
             </div>
@@ -198,7 +185,11 @@ const NumbersGame = ({ socket, username, room }) => {
         )}
         {showTargetBtn ? (
           <div className="has-text-centered">
-            <button className="button is-warning mt-4" id="target" onClick={getRandomNumber}>
+            <button
+              className="button is-warning mt-4"
+              id="target"
+              onClick={getRandomNumber}
+            >
               Target
             </button>
           </div>
@@ -209,7 +200,8 @@ const NumbersGame = ({ socket, username, room }) => {
         {showAnswerBtn ? (
           <div id="answer-section">
             {numbersArr.map((numberObj, index) => (
-              <button className="button mr-1"
+              <button
+                className="button mr-2"
                 data-index={index}
                 disabled={numberObj.disabled}
                 key={index}
@@ -225,22 +217,46 @@ const NumbersGame = ({ socket, username, room }) => {
 
         {showOperationBtn ? (
           <div className="mt-4" id="operation">
-            <button className="button is-small is-warning mr-2" id=" multiply" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning mr-2"
+              id=" multiply"
+              onClick={operationSymbol}
+            >
               *
             </button>
-            <button className="button is-small is-warning mr-2" id="subtract" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning mr-2"
+              id="subtract"
+              onClick={operationSymbol}
+            >
               -
             </button>
-            <button className="button is-small is-warning mr-2" id="divide" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning mr-2"
+              id="divide"
+              onClick={operationSymbol}
+            >
               /
             </button>
-            <button className="button is-small is-warning mr-2" id="add" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning mr-2"
+              id="add"
+              onClick={operationSymbol}
+            >
               +
             </button>
-            <button className="button is-small is-warning mr-2" id="add" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning mr-2"
+              id="add"
+              onClick={operationSymbol}
+            >
               (
             </button>
-            <button className="button is-small is-warning" id="add" onClick={operationSymbol}>
+            <button
+              className="button is-small is-warning"
+              id="add"
+              onClick={operationSymbol}
+            >
               )
             </button>
           </div>
@@ -248,17 +264,22 @@ const NumbersGame = ({ socket, username, room }) => {
           ""
         )}
         <div id="work">
-          <h1 className="mt-4" id="show-operation">{operationArr.join(" ")}</h1>
+          <h1 className="mt-4" id="show-operation">
+            {operationArr.join(" ")}
+          </h1>
           {userTotal.map((total, index) => (
             <li className='numbers-score' key={index}>
               {total.username}: {total.total}: {total.score} points
             </li>
           ))}
-
         </div>
 
         {showCheckAnswerBtn ? (
-          <button className="button is-warning mb-6 mt-4" id="check-answer" onClick={calculateTotal}>
+          <button
+            className="button is-warning mb-6 mt-4"
+            id="check-answer"
+            onClick={calculateTotal}
+          >
             Check Answer
           </button>
         ) : (
