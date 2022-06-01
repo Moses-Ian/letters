@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
 import "../../App.css";
-import {sanitize} from '../../utils';
+import { sanitize } from "../../utils";
 
 //graphql
 import { useMutation } from "@apollo/client";
@@ -16,20 +16,24 @@ export default function Login() {
 
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
       const mutationResponse = await login({
-        variables: { 
-					email: sanitize(formState.email, {lower:true}), 
-					password: formState.password 
-				},
+        variables: {
+          email: sanitize(formState.email, { lower: true }),
+          password: formState.password,
+        },
       });
       const token = mutationResponse.data.login.token;
       Auth.login(token);
+
+      console.log(token);
     } catch (e) {
       console.log(e);
+      setErrorMsg(true);
     }
   };
 
@@ -54,7 +58,7 @@ export default function Login() {
           <Modal title="Login" onClose={() => setShow(false)} show={show}>
             <div>
               <input
-								autoFocus
+                autoFocus
                 className="type-box input"
                 type="email"
                 placeholder="Email"
@@ -70,6 +74,13 @@ export default function Login() {
                 name="password"
                 onChange={handleChange}
               ></input>
+              {errorMsg ? (
+                <div className="modal-error-msg">
+                  Please check your email and password
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </Modal>
         </form>
