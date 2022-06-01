@@ -120,7 +120,6 @@ const NumbersGame = ({ socket, username, room }) => {
   function calculateTotal() {
     socket.emit("submit-calculation", operationArr, username, room); 
     setShowCheckAnswerBtn(false);    
-    console.log(operationArr);
   }
 
   function scoreAnswer (total, operationArr, username, score) {
