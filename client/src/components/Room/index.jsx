@@ -51,11 +51,7 @@ function Room({ socket, username, room }) {
         <h1 className="room-name has-text-centered is-size-4">
           You are playing in: {room}
         </h1>
-        {/* TODO remove this */}
-        {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
 
-        {/* TODO add players in room */}
-        {/* TODO add active turn highlighted */}
         <div className="players is-align-self-center">
           <div>
             <h1 className="has-text-warning">Players:</h1>
@@ -111,7 +107,7 @@ function Room({ socket, username, room }) {
           <button className="button is-warning m-2" onClick={nextRound}>
             Next Round
           </button>
-          <div className="webster is-flex is-justify-content-flex-end pr-2">
+          <div className="webster is-flex is-justify-content-flex-end">
             <img className="MW" src={MW} alt="Merriam Webster API" />
           </div>
         </div>
