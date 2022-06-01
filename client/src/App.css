@@ -30,7 +30,8 @@ body {
   margin: 5px;
 }
 
-.button, .hover-transition,
+.button,
+.hover-transition,
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
@@ -66,9 +67,9 @@ input {
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
-  
+
   border-radius: 25px;
- 
+
   /* opacity: 80%; */
   /* text-align: center; */
 }
@@ -76,7 +77,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
- 
+
   /* opacity: 70%; */
 }
 
@@ -84,7 +85,7 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
-  
+
   /* opacity: 80%; */
 }
 
@@ -92,7 +93,6 @@ input {
   opacity: 30%;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  
 }
 
 .live-chat-button {
@@ -158,14 +158,12 @@ input {
 }
 
 .players {
-  /* background: #026670; */
-  /* background: rgba(0, 0, 0, 0.1); */
-  /* border-radius: 5px; */
-  /* width: fit-content;
-  height: fit-content; */
+  background: #026670;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   padding: 10px 20px;
   opacity: 70%;
-  /* display: flex; */
+  display: flex;
 }
 
 .players h1 {
@@ -206,7 +204,8 @@ input {
 }
 
 .active-player {
-  color: red;
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 17px #fff;
 }
 
 .words-list {
@@ -321,7 +320,7 @@ input {
 
 .hover-transititon {
   padding: 6px;
-} 
+}
 
 .MW {
   height: 50px;
