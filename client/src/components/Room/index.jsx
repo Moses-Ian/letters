@@ -22,8 +22,8 @@ function Room({ socket, username, room }) {
     };
   }, [socket]);
 
-  const generatePlayerList = (playersArr) => {
-    const newPlayersArr = playersArr.map((player) => {
+  const generatePlayerList = async (playersArr) => {
+    const newPlayersArr = await playersArr.map((player) => {
       return player.username;
     });
     setPlayers(newPlayersArr);
