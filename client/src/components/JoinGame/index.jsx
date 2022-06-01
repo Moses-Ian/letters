@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../App.css";
-import {sanitize} from '../../utils';
+import { sanitize } from "../../utils";
 
 export default function JoinGame({ socket, username, room, setRoom }) {
   const [show, setShow] = useState(false);
@@ -41,7 +41,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 
   return (
     <>
-    
       <div className="field has-text-centered">
         {room === "" ? (
           <button
@@ -55,8 +54,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
         )}
       </div>
 
-
-        
       {show ? (
         <div className="modal-main" onClick={closeModal}>
           <form className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -66,7 +63,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
             <div className="modal-body">
               <p className="join-modal-body">
                 What is the name of the room you would like to join?
-                {/* Which room would you like to join? */}
               </p>
               <input
                 autoFocus
@@ -93,6 +89,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
       ) : (
         ""
       )}
-		</>
+    </>
   );
 }

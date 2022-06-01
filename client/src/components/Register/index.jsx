@@ -12,8 +12,6 @@ export default function Register() {
   const [show, setShow] = useState(false);
 
   // Ian's cool graphql code
-  //====================================================
-
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [addUser] = useMutation(ADD_USER);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -46,8 +44,6 @@ export default function Register() {
       [name]: value,
     });
   };
-
-  //====================================================
 
   return (
     <>

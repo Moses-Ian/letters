@@ -77,7 +77,6 @@ function LiveChat({ socket, username, room }) {
 
   return (
     <div className="live-chat-header is-flex-direction-column">
-      {/* Chat */}
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (
           <p key={index}>
