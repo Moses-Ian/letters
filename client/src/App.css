@@ -110,6 +110,11 @@ input {
   color: #5d909a;
 }
 
+.me-in-chat {
+  color: var(--secondary-color);
+  text-shadow: 1px 1px 2px black, 2px 1px 3px black;
+}
+
 .landing-letters {
   font-size: 5rem;
   text-align: center;

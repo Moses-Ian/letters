@@ -47,7 +47,7 @@ function Room({ socket, username, room }) {
 
   return (
     <>
-      <div className="is-flex is-flex-direction-column">
+      <div className="is-flex is-flex-direction-column is-justify-content-center">
         <h1 className="room-name has-text-centered is-size-4">
           You are playing in: {room}
         </h1>
@@ -103,7 +103,7 @@ function Room({ socket, username, room }) {
           />
         )}
 
-        <div className="m-3 has-text-centered is-flex is-justify-content-centered">
+        <div className="m-3 has-text-centered is-flex is-justify-content-center">
           <button className="button is-warning m-2" onClick={restartLetters}>
             Restart
           </button>
