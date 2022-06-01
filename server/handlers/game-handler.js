@@ -1,3 +1,5 @@
+const mexp = require('math-expression-evaluator');
+
 //classes
 //==================================
 const Game = require("../utils/GameObj.js");
@@ -289,20 +291,22 @@ function getRandomNumber(room) {
 
 function calculateTotal(operationArr, username, room) {
   let g = rooms.get(room);
-  let total = parseInt(operationArr[0]);
+	const total = mexp.eval(operationArr.join(''));
+	console.log(total);
+  // let total = parseInt(operationArr[0]);
 
   // iterate over operationArr
-  for (let i = 1; i < operationArr.length; i += 2) {
-    if (operationArr[i] === "+") {
-      total += parseInt(operationArr[i + 1]);
-    } else if (operationArr[i] === "-") {
-      total -= parseInt(operationArr[i + 1]);
-    } else if (operationArr[i] === "*") {
-      total = total * parseInt(operationArr[i + 1]);
-    } else if (operationArr[i] === "/") {
-      total = total / parseInt(operationArr[i + 1]);
-    }
-  }
+  // for (let i = 1; i < operationArr.length; i += 2) {
+    // if (operationArr[i] === "+") {
+      // total += parseInt(operationArr[i + 1]);
+    // } else if (operationArr[i] === "-") {
+      // total -= parseInt(operationArr[i + 1]);
+    // } else if (operationArr[i] === "*") {
+      // total = total * parseInt(operationArr[i + 1]);
+    // } else if (operationArr[i] === "/") {
+      // total = total / parseInt(operationArr[i + 1]);
+    // }
+  // }
 
   const score = scoreAnswer(total, g);
   g.operations.push({ total, operationArr, username, score });
