@@ -148,15 +148,16 @@ const NumbersGame = ({ socket, username, room }) => {
 
   return (
     <>
-      <div>
+      <div className="has-text-centered">
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
 
-      <div id="root">
+    
+      <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div id="numbers-section">
             {numbersArr.map((numberObj, index) => (
-              <span key={index}>{numberObj.number}</span>
+              <span className="numbers-divide" key={index}>{numberObj.number}</span>
             ))}
           </div>
         ) : (
@@ -164,20 +165,24 @@ const NumbersGame = ({ socket, username, room }) => {
         )}
         {showAddNumberBtns ? (
           <>
-            <button id="small-number-btn" onClick={addSmallNumber}>
-              Small Number
-            </button>
-            <button id="large-number-btn" onClick={addLargeNumber}>
-              Large Number
-            </button>
+            <div className="has-text-centered">
+              <button className="button is-warning mr-2" id="small-number-btn" onClick={addSmallNumber}>
+                Small Number
+              </button>
+              <button className="button is-warning" id="large-number-btn" onClick={addLargeNumber}>
+                Large Number
+              </button>
+            </div>
           </>
         ) : (
           ""
         )}
         {showTargetBtn ? (
-          <button id="target" onClick={getRandomNumber}>
-            Target
-          </button>
+          <div className="has-text-centered">
+            <button className="button is-warning" id="target" onClick={getRandomNumber}>
+              Target
+            </button>
+          </div>
         ) : (
           ""
         )}

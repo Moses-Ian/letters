@@ -328,8 +328,8 @@ input {
 }
 
 .footer {
-  background-color: var(--seventh-color) !important;
-  opacity: 0.7;
+  background-color: var(--sixth-color) !important;
+  opacity: 0.6;
   color: #edeae5;
   position: fixed;
   left: 0;
@@ -341,7 +341,7 @@ input {
 
 .footer a {
   text-decoration: none;
-  color: var(--quinary-color);
+  color: var(--seventh-color);
 }
 
 .name-background {
@@ -352,3 +352,16 @@ input {
   box-shadow: 5px 10px 10px black;
   line-height: 2.5;
 }
+
+
+
+
+.numbers-generated {
+  font-size: 30px;
+  color: var(--secondary-color);
+}
+
+.numbers-divide {
+  margin-left: 10px;
+}
+
