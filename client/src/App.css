@@ -83,6 +83,7 @@ input {
 .live-chat-input {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 .live-chat-button {
@@ -93,7 +94,7 @@ input {
   border: 1px solid rgba(0, 0, 0, 0);
   font-family: Fugaz One;
   color: var(--seventh-color);
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .chat-form {
@@ -176,7 +177,7 @@ input {
 .letter-box {
   list-style-type: none;
   display: inline-block;
-  margin: 0px 2px;
+  margin: 8px 2px;
   padding-top: 2px;
   background-color: #02677065;
   border-radius: 3px;
@@ -318,8 +319,8 @@ input {
 }
 
 .footer {
-  background-color: var(--seventh-color) !important;
-  opacity: 0.7;
+  background-color: var(--sixth-color) !important;
+  opacity: 0.6;
   color: #edeae5;
   position: fixed;
   left: 0;
@@ -331,7 +332,7 @@ input {
 
 .footer a {
   text-decoration: none;
-  color: var(--quinary-color);
+  color: var(--seventh-color);
 }
 
 .name-background {
@@ -341,4 +342,19 @@ input {
   height: 4vh;
   box-shadow: 5px 10px 10px black;
   line-height: 2.5;
+}
+
+.numbers-generated {
+  font-size: 30px;
+  color: var(--tertiary-color);
+  margin-top: 1vh;
+}
+
+.numbers-divide {
+  margin-left: 1vw;
+}
+
+.target-number {
+  font-size: 40px;
+  color: #9fedd7;
 }

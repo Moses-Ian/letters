@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-import MainGame from "../MainGame";
-import LiveChat from "../LiveChat";
+import React, { useState } from "react";
 import "../../App.css";
 import {sanitize} from '../../utils';
-import NumbersGame from "../NumbersGame";
 
 export default function JoinGame({ socket, username, room, setRoom }) {
   const [show, setShow] = useState(false);
@@ -22,14 +19,13 @@ export default function JoinGame({ socket, username, room, setRoom }) {
       setRoom(newRoom);
       localStorage.setItem("room", newRoom);
     });
-    console.log(`joinRoom ${name}`);
   };
 
   const joinRoomHandler = (e) => {
     e.preventDefault();
     // let r = roomInput.trim();
     let r = sanitize(roomInput);
-    if (r != "" && r != room) joinRoom(r);
+    if (r !== "" && r !== room) joinRoom(r);
     setShow(false);
   };
 

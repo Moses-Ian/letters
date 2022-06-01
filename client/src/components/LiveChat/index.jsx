@@ -7,7 +7,7 @@ const MAX_MESSAGE_LENGTH = 80;
 function LiveChat({ socket, username, room }) {
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
-  }, []);
+  }, [socket]);
 
   const elementRef = useRef();
 
@@ -43,7 +43,7 @@ function LiveChat({ socket, username, room }) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (formState.message.trim() == "") return;
+    if (formState.message.trim() === "") return;
     //append message to element
     setMessages({
       type: "PUSH",
