@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import {sanitize} from '../../utils';
 
 const MAX_MESSAGE_LENGTH = 80;
@@ -8,9 +8,19 @@ function LiveChat({ socket, username, room }) {
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
   }, []);
-
+	
+	const elementRef = useRef();
+	
   const [formState, setFormState] = useState({ message: "" });
   const [messages, setMessages] = useReducer(messageReducer, []);
+
+	useEffect(() => {
+		elementRef.current.scrollIntoView({
+			behavior: 'smooth', 
+			block: 'end', 
+			inline: 'nearest'
+		});
+	}, [messages]);
 
   function messageReducer(messages, action) {
     let newMessages;
@@ -74,6 +84,7 @@ function LiveChat({ socket, username, room }) {
             <span className='username-chat'>{m.username}: </span><span>{m.message}</span> 
           </p>
         ))}
+				<div ref={elementRef}></div>
       </div>
       <form className="live-chat" id="form" onSubmit={handleFormSubmit}>
         <label>Chat:</label>
