@@ -185,7 +185,7 @@ const NumbersGame = ({ socket, username, room }) => {
         {showAddNumberBtns ? (
           <>
             <div className="has-text-centered mt-4">
-              <button className="button is-warning mr-2" id="small-number-btn" onClick={addSmallNumber}>
+              <button className="button is-warning mr-4" id="small-number-btn" onClick={addSmallNumber}>
                 Small Number
               </button>
               <button className="button is-warning" id="large-number-btn" onClick={addLargeNumber}>
@@ -209,7 +209,7 @@ const NumbersGame = ({ socket, username, room }) => {
         {showAnswerBtn ? (
           <div id="answer-section">
             {numbersArr.map((numberObj, index) => (
-              <button className="button mr-2"
+              <button className="button mr-1"
                 data-index={index}
                 disabled={numberObj.disabled}
                 key={index}
@@ -250,7 +250,7 @@ const NumbersGame = ({ socket, username, room }) => {
         <div id="work">
           <h1 className="mt-4" id="show-operation">{operationArr.join(" ")}</h1>
           {userTotal.map((total, index) => (
-            <li key={index}>
+            <li className='numbers-score' key={index}>
               {total.username}: {total.total}: {total.score} points
             </li>
           ))}

@@ -80,7 +80,7 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
-  height: 10vh;
+  /* height: 10vh; */
 }
 
 .live-chat-input {
@@ -347,7 +347,7 @@ input {
 
 .numbers-generated {
   font-size: 30px;
-  color: var(--tertiary-color);
+  color: var(--quanternary-color);
   margin-top: 1vh;
 }
 
@@ -359,4 +359,12 @@ input {
   font-size: 40px;
   color: #9fedd7;
 }
+
+.numbers-score {
+  color: #fce181 !important;
+}
+
+/* .answer-section {
+  background-color: #4a4a4a;
+} */
 
