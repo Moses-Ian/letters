@@ -154,7 +154,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
   const operationSymbol = (event) => {
     let text = event.target.innerText;
-    setShowOperationBtn(false);
+    // setShowOperationBtn(false);
     let action = {
       type: "PUSH",
       operation: text,
