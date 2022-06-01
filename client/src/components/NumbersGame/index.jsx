@@ -111,6 +111,7 @@ const NumbersGame = ({ socket, username, room }) => {
     setTargetNumber(target);
     
     setShowAnswerBtn(true);
+		setShowOperationBtn(true);
     setShowTargetBtn(false);
     setShowNumberSection(false);
 		setShowCheckAnswerBtn(true);
