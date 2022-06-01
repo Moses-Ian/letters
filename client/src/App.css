@@ -50,10 +50,8 @@ input {
 }
 
 .letters-buttons {
-  height: 15vh;
+  height: 10vh;
 }
-
-/* CHRIS ADDED */
 
 .live-chat-header {
   color: var(--secondary-color);
@@ -66,14 +64,13 @@ input {
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
-
   border-radius: 25px;
 }
 
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
-  max-height: 10vh;
+  height: 10vh;
   overflow-y: scroll;
 }
 
@@ -81,7 +78,6 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
-  height: 10vh;
 }
 
 .live-chat-input {
@@ -98,6 +94,10 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chat-form {
+  height: 4vh;
 }
 
 .username-chat {
@@ -197,7 +197,8 @@ input {
 }
 
 .words-list {
-  height: 8vh;
+  height: 9vh;
+  overflow-y: scroll;
 }
 
 .hidden {

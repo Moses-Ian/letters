@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect, useRef } from "react";
-import {sanitize} from '../../utils';
+import { sanitize } from "../../utils";
 
 const MAX_MESSAGE_LENGTH = 80;
 
@@ -8,19 +8,19 @@ function LiveChat({ socket, username, room }) {
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
   }, []);
-	
-	const elementRef = useRef();
-	
+
+  const elementRef = useRef();
+
   const [formState, setFormState] = useState({ message: "" });
   const [messages, setMessages] = useReducer(messageReducer, []);
 
-	useEffect(() => {
-		elementRef.current.scrollIntoView({
-			behavior: 'smooth', 
-			block: 'end', 
-			inline: 'nearest'
-		});
-	}, [messages]);
+  useEffect(() => {
+    elementRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [messages]);
 
   function messageReducer(messages, action) {
     let newMessages;
@@ -76,7 +76,7 @@ function LiveChat({ socket, username, room }) {
   };
 
   return (
-    <div className="live-chat-header pl-3">
+    <div className="live-chat-header is-flex-direction-column">
       {/* Chat */}
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (
@@ -92,9 +92,13 @@ function LiveChat({ socket, username, room }) {
             <span>{m.message}</span>
           </p>
         ))}
-				<div ref={elementRef}></div>
+        <div ref={elementRef}></div>
       </div>
-      <form className="live-chat" id="form" onSubmit={handleFormSubmit}>
+      <form
+        className="live-chat chat-form"
+        id="form"
+        onSubmit={handleFormSubmit}
+      >
         <label>Chat:</label>
         <input
           className="live-chat-input ml-2"

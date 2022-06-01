@@ -143,7 +143,7 @@ const MainGame = ({
 
   return (
     <>
-      <div className="rendered-letters column m-0 p-0">
+      <div className="rendered-letters column">
         <ul>
           {letters.map((letter, index) => (
             <li className="letter-box" key={index}>
@@ -153,9 +153,9 @@ const MainGame = ({
         </ul>
       </div>
 
-      <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
+      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
 
-      <div className="field m-3 has-text-centered">
+      <div className="field has-text-centered">
         <div className={"letters-buttons " + (activeTimer ? "hidden" : "")}>
           <button
             disabled={!isYourTurn || activeTimer}
@@ -174,7 +174,7 @@ const MainGame = ({
         </div>
       </div>
 
-      <div className="field mb-3">
+      <div className="field">
         <form>
           <div className="field has-addons mt-2 is-justify-content-center">
             <div className="control">
