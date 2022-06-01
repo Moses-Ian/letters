@@ -31,6 +31,7 @@ event.waitUntil(
                 if(!cacheWhitelist.includes(cacheName)) {
                     return caches.delete(cacheName);
                 }
+								return undefined;
             })
         ))
 )

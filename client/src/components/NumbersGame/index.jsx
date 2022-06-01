@@ -23,7 +23,6 @@ const NumbersGame = ({ socket, username, room }) => {
   const [targetNumber, setTargetNumber] = useState(null);
   
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
-  const [userScore, setUserScore] = useState(0);
 //   const [userTotal, setUserTotal] = useState(0);
   const [userTotal, setUserTotal] = useReducer(totalReducer, []);
 

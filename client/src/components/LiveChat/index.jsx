@@ -43,7 +43,7 @@ function LiveChat({ socket, username, room }) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (formState.message.trim() == "") return;
+    if (formState.message.trim() === "") return;
     //append message to element
     setMessages({
       type: "PUSH",
