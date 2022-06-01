@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage";
-import Footer from "./components/Footer";
+
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
-
 
 //graphql
 import {
@@ -54,8 +53,8 @@ function App() {
     setSocket(newSocket);
     return () => {
       socket.disconnect();
-			newSocket.close();
-		}
+      newSocket.close();
+    };
   }, [setSocket]);
 
   const profile = Auth.getProfile();
@@ -65,29 +64,23 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App container p-3">
-				{username === 'Guest' && room === ''
-					? <LandingPage socket={socket} username={username} />
-					: <Header username={username} /> 
-				}
-				
-				<JoinGame
-					socket={socket}
-					username={username}
-					room={room}
-					setRoom={setRoom}
-				/>
-				{room !== "" ? (
-					<Room
-						socket={socket}
-						username={username}
-						room={room}
-					/>
-				) : (
-					// <p>You need to type a room name</p>
-					""
-				)}
-				
-        <Footer />
+        {username === "Guest" && room === "" ? (
+          <LandingPage socket={socket} username={username} />
+        ) : (
+          <Header username={username} />
+        )}
+
+        <JoinGame
+          socket={socket}
+          username={username}
+          room={room}
+          setRoom={setRoom}
+        />
+        {room !== "" ? (
+          <Room socket={socket} username={username} room={room} />
+        ) : (
+          ""
+        )}
       </div>
     </ApolloProvider>
   );
