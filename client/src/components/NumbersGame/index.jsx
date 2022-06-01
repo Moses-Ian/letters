@@ -24,6 +24,8 @@ const NumbersGame = ({ socket, username, room }) => {
   
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
   const [userScore, setUserScore] = useState(0);
+//   const [userTotal, setUserTotal] = useState(0);
+  const [userTotal, setUserTotal] = useReducer(totalReducer, []);
 
   const [showNumberSection, setShowNumberSection] = useState(true);
 
@@ -56,6 +58,19 @@ const NumbersGame = ({ socket, username, room }) => {
         throw new Error();
     }
     return newNumbers;
+  }
+
+  function totalReducer(userTotal, action) {
+    let newTotalArr;
+    switch (action.type) {
+      case "PUSH":
+        const { total, operationArr, username, score } = action;
+        newTotalArr = [...userTotal, { total, operationArr, username, score }];
+        break;
+      default:
+        throw new Error();
+    }
+    return newTotalArr;
   }
 
   // functions
@@ -96,13 +111,14 @@ const NumbersGame = ({ socket, username, room }) => {
     setTargetNumber(target);
     
     setShowAnswerBtn(true);
+		setShowOperationBtn(true);
     setShowTargetBtn(false);
     setShowNumberSection(false);
+		setShowCheckAnswerBtn(true);
   }
 
   function showSymbols() {
     if (operationArr.length === 10) {
-      setShowCheckAnswerBtn(true);
       setShowOperationBtn(false);
     }
   }
@@ -113,7 +129,10 @@ const NumbersGame = ({ socket, username, room }) => {
   }
 
   function scoreAnswer (total, operationArr, username, score) {
-    setUserScore(score);
+    setUserTotal({ type: "PUSH", total, operationArr, username, score });
+    // setUserScore(score);
+    // setUserTotal(total);
+    // console.log(username);
   };
 
   const answerFunction = (event) => {
@@ -136,7 +155,7 @@ const NumbersGame = ({ socket, username, room }) => {
 
   const operationSymbol = (event) => {
     let text = event.target.innerText;
-    setShowOperationBtn(false);
+    // setShowOperationBtn(false);
     let action = {
       type: "PUSH",
       operation: text,
@@ -215,8 +234,14 @@ const NumbersGame = ({ socket, username, room }) => {
             <button className="button is-small is-warning mr-2" id="divide" onClick={operationSymbol}>
               /
             </button>
-            <button className="button is-small is-warning" id="add" onClick={operationSymbol}>
+            <button className="button is-small is-warning mr-2" id="add" onClick={operationSymbol}>
               +
+            </button>
+            <button className="button is-small is-warning mr-2" id="add" onClick={operationSymbol}>
+              (
+            </button>
+            <button className="button is-small is-warning" id="add" onClick={operationSymbol}>
+              )
             </button>
           </div>
         ) : (
@@ -224,7 +249,12 @@ const NumbersGame = ({ socket, username, room }) => {
         )}
         <div id="work">
           <h1 className="mt-4" id="show-operation">{operationArr.join(" ")}</h1>
-          <h1 className="mt-4" id="score">Score: {userScore} points!</h1>
+          {userTotal.map((total, index) => (
+            <li key={index}>
+              {total.username}: {total.total}: {total.score} points
+            </li>
+          ))}
+
         </div>
 
         {showCheckAnswerBtn ? (
