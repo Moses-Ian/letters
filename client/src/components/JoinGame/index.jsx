@@ -19,7 +19,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
       setRoom(newRoom);
       localStorage.setItem("room", newRoom);
     });
-    console.log(`joinRoom ${name}`);
   };
 
   const joinRoomHandler = (e) => {

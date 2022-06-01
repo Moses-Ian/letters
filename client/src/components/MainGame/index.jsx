@@ -25,7 +25,7 @@ const MainGame = ({
     socket.on("set-game-state", setGameState);
 
     return () => {};
-  }, []);
+  }, [socket]);
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
@@ -122,7 +122,6 @@ const MainGame = ({
       username: submittedUser,
       score: submittedScore,
     });
-    console.log(submittedScore);
     if (submittedUser === username && submittedScore > score)
       setScore(submittedScore);
   };

@@ -10,7 +10,7 @@ const NumbersGame = ({ socket, username, room }) => {
     socket.on('append-operations', scoreAnswer);
 
     // socket.on("your-turn", () => setTurn(true));
-  }, []);
+  }, [socket]);
 
   // track a final answer variable
   const [operationArr, setOperationArr] = useReducer(operationReducer, []);
@@ -85,7 +85,6 @@ const NumbersGame = ({ socket, username, room }) => {
 
   // addNumber
   const addNumber = (number, index) => {
-    console.log(number);
     if (index === 5) {
       setShowTargetBtn(true);
       setShowAddNumberBtns(false);
