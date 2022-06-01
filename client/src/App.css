@@ -30,7 +30,8 @@ body {
   margin: 5px;
 }
 
-.button, .hover-transition,
+.button,
+.hover-transition,
 input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
@@ -49,12 +50,12 @@ input {
   font-size: 45px;
 }
 
-.fixed-container {
+/* .fixed-container {
   height: 15vh;
-}
+} */
 
 /* CHRIS ADDED */
-
+ 
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
@@ -66,9 +67,8 @@ input {
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
-  
   border-radius: 25px;
- 
+
   /* opacity: 80%; */
   /* text-align: center; */
 }
@@ -76,7 +76,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
- 
+
   /* opacity: 70%; */
 }
 
@@ -84,15 +84,14 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
-  
   /* opacity: 80%; */
 }
 
 .live-chat-input {
-  opacity: 30%;
+  /* opacity: 30%; */
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 .live-chat-button {
@@ -103,11 +102,16 @@ input {
   border: 1px solid rgba(0, 0, 0, 0);
   font-family: Fugaz One;
   color: var(--seventh-color);
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .username-chat {
   color: #5d909a;
+}
+
+.me-in-chat {
+  color: var(--secondary-color);
+  text-shadow: 1px 1px 2px black, 2px 1px 3px black;
 }
 
 .landing-letters {
@@ -159,12 +163,13 @@ input {
 
 .players {
   /* background: #026670; */
-  /* background: rgba(0, 0, 0, 0.1); */
-  /* border-radius: 5px; */
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   /* width: fit-content;
   height: fit-content; */
   padding: 10px 20px;
-  opacity: 70%;
+  margin: 5px;
+  /* opacity: 70%; */
   /* display: flex; */
 }
 
@@ -190,7 +195,7 @@ input {
   /* width: 45px !important; */
   list-style-type: none;
   display: inline-block;
-  margin: 0px 2px;
+  margin: 8px 2px;
   padding-top: 2px;
   background-color: #02677065;
   border-radius: 3px;
@@ -206,7 +211,8 @@ input {
 }
 
 .active-player {
-  color: red;
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 17px #fff;
 }
 
 .words-list {
@@ -321,7 +327,7 @@ input {
 
 .hover-transititon {
   padding: 6px;
-} 
+}
 
 .MW {
   height: 50px;
@@ -358,10 +364,16 @@ input {
 
 .numbers-generated {
   font-size: 30px;
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
+  margin-top: 1vh;
 }
 
 .numbers-divide {
-  margin-left: 10px;
+  margin-left: 1vw;
+}
+
+.target-number {
+  font-size: 40px;
+  color: #9fedd7;
 }
 
