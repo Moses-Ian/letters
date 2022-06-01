@@ -113,11 +113,11 @@ const NumbersGame = ({ socket, username, room }) => {
     setShowAnswerBtn(true);
     setShowTargetBtn(false);
     setShowNumberSection(false);
+		setShowCheckAnswerBtn(true);
   }
 
   function showSymbols() {
     if (operationArr.length === 10) {
-      setShowCheckAnswerBtn(true);
       setShowOperationBtn(false);
     }
   }
