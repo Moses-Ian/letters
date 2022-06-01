@@ -89,7 +89,7 @@ input {
 }
 
 .live-chat-input {
-  opacity: 30%;
+  /* opacity: 30%; */
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   
@@ -159,12 +159,13 @@ input {
 
 .players {
   /* background: #026670; */
-  /* background: rgba(0, 0, 0, 0.1); */
-  /* border-radius: 5px; */
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   /* width: fit-content;
   height: fit-content; */
   padding: 10px 20px;
-  opacity: 70%;
+	margin: 5px;
+  /* opacity: 70%; */
   /* display: flex; */
 }
 
