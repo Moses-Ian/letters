@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="./assets/css/style.css" />
+		<link rel="manifest" href="manifest.json">	
+    <title>Letters</title>
+		<style>
+			body {
+				margin: 0 auto;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				height: 100vh;
+				width: 90%;
+				max-width: 1200px;
+			}
+			#message-container {
+				border: 1px solid black;
+				flex-grow: 1;
+				overflow-y: auto;
+			}
+			#message-container div {
+				background-color: #ccc;
+				padding: 5px;
+			}
+		</style>
+			
+  </head>
+  <body>
+		<div id='message-container'></div>
+		<form id='form'>
+			<label for='message-input'>Message</label>
+			<input type='text' id='message-input'>
+			<button type='submit' id='send-button'>Send</button>
+			<label for='name-input'>Name</label>
+			<input type='text' id='name-input'>
+			<button type='submit' id='name-button' placeholder='Guest'>Set Name</button>
+			<label for='room-input'>Room</label>
+			<input type='text' id='room-input'>
+			<button type='submit' id='room-button'>Join</button>
+			<button type='submit' id='connect'>Connect</button>
+		</form>
+	
+    <!-- Optional JavaScript -->
+		<!-- <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script> -->
+		<script src="./assets/js/socket.io.min.js"></script>
+		<!-- <script src="/socket.io/socket.io.js"></script> -->
+		<script src="./assets/js/socket.js"></script>
+		<script src="./assets/js/idb.js"></script>
+  </body>
+</html>

@@ -79,7 +79,6 @@ function App() {
         {room !== "" ? (
           <Room socket={socket} username={username} room={room} />
         ) : (
-          // <p>You need to type a room name</p>
           ""
         )}
       </div>
