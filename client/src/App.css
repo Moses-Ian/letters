@@ -50,11 +50,9 @@ input {
 }
 
 .letters-buttons {
-  height: 15vh;
-} 
+  height: 10vh;
+}
 
-/* CHRIS ADDED */
- 
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
@@ -72,7 +70,7 @@ input {
 .live-chat-message {
   color: var(--quinary-color);
   font-size: 15px;
-  max-height: 10vh;
+  height: 10vh;
   overflow-y: scroll;
 }
 
@@ -80,7 +78,6 @@ input {
   font-size: 15px;
   color: var(--quinary-color);
   padding-top: 1vh;
-  height: 10vh;
 }
 
 .live-chat-input {
@@ -98,6 +95,10 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.chat-form {
+  height: 4vh;
 }
 
 .username-chat {
@@ -197,7 +198,8 @@ input {
 }
 
 .words-list {
-  height: 8vh;
+  height: 9vh;
+  overflow-y: scroll;
 }
 
 .hidden {
@@ -318,32 +320,27 @@ input {
 
 .footer {
   background-color: var(--sixth-color) !important;
-  opacity: 0.6;
-  color: #edeae5;
+  color: var(--secondary-color);
+  font-size: 25px;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 10px 15px !important;
-  text-shadow: 1px 1px 0px black;
+  padding: 5px !important;
+  line-height: 50%;
 }
 
-.footer a {
-  text-decoration: none;
-  color: var(--seventh-color);
-}
-
-.name-background {
-  background-color: var(--secondary-color);
+.footer img {
   border-radius: 50%;
-  width: 8vw;
-  height: 4vh;
-  box-shadow: 5px 10px 10px black;
-  line-height: 2.5;
+  box-shadow: 1px 2px 5px black;
+  height: 7vh;
+  margin: 0 5px;
 }
 
-
-
+.creators {
+  padding-right: 5px;
+  text-shadow: 1px 1px 2px black, 2px 1px 3px black;
+}
 
 .numbers-generated {
   font-size: 30px;
@@ -359,4 +356,3 @@ input {
   font-size: 40px;
   color: #9fedd7;
 }
-
