@@ -291,7 +291,16 @@ function getRandomNumber(room) {
 
 function calculateTotal(operationArr, username, room) {
   let g = rooms.get(room);
-	const total = mexp.eval(operationArr.join(''));
+	let total;
+	let score;
+	try {
+		total = mexp.eval(operationArr.join(''));
+		score = scoreAnswer(total, g);
+	} catch (err) {
+		total = 0;
+		score = 0;
+	}
+		
 	console.log(total);
   // let total = parseInt(operationArr[0]);
 
@@ -308,7 +317,6 @@ function calculateTotal(operationArr, username, room) {
     // }
   // }
 
-  const score = scoreAnswer(total, g);
   g.operations.push({ total, operationArr, username, score });
   io.to(room).emit("append-operations", total, operationArr, username, score);
 }

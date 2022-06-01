@@ -231,6 +231,12 @@ const NumbersGame = ({ socket, username, room }) => {
             <button id="add" onClick={operationSymbol}>
               +
             </button>
+            <button id="add" onClick={operationSymbol}>
+              (
+            </button>
+            <button id="add" onClick={operationSymbol}>
+              )
+            </button>
           </div>
         ) : (
           ""
