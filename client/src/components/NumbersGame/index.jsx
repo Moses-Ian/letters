@@ -117,12 +117,6 @@ const NumbersGame = ({ socket, username, room }) => {
 		setShowCheckAnswerBtn(true);
   }
 
-  function showSymbols() {
-    if (operationArr.length === 10) {
-      setShowOperationBtn(false);
-    }
-  }
-
   function calculateTotal() {
     socket.emit("submit-calculation", operationArr, username, room); 
     setShowCheckAnswerBtn(false);    
@@ -150,7 +144,7 @@ const NumbersGame = ({ socket, username, room }) => {
     };
     setOperationArr(action);
 
-    showSymbols();
+    
   };
 
   const operationSymbol = (event) => {
@@ -162,7 +156,7 @@ const NumbersGame = ({ socket, username, room }) => {
     };
     setOperationArr(action);
 
-    showSymbols();
+    
   };
 
   return (
