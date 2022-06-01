@@ -81,7 +81,15 @@ function LiveChat({ socket, username, room }) {
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (
           <p key={index}>
-            <span className='username-chat'>{m.username}: </span><span>{m.message}</span> 
+            <span
+              className={
+                "username-chat " +
+                (username === m.username ? "me-in-chat" : "not-active")
+              }
+            >
+              {m.username}:{" "}
+            </span>
+            <span>{m.message}</span>
           </p>
         ))}
 				<div ref={elementRef}></div>
