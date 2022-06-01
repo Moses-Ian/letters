@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import LandingPage from "./components/LandingPage";
-
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
+import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";

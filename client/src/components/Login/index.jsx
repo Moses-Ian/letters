@@ -12,7 +12,6 @@ export default function Login() {
   const [show, setShow] = useState(false);
 
   // Ian's cool graphql code
-  //====================================================
 
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login] = useMutation(LOGIN);
@@ -44,8 +43,6 @@ export default function Login() {
       [name]: value,
     });
   };
-
-  //====================================================
 
   return (
     <>
