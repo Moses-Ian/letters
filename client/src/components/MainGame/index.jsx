@@ -3,7 +3,17 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
 
-const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourTurn, setTurn, score, setScore }) => {
+const MainGame = ({
+  socket,
+  username,
+  room,
+  activeTimer,
+  setActiveTimer,
+  isYourTurn,
+  setTurn,
+  score,
+  setScore,
+}) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
@@ -14,8 +24,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
 
-    return () => {
-    };
+    return () => {};
   }, []);
 
   // variables
@@ -106,18 +115,16 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
     setLettersInput("");
   };
 
-
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
-    setWords(
-		{ 
-			type: "PUSH", 
-			word: submittedWord, 
-			username: submittedUser, 
-			score: submittedScore 
-		});
+    setWords({
+      type: "PUSH",
+      word: submittedWord,
+      username: submittedUser,
+      score: submittedScore,
+    });
     console.log(submittedScore);
-		if (submittedUser === username && submittedScore > score)
-			setScore(submittedScore);
+    if (submittedUser === username && submittedScore > score)
+      setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -135,7 +142,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
   };
 
   return (
-		<>
+    <>
       <div className="rendered-letters column m-0 p-0">
         <ul>
           {letters.map((letter, index) => (
@@ -145,11 +152,11 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
           ))}
         </ul>
       </div>
-			
+
       <div className="timer m-3">{activeTimer ? <Timer /> : ""}</div>
 
       <div className="field m-3 has-text-centered">
-        <div className={"letters-buttons " + (activeTimer ? 'hidden' : '')}>
+        <div className={"letters-buttons " + (activeTimer ? "hidden" : "")}>
           <button
             disabled={!isYourTurn || activeTimer}
             className="button mr-3 is-warning"
@@ -202,7 +209,7 @@ const MainGame = ({ socket, username, room, activeTimer, setActiveTimer, isYourT
           ))}
         </ul>
       </div>
-    </>  
+    </>
   );
 };
 
