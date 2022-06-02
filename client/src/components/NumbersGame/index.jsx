@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useReducer } from "react";
+import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 
-const NumbersGame = ({ socket, username, room }) => {
+const NumbersGame = ({
+  socket,
+  username,
+  room,
+  activeTimer,
+  setActiveTimer,
+}) => {
   useEffect(() => {
     socket.on("add-number", addNumber);
     socket.on("add-target", addTarget);
@@ -29,6 +36,9 @@ const NumbersGame = ({ socket, username, room }) => {
       case "PUSH":
         newOperation = [...operationArr, action.operation];
         break;
+      case "CLEAR":
+        newOperation = new Array(0).fill("");
+        break;
       default:
         throw new Error();
     }
@@ -44,6 +54,10 @@ const NumbersGame = ({ socket, username, room }) => {
       case "DISABLE":
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = true;
+        break;
+      case "ENABLE":
+        newNumbers = numbersArr;
+        newNumbers.disabled = false;
         break;
       default:
         throw new Error();
@@ -93,6 +107,7 @@ const NumbersGame = ({ socket, username, room }) => {
   // generateNumber
   function getRandomNumber() {
     socket.emit("set-target", room);
+    setActiveTimer(true);
   }
 
   function addTarget(target) {
@@ -143,12 +158,19 @@ const NumbersGame = ({ socket, username, room }) => {
     setOperationArr(action);
   };
 
+  const backspace = () => {
+    setOperationArr({ type: "CLEAR" });
+    setNumbersArr({
+      type: "ENABLE",
+    });
+  };
+
   return (
     <>
       <div className="target-number has-text-centered mt-4">
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
-
+      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div id="numbers-section">
@@ -253,11 +275,18 @@ const NumbersGame = ({ socket, username, room }) => {
               (
             </button>
             <button
-              className="button is-small is-warning"
+              className="button is-small is-warning mr-2"
               id="add"
               onClick={operationSymbol}
             >
               )
+            </button>
+            <button
+              className="button is-small is-warning mr-2"
+              id=" multiply"
+              onClick={backspace}
+            >
+              Reset
             </button>
           </div>
         ) : (
