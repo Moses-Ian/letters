@@ -17,7 +17,7 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 120vh;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
