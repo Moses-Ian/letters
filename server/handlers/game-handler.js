@@ -200,6 +200,7 @@ saveScore = (score, room, username) => {
   let g = rooms.get(room);
   if (!g) return;
   let player = g.getPlayer(username);
+	if (!player) return;
   player.score += score;
   console.log(player.score);
 };
