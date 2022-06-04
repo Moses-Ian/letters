@@ -55,10 +55,10 @@ const NumbersGame = ({
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = true;
         break;
-      case "ENABLE":
-        newNumbers = numbersArr;
-        newNumbers.disabled = false;
-        break;
+      // case "ENABLE":
+      //   newNumbers = numbersArr;
+      //   newNumbers[action.index].disabled = false;
+      //   break;
       default:
         throw new Error();
     }
@@ -158,12 +158,25 @@ const NumbersGame = ({
     setOperationArr(action);
   };
 
-  const backspace = () => {
+  const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-    setNumbersArr({
-      type: "ENABLE",
-    });
+
+
+    // let text = event.target.innerText;
+    
+    // let index = event.target.dataset.index;
+    // setNumbersArr({
+    //   type: "DISABLE",
+    //   index,
+    // });
+
+    // let action = {
+    //   type: "PUSH",
+    //   operation: text,
+    // };
+    // setOperationArr(action);
   };
+  
 
   return (
     <>
