@@ -47,6 +47,7 @@ const NumbersGame = ({
 
   function numbersReducer(numbersArr, action) {
     let newNumbers;
+    
     switch (action.type) {
       case "PUSH":
         newNumbers = [...numbersArr, action.numberObj];
@@ -55,10 +56,10 @@ const NumbersGame = ({
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = true;
         break;
-      // case "ENABLE":
-      //   newNumbers = numbersArr;
-      //   newNumbers[action.index].disabled = false;
-      //   break;
+      case "ENABLE":
+        newNumbers = numbersArr;
+        newNumbers[action.index].disabled = false;
+        break;
       default:
         throw new Error();
     }
@@ -133,9 +134,11 @@ const NumbersGame = ({
   }
 
   const answerFunction = (event) => {
-    let text = event.target.innerText;
     setShowOperationBtn(true);
+
+    let text = event.target.innerText;
     let index = event.target.dataset.index;
+
     setNumbersArr({
       type: "DISABLE",
       index,
@@ -160,23 +163,15 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
+    console.log(numbersArr);
 
+    setNumbersArr({
+      type: "ENABLE",
+      
+    });
 
-    // let text = event.target.innerText;
-    
-    // let index = event.target.dataset.index;
-    // setNumbersArr({
-    //   type: "DISABLE",
-    //   index,
-    // });
-
-    // let action = {
-    //   type: "PUSH",
-    //   operation: text,
-    // };
-    // setOperationArr(action);
   };
-  
+  console.log(numbersArr);
 
   return (
     <>
