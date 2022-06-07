@@ -133,13 +133,18 @@ generateConsonant = (letters, firstTry = true) => {
 //   score: 5
 // }
 
-submitWord = async (word, username, room) => {
+submitWord = async (socket, word, username, room) => {
   let g = rooms.get(room);
   if (!g) return;
   const score = await scoreWord(word, g.letters);
+	if (typeof score === "object" && score.offensive) {
+		console.log("offensive word");
+		io.to(socket.id).emit("bad-word");
+		return;
+	}
+	console.log(score);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
-  console.log(g.score); // returns undefined
 };
 
 scoreWord = async (word, letters) => {
@@ -156,7 +161,10 @@ scoreWord = async (word, letters) => {
   for (let j = 0; j < checklist.length; j++) if (!checklist[j]) return 0;
 
   //make sure it's in the dictionary
-  if (!(await inDictionary(word))) return 0;
+	const result = await inDictionary(word);
+	console.log(result);
+  if (!result) return 0;
+	if (typeof result === "object") return result;
 
   return word.length;
 };
@@ -169,11 +177,20 @@ inDictionary = async (word) => {
     );
     const data = await response.json();
     if (data.length == 0) throw `Problem contacting DictionaryApi: Got []`;
-    return typeof data[0] != "string";
+		if (typeof data[0] === "string")	return false;
+		if (isOffensive(data)) return {offensive: true};
+		return true;
   } catch (err) {
     console.error(err);
     return false;
   }
+	return false;
+};
+
+isOffensive = (data) => {
+	for (let i=0; i<data.length; i++)
+		if (data[i].meta.offensive) return true;
+	return false;
 };
 
 restartLetters = (room) => {
@@ -352,7 +369,9 @@ const registerGameHandler = (newio, socket) => {
   // letters game
   socket.on("add-vowel", addVowel);
   socket.on("add-consonant", addConsonant);
-  socket.on("submit-word", submitWord);
+  socket.on("submit-word", (word, username, room) => 
+		submitWord(socket, word, username, room)
+	);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
   // players
