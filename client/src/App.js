@@ -44,6 +44,7 @@ function App() {
   };
 
   const [socket, setSocket] = useState(null);
+	const [username, setUsername] = useState('Guest');
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
@@ -55,10 +56,14 @@ function App() {
       newSocket.close();
     };
   }, [setSocket]);
-
+	
   const profile = Auth.getProfile();
-  const username = profile ? profile.data.username : "Guest"; //updates on refresh
   const [room, setRoom] = useState("");
+
+	useEffect(() => {
+		if (profile)
+			setUsername(profile.data.username);
+	}, [profile]);
 
   return (
     <ApolloProvider client={client}>
@@ -76,7 +81,11 @@ function App() {
           setRoom={setRoom}
         />
         {room !== "" ? (
-          <Room socket={socket} username={username} room={room} />
+          <Room 
+						socket={socket} 
+						username={username} 
+						setUsername={setUsername}
+						room={room} />
         ) : (
           ""
         )}

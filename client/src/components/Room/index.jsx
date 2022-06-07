@@ -4,7 +4,7 @@ import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
 
-function Room({ socket, username, room }) {
+function Room({ socket, username, setUsername, room }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState(false);
   const [isYourTurn, setTurn] = useState(false);
@@ -16,6 +16,7 @@ function Room({ socket, username, room }) {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", (newRound) => setRound(newRound));
+		socket.on("update-username", (newUsername) => setUsername(newUsername));
 
     return () => {
       socket.disconnect();

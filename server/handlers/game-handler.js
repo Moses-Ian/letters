@@ -215,7 +215,13 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   //join the rooms
   socket.join(room);
   //add the players
-  let turn = g.add(new PlayerObj(username, socket.id));
+	const player = new PlayerObj(username, socket.id);
+  let turn = g.add(player);
+	if (player.username !== username)
+		setTimeout(
+			() => io.to(socket.id).emit("update-username", player.username),
+			2000
+		);
   tellTurn(g, turn);
   //leave the old room
   leaveRoom(socket, oldRoom);
