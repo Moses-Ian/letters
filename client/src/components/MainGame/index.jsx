@@ -147,6 +147,11 @@ const MainGame = ({
 		console.log("that is a bad word");
 		setBadWordMsg(true);
 	};
+	
+	const getHint = () => {
+		console.log('get hint');
+		socket.emit('get-hint', username, room);
+	};
 
   return (
     <>
@@ -210,6 +215,15 @@ const MainGame = ({
                 onClick={submitWord}
               />
             </div>
+						<div className="control">
+							<input
+								className="button is-warning"
+								type="button"
+								value="Hint"
+								disabled={activeTimer ? false : true}
+								onClick={getHint}
+							/>
+						</div>
           </div>
         </form>
       </div>

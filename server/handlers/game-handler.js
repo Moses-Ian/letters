@@ -1,4 +1,5 @@
 const mexp = require('math-expression-evaluator');
+const {lettersSolver} = require('../utils/algorithms');
 
 //classes
 //==================================
@@ -201,6 +202,13 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
+getHint = (username, room) => {
+	let g = rooms.get(room);
+	if (!g) return;
+	const word = lettersSolver(g.letters, 5);
+	console.log(word);
+}
+
 // nextTurn ??
 
 nextRound = (room) => {
@@ -374,6 +382,7 @@ const registerGameHandler = (newio, socket) => {
 	);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
+	socket.on("get-hint", getHint);
   // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
