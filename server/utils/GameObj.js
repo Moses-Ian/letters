@@ -58,7 +58,12 @@ class GameObj {
 	}
 	
 	nextTurn() {
-		this.turn++;
+		if (this.players.length === 2) {
+			if (this.round % 4 === 1 || this.round % 4 === 3)
+				this.turn++
+		}	else {
+			this.turn++;
+		}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
 		this.restart();

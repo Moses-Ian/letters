@@ -194,6 +194,7 @@ nextRound = (room) => {
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
+	console.log(turn);
 };
 
 saveScore = (score, room, username) => {
@@ -202,7 +203,6 @@ saveScore = (score, room, username) => {
   let player = g.getPlayer(username);
 	if (!player) return;
   player.score += score;
-  console.log(player.score);
 };
 
 joinRoom = (socket, room, oldRoom, username, callback) => {
