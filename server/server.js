@@ -11,15 +11,15 @@ const registerHandlers = require('./handlers');
 require('dotenv').config({path:'../.env'});
 
 // show memory usage
-if (process.env.NODE_ENV === 'development') {
-	setInterval(() => {
-		console.log('===================================');
-		for (const [key,value] of Object.entries(process.memoryUsage())){
-			console.log(`Memory usage by ${key}, ${value/1000000}MB `)
-		}
-		}, 10000
-	);
-}
+// if (process.env.NODE_ENV === 'development') {
+	// setInterval(() => {
+		// console.log('===================================');
+		// for (const [key,value] of Object.entries(process.memoryUsage())){
+			// console.log(`Memory usage by ${key}, ${value/1000000}MB `)
+		// }
+		// }, 10000
+	// );
+// }
 
 const app = express();
 const PORT = process.env.PORT || 3001;

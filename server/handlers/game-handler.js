@@ -205,8 +205,13 @@ restartLetters = (room) => {
 getHint = (username, room) => {
 	let g = rooms.get(room);
 	if (!g) return;
-	const word = lettersSolver(g.letters, 5);
-	console.log(word);
+	const start = new Date().getTime();
+	for (i=1; i<=50000; i++) {
+		const word = lettersSolver(g.letters, 5);
+	}
+	const end = new Date().getTime();
+	console.log(`runtime: ${end-start}`);
+	// console.log(`word: ${word}`);
 }
 
 // nextTurn ??
