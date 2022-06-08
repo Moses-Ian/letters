@@ -58,6 +58,7 @@ function App() {
   }, [setSocket]);
 	
   const profile = Auth.getProfile();
+	const loggedIn = Auth.loggedIn();
   const [room, setRoom] = useState("");
 
 	useEffect(() => {
@@ -68,10 +69,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App container p-3">
-        {username === "Guest" && room === "" ? (
+        {!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
-          <Header username={username} />
+          <Header username={username} loggedIn={loggedIn} />
         )}
 
         <JoinGame
@@ -85,7 +86,9 @@ function App() {
 						socket={socket} 
 						username={username} 
 						setUsername={setUsername}
-						room={room} />
+						room={room}
+						loggedIn={loggedIn}
+					/>
         ) : (
           ""
         )}

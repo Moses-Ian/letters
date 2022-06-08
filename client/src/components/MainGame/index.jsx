@@ -13,6 +13,7 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
+	loggedIn
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -149,7 +150,6 @@ const MainGame = ({
 	};
 	
 	const getHint = () => {
-		console.log('get hint');
 		socket.emit('get-hint', username, room);
 	};
 
@@ -220,7 +220,7 @@ const MainGame = ({
 								className="button is-warning"
 								type="button"
 								value="Hint"
-								disabled={activeTimer ? false : true}
+								disabled={!(activeTimer && loggedIn)}
 								onClick={getHint}
 							/>
 						</div>
