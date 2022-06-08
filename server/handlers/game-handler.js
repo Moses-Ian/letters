@@ -204,26 +204,44 @@ getHint = async (username, room) => {
 	let g = rooms.get(room);
 	if (!g) return;
 	const {word, score} = await recurseGetHint(g.letters);
-	g.words.push({ word, username, score });
+	g.words.push({ username, word, score });
 	io.to(room).emit("append-word", word, username, score);
 }
 
 recurseGetHint = async (letters) => {
-	let word = lettersSolver(letters, 5);
+	let word = lettersSolver(letters, getHintSize());
+	if (word === null) {
+		const hint = await recurseGetHint(letters);
+		word = hint.word;
+	}
 	let score = await scoreWord(word, letters);
+	let hint = {word, score};
 	if (typeof score === "object" && score.offensive) {
 		logInvalidWord(word);
-		let {word, score} = await recurseGetHint();
+		hint = await recurseGetHint(letters);
 	}
 	if (score === 0) {
 		logInvalidWord(word);
-		let {word, score} = await recurseGetHint();
+		hint = await recurseGetHint(letters);
 	}
-	return {word, score};	
+	return hint;	
 }
 
 logInvalidWord = (word) => {
 	appendFile('./logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
+}
+
+getHintSize = () => {
+	const sizes   = [5,   6,  7, 8, 9];
+	const weights = [60, 45, 15, 5, 1];
+	let random = Math.floor(Math.random() * 126);
+	for (let i=0; i<sizes.length; i++) {
+		if (weights[i] >= random)
+			return sizes[i];
+		else
+			random -= weights[i];
+	}
+	return 5;
 }
 
 nextRound = (room) => {
