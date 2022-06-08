@@ -4,7 +4,7 @@ import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
 
-function Room({ socket, username, setUsername, room }) {
+function Room({ socket, username, setUsername, room, loggedIn }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState(false);
   const [isYourTurn, setTurn] = useState(false);
@@ -81,6 +81,7 @@ function Room({ socket, username, setUsername, room }) {
             setTurn={setTurn}
             score={score}
             setScore={setScore}
+						loggedIn={loggedIn}
           />
         ) : (
           <NumbersGame

@@ -4,9 +4,11 @@
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "seed": "node seeders/seeds.js"
+    "seed": "node seeders/seeds.js",
+    "test": "jest --watch -verbose"
   },
   "devDependencies": {
+    "jest": "^28.1.1",
     "nodemon": "^2.0.16"
   },
   "keywords": [],

@@ -13,6 +13,7 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
+	loggedIn
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -147,6 +148,10 @@ const MainGame = ({
 		console.log("that is a bad word");
 		setBadWordMsg(true);
 	};
+	
+	const getHint = () => {
+		socket.emit('get-hint', username, room);
+	};
 
   return (
     <>
@@ -210,6 +215,15 @@ const MainGame = ({
                 onClick={submitWord}
               />
             </div>
+						<div className="control">
+							<input
+								className="button is-warning"
+								type="button"
+								value="Hint"
+								disabled={!(activeTimer && loggedIn)}
+								onClick={getHint}
+							/>
+						</div>
           </div>
         </form>
       </div>

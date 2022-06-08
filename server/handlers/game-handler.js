@@ -1,4 +1,6 @@
 const mexp = require('math-expression-evaluator');
+const {lettersSolver} = require('../utils/algorithms');
+const {appendFile} = require('fs');
 
 //classes
 //==================================
@@ -138,11 +140,9 @@ submitWord = async (socket, word, username, room) => {
   if (!g) return;
   const score = await scoreWord(word, g.letters);
 	if (typeof score === "object" && score.offensive) {
-		console.log("offensive word");
 		io.to(socket.id).emit("bad-word");
 		return;
 	}
-	console.log(score);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
 };
@@ -162,7 +162,6 @@ scoreWord = async (word, letters) => {
 
   //make sure it's in the dictionary
 	const result = await inDictionary(word);
-	console.log(result);
   if (!result) return 0;
 	if (typeof result === "object") return result;
 
@@ -201,7 +200,49 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
-// nextTurn ??
+getHint = async (username, room) => {
+	let g = rooms.get(room);
+	if (!g) return;
+	const {word, score} = await recurseGetHint(g.letters);
+	g.words.push({ username, word, score });
+	io.to(room).emit("append-word", word, username, score);
+}
+
+recurseGetHint = async (letters) => {
+	let word = lettersSolver(letters, getHintSize());
+	if (word === null) {
+		const hint = await recurseGetHint(letters);
+		word = hint.word;
+	}
+	let score = await scoreWord(word, letters);
+	let hint = {word, score};
+	if (typeof score === "object" && score.offensive) {
+		logInvalidWord(word);
+		hint = await recurseGetHint(letters);
+	}
+	if (score === 0) {
+		logInvalidWord(word);
+		hint = await recurseGetHint(letters);
+	}
+	return hint;	
+}
+
+logInvalidWord = (word) => {
+	appendFile('./logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
+}
+
+getHintSize = () => {
+	const sizes   = [5,   6,  7, 8, 9];
+	const weights = [60, 45, 15, 5, 1];
+	let random = Math.floor(Math.random() * 126);
+	for (let i=0; i<sizes.length; i++) {
+		if (weights[i] >= random)
+			return sizes[i];
+		else
+			random -= weights[i];
+	}
+	return 5;
+}
 
 nextRound = (room) => {
   let g = rooms.get(room);
@@ -211,7 +252,6 @@ nextRound = (room) => {
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
-	console.log(turn);
 };
 
 saveScore = (score, room, username) => {
@@ -374,6 +414,7 @@ const registerGameHandler = (newio, socket) => {
 	);
   socket.on("restart-letters", restartLetters);
   socket.on("game-state", (cb) => cb(g.letters, g.words));
+	socket.on("get-hint", getHint);
   // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
