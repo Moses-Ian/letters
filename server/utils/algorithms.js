@@ -12,39 +12,54 @@ const readline = require('readline');
 // const dictionary = {
 	// "a":{"a":{"a":{"d":{"k":{"r":{"r":{"s":{"v":{"words":["aardvarks"]}}}}}}},"d":{"f":{"l":{"o":{"r":{"w":{"words":["aardwolf"]}}}}},"e":{"l":{"o":{"r":{"s":{"v":{"w":{"words":["aardwolves"]}}}}}}}},"g":{"h":{"r":{"words":["aargh"]}}}},"d":{"e":{"n":{"words":["dean","dane"]}}}},
 	// "e":{"e":{"l":{"r":{"t":{"t":{"words":["letter"]}}}}}}
-// };	//for testing
+// };
 
 let dictionary;
-fs.readFile('./utils/dictionary_obj_5_to_9.txt', (err, data) => {
+fs.readFile('./utils/dictionary_obj_5_to_9.json', (err, data) => {
 	if (err) throw err;
 	dictionary = JSON.parse(data);
 });
 
 const lettersSolver = (letters, solutionLength) => {
-	//we're going to start with finding the first in the alphabet, then move on from there
-	const sorted = letters.sort().join('').toLowerCase().split('');
+	
+	//start with a random valid combination
+	const sorted = getRandomCombination(letters, solutionLength);
+	const start = sorted.map(a => a).join('');
 	
 	let result;
 	let check;
 	do {
-		result = solve(dictionary, sorted, solutionLength);
-		// console.log(`${sorted.join('')} ${result}`);
+		//see if this combination matches a word in the dictionary
+		result = match(dictionary, sorted, solutionLength);
+		// move on to the next one
 		check = nextCombination(sorted, solutionLength);
 	} while(!result && check !== null);
 	
+	//did we find a match? return it!
 	if(result)
 		return result;
 	
+	//well then loop around
+	sorted.sort();
+	do {
+		result = match(dictionary, sorted, solutionLength);
+		check = nextCombination(sorted, solutionLength);
+	} while(!result && check != null && sorted.join('') < start);
+	
+	if(result)
+		return result;
+
+	//there are seriously no words of this length
 	return null;
 }
 
-const solve = (node, letters, leftToGo) => {
+const match = (node, letters, leftToGo) => {
 	if(leftToGo === 0 && node.words) {
 		return node.words[Math.floor(Math.random() * node.words.length)];
 	}
 	
 	if (node[letters[0]]) {
-		return solve(node[letters[0]], letters.slice(1), leftToGo-1);
+		return match(node[letters[0]], letters.slice(1), leftToGo-1);
 	}
 }
 
@@ -93,7 +108,24 @@ const swap = (a, i, j) => {
 	// console.log(a.join(''));
 }
 
+const getRandomCombination = (letters, solutionLength) => {
+	// create deep copy
+	let leftovers = [];
+	for (let i=0; i<letters.length; i++)
+		leftovers[i] = letters[i];
+	// move random characters to character array
+	let characters = [];
+	for (let i=0; i<solutionLength; i++) {
+		const random = Math.floor(Math.random() * leftovers.length);
+		characters.push(leftovers.splice(random, 1));
+	}
+	//return it
+	return characters.sort().concat(leftovers.sort());
+}
+
 module.exports = {
 	lettersSolver,
+	getRandomCombination,
+	dictionary,
 	nextCombination
 };

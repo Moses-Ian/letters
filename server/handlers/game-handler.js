@@ -1,5 +1,6 @@
 const mexp = require('math-expression-evaluator');
 const {lettersSolver} = require('../utils/algorithms');
+const {appendFile} = require('fs');
 
 //classes
 //==================================
@@ -139,11 +140,9 @@ submitWord = async (socket, word, username, room) => {
   if (!g) return;
   const score = await scoreWord(word, g.letters);
 	if (typeof score === "object" && score.offensive) {
-		console.log("offensive word");
 		io.to(socket.id).emit("bad-word");
 		return;
 	}
-	console.log(score);
   g.words.push({ word, username, score });
   io.to(room).emit("append-word", word, username, score);
 };
@@ -163,7 +162,6 @@ scoreWord = async (word, letters) => {
 
   //make sure it's in the dictionary
 	const result = await inDictionary(word);
-	console.log(result);
   if (!result) return 0;
 	if (typeof result === "object") return result;
 
@@ -202,19 +200,31 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
-getHint = (username, room) => {
+getHint = async (username, room) => {
 	let g = rooms.get(room);
 	if (!g) return;
-	const start = new Date().getTime();
-	for (i=1; i<=50000; i++) {
-		const word = lettersSolver(g.letters, 5);
-	}
-	const end = new Date().getTime();
-	console.log(`runtime: ${end-start}`);
-	// console.log(`word: ${word}`);
+	const {word, score} = await recurseGetHint(g.letters);
+	g.words.push({ word, username, score });
+	io.to(room).emit("append-word", word, username, score);
 }
 
-// nextTurn ??
+recurseGetHint = async (letters) => {
+	let word = lettersSolver(letters, 5);
+	let score = await scoreWord(word, letters);
+	if (typeof score === "object" && score.offensive) {
+		logInvalidWord(word);
+		let {word, score} = await recurseGetHint();
+	}
+	if (score === 0) {
+		logInvalidWord(word);
+		let {word, score} = await recurseGetHint();
+	}
+	return {word, score};	
+}
+
+logInvalidWord = (word) => {
+	appendFile('./logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
+}
 
 nextRound = (room) => {
   let g = rooms.get(room);
@@ -224,7 +234,6 @@ nextRound = (room) => {
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
-	console.log(turn);
 };
 
 saveScore = (score, room, username) => {
