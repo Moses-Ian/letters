@@ -163,18 +163,15 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-    
+
     for (let index = 0; index < numbersArr.length; index++) {
       const element = numbersArr[index];
       setNumbersArr({
         type: "ENABLE",
         index,
       });
-      
     }
-  
   };
-  
 
   return (
     <>
@@ -184,12 +181,14 @@ const NumbersGame = ({
       <div className="timer">{activeTimer ? <Timer /> : ""}</div>
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
-          <div id="numbers-section">
-            {numbersArr.map((numberObj, index) => (
-              <span className="numbers-divide" key={index}>
-                {numberObj.number},
-              </span>
-            ))}
+          <div id="numbers-section rendered-letters column">
+            <ul>
+              {numbersArr.map((numberObj, index) => (
+                <li className="letter-box" key={index}>
+                  <span className="letter-span">{numberObj.number}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         ) : (
           ""
