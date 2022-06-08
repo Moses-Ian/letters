@@ -45,6 +45,7 @@ function App() {
 
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
+	const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
@@ -58,12 +59,13 @@ function App() {
   }, [setSocket]);
 	
   const profile = Auth.getProfile();
-	const loggedIn = Auth.loggedIn();
   const [room, setRoom] = useState("");
 
 	useEffect(() => {
-		if (profile)
+		if (profile) {
 			setUsername(profile.data.username);
+			setLoggedIn(Auth.loggedIn());
+		}
 	}, [profile]);
 
   return (
