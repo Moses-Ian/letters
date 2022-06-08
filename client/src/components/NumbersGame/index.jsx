@@ -47,7 +47,7 @@ const NumbersGame = ({
 
   function numbersReducer(numbersArr, action) {
     let newNumbers;
-    
+
     switch (action.type) {
       case "PUSH":
         newNumbers = [...numbersArr, action.numberObj];
@@ -163,15 +163,18 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-    console.log(numbersArr);
-
-    setNumbersArr({
-      type: "ENABLE",
+    
+    for (let index = 0; index < numbersArr.length; index++) {
+      const element = numbersArr[index];
+      setNumbersArr({
+        type: "ENABLE",
+        index,
+      });
       
-    });
-
+    }
+  
   };
-  console.log(numbersArr);
+  
 
   return (
     <>
@@ -249,7 +252,7 @@ const NumbersGame = ({
           <div className="mt-4" id="operation">
             <button
               className="button is-small is-warning mr-2"
-              id=" multiply"
+              id="multiply"
               onClick={operationSymbol}
             >
               *
@@ -317,7 +320,7 @@ const NumbersGame = ({
             id="check-answer"
             onClick={calculateTotal}
           >
-            Check Answer
+            Submit Answer
           </button>
         ) : (
           ""
