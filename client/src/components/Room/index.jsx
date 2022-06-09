@@ -33,10 +33,9 @@ function Room({ socket, username, setUsername, room, loggedIn }) {
   };
 
   const nextRound = () => {
-    // socket.emit("next-round", room);
-    // socket.emit("save-score", score, room, username);
-    // setScore(0);
-		MainGame.runMe();
+    socket.emit("next-round", room);
+    socket.emit("save-score", score, room, username);
+    setScore(0);
   };
 
   const restartLetters = (event) => {

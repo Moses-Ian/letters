@@ -164,10 +164,6 @@ const MainGame = ({
 		socket.emit('get-hint', username, room);
 	};
 	
-	function runMe() {
-		console.log("I am running");
-	}
-
   return (
     <>
       <div className="rendered-letters column">
