@@ -42,19 +42,20 @@ const registerGameHandler = (newio, socket) => {
 		submitWord(socket, word, username, room)
 	);
   socket.on("restart-letters", restartLetters);
-  socket.on("game-state", (cb) => cb(g.letters, g.words));
 	socket.on("get-hint", getLettersHint);
+  socket.on("get-letters-state", getLettersState);
   // numbers game
   socket.on("add-small", addSmallNumber);
   socket.on("add-large", addLargeNumber);
   socket.on("set-target", getRandomNumber);
   socket.on("submit-calculation", calculateTotal);
+  socket.on("get-numbers-state", getNumbersState);
   // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
-  socket.on("save-score", saveScore);
+  // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
   socket.on("print-all-rooms", printAllRooms);

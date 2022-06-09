@@ -5,20 +5,13 @@ In 50000 trials, his algorithm took 54967 ms
 In 50000 trials, mine took 134 ms
 
 */
+let dictionary = require('./dictionary_obj_5_to_9.json');
 
-
-const fs = require('fs');
-const readline = require('readline');
+//for testing with a smaller dictionary
 // const dictionary = {
 	// "a":{"a":{"a":{"d":{"k":{"r":{"r":{"s":{"v":{"words":["aardvarks"]}}}}}}},"d":{"f":{"l":{"o":{"r":{"w":{"words":["aardwolf"]}}}}},"e":{"l":{"o":{"r":{"s":{"v":{"w":{"words":["aardwolves"]}}}}}}}},"g":{"h":{"r":{"words":["aargh"]}}}},"d":{"e":{"n":{"words":["dean","dane"]}}}},
 	// "e":{"e":{"l":{"r":{"t":{"t":{"words":["letter"]}}}}}}
 // };
-
-let dictionary;
-fs.readFile('./utils/dictionary_obj_5_to_9.json', (err, data) => {
-	if (err) throw err;
-	dictionary = JSON.parse(data);
-});
 
 const lettersSolver = (letters, solutionLength) => {
 	
@@ -64,8 +57,6 @@ const match = (node, letters, leftToGo) => {
 }
 
 const nextCombination = (a, r) => {
-	// console.log('start');
-	// console.log(a.join(''));
 	const n = a.length;
 	//find the biggest element in r that is smaller than the biggest element out of r
 	let i;
@@ -97,15 +88,12 @@ const nextCombination = (a, r) => {
 		swap(a, j, j+1);
 		j++;
 	};
-	
-	// console.log('end');
 }
 
 const swap = (a, i, j) => {
 	let temp = a[i];
 	a[i] = a[j];
 	a[j] = temp;
-	// console.log(a.join(''));
 }
 
 const getRandomCombination = (letters, solutionLength) => {
