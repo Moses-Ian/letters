@@ -92,9 +92,17 @@ function scoreAnswer(total, g) {
   return score;
 }
 
+function getNumbersState(room, cb) {
+  let g = rooms.get(room);
+  if (!g) return;
+  cb(g.numbers, g.operations, g.target, g.numberCount)
+};
+
+
 module.exports = {
 	addSmallNumber,
 	addLargeNumber,
 	getRandomNumber,
-	calculateTotal
+	calculateTotal,
+	getNumbersState
 };

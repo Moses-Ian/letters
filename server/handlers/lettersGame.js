@@ -146,6 +146,12 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
+getLettersState = (room, cb) => {
+  let g = rooms.get(room);
+  if (!g) return;
+  cb(g.letters, g.words)
+};
+
 getLettersHint = async (username, room) => {
 	let g = rooms.get(room);
 	if (!g) return;
@@ -195,5 +201,6 @@ module.exports = {
 	addConsonant,
 	submitWord,
 	restartLetters,
+	getLettersState,
 	getLettersHint
 };

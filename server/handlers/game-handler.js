@@ -3,6 +3,7 @@ const {
 	addConsonant,
 	submitWord,
 	restartLetters,
+	getLettersState,
 	getLettersHint
 } = require('./lettersGame');
 
@@ -10,7 +11,8 @@ const {
 	addSmallNumber,
 	addLargeNumber,
 	getRandomNumber,
-	calculateTotal
+	calculateTotal,
+	getNumbersState
 } = require('./numbersGame');
 
 const {
