@@ -252,6 +252,7 @@ input {
   color: var(--secondary-color);
 }
 
+.bad-word-msg,
 .modal-error-msg {
   color: var(--secondary-color);
   text-shadow: 1px 1px 1px black, 1px 1px 5px black;
