@@ -54,7 +54,7 @@ const registerGameHandler = (newio, socket) => {
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
-  socket.on("save-score", saveScore);
+  // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
   socket.on("print-all-rooms", printAllRooms);

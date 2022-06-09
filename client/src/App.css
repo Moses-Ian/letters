@@ -17,7 +17,7 @@
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 120vh;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@ input {
   background-color: #edeae5c2;
   background-size: 50px;
   border-radius: 5px;
-  padding: 2vh;
+  padding: 2vh ;
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
@@ -345,7 +345,7 @@ input {
 
 .numbers-generated {
   font-size: 30px;
-  color: var(--tertiary-color);
+  color: var(--quanternary-color);
   margin-top: 1vh;
 }
 
@@ -357,3 +357,9 @@ input {
   font-size: 40px;
   color: #9fedd7;
 }
+
+.numbers-score {
+  color: #fce181 !important;
+}
+
+
