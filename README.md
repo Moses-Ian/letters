@@ -50,13 +50,17 @@ There are no tests for this program.
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/80355222/170894421-8dabbe88-8c07-46e5-a55a-6b160bc15c45.png)
+![image](https://user-images.githubusercontent.com/80355222/171569177-53543a2d-d1cd-4d3a-b4bd-88009563c7ce.png)
 
-![image](https://user-images.githubusercontent.com/80355222/170894448-1db644b4-52a5-48fe-aeb6-9ffb09e6e1aa.png)
+![image](https://user-images.githubusercontent.com/80355222/171569321-ff5b5039-eb56-4db2-b17a-b215cf30164d.png)
 
-![image](https://user-images.githubusercontent.com/80355222/170894554-f2f28bc1-cd7f-49e8-9128-5082387ea6cc.png)
+![image](https://user-images.githubusercontent.com/80355222/171569610-5d6ecd3e-b721-4c38-8919-94d5a8668d0c.png)
 
-![image](https://user-images.githubusercontent.com/80355222/170894575-4f21cbc7-670e-49d4-b15a-55a26167916a.png)
+![image](https://user-images.githubusercontent.com/80355222/171569506-f52d047a-6538-4126-93e8-2cb64b530b79.png)
+
+![image](https://user-images.githubusercontent.com/80355222/171569966-40f5d40f-58f9-43f7-84de-b3b078fc4561.png)
+
+![image](https://user-images.githubusercontent.com/80355222/171569797-3cf3665c-8f8c-4c35-bac7-5fae40ee1daa.png)
 
 ## Deployment
 

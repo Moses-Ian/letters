@@ -276,42 +276,42 @@ const NumbersGame = ({
         {showOperationBtn ? (
           <div className="mt-4" id="operation">
             <button
-              className="button is-small is-warning mr-2"
-              id="multiply"
+              className="button is-warning mr-2"
+              id=" multiply"
               onClick={operationSymbol}
             >
               *
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-warning mr-2"
               id="subtract"
               onClick={operationSymbol}
             >
               -
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-warning mr-2"
               id="divide"
               onClick={operationSymbol}
             >
               /
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
             >
               +
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
             >
               (
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-warning"
               id="add"
               onClick={operationSymbol}
             >
@@ -333,7 +333,7 @@ const NumbersGame = ({
             {operationArr.join(" ")}
           </h1>
           {userTotal.map((total, index) => (
-            <li key={index}>
+            <li className='numbers-score' key={index}>
               {total.username}: {total.total}: {total.score} points
             </li>
           ))}

@@ -39,8 +39,7 @@ class GameObj {
 	}
 	
 	add(player) {
-		if (player.username == 'Guest')
-			player = this.addNumberToGuest(player);
+		player.addNumberToUsername(this.players);
 		this.players.push(player);
 		if (this.turn == -1)
 			this.turn = 0;
@@ -59,7 +58,12 @@ class GameObj {
 	}
 	
 	nextTurn() {
-		this.turn++;
+		if (this.players.length === 2) {
+			if (this.round % 4 === 1 || this.round % 4 === 3)
+				this.turn++
+		}	else {
+			this.turn++;
+		}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
 		this.restart();
@@ -67,22 +71,6 @@ class GameObj {
 		return this.turn;
 	}
 	
-	addNumberToGuest({username, ...player}) {
-		const maxGuest = this.players.reduce((maxGuest, player) => {
-			const matches = player.username.match(/Guest(?<tag>[0-9]*)/);
-			if (matches) {
-				if (matches.groups.tag == '')
-					return (Math.max(maxGuest, 0));
-				return (Math.max(maxGuest, matches.groups.tag));
-			}
-		}, -1);
-		const yourNumber = maxGuest == -1 ? '' : maxGuest+1;
-		return {
-			username: `Guest${yourNumber}`,
-			...player
-		};
-	}
-
   getPlayer(username) {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].username === username) {

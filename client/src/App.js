@@ -44,6 +44,7 @@ function App() {
   };
 
   const [socket, setSocket] = useState(null);
+	const [username, setUsername] = useState('Guest');
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
@@ -55,18 +56,23 @@ function App() {
       newSocket.close();
     };
   }, [setSocket]);
-
+	
   const profile = Auth.getProfile();
-  const username = profile ? profile.data.username : "Guest"; //updates on refresh
+	const loggedIn = Auth.loggedIn();
   const [room, setRoom] = useState("");
+
+	useEffect(() => {
+		if (profile)
+			setUsername(profile.data.username);
+	}, [profile]);
 
   return (
     <ApolloProvider client={client}>
       <div className="App container p-3">
-        {username === "Guest" && room === "" ? (
+        {!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
-          <Header username={username} />
+          <Header username={username} loggedIn={loggedIn} />
         )}
 
         <JoinGame
@@ -76,7 +82,13 @@ function App() {
           setRoom={setRoom}
         />
         {room !== "" ? (
-          <Room socket={socket} username={username} room={room} />
+          <Room 
+						socket={socket} 
+						username={username} 
+						setUsername={setUsername}
+						room={room}
+						loggedIn={loggedIn}
+					/>
         ) : (
           ""
         )}

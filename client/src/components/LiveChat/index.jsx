@@ -74,7 +74,7 @@ function LiveChat({ socket, username, room }) {
     });
     console.log(`receive ${message}`);
   };
-
+	
   return (
     <div className="live-chat-header is-flex-direction-column">
       <div className="live-chat-message" id="message-container">

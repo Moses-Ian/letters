@@ -20,7 +20,7 @@
       rel="stylesheet"
     />
 
-    <title>Letters</title>
+    <title>L3tters</title>
   </head>
   <body>
     <div id="root">
@@ -32,7 +32,7 @@
     (function () {
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-          .register("./service-worker.js")
+          .register("./service-worker-letters.js")
           .then(() => console.log("Service Worker registered successfully."))
           .catch((error) =>
             console.log("Service Worker registration failed:", error)
