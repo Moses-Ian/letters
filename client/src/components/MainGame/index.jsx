@@ -18,12 +18,13 @@ const MainGame = ({
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-
+  useEffect(() => {
+    socket.emit("get-letters-state", room, setGameState);
+  }, []);
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-    socket.on("set-game-state", setGameState);
 		socket.on("bad-word", badWord);
 
     return () => {};
@@ -142,6 +143,7 @@ const MainGame = ({
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
+    console.log("setGameState in mainGame component");
   };
 	
 	const badWord = () => {
