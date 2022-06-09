@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
@@ -38,11 +38,20 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
+	const elementRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
+	
+  useEffect(() => {
+    elementRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [words]);
 
   // functions
   function letterReducer(letters, action) {
@@ -154,7 +163,7 @@ const MainGame = ({
 	const getHint = () => {
 		socket.emit('get-hint', username, room);
 	};
-
+	
   return (
     <>
       <div className="rendered-letters column">
@@ -237,6 +246,7 @@ const MainGame = ({
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}
+        <div ref={elementRef}></div>
         </ul>
       </div>
     </>
