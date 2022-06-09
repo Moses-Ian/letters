@@ -7,7 +7,7 @@ In 50000 trials, mine took 134 ms
 */
 let dictionary = require('./dictionary_obj_5_to_9.json');
 
-//for testing with a smaller dictionary
+// for testing with a smaller dictionary
 // const dictionary = {
 	// "a":{"a":{"a":{"d":{"k":{"r":{"r":{"s":{"v":{"words":["aardvarks"]}}}}}}},"d":{"f":{"l":{"o":{"r":{"w":{"words":["aardwolf"]}}}}},"e":{"l":{"o":{"r":{"s":{"v":{"w":{"words":["aardwolves"]}}}}}}}},"g":{"h":{"r":{"words":["aargh"]}}}},"d":{"e":{"n":{"words":["dean","dane"]}}}},
 	// "e":{"e":{"l":{"r":{"t":{"t":{"words":["letter"]}}}}}}

@@ -163,6 +163,10 @@ const MainGame = ({
 	const getHint = () => {
 		socket.emit('get-hint', username, room);
 	};
+	
+	function runMe() {
+		console.log("I am running");
+	}
 
   return (
     <>
