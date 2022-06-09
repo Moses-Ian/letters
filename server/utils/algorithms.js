@@ -14,11 +14,13 @@ const readline = require('readline');
 	// "e":{"e":{"l":{"r":{"t":{"t":{"words":["letter"]}}}}}}
 // };
 
-let dictionary;
-fs.readFile('./utils/dictionary_obj_5_to_9.json', (err, data) => {
-	if (err) throw err;
-	dictionary = JSON.parse(data);
-});
+// let dictionary;
+// fs.readFile('./utils/dictionary_obj_5_to_9.json', (err, data) => {
+	// if (err) throw err;
+	// dictionary = JSON.parse(data);
+// });
+
+let dictionary = JSON.parse(require('./dictionary_obj_5_to_9.json'));
 
 const lettersSolver = (letters, solutionLength) => {
 	
