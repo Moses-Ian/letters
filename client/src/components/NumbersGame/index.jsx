@@ -8,12 +8,20 @@ const NumbersGame = ({
   room,
   activeTimer,
   setActiveTimer,
+  isYourTurn,
+  setTurn,
+  score,
+  setScore,
 }) => {
+  useEffect(() => {
+    socket.emit("get-numbers-state", room, setGameState);
+  }, []);
   useEffect(() => {
     socket.on("add-number", addNumber);
     socket.on("add-target", addTarget);
     socket.on("append-operations", scoreAnswer);
     // socket.on("your-turn", () => setTurn(true));
+    return () => {};
   }, [socket]);
 
   // track a final answer variable
@@ -24,7 +32,6 @@ const NumbersGame = ({
   const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
-  //   const [userTotal, setUserTotal] = useState(0);
   const [userTotal, setUserTotal] = useReducer(totalReducer, []);
   const [showNumberSection, setShowNumberSection] = useState(true);
   const [showOperationBtn, setShowOperationBtn] = useState(false);
@@ -50,7 +57,12 @@ const NumbersGame = ({
 
     switch (action.type) {
       case "PUSH":
-        newNumbers = [...numbersArr, action.numberObj];
+        const { numberObj, index } = action;
+        newNumbers = [
+          ...numbersArr.slice(0, index),
+          numberObj,
+          ...numbersArr.slice(index + 1),
+        ];
         break;
       case "DISABLE":
         newNumbers = numbersArr;
@@ -59,6 +71,9 @@ const NumbersGame = ({
       case "ENABLE":
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = false;
+        break;
+      case "RENDER_NUMBERS":
+        newNumbers = [...action.numbersArr];
         break;
       default:
         throw new Error();
@@ -72,6 +87,9 @@ const NumbersGame = ({
       case "PUSH":
         const { total, operationArr, username, score } = action;
         newTotalArr = [...userTotal, { total, operationArr, username, score }];
+        break;
+      case "RENDER_TOTALS":
+        newTotalArr = [...action.userTotal];
         break;
       default:
         throw new Error();
@@ -101,6 +119,7 @@ const NumbersGame = ({
         number,
         disabled: false,
       },
+      index
     };
     setNumbersArr(action);
   };
@@ -128,9 +147,6 @@ const NumbersGame = ({
 
   function scoreAnswer(total, operationArr, username, score) {
     setUserTotal({ type: "PUSH", total, operationArr, username, score });
-    // setUserScore(score);
-    // setUserTotal(total);
-    // console.log(username);
   }
 
   const answerFunction = (event) => {
@@ -153,7 +169,6 @@ const NumbersGame = ({
 
   const operationSymbol = (event) => {
     let text = event.target.innerText;
-    // setShowOperationBtn(false);
     let action = {
       type: "PUSH",
       operation: text,
@@ -171,6 +186,17 @@ const NumbersGame = ({
         index,
       });
     }
+  };
+
+  const setGameState = (numbers, operations, target, numberCount) => {
+    const numberObjects = numbers.map(number => {return {number, disabled: false}});
+    setNumbersArr({ type: "RENDER_NUMBERS", numbersArr: numberObjects });
+    if (numberCount === 6)
+    setShowAddNumberBtns(false);
+
+    setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
+    if (target != 0)
+    addTarget(target);
   };
 
   return (

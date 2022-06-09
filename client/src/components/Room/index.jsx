@@ -16,7 +16,7 @@ function Room({ socket, username, room }) {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", (newRound) => setRound(newRound));
-
+    socket.on("set-game-state-room", setGameState);
     return () => {
       socket.disconnect();
     };
@@ -39,6 +39,12 @@ function Room({ socket, username, room }) {
   const restartLetters = (event) => {
     socket.emit("restart-letters", room);
     setActiveTimer(false);
+  };
+
+  const setGameState = (round, letters, words, number, operations, target) => {
+   setRound(round);
+   console.log('setGameState in Room component, sent with: ' + round + letters + words + number + operations + target)
+   
   };
 
   return (

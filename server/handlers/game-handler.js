@@ -184,13 +184,19 @@ restartLetters = (room) => {
   io.to(room).emit("clear-letters");
 };
 
+
+function getLettersState(room, cb) {
+  let g = rooms.get(room);
+  if (!g) return;
+  cb(g.letters, g.words)
+};
 // nextTurn ??
 
 nextRound = (room) => {
   let g = rooms.get(room);
   if (!g) return;
   let turn = g.nextTurn();
-	io.to(room).emit('new-round', g.round);
+  io.to(room).emit('new-round', g.round);
   io.to(room).emit("clear-letters");
   io.to(room).emit("send-players", g.players);
   tellTurn(g, turn);
@@ -204,53 +210,7 @@ saveScore = (score, room, username) => {
   console.log(player.score);
 };
 
-joinRoom = (socket, room, oldRoom, username, callback) => {
-  //get the rooms
-  let g = rooms.get(room);
-  if (!g) {
-    g = new Game(room); //create the room
-    rooms.set(room, g);
-  }
-  //join the rooms
-  socket.join(room);
-  //add the players
-  let turn = g.add(new PlayerObj(username, socket.id));
-  tellTurn(g, turn);
-  //leave the old room
-  leaveRoom(socket, oldRoom);
-  //send it back to client
-  callback(true, room);
-  setTimeout(
-    () => io.to(socket.id).emit("set-game-state", g.letters, g.words),
-    1000
-  );
-  setTimeout(() => io.to(room).emit("send-players", g.players), 1500);
-};
 
-leaveRoom = (socket, room) => {
-  socket.leave(room);
-  let g = rooms.get(room);
-  if (!g) return;
-  let turn = g.remove(socket.id);
-  if (g.players.length == 0) {
-    rooms.delete(room);
-    return;
-  }
-  tellTurn(g, turn);
-};
-
-tellTurn = (g, turn) => {
-  let player = g.players[turn];
-  setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
-};
-
-disconnect = (socket, reason) => {
-  console.log(`disconnect:  ${socket.id}`);
-  const socketRooms = socket.adapter.rooms;
-  socketRooms.forEach((value, key) => {
-    leaveRoom(socket, key);
-  });
-};
 
 addSmallNumber = (room) => {
   let g = rooms.get(room);
@@ -287,36 +247,21 @@ function getRandomNumber(room) {
     g.target = randomNumber;
     io.to(room).emit("add-target", g.target);
   }
+
+
 }
 
 function calculateTotal(operationArr, username, room) {
   let g = rooms.get(room);
-	let total;
-	let score;
-	try {
-		total = mexp.eval(operationArr.join(''));
-		score = scoreAnswer(total, g);
-	} catch (err) {
-		total = 0;
-		score = 0;
-	}
-		
-	console.log(total);
-  // let total = parseInt(operationArr[0]);
-
-  // iterate over operationArr
-  // for (let i = 1; i < operationArr.length; i += 2) {
-    // if (operationArr[i] === "+") {
-      // total += parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "-") {
-      // total -= parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "*") {
-      // total = total * parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "/") {
-      // total = total / parseInt(operationArr[i + 1]);
-    // }
-  // }
-
+  let total;
+  let score;
+  try {
+    total = mexp.eval(operationArr.join(''));
+    score = scoreAnswer(total, g);
+  } catch (err) {
+    total = 0;
+    score = 0;
+  }
   g.operations.push({ total, operationArr, username, score });
   io.to(room).emit("append-operations", total, operationArr, username, score);
 }
@@ -337,6 +282,62 @@ function scoreAnswer(total, g) {
   return score;
 }
 
+function getNumbersState(room, cb) {
+  let g = rooms.get(room);
+  if (!g) return;
+  cb(g.numbers, g.operations, g.target, g.numberCount)
+};
+
+
+joinRoom = (socket, room, oldRoom, username, callback) => {
+  //get the rooms
+  let g = rooms.get(room);
+  if (!g) {
+    g = new Game(room); //create the room
+    rooms.set(room, g);
+  }
+  //join the rooms
+  socket.join(room);
+  //add the players
+  let turn = g.add(new PlayerObj(username, socket.id));
+  tellTurn(g, turn);
+  //leave the old room
+  leaveRoom(socket, oldRoom);
+  //send it back to client
+  callback(true, room);
+  setTimeout(
+    () => io.to(socket.id).emit("set-game-state-room", g.round),
+    1000
+  );
+  setTimeout(() => io.to(room).emit("send-players", g.players), 1500);
+};
+
+leaveRoom = (socket, room) => {
+  socket.leave(room);
+  let g = rooms.get(room);
+  if (!g) return;
+  let turn = g.remove(socket.id);
+  if (g.players.length == 0) {
+    rooms.delete(room);
+    return;
+  }
+  tellTurn(g, turn);
+};
+
+tellTurn = (g, turn) => {
+  let player = g.players[turn];
+  setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
+};
+
+disconnect = (socket, reason) => {
+  console.log(`disconnect:  ${socket.id}`);
+  const socketRooms = socket.adapter.rooms;
+  socketRooms.forEach((value, key) => {
+    leaveRoom(socket, key);
+  });
+};
+
+
 //listeners
 //=====================================
 const registerGameHandler = (newio, socket) => {
@@ -347,13 +348,14 @@ const registerGameHandler = (newio, socket) => {
   socket.on("add-consonant", addConsonant);
   socket.on("submit-word", submitWord);
   socket.on("restart-letters", restartLetters);
-  socket.on("game-state", (cb) => cb(g.letters, g.words));
+  socket.on("get-letters-state", getLettersState);
+  // socket.on("game-state", (cb) => cb(g.letters, g.words));
   // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
-  socket.on("save-score", saveScore);
+  // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
   socket.on("print-all-rooms", printAllRooms);
@@ -364,6 +366,9 @@ const registerGameHandler = (newio, socket) => {
   socket.on("add-large", addLargeNumber);
   socket.on("set-target", getRandomNumber);
   socket.on("submit-calculation", calculateTotal);
+  socket.on("get-numbers-state", getNumbersState);
+
+
 };
 
 //export
