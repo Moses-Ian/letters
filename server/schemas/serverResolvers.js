@@ -1,7 +1,7 @@
 //this file is for 'resolvers' that are triggered by the server
 
 const { User } = require('../models');
-const { getProfile, loggedIn } = require('../utils/auth');
+const { getProfile, loggedIn, signToken } = require('../utils/auth');
 
 useHint = async (jwt) => {
 	// console.log('server: useHint resolver');
@@ -13,7 +13,7 @@ useHint = async (jwt) => {
 		return false;
 	// console.log(profile);
 	const user = await User.findOne({ email: profile.email })
-		.select('dailyHints');
+		.select('username email dailyHints');
 	// console.log(user);
 	// console.log(user.dailyHints);
 	if (!user)
@@ -30,7 +30,9 @@ useHint = async (jwt) => {
 		return false;
 	}
 	
-	return true;
+	const token = signToken(user);
+	
+	return token;
 };
 
 module.exports = {

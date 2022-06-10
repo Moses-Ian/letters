@@ -158,20 +158,20 @@ getLettersHint = async (username, room, jwt, cb) => {
 	if (!g) return;
 	// should await both simultaneously
 	const [
-		validHint,
+		signedToken,
 		{word, score}
 	] = await Promise.all([
 		useHint(jwt),
 		recurseGetHint(g.letters)
 	]);
 	
-	if (!validHint) {
+	if (!signedToken) {
 		cb(false);
 		return;
 	}
 	g.words.push({ username, word, score });
 	io.to(room).emit("append-word", word, username, score);
-	cb(true);
+	cb(signedToken);
 }
 
 recurseGetHint = async (letters) => {

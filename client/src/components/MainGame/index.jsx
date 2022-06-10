@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
+import Auth from '../../utils/auth';
 
 const MainGame = ({
   socket,
@@ -167,9 +168,11 @@ const MainGame = ({
 		socket.emit('get-hint', username, room, jwt, useHint);
 	};
 	
-	const useHint = success => {
-		if (success)
+	const useHint = signedToken => {
+		if (signedToken) {
 			setDailyHints({type: "DECREMENT"});
+			Auth.setToken(signedToken);
+		}
 	}
 	
   return (

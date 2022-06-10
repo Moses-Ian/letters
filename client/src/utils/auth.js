@@ -34,6 +34,10 @@ class AuthService {
     // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
   }
+	
+	setToken(idToken) {
+		localStorage.setItem('id_token', idToken)
+	}
 
   // set token to localStorage and reload page to homepage
   login(idToken) {
