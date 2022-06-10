@@ -153,7 +153,7 @@ getLettersState = (room, cb) => {
   cb(g.letters, g.words)
 };
 
-getLettersHint = async (username, room, jwt) => {
+getLettersHint = async (username, room, jwt, cb) => {
 	let g = rooms.get(room);
 	if (!g) return;
 	// should await both simultaneously
@@ -165,10 +165,13 @@ getLettersHint = async (username, room, jwt) => {
 		recurseGetHint(g.letters)
 	]);
 	
-	if (!validHint)
+	if (!validHint) {
+		cb(false);
 		return;
+	}
 	g.words.push({ username, word, score });
 	io.to(room).emit("append-word", word, username, score);
+	cb(true);
 }
 
 recurseGetHint = async (letters) => {

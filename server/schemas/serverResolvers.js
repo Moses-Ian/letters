@@ -9,11 +9,15 @@ useHint = async (jwt) => {
 	if(!loggedIn(jwt))
 		return false;
 	const profile = getProfile(jwt).data;
+	if (profile.dailyHints === 0)
+		return false;
 	// console.log(profile);
 	const user = await User.findOne({ email: profile.email })
 		.select('dailyHints');
 	// console.log(user);
 	// console.log(user.dailyHints);
+	if (!user)
+		return false;
 	if (user.dailyHints === 0)
 		return false;
 	

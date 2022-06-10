@@ -31,7 +31,6 @@ const userSchema = new Schema(
 		dailyHints: {
 			type: Number,
 			min: 0,
-			max: 3,
 			default: 3
 		},
     friends: [

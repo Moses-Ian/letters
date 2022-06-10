@@ -3,6 +3,10 @@ const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 const { DateTime } = require('luxon');
 
+const developerEmails = [
+	'ian@hotmail.com'
+];
+
 const resolvers = {
   Query: {
 		me: async (parent, args, context) => {
@@ -75,6 +79,18 @@ const resolvers = {
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
+		},
+		addHints: async (parent, {email, dailyHints}) => {
+			if (!developerEmails.includes(email)) {
+				console.error(`${email} tried to give themselves ${dailyHints} hints!!!`);
+				return null;
+			}
+			const user = await User.findOneAndUpdate(
+				{ email },
+				{ dailyHints },
+				{ new: true }
+			);
+			return user;
 		}
   }
 };

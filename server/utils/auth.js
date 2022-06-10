@@ -17,8 +17,8 @@ const isTokenExpired = (token) => {
 };
 
 module.exports = {
-  signToken: function({ username, email, _id }) {
-    const payload = { username, email, _id };
+  signToken: function({ username, email, dailyHints, _id }) {
+    const payload = { username, email, dailyHints, _id };
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },

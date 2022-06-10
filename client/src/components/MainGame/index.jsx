@@ -14,7 +14,9 @@ const MainGame = ({
   score,
   setScore,
 	loggedIn,
-	jwt
+	jwt,
+	dailyHints,
+	setDailyHints
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -162,8 +164,13 @@ const MainGame = ({
 	};
 	
 	const getHint = () => {
-		socket.emit('get-hint', username, room, jwt);
+		socket.emit('get-hint', username, room, jwt, useHint);
 	};
+	
+	const useHint = success => {
+		if (success)
+			setDailyHints({type: "DECREMENT"});
+	}
 	
   return (
     <>
@@ -231,8 +238,8 @@ const MainGame = ({
 							<input
 								className="button is-warning"
 								type="button"
-								value="Hint"
-								disabled={!(activeTimer && loggedIn)}
+								value={`${dailyHints} Hints`}
+								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
 								onClick={getHint}
 							/>
 						</div>

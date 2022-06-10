@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 import LandingPage from "./components/LandingPage";
@@ -47,6 +47,22 @@ function App() {
 	const [username, setUsername] = useState('Guest');
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [jwt, setJWT] = useState(null);
+	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
+
+	function dailyHintReducer(dailyHints, action) {
+		let newDailyHints;
+		switch (action.type) {
+			case "DECREMENT":
+				newDailyHints = dailyHints - 1;
+				break;
+			case "SET":
+				newDailyHints = action.dailyHints;
+				break;
+			default:
+				throw new Error();
+		}
+		return newDailyHints;
+	};
 
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
@@ -67,8 +83,12 @@ function App() {
 			setUsername(profile.data.username);
 			setLoggedIn(Auth.loggedIn());
 			setJWT(Auth.getToken());
+			setDailyHints({type: "SET", dailyHints: profile.data.dailyHints});
+			console.log(profile);
 		}
-	}, [profile]);
+	}, []);
+	
+	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
@@ -93,6 +113,8 @@ function App() {
 						room={room}
 						loggedIn={loggedIn}
 						jwt={jwt}
+						dailyHints={dailyHints}
+						setDailyHints={setDailyHints}
 					/>
         ) : (
           ""
