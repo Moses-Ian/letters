@@ -168,7 +168,7 @@ const NumbersGame = ({
   };
 
   const operationSymbol = (event) => {
-    let text = event.target.innerText;
+    let text = event.target.dataset.symbol;
     let action = {
       type: "PUSH",
       operation: text,
@@ -279,6 +279,7 @@ const NumbersGame = ({
               className="button is-warning mr-2"
               id=" multiply"
               onClick={operationSymbol}
+              data-symbol="*"
             >
               *
             </button>
@@ -286,6 +287,7 @@ const NumbersGame = ({
               className="button is-warning mr-2"
               id="subtract"
               onClick={operationSymbol}
+              data-symbol="-"
             >
               -
             </button>
@@ -293,6 +295,7 @@ const NumbersGame = ({
               className="button is-warning mr-2"
               id="divide"
               onClick={operationSymbol}
+              data-symbol="/"
             >
               /
             </button>
@@ -300,6 +303,7 @@ const NumbersGame = ({
               className="button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
+              data-symbol="+"
             >
               +
             </button>
@@ -307,6 +311,7 @@ const NumbersGame = ({
               className="button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
+              data-symbol="("
             >
               (
             </button>
@@ -314,6 +319,7 @@ const NumbersGame = ({
               className="button is-warning"
               id="add"
               onClick={operationSymbol}
+              data-symbol=")"
             >
               )
             </button>
