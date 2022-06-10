@@ -7,6 +7,7 @@ export const LOGIN = gql`
       user {
         _id
         username
+				dailyHints
       }
     }
   }
@@ -19,6 +20,7 @@ export const ADD_USER = gql`
       user {
         _id
         username
+				dailyHints
       }
     }
   }

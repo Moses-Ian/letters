@@ -1,5 +1,6 @@
 const {lettersSolver} = require('../utils/algorithms');
 const {appendFile} = require('fs');
+const {useHint} = require('../schemas/serverResolvers');
 
 const vowels = ["A", "E", "I", "O", "U"];
 const consonants = [
@@ -152,12 +153,25 @@ getLettersState = (room, cb) => {
   cb(g.letters, g.words)
 };
 
-getLettersHint = async (username, room) => {
+getLettersHint = async (username, room, jwt, cb) => {
 	let g = rooms.get(room);
 	if (!g) return;
-	const {word, score} = await recurseGetHint(g.letters);
+	// should await both simultaneously
+	const [
+		signedToken,
+		{word, score}
+	] = await Promise.all([
+		useHint(jwt),
+		recurseGetHint(g.letters)
+	]);
+	
+	if (!signedToken) {
+		cb(false);
+		return;
+	}
 	g.words.push({ username, word, score });
 	io.to(room).emit("append-word", word, username, score);
+	cb(signedToken);
 }
 
 recurseGetHint = async (letters) => {

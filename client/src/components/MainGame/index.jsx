@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
+import Auth from '../../utils/auth';
 
 const MainGame = ({
   socket,
@@ -13,7 +14,10 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
-	loggedIn
+	loggedIn,
+	jwt,
+	dailyHints,
+	setDailyHints
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -161,8 +165,15 @@ const MainGame = ({
 	};
 	
 	const getHint = () => {
-		socket.emit('get-hint', username, room);
+		socket.emit('get-hint', username, room, jwt, useHint);
 	};
+	
+	const useHint = signedToken => {
+		if (signedToken) {
+			setDailyHints({type: "DECREMENT"});
+			Auth.setToken(signedToken);
+		}
+	}
 	
   return (
     <>
@@ -230,8 +241,8 @@ const MainGame = ({
 							<input
 								className="button is-warning"
 								type="button"
-								value="Hint"
-								disabled={!(activeTimer && loggedIn)}
+								value={`${dailyHints} Hints`}
+								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
 								onClick={getHint}
 							/>
 						</div>
