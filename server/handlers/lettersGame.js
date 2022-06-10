@@ -157,9 +157,16 @@ getLettersHint = async (username, room, jwt) => {
 	let g = rooms.get(room);
 	if (!g) return;
 	// should await both simultaneously
-	const {word, score} = await recurseGetHint(g.letters);
-	const validHint = await useHint(jwt);
+	const [
+		validHint,
+		{word, score}
+	] = await Promise.all([
+		useHint(jwt),
+		recurseGetHint(g.letters)
+	]);
 	
+	if (!validHint)
+		return;
 	g.words.push({ username, word, score });
 	io.to(room).emit("append-word", word, username, score);
 }

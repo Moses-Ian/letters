@@ -49,12 +49,16 @@ const resolvers = {
 				throw new AuthenticationError('Incorrect credentials');
 			}
 
-			const now = DateTime.now();
-			const then = DateTime.fromJSDate(user.lastLogin);
-			if(!now.hasSame(then, 'day'))
-				user.dailyHints = 3;
-			user.lastLogin = now;
-			const result = await user.save();
+			try {
+				const now = DateTime.now();
+				const then = DateTime.fromJSDate(user.lastLogin);
+				if(!now.hasSame(then, 'day'))
+					user.dailyHints = 3;
+				user.lastLogin = now;
+				await user.save();
+			} catch (err) {
+				console.error(err);
+			}
 
 			const token = signToken(user);
 			return { token, user };
