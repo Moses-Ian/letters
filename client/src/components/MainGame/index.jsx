@@ -13,6 +13,7 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
+	loggedIn
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -23,6 +24,7 @@ const MainGame = ({
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("set-game-state", setGameState);
+		socket.on("bad-word", badWord);
 
     return () => {};
   }, [socket]);
@@ -34,6 +36,7 @@ const MainGame = ({
     new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
+  const [badWordMsg, setBadWordMsg] = useState(false);
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -113,6 +116,7 @@ const MainGame = ({
     setLettersInput("");
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
+		setBadWordMsg(false);
   };
 
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
@@ -139,6 +143,15 @@ const MainGame = ({
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
   };
+	
+	const badWord = () => {
+		console.log("that is a bad word");
+		setBadWordMsg(true);
+	};
+	
+	const getHint = () => {
+		socket.emit('get-hint', username, room);
+	};
 
   return (
     <>
@@ -176,6 +189,17 @@ const MainGame = ({
       <div className="field">
         <form>
           <div className="field has-addons mt-2 is-justify-content-center">
+         
+          <div className="control">
+							<input
+								className="hint-btn button is-warning pl-5"
+								type="button"
+								// value="Hint"
+								disabled={!(activeTimer && loggedIn)}
+								onClick={getHint}
+							/>
+						</div>
+
             <div className="control">
               <input
                 onChange={handleInputChange}
@@ -184,6 +208,13 @@ const MainGame = ({
                 placeholder="Your word here"
                 value={lettersInput}
               />
+              {badWordMsg ? (
+                <p className="bad-word-msg mt-2">
+                  That is a bad word.
+                </p>
+              ) : (
+                ""
+              )}
             </div>
 
             <div className="control">
@@ -195,6 +226,7 @@ const MainGame = ({
                 onClick={submitWord}
               />
             </div>
+					
           </div>
         </form>
       </div>
@@ -213,3 +245,5 @@ const MainGame = ({
 };
 
 export default MainGame;
+
+

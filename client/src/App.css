@@ -252,6 +252,7 @@ input {
   color: var(--secondary-color);
 }
 
+.bad-word-msg,
 .modal-error-msg {
   color: var(--secondary-color);
   text-shadow: 1px 1px 1px black, 1px 1px 5px black;
@@ -359,6 +360,25 @@ input {
 
 .numbers-score {
   color: #fce181 !important;
+}
+
+.multiply-btn {
+  background-image: url('./assets/images/multiply.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.subtract-btn {}
+.divide-btn {}
+.add-btn {}
+.l-parentheses-btn {}
+.r-parentheses-btn {}
+
+.hint-btn {
+  /* background-color: var(--secondary-color); */
+  background-image: url('./assets/images/lightbulb.png');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 
