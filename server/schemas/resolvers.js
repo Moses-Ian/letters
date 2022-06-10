@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Thought } = require('../models');
 const { signToken } = require('../utils/auth');
+const { DateTime } = require('luxon');
 
 const resolvers = {
   Query: {
@@ -47,6 +48,13 @@ const resolvers = {
 			if (!correctPw) {
 				throw new AuthenticationError('Incorrect credentials');
 			}
+
+			const now = DateTime.now();
+			const then = DateTime.fromJSDate(user.lastLogin);
+			if(!now.hasSame(then, 'day'))
+				user.dailyHints = 3;
+			user.lastLogin = now;
+			const result = await user.save();
 
 			const token = signToken(user);
 			return { token, user };
