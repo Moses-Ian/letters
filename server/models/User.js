@@ -26,12 +26,13 @@ const userSchema = new Schema(
     },
 		lastLogin: {
 			type: Date,
-			default: () => date.now()
+			default: () => Date.now()
 		},
 		dailyHints: {
 			type: Number,
 			min: 0,
-			max: 3
+			max: 3,
+			default: 3
 		},
     friends: [
       {
