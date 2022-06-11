@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
+import Auth from '../../utils/auth';
+
 
 const MainGame = ({
   socket,
@@ -13,17 +15,21 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
-	loggedIn
+	loggedIn,
+	jwt,
+	dailyHints,
+	setDailyHints
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-
+  useEffect(() => {
+    socket.emit("get-letters-state", room, setGameState);
+  }, []);
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-    socket.on("set-game-state", setGameState);
 		socket.on("bad-word", badWord);
 
     return () => {};
@@ -37,11 +43,20 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
+	const elementRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
+	
+  useEffect(() => {
+    elementRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [words]);
 
   // functions
   function letterReducer(letters, action) {
@@ -142,6 +157,7 @@ const MainGame = ({
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
+    console.log("setGameState in mainGame component");
   };
 	
 	const badWord = () => {
@@ -150,9 +166,16 @@ const MainGame = ({
 	};
 	
 	const getHint = () => {
-		socket.emit('get-hint', username, room);
+		socket.emit('get-hint', username, room, jwt, useHint);
 	};
-
+	
+	const useHint = signedToken => {
+		if (signedToken) {
+			setDailyHints({type: "DECREMENT"});
+			Auth.setToken(signedToken);
+		}
+	};
+	
   return (
     <>
       <div className="rendered-letters column">
@@ -192,13 +215,14 @@ const MainGame = ({
          
           <div className="control">
 							<input
-								className="hint-btn button is-warning pl-5"
+								className="button is-warning mr-1"
 								type="button"
-								// value="Hint"
-								disabled={!(activeTimer && loggedIn)}
+								value={`${dailyHints} Hints`}
+								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
 								onClick={getHint}
 							/>
 						</div>
+        
 
             <div className="control">
               <input
@@ -219,14 +243,14 @@ const MainGame = ({
 
             <div className="control">
               <input
-                className="button is-warning"
+                className="button is-warning ml-1"
                 type="submit"
                 value="Submit"
                 disabled={activeTimer ? false : true}
                 onClick={submitWord}
               />
             </div>
-					
+						
           </div>
         </form>
       </div>
@@ -238,6 +262,7 @@ const MainGame = ({
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}
+        <div ref={elementRef}></div>
         </ul>
       </div>
     </>

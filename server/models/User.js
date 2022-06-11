@@ -24,6 +24,15 @@ const userSchema = new Schema(
       unique: true,
       minLength: 5,
     },
+		lastLogin: {
+			type: Date,
+			default: () => Date.now()
+		},
+		dailyHints: {
+			type: Number,
+			min: 0,
+			default: 3
+		},
     friends: [
       {
         type: Schema.Types.ObjectId,

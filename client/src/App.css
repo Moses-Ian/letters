@@ -110,7 +110,7 @@ input {
   text-shadow: 1px 1px 2px black, 2px 1px 3px black;
 }
 
-.landing-letters {
+.landing-letters, .winner {
   font-size: 5rem;
   text-align: center;
   color: var(--secondary-color);
@@ -123,7 +123,7 @@ input {
   color: var(--quanternary-color);
 }
 
-.landing-letters:hover {
+.landing-letters:hover, .winner:hover {
   text-shadow: 10px 10px 4px black, 6px 6px 10px black;
   font-size: 7rem;
 }
@@ -344,7 +344,7 @@ input {
 }
 
 .numbers-generated {
-  font-size: 30px;
+  font-size: 25px;
   color: var(--quanternary-color);
   margin-top: 1vh;
 }
@@ -362,17 +362,34 @@ input {
   color: #fce181 !important;
 }
 
-.multiply-btn {
+
+
+/* .multiply-btn {
   background-image: url('./assets/images/multiply.png');
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.subtract-btn {}
-.divide-btn {}
-.add-btn {}
+.subtract-btn {
+  background-image: url('./assets/images/minus.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.divide-btn {
+  background-image: url('./assets/images/divide.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.add-btn {
+  background-image: url('./assets/images/add.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .l-parentheses-btn {}
-.r-parentheses-btn {}
+.r-parentheses-btn {} */
 
 .hint-btn {
   /* background-color: var(--secondary-color); */
