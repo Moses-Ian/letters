@@ -4,6 +4,7 @@ import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
 
+
 function Room({ 
 	socket, 
 	username, 
@@ -113,6 +114,10 @@ function Room({
             setScore={setScore}
           />
         )}
+
+        
+       {/* winner here */}
+        
 
         <div className="m-3 has-text-centered is-flex is-justify-content-center">
           <button className="button is-warning m-2" onClick={restartLetters}>

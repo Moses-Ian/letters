@@ -1,18 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Confetti from "react-confetti";
+// import useWindowSize from 'react-use/lib/useWindowSize'
 
+// const winnerMessage = "WINNER!!";
 
-const winnerMessage = "WINNER!!";
+// const { width, height } = useWindowSize()
 
-function Winner() {
+const Winner = ({ username }) => {
   return (
-    <div className="winner">
-      <h1>{winnerMessage}</h1>
-      <Confetti />
-    </div>
+    <>
+      <div>
+        <h1 className="winner">{username} Wins!!</h1>
+          <Confetti />
+            {/* width={width}
+            height={height} */}
+      </div>
+    </>
   );
-}
+};
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<Winner />, rootElement);
