@@ -27,8 +27,8 @@ function Room({
 	const [isMobile, setMobile] = useState(true);
 	
 	useEffect(() => {
-		setMobile(window.innerWidth <= 450);
-	}, []);
+		setMobile(window.screen.width <= 450);
+	});
 
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -44,7 +44,7 @@ function Room({
 	
 	const swipeConfig = {
 		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-		preventScrollOnSwipe: false,           // prevents scroll during swipe (*See Details*)
+		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
 		trackTouch: true,                      // track touch input
 		trackMouse: false,                     // track mouse input
 		rotationAngle: 0,                      // set a rotation angle
@@ -54,7 +54,7 @@ function Room({
 
 	
 	const swipeHandlers = useSwipeable({
-		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		onSwiped: (eventData) => console.log("User Swiped!", eventData),
 		//once the winner system is in place, we'll make this more robust
 		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
 		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
@@ -83,6 +83,30 @@ function Room({
   const setGameState = (round) => {
    setRound(round);
   };
+	
+	const setLobbyDisplay = () => {
+		if (!isMobile || display==='lobby')
+			return 'active-view';
+		return 'inactive-view-left';
+	}
+	
+	const setGameDisplay = () => {
+		if (!isMobile || display === 'game')
+			return 'active-view';
+		if (display === 'lobby')
+			return 'inactive-view-right';
+		if (display === 'chat')
+			return 'inactive-view-left';
+	}
+	
+	const setChatDisplay = () => {
+		if (!isMobile || display==='chat')
+			return 'active-view';
+		return 'inactive-view-right';
+	}
+	
+	console.log(isMobile);
+	console.log(display);
 
   return (
     <>
@@ -92,10 +116,10 @@ function Room({
 					room={room}
 					players={players}
 					activePlayer={activePlayer}
-					display={(!isMobile || display==='lobby')}
+					display={setLobbyDisplay()}
 				/>
 
-				<div style={{'display':(!isMobile || display==='game')?'block':'none'}}>
+				<div className={`view ${setGameDisplay()}`}>
 					{round % 2 ? (
 						<MainGame
 							socket={socket}
@@ -111,6 +135,7 @@ function Room({
 							jwt={jwt}
 							dailyHints={dailyHints}
 							setDailyHints={setDailyHints}
+							display={setGameDisplay()}
 						/>
 					) : (
 						<NumbersGame
@@ -123,6 +148,7 @@ function Room({
 							setTurn={setTurn}
 							score={score}
 							setScore={setScore}
+							display={setGameDisplay()}
 						/>
 					)}
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
@@ -140,14 +166,14 @@ function Room({
 				</div>
 
 				{display === 'winner' ?
-					{/* winner here */}
+					{/*winner component here*/}
 				: ("")}
 					
 				<LiveChat 
 					socket={socket} 
 					username={username} 
 					room={room} 
-					display={(!isMobile || display==='chat')}
+					display={setChatDisplay()}
 				/>
 			</div>
     </>

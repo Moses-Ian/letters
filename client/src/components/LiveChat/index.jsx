@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useRef } from "react";
+import React, { useState, useReducer, useEffect, useRef, useLayoutEffect } from "react";
 import { sanitize } from "../../utils";
 
 const MAX_MESSAGE_LENGTH = 80;
@@ -15,6 +15,8 @@ function LiveChat({ socket, username, room, display }) {
   const [messages, setMessages] = useReducer(messageReducer, []);
 
   useEffect(() => {
+		if (display !== 'active-view')
+			return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -76,42 +78,44 @@ function LiveChat({ socket, username, room, display }) {
   };
 	
   return (
-    <div className="live-chat-header is-flex-direction-column" style={{'display':display?'block':'none'}}>
-      <div className="live-chat-message" id="message-container">
-        {messages.map((m, index) => (
-          <p key={index}>
-            <span
-              className={
-                "username-chat " +
-                (username === m.username ? "me-in-chat" : "not-active")
-              }
-            >
-              {m.username}:{" "}
-            </span>
-            <span>{m.message}</span>
-          </p>
-        ))}
-        <div ref={elementRef}></div>
-      </div>
-      <form
-        className="live-chat chat-form"
-        id="form"
-        onSubmit={handleFormSubmit}
-      >
-        <label>Chat:</label>
-        <input
-          className="live-chat-input ml-2"
-          type="text"
-          id="message-input"
-          value={formState.message}
-          name="message"
-          onChange={handleChange}
-        />
-        <button className="live-chat-button" type="submit" id="send-button">
-          Send
-        </button>
-      </form>
-    </div>
+    <div className={`view ${display}`}>
+	    <div className="live-chat-header is-flex-direction-column">
+				<div className="live-chat-message" id="message-container">
+					{messages.map((m, index) => (
+						<p key={index}>
+							<span
+								className={
+									"username-chat " +
+									(username === m.username ? "me-in-chat" : "not-active")
+								}
+							>
+								{m.username}:{" "}
+							</span>
+							<span>{m.message}</span>
+						</p>
+					))}
+					<div ref={elementRef}></div>
+				</div>
+				<form
+					className="live-chat chat-form"
+					id="form"
+					onSubmit={handleFormSubmit}
+				>
+					<label>Chat:</label>
+					<input
+						className="live-chat-input ml-2"
+						type="text"
+						id="message-input"
+						value={formState.message}
+						name="message"
+						onChange={handleChange}
+					/>
+					<button className="live-chat-button" type="submit" id="send-button">
+						Send
+					</button>
+				</form>
+			</div>
+		</div>
   );
 }
 

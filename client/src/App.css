@@ -38,6 +38,7 @@ body {
 
 .room {
 	height: 100%;
+	position: relative;
 }
 
 .your-turn {
@@ -378,7 +379,29 @@ input {
   color: #fce181 !important;
 }
 
+.view {
+	position: absolute;
+	width: 100%;
+	transition: left ease-out 500ms;
+}
 
+@media screen and (min-width: 451px) {
+	.view {
+		position: static;
+	}
+}
+
+.active-view {
+	left: 0;
+}
+
+.inactive-view-left {
+	left: -100vw;
+}
+
+.inactive-view-right {
+	left: 100vw;
+}
 
 /* .multiply-btn {
   background-image: url('./assets/images/multiply.png');

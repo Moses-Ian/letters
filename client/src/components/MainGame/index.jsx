@@ -18,7 +18,8 @@ const MainGame = ({
 	loggedIn,
 	jwt,
 	dailyHints,
-	setDailyHints
+	setDailyHints,
+	display
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -51,6 +52,8 @@ const MainGame = ({
   }, [isYourTurn]);
 	
   useEffect(() => {
+		if (display != 'active-view')
+			return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
