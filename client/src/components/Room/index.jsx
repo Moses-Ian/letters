@@ -24,6 +24,11 @@ function Room({
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
 	const [display, setDisplay] = useState('lobby');
+	const [isMobile, setMobile] = useState(true);
+	
+	useEffect(() => {
+		setMobile(window.innerWidth <= 450);
+	}, []);
 
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -49,7 +54,7 @@ function Room({
 
 	
 	const swipeHandlers = useSwipeable({
-		onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
 		//once the winner system is in place, we'll make this more robust
 		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
 		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
@@ -79,8 +84,6 @@ function Room({
    setRound(round);
   };
 
-	console.log(display);
-
   return (
     <>
 			<div className="room" {...swipeHandlers}>
@@ -89,10 +92,10 @@ function Room({
 					room={room}
 					players={players}
 					activePlayer={activePlayer}
-					display={display==='lobby'}
+					display={(!isMobile || display==='lobby')}
 				/>
 
-				<div style={{'display':display==='game'?'block':'none'}}>
+				<div style={{'display':(!isMobile || display==='game')?'block':'none'}}>
 					{round % 2 ? (
 						<MainGame
 							socket={socket}
@@ -144,7 +147,7 @@ function Room({
 					socket={socket} 
 					username={username} 
 					room={room} 
-					display={display==='chat'}
+					display={(!isMobile || display==='chat')}
 				/>
 			</div>
     </>
