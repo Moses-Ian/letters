@@ -93,11 +93,11 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App container pt-3 pl-3 pr-3 pb-0">
-			{/*{!loggedIn && room === "" ? (
+			{!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
           <Header username={username} loggedIn={loggedIn} />
-			)}*/}
+			)}
 				{room === "" ? (
 					<JoinGame
 						socket={socket}

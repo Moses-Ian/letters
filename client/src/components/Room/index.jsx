@@ -22,6 +22,7 @@ function Room({
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
+	const [display, setDisplay] = useState('game');
 
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -48,6 +49,8 @@ function Room({
 	
 	const swipeHandlers = useSwipeable({
 		onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		onSwipedLeft: (eventData) => setDisplay('chat'),
+		onSwipedRight: (eventData) => setDisplay('game'),
 		...swipeConfig,
 	});
 
@@ -78,7 +81,7 @@ function Room({
     <>
 			<div className="room" {...swipeHandlers}>
 				<div className="is-flex is-flex-direction-column is-justify-content-center">
-					{/*<h1 className="room-name has-text-centered is-size-4">
+					<h1 className="room-name has-text-centered is-size-4">
 						You are playing in: {room}
 					</h1>
 
@@ -101,8 +104,14 @@ function Room({
 								</li>
 							))}
 						</ul>
-					</div>*/}
+					</div>
+					
+				{display === 'lobby' ? 
+					{/*lobby goes here*/}
+				: ('')}
 
+				{display === 'game' ? (
+					<>
 					{round % 2 ? (
 						<MainGame
 							socket={socket}
@@ -132,11 +141,6 @@ function Room({
 							setScore={setScore}
 						/>
 					)}
-
-					
-				 {/* winner here */}
-					
-
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
 						<button className="button is-warning m-2" onClick={restartLetters}>
 							Restart
@@ -149,8 +153,16 @@ function Room({
 							<img className="MW" src={MW} alt="Merriam Webster API" />
 						</div>
 					</div>
+					</>
+				) : ("")}
 
-					{/*<LiveChat socket={socket} username={username} room={room} />*/}
+				{display === 'winner' ?
+					{/* winner here */}
+				: ("")}
+					
+				{display === 'chat' ?
+					<LiveChat socket={socket} username={username} room={room} />
+				: ("")}
 				</div>
 			</div>
     </>
