@@ -92,19 +92,20 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App container p-3">
-        {!loggedIn && room === "" ? (
+      <div className="App container pt-3 pl-3 pr-3 pb-0">
+			{/*{!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
           <Header username={username} loggedIn={loggedIn} />
-        )}
-        <JoinGame
-          socket={socket}
-          username={username}
-          room={room}
-          setRoom={setRoom}
-        />
-        {room !== "" ? (
+			)}*/}
+				{room === "" ? (
+					<JoinGame
+						socket={socket}
+						username={username}
+						room={room}
+						setRoom={setRoom}
+					/>
+				) : (
           <Room 
 						socket={socket} 
 						username={username} 
@@ -115,8 +116,6 @@ function App() {
 						dailyHints={dailyHints}
 						setDailyHints={setDailyHints}
 					/>
-        ) : (
-          ""
         )}
       </div>
     </ApolloProvider>

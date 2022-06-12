@@ -14,20 +14,36 @@
   font-family: "Fugaz one", sans-serif;
 }
 
+html {
+	height: 100%;
+}
+
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100vh;
+  height: 100%;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
+#root {
+	height: 100%;
+}
+
+.App {
+	height: 100%;
+}
+
+.room {
+	height: 100%;
+}
+
 .your-turn {
   border: #edeae5 5px solid;
   border-radius: 15px;
-  margin: 5px;
+  /* margin: 5px; */
 }
 
 .button,
