@@ -200,7 +200,7 @@ const NumbersGame = ({
   };
 
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
@@ -351,7 +351,7 @@ const NumbersGame = ({
           ""
         )}
       </div>
-    </>
+    </div>
   );
 };
 export default NumbersGame;

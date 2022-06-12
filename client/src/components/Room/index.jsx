@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import MW from "../../assets/images/Merriam-Webster.png";
+import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
@@ -22,7 +23,7 @@ function Room({
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
-	const [display, setDisplay] = useState('game');
+	const [display, setDisplay] = useState('lobby');
 
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -49,8 +50,9 @@ function Room({
 	
 	const swipeHandlers = useSwipeable({
 		onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		onSwipedLeft: (eventData) => setDisplay('chat'),
-		onSwipedRight: (eventData) => setDisplay('game'),
+		//once the winner system is in place, we'll make this more robust
+		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
 		...swipeConfig,
 	});
 
@@ -77,41 +79,20 @@ function Room({
    setRound(round);
   };
 
+	console.log(display);
+
   return (
     <>
 			<div className="room" {...swipeHandlers}>
-				<div className="is-flex is-flex-direction-column is-justify-content-center">
-					<h1 className="room-name has-text-centered is-size-4">
-						You are playing in: {room}
-					</h1>
-
-					<div className="players is-align-self-center">
-						<div>
-							<h1 className="has-text-warning">Players:</h1>
-						</div>
-						<ul>
-							{players.map((player, index) => (
-								<li
-									className={
-										"playerLi " +
-										(activePlayer === player.username
-											? "active-player"
-											: "not-active")
-									}
-									key={index}
-								>
-									- {player}
-								</li>
-							))}
-						</ul>
-					</div>
 					
-				{display === 'lobby' ? 
-					{/*lobby goes here*/}
-				: ('')}
+				<Lobby
+					room={room}
+					players={players}
+					activePlayer={activePlayer}
+					display={display==='lobby'}
+				/>
 
-				{display === 'game' ? (
-					<>
+				<div style={{'display':display==='game'?'block':'none'}}>
 					{round % 2 ? (
 						<MainGame
 							socket={socket}
@@ -153,17 +134,18 @@ function Room({
 							<img className="MW" src={MW} alt="Merriam Webster API" />
 						</div>
 					</div>
-					</>
-				) : ("")}
+				</div>
 
 				{display === 'winner' ?
 					{/* winner here */}
 				: ("")}
 					
-				{display === 'chat' ?
-					<LiveChat socket={socket} username={username} room={room} />
-				: ("")}
-				</div>
+				<LiveChat 
+					socket={socket} 
+					username={username} 
+					room={room} 
+					display={display==='chat'}
+				/>
 			</div>
     </>
   );

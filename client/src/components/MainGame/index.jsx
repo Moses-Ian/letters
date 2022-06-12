@@ -177,7 +177,7 @@ const MainGame = ({
 	};
 	
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
         <ul>
           {letters.map((letter, index) => (
@@ -265,7 +265,7 @@ const MainGame = ({
         <div ref={elementRef}></div>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

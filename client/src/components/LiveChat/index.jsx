@@ -4,7 +4,7 @@ import { sanitize } from "../../utils";
 const MAX_MESSAGE_LENGTH = 80;
 
 // LiveChat is going to take in Room as a prop
-function LiveChat({ socket, username, room }) {
+function LiveChat({ socket, username, room, display }) {
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
   }, [socket]);
@@ -76,7 +76,7 @@ function LiveChat({ socket, username, room }) {
   };
 	
   return (
-    <div className="live-chat-header is-flex-direction-column">
+    <div className="live-chat-header is-flex-direction-column" style={{'display':display?'block':'none'}}>
       <div className="live-chat-message" id="message-container">
         {messages.map((m, index) => (
           <p key={index}>
