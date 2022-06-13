@@ -98,7 +98,7 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 							{roomList.length !== 0
 							?	(<>
 								{roomList.map((room, index) => (
-									<label key={index}>
+									<label className="radio mt-2" key={index}>
 										<input 
 											type='radio' 
 											name={room.name} 
@@ -110,7 +110,7 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 									</label>
 								))}
 							</>)
-							: (<p className='join-modal-body'>
+							: (<p className='join-modal-body mt-4'>
 									There are currently no active games. Create one!
 								</p>)
 							}

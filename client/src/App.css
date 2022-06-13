@@ -410,24 +410,9 @@ input {
   background-position: center;
 }
 
-.subtract-btn {
-  background-image: url('./assets/images/minus.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.divide-btn {
-  background-image: url('./assets/images/divide.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.add-btn {
-  background-image: url('./assets/images/add.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
+.subtract-btn {}
+.divide-btn {}
+.add-btn {}
 .l-parentheses-btn {}
 .r-parentheses-btn {} */
 
@@ -437,5 +422,4 @@ input {
   background-repeat: no-repeat;
   background-position: center;
 }
-
 
