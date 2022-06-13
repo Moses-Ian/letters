@@ -12,19 +12,36 @@ const {
 	addLargeNumber,
 	getRandomNumber,
 	calculateTotal,
-	getNumbersState
+	getNumbersState,
+	getNumbersHint
 } = require('./numbersGame');
 
 const {
+	listRooms,
 	joinRoom,
 	nextRound,
 	saveScore,
 	disconnect
 } = require('./playerFunctions');
 
+//classes
+//==================================
+class MyMap extends Map {
+	get(key) {
+		return super.get(key.toLowerCase());
+	}
+	set(key, value) {
+		return super.set(key.toLowerCase(), value);
+	}
+}
+
 //variables
 //==================================
-global.rooms = new Map();
+global.rooms = new MyMap();
+
+//variables
+//==================================
+// global.rooms = new Map();
 
 //debug functions
 //====================================
@@ -44,19 +61,21 @@ const registerGameHandler = (newio, socket) => {
 		submitWord(socket, word, username, room)
 	);
   socket.on("restart-letters", restartLetters);
-	socket.on("get-hint", getLettersHint);
   socket.on("get-letters-state", getLettersState);
+	socket.on("get-letters-hint", getLettersHint);
   // numbers game
   socket.on("add-small", addSmallNumber);
   socket.on("add-large", addLargeNumber);
   socket.on("set-target", getRandomNumber);
   socket.on("submit-calculation", calculateTotal);
   socket.on("get-numbers-state", getNumbersState);
+	socket.on("get-numbers-hint", getNumbersHint);
   // players
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
+	socket.on("list-rooms", listRooms);
   // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
