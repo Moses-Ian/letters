@@ -200,7 +200,7 @@ const NumbersGame = ({
   };
 
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
@@ -276,49 +276,49 @@ const NumbersGame = ({
         {showOperationBtn ? (
           <div className="mt-4" id="operation">
             <button
-              className="button is-warning mr-2"
+              className="multiply-btn button is-warning mr-2"
               id=" multiply"
               onClick={operationSymbol}
             >
               *
             </button>
             <button
-              className="button is-warning mr-2"
+              className="subtract-btn button is-warning mr-2"
               id="subtract"
               onClick={operationSymbol}
             >
               -
             </button>
             <button
-              className="button is-warning mr-2"
+              className="divide-btn button is-warning mr-2"
               id="divide"
               onClick={operationSymbol}
             >
               /
             </button>
             <button
-              className="button is-warning mr-2"
+              className="add-btn button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
             >
               +
             </button>
             <button
-              className="button is-warning mr-2"
+              className="l-parentheses-btn button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
             >
               (
             </button>
             <button
-              className="button is-warning"
+              className="r-parentheses-btn button is-warning"
               id="add"
               onClick={operationSymbol}
             >
               )
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-small is-warning ml-3 mt-1"
               id=" multiply"
               onClick={backspace}
             >
@@ -351,7 +351,7 @@ const NumbersGame = ({
           ""
         )}
       </div>
-    </>
+    </div>
   );
 };
 export default NumbersGame;

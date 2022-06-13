@@ -4,6 +4,7 @@ import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
 import Auth from '../../utils/auth';
 
+
 const MainGame = ({
   socket,
   username,
@@ -17,7 +18,8 @@ const MainGame = ({
 	loggedIn,
 	jwt,
 	dailyHints,
-	setDailyHints
+	setDailyHints,
+	display
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -50,6 +52,8 @@ const MainGame = ({
   }, [isYourTurn]);
 	
   useEffect(() => {
+		if (display != 'active-view')
+			return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -173,10 +177,10 @@ const MainGame = ({
 			setDailyHints({type: "DECREMENT"});
 			Auth.setToken(signedToken);
 		}
-	}
+	};
 	
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
         <ul>
           {letters.map((letter, index) => (
@@ -211,6 +215,18 @@ const MainGame = ({
       <div className="field">
         <form>
           <div className="field has-addons mt-2 is-justify-content-center">
+         
+          <div className="control">
+							<input
+								className="button is-warning mr-1"
+								type="button"
+								value={`${dailyHints} Hints`}
+								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+								onClick={getHint}
+							/>
+						</div>
+        
+
             <div className="control">
               <input
                 onChange={handleInputChange}
@@ -230,22 +246,14 @@ const MainGame = ({
 
             <div className="control">
               <input
-                className="button is-warning"
+                className="button is-warning ml-1"
                 type="submit"
                 value="Submit"
                 disabled={activeTimer ? false : true}
                 onClick={submitWord}
               />
             </div>
-						<div className="control">
-							<input
-								className="button is-warning"
-								type="button"
-								value={`${dailyHints} Hints`}
-								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
-								onClick={getHint}
-							/>
-						</div>
+						
           </div>
         </form>
       </div>
@@ -260,8 +268,10 @@ const MainGame = ({
         <div ref={elementRef}></div>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
 export default MainGame;
+
+

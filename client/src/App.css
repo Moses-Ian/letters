@@ -14,20 +14,38 @@
   font-family: "Fugaz one", sans-serif;
 }
 
+html {
+	height: 100%;
+}
+
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100vh;
+  height: 100%;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+	overflow: hidden;
+}
+
+#root {
+	height: 100%;
+}
+
+.App {
+	height: 100%;
+}
+
+.room {
+	height: 100%;
+	position: relative;
 }
 
 .your-turn {
   border: #edeae5 5px solid;
   border-radius: 15px;
-  margin: 5px;
+  /* margin: 5px; */
 }
 
 .button,
@@ -110,7 +128,7 @@ input {
   text-shadow: 1px 1px 2px black, 2px 1px 3px black;
 }
 
-.landing-letters {
+.landing-letters, .winner {
   font-size: 5rem;
   text-align: center;
   color: var(--secondary-color);
@@ -123,7 +141,7 @@ input {
   color: var(--quanternary-color);
 }
 
-.landing-letters:hover {
+.landing-letters:hover, .winner:hover {
   text-shadow: 10px 10px 4px black, 6px 6px 10px black;
   font-size: 7rem;
 }
@@ -344,7 +362,7 @@ input {
 }
 
 .numbers-generated {
-  font-size: 30px;
+  font-size: 25px;
   color: var(--quanternary-color);
   margin-top: 1vh;
 }
@@ -360,6 +378,64 @@ input {
 
 .numbers-score {
   color: #fce181 !important;
+}
+
+.view {
+	position: absolute;
+	width: 100%;
+	transition: left ease-out 500ms;
+}
+
+@media screen and (min-width: 451px) {
+	.view {
+		position: static;
+	}
+}
+
+.active-view {
+	left: 0;
+}
+
+.inactive-view-left {
+	left: -100vw;
+}
+
+.inactive-view-right {
+	left: 100vw;
+}
+
+/* .multiply-btn {
+  background-image: url('./assets/images/multiply.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.subtract-btn {
+  background-image: url('./assets/images/minus.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.divide-btn {
+  background-image: url('./assets/images/divide.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.add-btn {
+  background-image: url('./assets/images/add.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.l-parentheses-btn {}
+.r-parentheses-btn {} */
+
+.hint-btn {
+  /* background-color: var(--secondary-color); */
+  background-image: url('./assets/images/lightbulb.png');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 
