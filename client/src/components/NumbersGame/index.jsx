@@ -197,6 +197,7 @@ const NumbersGame = ({
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
     if (target != 0)
     addTarget(target);
+		console.log('setGameState in NumbersGame component');
   };
 
   return (

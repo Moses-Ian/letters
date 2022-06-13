@@ -10,6 +10,7 @@ const AVAILABLE_LARGE_NUMBERS = 4;
 addSmallNumber = (room) => {
   let g = rooms.get(room);
   if (g.smallNumberCount == 4) return;
+	if (g.numberCount == 6) return;
   let number =
     smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
   if (addNumber(g, number)) g.smallNumberCount++;
@@ -21,6 +22,7 @@ addSmallNumber = (room) => {
 const addLargeNumber = (room) => {
   let g = rooms.get(room);
   if (g.largeNumberCount == 4) return;
+	if (g.numberCount == 6) return;
   let number =
     largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)];
 
