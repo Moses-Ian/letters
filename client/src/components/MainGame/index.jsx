@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
-import Auth from '../../utils/auth';
+import Auth from "../../utils/auth";
 
 const MainGame = ({
   socket,
@@ -14,10 +14,10 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
-	loggedIn,
-	jwt,
-	dailyHints,
-	setDailyHints
+  loggedIn,
+  jwt,
+  dailyHints,
+  setDailyHints,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -29,7 +29,7 @@ const MainGame = ({
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-		socket.on("bad-word", badWord);
+    socket.on("bad-word", badWord);
 
     return () => {};
   }, [socket]);
@@ -42,13 +42,14 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
-	const elementRef = useRef();
+  const [time, setTime] = useState(30);
+  const elementRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
-	
+
   useEffect(() => {
     elementRef.current.scrollIntoView({
       behavior: "smooth",
@@ -130,7 +131,7 @@ const MainGame = ({
     setLettersInput("");
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
-		setBadWordMsg(false);
+    setBadWordMsg(false);
   };
 
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
@@ -158,23 +159,32 @@ const MainGame = ({
     setWords({ type: "RENDER_WORDS", words });
     console.log("setGameState in mainGame component");
   };
-	
-	const badWord = () => {
-		console.log("that is a bad word");
-		setBadWordMsg(true);
-	};
-	
-	const getHint = () => {
-		socket.emit('get-hint', username, room, jwt, useHint);
-	};
-	
-	const useHint = signedToken => {
-		if (signedToken) {
-			setDailyHints({type: "DECREMENT"});
-			Auth.setToken(signedToken);
-		}
-	}
-	
+
+  const badWord = () => {
+    console.log("that is a bad word");
+    setBadWordMsg(true);
+  };
+
+  const getHint = () => {
+    socket.emit("get-hint", username, room, jwt, useHint);
+  };
+
+  const useHint = (signedToken) => {
+    if (signedToken) {
+      setDailyHints({ type: "DECREMENT" });
+      Auth.setToken(signedToken);
+    }
+  };
+
+  const checkTime = () => {
+    if (activeTimer) {
+      if (time === 0) {
+        setTime(0);
+      }
+      return;
+    }
+  };
+
   return (
     <>
       <div className="rendered-letters column">
@@ -218,11 +228,10 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
+                // disabled={} TODO
               />
               {badWordMsg ? (
-                <p className="bad-word-msg mt-2">
-                  That is a bad word.
-                </p>
+                <p className="bad-word-msg mt-2">That is a bad word.</p>
               ) : (
                 ""
               )}
@@ -237,15 +246,15 @@ const MainGame = ({
                 onClick={submitWord}
               />
             </div>
-						<div className="control">
-							<input
-								className="button is-warning"
-								type="button"
-								value={`${dailyHints} Hints`}
-								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
-								onClick={getHint}
-							/>
-						</div>
+            <div className="control">
+              <input
+                className="button is-warning"
+                type="button"
+                value={`${dailyHints} Hints`}
+                disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+                onClick={getHint}
+              />
+            </div>
           </div>
         </form>
       </div>
@@ -257,7 +266,7 @@ const MainGame = ({
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}
-        <div ref={elementRef}></div>
+          <div ref={elementRef}></div>
         </ul>
       </div>
     </>
