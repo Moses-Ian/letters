@@ -95,6 +95,8 @@ export default function JoinGame({ socket, username, room, setRoom }) {
                 What is the name of the room you would like to join?
               </p>
 							
+							{roomList.length !== 0
+							?	(<>
 								{roomList.map((room, index) => (
 									<label key={index}>
 										<input 
@@ -107,6 +109,11 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 										{room.name}
 									</label>
 								))}
+							</>)
+							: (<p className='join-modal-body'>
+									There are currently no active games. Create one!
+								</p>)
+							}
 							
               <input
                 autoFocus
