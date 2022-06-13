@@ -2,6 +2,7 @@ class GameObj {
 	constructor (name) {
 		//room
 		this.name = name || '';	
+		this.visible = true;
 		// letters game
 		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;

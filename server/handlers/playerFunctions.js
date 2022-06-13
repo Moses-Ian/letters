@@ -19,6 +19,24 @@ saveScore = (score, room, username) => {
   player.score += score;
 };
 
+listRooms = (cb) => {
+	console.log('list rooms');
+	const iter = rooms.values();
+	let result = iter.next();
+	let roomList = [];
+	while (!result.done) {
+		console.log(result.value.name);
+		if (result.value.visible) {
+			// pull out the properties I want to show
+			const { name } = result.value;
+			//push those into the array I will send the client
+			roomList.push({ name });
+		}
+		result = iter.next();
+	}
+	cb(roomList);
+}
+
 joinRoom = (socket, room, oldRoom, username, callback) => {
   //get the rooms
   let g = rooms.get(room);
@@ -74,6 +92,7 @@ disconnect = (socket, reason) => {
 };
 
 module.exports = {
+	listRooms,
 	joinRoom,
 	nextRound,
 	saveScore,

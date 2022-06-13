@@ -17,6 +17,7 @@ const {
 } = require('./numbersGame');
 
 const {
+	listRooms,
 	joinRoom,
 	nextRound,
 	saveScore,
@@ -74,6 +75,7 @@ const registerGameHandler = (newio, socket) => {
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
+	socket.on("list-rooms", listRooms);
   // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
