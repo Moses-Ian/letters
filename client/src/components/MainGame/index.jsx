@@ -169,7 +169,7 @@ const MainGame = ({
 	};
 	
 	const getHint = () => {
-		socket.emit('get-hint', username, room, jwt, useHint);
+		socket.emit('get-letters-hint', username, room, jwt, useHint);
 	};
 	
 	const useHint = signedToken => {
@@ -216,7 +216,7 @@ const MainGame = ({
         <form>
           <div className="field has-addons mt-2 is-justify-content-center">
          
-          <div className="control">
+						<div className="control">
 							<input
 								className="button is-warning mr-1"
 								type="button"

@@ -1,5 +1,7 @@
 class GameObj {
 	constructor (name) {
+		//room
+		this.name = name || '';	
 		// letters game
 		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
@@ -7,7 +9,6 @@ class GameObj {
 		this.letterCount = 0;
 		this.words = [];
 		// players
-		this.name = name || '';	
 		this.players = [];
 		this.turn = -1;
 		this.round = 1;

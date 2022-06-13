@@ -54,7 +54,7 @@ function Room({
 
 	
 	const swipeHandlers = useSwipeable({
-		onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
 		//once the winner system is in place, we'll make this more robust
 		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
 		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
@@ -105,9 +105,6 @@ function Room({
 		return 'inactive-view-right';
 	}
 	
-	console.log(isMobile);
-	console.log(display);
-
   return (
     <>
 			<div className="room" {...swipeHandlers}>
@@ -148,6 +145,10 @@ function Room({
 							setTurn={setTurn}
 							score={score}
 							setScore={setScore}
+							loggedIn={loggedIn}
+							jwt={jwt}
+							dailyHints={dailyHints}
+							setDailyHints={setDailyHints}
 							display={setGameDisplay()}
 						/>
 					)}
