@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useReducer } from "react";
+import { useSwipeable } from "react-swipeable";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
+import useWindowSize from "./utils/useWindowSize";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
+
+import Winner from "./components/Winner"
 
 //graphql
 import {
@@ -88,11 +92,36 @@ function App() {
 		}
 	}, []);
 	
+	const [isMobile, setMobile] = useState(true);
+	useEffect(() => {
+		setMobile(window.screen.width <= 450);
+	}, [window]);
+	
+	const [display, setDisplay] = useState('lobby');
+
+	const swipeConfig = {
+		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
+		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
+		trackTouch: true,                      // track touch input
+		trackMouse: false,                     // track mouse input
+		rotationAngle: 0,                      // set a rotation angle
+		swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
+		touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
+	}
+	
+	const swipeHandlers = useSwipeable({
+		onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		//once the winner system is in place, we'll make this more robust
+		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
+		...swipeConfig,
+	});
+
 	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
-      <div className="App container pt-3 pl-3 pr-3 pb-0">
+      <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
 			{!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
@@ -115,8 +144,11 @@ function App() {
 						jwt={jwt}
 						dailyHints={dailyHints}
 						setDailyHints={setDailyHints}
+						isMobile={isMobile}
+						display={display}
 					/>
         )}
+				{/*<Winner />*/}
       </div>
     </ApolloProvider>
   );
