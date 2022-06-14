@@ -8,8 +8,6 @@ import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
 
-import Winner from "./components/Winner"
-
 //graphql
 import {
   ApolloClient,
@@ -149,7 +147,6 @@ function App() {
 						display={display}
 					/>
         )}
-				{/*<Winner />*/}
       </div>
     </ApolloProvider>
   );

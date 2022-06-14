@@ -154,7 +154,7 @@ input {
   color: var(--quanternary-color);
 }
 
-.landing-letters:hover, .winner:hover {
+.landing-letters:hover, .winner:hover, .ties:hover {
   text-shadow: 10px 10px 4px black, 6px 6px 10px black;
   font-size: 7rem;
 }
@@ -435,4 +435,34 @@ input {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.confetti {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -30,11 +30,7 @@ function Room({
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
-    // socket.on("new-round", (newRound) => setRound(newRound));
-    socket.on("new-round", (newRound) => {
-			setRound(newRound);
-			console.log(newRound);
-		});
+    socket.on("new-round", (newRound) => setRound(newRound));
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
 
@@ -50,7 +46,6 @@ function Room({
 
   const nextRound = () => {
     socket.emit("next-round", room);
-    // socket.emit("save-score", score, room, username);
     setScore(0);
   };
 
@@ -147,7 +142,7 @@ function Room({
 							/>
 						)
 					: (
-						<Winner usernames={getWinner()}/>
+						<Winner usernames={getWinner()} />
 					)}
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
 						<button className="button is-warning m-2" onClick={restartGame}>
@@ -163,10 +158,6 @@ function Room({
 					</div>
 				</div>
 
-				{display === 'winner' ?
-					{/*winner component here*/}
-				: ("")}
-					
 				<LiveChat 
 					socket={socket} 
 					username={username} 
