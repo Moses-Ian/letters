@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
+import Auth from '../../utils/auth';
 
 const NumbersGame = ({
   socket,
@@ -12,6 +13,11 @@ const NumbersGame = ({
   setTurn,
   score,
   setScore,
+	loggedIn,
+	jwt,
+	dailyHints,
+	setDailyHints,
+	display
 }) => {
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
@@ -197,10 +203,23 @@ const NumbersGame = ({
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
     if (target != 0)
     addTarget(target);
+		console.log('setGameState in NumbersGame component');
   };
 
+	const getHint = () => {
+		socket.emit('get-numbers-hint', username, room, jwt, useHint);
+	};
+	
+	const useHint = signedToken => {
+		if (signedToken) {
+			setDailyHints({type: "DECREMENT"});
+			Auth.setToken(signedToken);
+		}
+		console.log('numbers solver not done yet');
+	};
+	
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
         <h1 id="random-number-value">{targetNumber}</h1>
       </div>
@@ -276,7 +295,7 @@ const NumbersGame = ({
         {showOperationBtn ? (
           <div className="mt-4" id="operation">
             <button
-              className="button is-warning mr-2"
+              className="multiply-btn button is-warning mr-2"
               id=" multiply"
               onClick={operationSymbol}
               data-symbol="*"
@@ -284,7 +303,7 @@ const NumbersGame = ({
               *
             </button>
             <button
-              className="button is-warning mr-2"
+              className="subtract-btn button is-warning mr-2"
               id="subtract"
               onClick={operationSymbol}
               data-symbol="-"
@@ -292,7 +311,7 @@ const NumbersGame = ({
               -
             </button>
             <button
-              className="button is-warning mr-2"
+              className="divide-btn button is-warning mr-2"
               id="divide"
               onClick={operationSymbol}
               data-symbol="/"
@@ -300,7 +319,7 @@ const NumbersGame = ({
               /
             </button>
             <button
-              className="button is-warning mr-2"
+              className="add-btn button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
               data-symbol="+"
@@ -308,7 +327,7 @@ const NumbersGame = ({
               +
             </button>
             <button
-              className="button is-warning mr-2"
+              className="l-parentheses-btn button is-warning mr-2"
               id="add"
               onClick={operationSymbol}
               data-symbol="("
@@ -316,7 +335,7 @@ const NumbersGame = ({
               (
             </button>
             <button
-              className="button is-warning"
+              className="r-parentheses-btn button is-warning"
               id="add"
               onClick={operationSymbol}
               data-symbol=")"
@@ -324,7 +343,7 @@ const NumbersGame = ({
               )
             </button>
             <button
-              className="button is-small is-warning mr-2"
+              className="button is-small is-warning ml-3 mt-1"
               id=" multiply"
               onClick={backspace}
             >
@@ -346,6 +365,14 @@ const NumbersGame = ({
         </div>
 
         {showCheckAnswerBtn ? (
+					<>
+					<button
+						className="button is-warning mb-6 mt-4"
+						onClick={getHint}
+						disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+					>
+					{`${dailyHints} Hints`}
+					</button>
           <button
             className="button is-warning mb-6 mt-4"
             id="check-answer"
@@ -353,11 +380,12 @@ const NumbersGame = ({
           >
             Submit Answer
           </button>
+					</>
         ) : (
           ""
         )}
       </div>
-    </>
+    </div>
   );
 };
 export default NumbersGame;

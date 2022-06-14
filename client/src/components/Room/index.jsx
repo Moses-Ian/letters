@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { useSwipeable } from "react-swipeable";
 import MW from "../../assets/images/Merriam-Webster.png";
+import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import LiveChat from "../LiveChat";
 
-function Room({ socket, username, setUsername, room, loggedIn }) {
+
+function Room({ 
+	socket, 
+	username, 
+	setUsername, 
+	room, 
+	loggedIn, 
+	jwt,
+	dailyHints,
+	setDailyHints
+}) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState(false);
   const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
+	const [display, setDisplay] = useState('lobby');
+	const [isMobile, setMobile] = useState(true);
+	
+	useEffect(() => {
+		setMobile(window.screen.width <= 450);
+	});
 
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
@@ -23,6 +41,25 @@ function Room({ socket, username, setUsername, room, loggedIn }) {
       socket.disconnect();
     };
   }, [socket]);
+	
+	const swipeConfig = {
+		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
+		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
+		trackTouch: true,                      // track touch input
+		trackMouse: false,                     // track mouse input
+		rotationAngle: 0,                      // set a rotation angle
+		swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
+		touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
+	}
+
+	
+	const swipeHandlers = useSwipeable({
+		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		//once the winner system is in place, we'll make this more robust
+		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
+		...swipeConfig,
+	});
 
   const generatePlayerList = async (playersArr) => {
     const newPlayersArr = await playersArr.map((player) => {
@@ -46,77 +83,100 @@ function Room({ socket, username, setUsername, room, loggedIn }) {
   const setGameState = (round) => {
    setRound(round);
   };
-
+	
+	const setLobbyDisplay = () => {
+		if (!isMobile || display==='lobby')
+			return 'active-view';
+		return 'inactive-view-left';
+	}
+	
+	const setGameDisplay = () => {
+		if (!isMobile || display === 'game')
+			return 'active-view';
+		if (display === 'lobby')
+			return 'inactive-view-right';
+		if (display === 'chat')
+			return 'inactive-view-left';
+	}
+	
+	const setChatDisplay = () => {
+		if (!isMobile || display==='chat')
+			return 'active-view';
+		return 'inactive-view-right';
+	}
+	
   return (
     <>
-      <div className="is-flex is-flex-direction-column is-justify-content-center">
-        <h1 className="room-name has-text-centered is-size-4">
-          You are playing in: {room}
-        </h1>
+			<div className="room" {...swipeHandlers}>
+					
+				<Lobby
+					room={room}
+					players={players}
+					activePlayer={activePlayer}
+					display={setLobbyDisplay()}
+				/>
 
-        <div className="players is-align-self-center">
-          <div>
-            <h1 className="has-text-warning">Players:</h1>
-          </div>
-          <ul>
-            {players.map((player, index) => (
-              <li
-                className={
-                  "playerLi " +
-                  (activePlayer === player.username
-                    ? "active-player"
-                    : "not-active")
-                }
-                key={index}
-              >
-                - {player}
-              </li>
-            ))}
-          </ul>
-        </div>
+				<div className={`view ${setGameDisplay()}`}>
+					{round % 2 ? (
+						<MainGame
+							socket={socket}
+							username={username}
+							room={room}
+							activeTimer={activeTimer}
+							setActiveTimer={setActiveTimer}
+							isYourTurn={isYourTurn}
+							setTurn={setTurn}
+							score={score}
+							setScore={setScore}
+							loggedIn={loggedIn}
+							jwt={jwt}
+							dailyHints={dailyHints}
+							setDailyHints={setDailyHints}
+							display={setGameDisplay()}
+						/>
+					) : (
+						<NumbersGame
+							socket={socket}
+							username={username}
+							room={room}
+							activeTimer={activeTimer}
+							setActiveTimer={setActiveTimer}
+							isYourTurn={isYourTurn}
+							setTurn={setTurn}
+							score={score}
+							setScore={setScore}
+							loggedIn={loggedIn}
+							jwt={jwt}
+							dailyHints={dailyHints}
+							setDailyHints={setDailyHints}
+							display={setGameDisplay()}
+						/>
+					)}
+					<div className="m-3 has-text-centered is-flex is-justify-content-center">
+						<button className="button is-warning m-2" onClick={restartLetters}>
+							Restart
+						</button>
 
-        {round % 2 ? (
-          <MainGame
-            socket={socket}
-            username={username}
-            room={room}
-            activeTimer={activeTimer}
-            setActiveTimer={setActiveTimer}
-            isYourTurn={isYourTurn}
-            setTurn={setTurn}
-            score={score}
-            setScore={setScore}
-						loggedIn={loggedIn}
-          />
-        ) : (
-          <NumbersGame
-            socket={socket}
-            username={username}
-            room={room}
-            activeTimer={activeTimer}
-            setActiveTimer={setActiveTimer}
-            isYourTurn={isYourTurn}
-            setTurn={setTurn}
-            score={score}
-            setScore={setScore}
-          />
-        )}
+						<button className="button is-warning m-2" onClick={nextRound}>
+							Next Round
+						</button>
+						<div className="webster is-flex is-justify-content-flex-end">
+							<img className="MW" src={MW} alt="Merriam Webster API" />
+						</div>
+					</div>
+				</div>
 
-        <div className="m-3 has-text-centered is-flex is-justify-content-center">
-          <button className="button is-warning m-2" onClick={restartLetters}>
-            Restart
-          </button>
-
-          <button className="button is-warning m-2" onClick={nextRound}>
-            Next Round
-          </button>
-          <div className="webster is-flex is-justify-content-flex-end">
-            <img className="MW" src={MW} alt="Merriam Webster API" />
-          </div>
-        </div>
-
-        <LiveChat socket={socket} username={username} room={room} />
-      </div>
+				{display === 'winner' ?
+					{/*winner component here*/}
+				: ("")}
+					
+				<LiveChat 
+					socket={socket} 
+					username={username} 
+					room={room} 
+					display={setChatDisplay()}
+				/>
+			</div>
     </>
   );
 }

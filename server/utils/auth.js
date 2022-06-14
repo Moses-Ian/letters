@@ -3,9 +3,22 @@ const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
+const isTokenExpired = (token) => {
+	try {
+		const decoded = jwt.decode(token);
+		if (decoded.exp < Date.now() / 1000) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (err) {
+		return false;
+	}
+};
+
 module.exports = {
-  signToken: function({ username, email, _id }) {
-    const payload = { username, email, _id };
+  signToken: function({ username, email, dailyHints, _id }) {
+    const payload = { username, email, dailyHints, _id };
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
@@ -36,5 +49,17 @@ module.exports = {
 
 		// return updated request object
 		return req;
-	}
+	},
+  // retrieve data saved in token
+  getProfile: function(token) {
+    return token ? jwt.decode(token) : token;
+  },
+  // check if the token has expired
+  // isTokenExpired: function(token) {
+  // },
+  // check if the user is still logged in
+  loggedIn: function(token) {
+    return !!token && !isTokenExpired(token);
+  },
+
 };

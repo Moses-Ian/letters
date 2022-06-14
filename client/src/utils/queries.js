@@ -22,6 +22,8 @@ export const QUERY_ME = gql`
       username
       email
       friendCount
+			lastLogin
+			dailyHints
       friends {
         _id
         username
