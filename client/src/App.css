@@ -55,6 +55,10 @@ input {
   font-family: Fugaz one;
 }
 
+.input[disabled] {
+	opacity: 0.5;
+}
+
 .button:hover {
   background-color: var(--quanternary-color);
 }
