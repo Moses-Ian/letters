@@ -2,7 +2,6 @@ const {
 	addVowel,
 	addConsonant,
 	submitWord,
-	restartLetters,
 	getLettersState,
 	getLettersHint
 } = require('./lettersGame');
@@ -21,6 +20,7 @@ const {
 	joinRoom,
 	nextRound,
 	saveScore,
+	restartGame,
 	disconnect
 } = require('./playerFunctions');
 
@@ -60,7 +60,6 @@ const registerGameHandler = (newio, socket) => {
   socket.on("submit-word", (word, username, room) => 
 		submitWord(socket, word, username, room)
 	);
-  socket.on("restart-letters", restartLetters);
   socket.on("get-letters-state", getLettersState);
 	socket.on("get-letters-hint", getLettersHint);
   // numbers game
@@ -71,11 +70,12 @@ const registerGameHandler = (newio, socket) => {
   socket.on("get-numbers-state", getNumbersState);
 	socket.on("get-numbers-hint", getNumbersHint);
   // players
+	socket.on("list-rooms", listRooms);
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );
   socket.on("next-round", nextRound);
-	socket.on("list-rooms", listRooms);
+  socket.on("restart-game", restartGame);
   // socket.on("save-score", saveScore);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug

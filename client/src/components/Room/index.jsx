@@ -28,7 +28,11 @@ function Room({
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
-    socket.on("new-round", (newRound) => setRound(newRound));
+    // socket.on("new-round", (newRound) => setRound(newRound));
+    socket.on("new-round", (newRound) => {
+			setRound(newRound);
+			console.log(newRound);
+		});
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
 
@@ -37,22 +41,19 @@ function Room({
     };
   }, [socket]);
 	
-  const generatePlayerList = async (playersArr) => {
-    const newPlayersArr = await playersArr.map((player) => {
-      return player.username;
-    });
-    setPlayers(newPlayersArr);
-    setActivePlayer(newPlayersArr.username);
+  const generatePlayerList = async (playersArr, turn) => {
+    setPlayers(playersArr);
+    setActivePlayer(playersArr[turn].username);
   };
 
   const nextRound = () => {
     socket.emit("next-round", room);
-    socket.emit("save-score", score, room, username);
+    // socket.emit("save-score", score, room, username);
     setScore(0);
   };
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
+  const restartGame = (event) => {
+    socket.emit("restart-game", room);
     setActiveTimer(false);
   };
 
@@ -129,7 +130,7 @@ function Room({
 						/>
 					)}
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
-						<button className="button is-warning m-2" onClick={restartLetters}>
+						<button className="button is-warning m-2" onClick={restartGame}>
 							Restart
 						</button>
 

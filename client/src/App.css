@@ -188,7 +188,7 @@ input {
 }
 
 .players ul {
-  display: flex;
+  /* display: flex; */ /* commented out because it looks abysmal with the scores added */
 }
 
 .rendered-letters {

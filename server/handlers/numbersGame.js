@@ -58,23 +58,7 @@ function calculateTotal(operationArr, username, room) {
 		total = 0;
 		score = 0;
 	}
-		
-	console.log(total);
-  // let total = parseInt(operationArr[0]);
-
-  // iterate over operationArr
-  // for (let i = 1; i < operationArr.length; i += 2) {
-    // if (operationArr[i] === "+") {
-      // total += parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "-") {
-      // total -= parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "*") {
-      // total = total * parseInt(operationArr[i + 1]);
-    // } else if (operationArr[i] === "/") {
-      // total = total / parseInt(operationArr[i + 1]);
-    // }
-  // }
-
+	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
   g.operations.push({ total, operationArr, username, score });
   io.to(g.name).emit("append-operations", total, operationArr, username, score);
 }

@@ -22,7 +22,7 @@ const Lobby = ({ room, players, activePlayer, display }) => {
 								}
 								key={index}
 							>
-								- {player}
+								- {player.username} {player.score} points
 							</li>
 						))}
 					</ul>
