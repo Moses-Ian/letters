@@ -141,6 +141,15 @@ input {
   margin-top: 10vh;
 }
 
+.ties {
+  font-size: 3rem;
+  text-align: center;
+  color: var(--secondary-color);
+  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+  transition: text-shadow 400ms ease, font-size 500ms ease;
+  margin-top: 10vh;
+}
+
 .landing-letters-3 {
   color: var(--quanternary-color);
 }

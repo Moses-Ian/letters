@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Confetti from "react-confetti";
-import useWindowSize from "../../utils/useWindowSize";
 
 
 // const winnerMessage = "WINNER!!";
@@ -10,21 +9,26 @@ import useWindowSize from "../../utils/useWindowSize";
 // TODO Change username to winnername or whatever to match the logic
 
 
-const Winner = ({ username }) => {
-const { width, height } = useWindowSize();
+const Winner = ({ usernames }) => {
   return (
     <>
       <div>
-        <h1 className="winner">{username} Wins!!</h1>
-          <Confetti />
-            width={width}
-            height={height}
+			{usernames.length === 1 
+			?  (
+				<>
+					<h1 className="winner">{usernames[0]} Wins!!</h1>
+					<Confetti />
+				</>
+			) : (
+				<>
+					<h1 className="winner">It's a Tie!!</h1>
+					<h2 className="ties">{usernames.join('\n')}</h2>
+					<Confetti />
+				</>
+			)}
       </div>
     </>
   );
 };
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Winner />, rootElement);
 
 export default Winner;
