@@ -42,8 +42,8 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
-  const [time, setTime] = useState(30);
   const elementRef = useRef();
+  const [mainGameTime, setMainGameTime] = useState(); // TODO
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -176,14 +176,8 @@ const MainGame = ({
     }
   };
 
-  const checkTime = () => {
-    if (activeTimer) {
-      if (time === 0) {
-        setTime(0);
-      }
-      return;
-    }
-  };
+  // TODO disable submit when timer = 0
+  const checkTime = () => {};
 
   return (
     <>
@@ -197,7 +191,16 @@ const MainGame = ({
         </ul>
       </div>
 
-      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
+      <div className="timer">
+        {activeTimer ? (
+          <Timer
+            mainGameTime={mainGameTime}
+            setMainGameTime={setMainGameTime}
+          />
+        ) : (
+          ""
+        )}
+      </div>
 
       <div className="field has-text-centered">
         <div className={"letters-buttons " + (activeTimer ? "hidden" : "")}>
@@ -228,7 +231,7 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
-                // disabled={} TODO
+                disabled={mainGameTime === 0 ? true : false}
               />
               {badWordMsg ? (
                 <p className="bad-word-msg mt-2">That is a bad word.</p>
@@ -242,7 +245,7 @@ const MainGame = ({
                 className="button is-warning"
                 type="submit"
                 value="Submit"
-                disabled={activeTimer ? false : true}
+                disabled={mainGameTime === 0 ? true : false}
                 onClick={submitWord}
               />
             </div>
