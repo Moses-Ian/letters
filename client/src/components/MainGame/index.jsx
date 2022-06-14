@@ -18,6 +18,7 @@ const MainGame = ({
   jwt,
   dailyHints,
   setDailyHints,
+  display,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -51,6 +52,7 @@ const MainGame = ({
   }, [isYourTurn]);
 
   useEffect(() => {
+    if (display != "active-view") return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -166,7 +168,7 @@ const MainGame = ({
   };
 
   const getHint = () => {
-    socket.emit("get-hint", username, room, jwt, useHint);
+    socket.emit("get-letters-hint", username, room, jwt, useHint);
   };
 
   const useHint = (signedToken) => {
@@ -176,11 +178,8 @@ const MainGame = ({
     }
   };
 
-  // TODO disable submit when timer = 0
-  const checkTime = () => {};
-
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
         <ul>
           {letters.map((letter, index) => (
@@ -226,6 +225,16 @@ const MainGame = ({
           <div className="field has-addons mt-2 is-justify-content-center">
             <div className="control">
               <input
+                className="button is-warning mr-1"
+                type="button"
+                value={`${dailyHints} Hints`}
+                disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+                onClick={getHint}
+              />
+            </div>
+
+            <div className="control">
+              <input
                 onChange={handleInputChange}
                 className="input is-warning"
                 type="text"
@@ -242,20 +251,11 @@ const MainGame = ({
 
             <div className="control">
               <input
-                className="button is-warning"
+                className="button is-warning ml-1"
                 type="submit"
                 value="Submit"
                 disabled={mainGameTime === 0 ? true : false}
                 onClick={submitWord}
-              />
-            </div>
-            <div className="control">
-              <input
-                className="button is-warning"
-                type="button"
-                value={`${dailyHints} Hints`}
-                disabled={!(activeTimer && loggedIn) || dailyHints === 0}
-                onClick={getHint}
               />
             </div>
           </div>
@@ -272,7 +272,7 @@ const MainGame = ({
           <div ref={elementRef}></div>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

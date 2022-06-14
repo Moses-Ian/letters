@@ -1,4 +1,5 @@
 const mexp = require('math-expression-evaluator');
+const {useHint} = require('../schemas/serverResolvers');
 
 // small numbers
 const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -10,22 +11,24 @@ const AVAILABLE_LARGE_NUMBERS = 4;
 addSmallNumber = (room) => {
   let g = rooms.get(room);
   if (g.smallNumberCount == 4) return;
+	if (g.numberCount == 6) return;
   let number =
     smallNumbers[Math.floor(Math.random() * AVAILABLE_SMALL_NUMBERS)];
   if (addNumber(g, number)) g.smallNumberCount++;
 
-  io.to(room).emit("add-number", number, g.numberCount);
+  io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
 };
 
 const addLargeNumber = (room) => {
   let g = rooms.get(room);
   if (g.largeNumberCount == 4) return;
+	if (g.numberCount == 6) return;
   let number =
     largeNumbers[Math.floor(Math.random() * AVAILABLE_LARGE_NUMBERS)];
 
   if (addNumber(g, number)) g.largeNumberCount++;
-  io.to(room).emit("add-number", number, g.numberCount);
+  io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
 };
 
@@ -40,7 +43,7 @@ function getRandomNumber(room) {
   if (g.numberCount == 6) {
     let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
     g.target = randomNumber;
-    io.to(room).emit("add-target", g.target);
+    io.to(g.name).emit("add-target", g.target);
   }
 }
 
@@ -73,7 +76,7 @@ function calculateTotal(operationArr, username, room) {
   // }
 
   g.operations.push({ total, operationArr, username, score });
-  io.to(room).emit("append-operations", total, operationArr, username, score);
+  io.to(g.name).emit("append-operations", total, operationArr, username, score);
 }
 
 function scoreAnswer(total, g) {
@@ -98,11 +101,48 @@ function getNumbersState(room, cb) {
   cb(g.numbers, g.operations, g.target, g.numberCount)
 };
 
+async function getNumbersHint(username, room, jwt, cb) {
+	let g = rooms.get(room);
+	if (!g) return;
+	//should await both sumiltaneously
+	const [
+		signedToken,
+		{total, operationArr, score}
+	] = await Promise.all([
+		useHint(jwt),
+		getHint(g.numbers, g.target)
+	]);
+	
+	if (!signedToken) {
+		cb(false);
+		return;
+	}
+	
+	if (score === 0) {
+		cb(false);
+		return;
+	}
+	
+	g.operations.push({ total, operationArr, username, score });
+	io.to(g.name).emit('append-operations', total, operationArr, username, score);
+	cb(signedToken);
+};
+
+async function getHint(numbers, target) {
+	console.log('numbers hint');
+	
+	//your algorithm goes here
+	//if it's complex, put it in utils/algorithms.js, or its own file, and import it into here
+	
+	return {score: 0};	//if the algorithm can't find a solution
+}
+
 
 module.exports = {
 	addSmallNumber,
 	addLargeNumber,
 	getRandomNumber,
 	calculateTotal,
-	getNumbersState
+	getNumbersState,
+	getNumbersHint
 };

@@ -43,7 +43,7 @@ addVowel = (room) => {
   let index = g.letters.length;
   g.letters[g.letterCount] = vowel;
   g.vowelCount++;
-  io.to(room).emit("add-letter", vowel, g.letterCount);
+  io.to(g.name).emit("add-letter", vowel, g.letterCount);
   g.letterCount++;
 };
 
@@ -63,7 +63,7 @@ addConsonant = (room) => {
   let index = g.letters.length;
   g.letters[g.letterCount] = consonant;
   g.consonantCount++;
-  io.to(room).emit("add-letter", consonant, g.letterCount);
+  io.to(g.name).emit("add-letter", consonant, g.letterCount);
   g.letterCount++;
 };
 
@@ -91,7 +91,7 @@ submitWord = async (socket, word, username, room) => {
 		return;
 	}
   g.words.push({ word, username, score });
-  io.to(room).emit("append-word", word, username, score);
+  io.to(g.name).emit("append-word", word, username, score);
 };
 
 scoreWord = async (word, letters) => {
@@ -144,7 +144,7 @@ restartLetters = (room) => {
   if (!g) return;
   let turn = g.restart();
   tellTurn(g, turn);
-  io.to(room).emit("clear-letters");
+  io.to(g.name).emit("clear-letters");
 };
 
 getLettersState = (room, cb) => {
@@ -170,7 +170,7 @@ getLettersHint = async (username, room, jwt, cb) => {
 		return;
 	}
 	g.words.push({ username, word, score });
-	io.to(room).emit("append-word", word, username, score);
+	io.to(g.name).emit("append-word", word, username, score);
 	cb(signedToken);
 }
 

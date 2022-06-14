@@ -15,11 +15,10 @@ export default function Register() {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [addUser] = useMutation(ADD_USER);
   const [errorMsg, setErrorMsg] = useState(false);
+	const [usernameErrorMsg, setUsernameErrorMsg] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("sign up submit");
-    console.log(formState);
     try {
       const mutationResponse = await addUser({
         variables: {
@@ -28,12 +27,16 @@ export default function Register() {
           username: sanitize(formState.username),
         },
       });
-      console.log(mutationResponse);
       const token = mutationResponse.data.addUser.token;
       Auth.login(token);
+			setErrorMsg(false);
     } catch (e) {
-      console.log(e);
-      setErrorMsg(true);
+      console.error(e);
+			const code = e.message.split(' ')[0];
+			if (code === 'E11000')
+				setErrorMsg('That username or email is taken.');
+			else
+				setErrorMsg('Please be sure to type a username, a valid email and at least a 5 character password.');
     }
   };
 
@@ -83,8 +86,7 @@ export default function Register() {
               ></input>
               {errorMsg ? (
                 <div className="modal-error-msg">
-                  Please be sure to type a username, a valid email and at least
-                  a 5 character password.
+									{errorMsg}
                 </div>
               ) : (
                 ""
