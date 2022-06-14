@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import Confetti from "react-confetti";
 import useWindowSize from "../../utils/useWindowSize";
 
-
 // const winnerMessage = "WINNER!!";
 
 

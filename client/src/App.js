@@ -119,7 +119,7 @@ function App() {
 						setDailyHints={setDailyHints}
 					/>
         )}
-				<Winner />
+				<Winner username={username}/>
       </div>
     </ApolloProvider>
   );

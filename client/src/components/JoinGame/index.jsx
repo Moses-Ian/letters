@@ -110,7 +110,7 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 									</label>
 								))}
 							</>)
-							: (<p className='join-modal-body mt-4'>
+							: (<p className='join-modal-body mt-3 mb-3'>
 									There are currently no active games. Create one!
 								</p>)
 							}

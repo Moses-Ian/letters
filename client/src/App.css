@@ -218,6 +218,8 @@ input {
 .words-list {
   height: 9vh;
   overflow-y: scroll;
+  text-align: center;
+
 }
 
 .hidden {

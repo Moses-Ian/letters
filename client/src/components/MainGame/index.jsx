@@ -258,7 +258,7 @@ const MainGame = ({
         </form>
       </div>
 
-      <div className="words-list pl-2">
+      <div className="words-list pl-2 mt-4">
         <ul>
           {words.map((word, index) => (
             <li key={index}>
