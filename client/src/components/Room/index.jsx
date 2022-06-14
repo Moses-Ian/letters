@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSwipeable } from "react-swipeable";
 import MW from "../../assets/images/Merriam-Webster.png";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
@@ -15,7 +14,9 @@ function Room({
 	loggedIn, 
 	jwt,
 	dailyHints,
-	setDailyHints
+	setDailyHints,
+	isMobile,
+	display
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState(false);
@@ -23,13 +24,7 @@ function Room({
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
-	const [display, setDisplay] = useState('lobby');
-	const [isMobile, setMobile] = useState(true);
 	
-	useEffect(() => {
-		setMobile(window.screen.width <= 450);
-	});
-
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
@@ -42,25 +37,6 @@ function Room({
     };
   }, [socket]);
 	
-	const swipeConfig = {
-		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
-		trackTouch: true,                      // track touch input
-		trackMouse: false,                     // track mouse input
-		rotationAngle: 0,                      // set a rotation angle
-		swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
-		touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
-	}
-
-	
-	const swipeHandlers = useSwipeable({
-		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		//once the winner system is in place, we'll make this more robust
-		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
-		...swipeConfig,
-	});
-
   const generatePlayerList = async (playersArr) => {
     const newPlayersArr = await playersArr.map((player) => {
       return player.username;
@@ -107,7 +83,7 @@ function Room({
 	
   return (
     <>
-			<div className="room" {...swipeHandlers}>
+			<div className="room">
 					
 				<Lobby
 					room={room}
