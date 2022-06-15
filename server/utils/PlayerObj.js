@@ -3,6 +3,7 @@ class PlayerObj {
     this.id = id;
     this.username = username;
     this.score = 0;
+		this.submission = {};
   }
 
 	addNumberToUsername(players) {
@@ -22,6 +23,17 @@ class PlayerObj {
 			// username: `${username}${yourNumber}`,
 			// ...player
 		// };
+	}
+	
+	addSubmission(submission) {
+		if (submission.score === 0) return;
+		if (!this.submission.score || submission.score > this.submission.score)
+			this.submission = submission;
+	}
+	
+	restart() {
+		this.score = 0;
+		this.submission = {};
 	}
 
 }

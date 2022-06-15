@@ -8,8 +8,6 @@ import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
 
-import Winner from "./components/Winner"
-
 //graphql
 import {
   ApolloClient,
@@ -94,7 +92,7 @@ function App() {
 	
 	const [isMobile, setMobile] = useState(true);
 	useEffect(() => {
-		setMobile(window.screen.width <= 450);
+		setMobile(window.innerWidth <= 450);
 	}, [window]);
 	
 	const [display, setDisplay] = useState('lobby');
@@ -118,6 +116,7 @@ function App() {
 	});
 
 	console.log('App.js rendered');
+	// console.log(window.innerWidth, isMobile);
 
   return (
     <ApolloProvider client={client}>
@@ -148,7 +147,6 @@ function App() {
 						display={display}
 					/>
         )}
-				{/*<Winner />*/}
       </div>
     </ApolloProvider>
   );

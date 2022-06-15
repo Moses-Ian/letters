@@ -90,6 +90,7 @@ submitWord = async (socket, word, username, room) => {
 		io.to(socket.id).emit("bad-word");
 		return;
 	}
+	g.getPlayer(username).addSubmission({ word, username, score });
   g.words.push({ word, username, score });
   io.to(g.name).emit("append-word", word, username, score);
 };
@@ -137,14 +138,6 @@ isOffensive = (data) => {
 	for (let i=0; i<data.length; i++)
 		if (data[i].meta.offensive) return true;
 	return false;
-};
-
-restartLetters = (room) => {
-  let g = rooms.get(room);
-  if (!g) return;
-  let turn = g.restart();
-  tellTurn(g, turn);
-  io.to(g.name).emit("clear-letters");
 };
 
 getLettersState = (room, cb) => {
@@ -214,7 +207,6 @@ module.exports = {
 	addVowel,
 	addConsonant,
 	submitWord,
-	restartLetters,
 	getLettersState,
 	getLettersHint
 };
