@@ -133,7 +133,6 @@ const NumbersGame = ({
   // generateNumber
   function getRandomNumber() {
     socket.emit("set-target", room);
-    setActiveTimer(true);
   }
 
   function addTarget(target) {
@@ -144,6 +143,7 @@ const NumbersGame = ({
     setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
+		setActiveTimer(true);
   }
 
   function calculateTotal() {
