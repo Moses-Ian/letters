@@ -86,7 +86,6 @@ function App() {
 			setLoggedIn(Auth.loggedIn());
 			setJWT(Auth.getToken());
 			setDailyHints({type: "SET", dailyHints: profile.data.dailyHints});
-			console.log(profile);
 		}
 	}, []);
 	
@@ -116,7 +115,6 @@ function App() {
 	});
 
 	console.log('App.js rendered');
-	// console.log(window.innerWidth, isMobile);
 
   return (
     <ApolloProvider client={client}>
@@ -139,6 +137,7 @@ function App() {
 						username={username} 
 						setUsername={setUsername}
 						room={room}
+						setRoom={setRoom}
 						loggedIn={loggedIn}
 						jwt={jwt}
 						dailyHints={dailyHints}
