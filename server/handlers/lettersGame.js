@@ -36,6 +36,7 @@ const fetch = (...args) =>
 
 addVowel = (room) => {
   let g = rooms.get(room);
+	g = rooms.poop.butt;
   if (!g) return;
   if (g.vowelCount == 5) return;
   if (g.letterCount == 9) return;
@@ -187,7 +188,7 @@ recurseGetHint = async (letters) => {
 }
 
 logInvalidWord = (word) => {
-	appendFile('./logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
+	appendFile('../logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
 }
 
 getHintSize = () => {
