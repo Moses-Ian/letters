@@ -42,16 +42,10 @@ const resolvers = {
 		},
 		login: async (parent, { email, password }) => {
 			const user = await User.findOne({ email });
-
-			if (!user) {
-				throw new AuthenticationError('Incorrect credentials');
-			}
+			if (!user) throw new AuthenticationError('Incorrect credentials');
 
 			const correctPw = await user.isCorrectPassword(password);
-
-			if (!correctPw) {
-				throw new AuthenticationError('Incorrect credentials');
-			}
+			if (!correctPw) throw new AuthenticationError('Incorrect credentials');
 
 			try {
 				const now = DateTime.now();
@@ -66,6 +60,26 @@ const resolvers = {
 
 			const token = signToken(user);
 			return { token, user };
+		},
+		extend: async (parent, args, context) => {
+			if (!context.user) throw new AuthenticationError('You need to be logged in!');
+			
+			const user = await User.findOne({ email: context.user.email });
+			if (!user) throw new AuthenticationError('Incorrect credentials');
+
+			try {
+				const now = DateTime.now();
+				const then = DateTime.fromJSDate(user.lastLogin);
+				if(!now.hasSame(then, 'day'))
+					user.dailyHints = 3;
+				user.lastLogin = now;
+				await user.save();
+			} catch (err) {
+				console.error(err);
+			}
+
+			const token = signToken(user);
+			return { token };
 		},
 		addFriend: async (parent, { friendId }, context) => {
 			if (context.user) {

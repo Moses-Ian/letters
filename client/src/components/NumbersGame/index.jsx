@@ -133,7 +133,6 @@ const NumbersGame = ({
   // generateNumber
   function getRandomNumber() {
     socket.emit("set-target", room);
-    setActiveTimer(true);
   }
 
   function addTarget(target) {
@@ -144,6 +143,7 @@ const NumbersGame = ({
     setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
+		setActiveTimer(true);
   }
 
   function calculateTotal() {
@@ -245,6 +245,7 @@ const NumbersGame = ({
                 className="button is-warning mr-2"
                 id="small-number-btn"
                 onClick={addSmallNumber}
+								disabled={!isYourTurn}
               >
                 Small Number
               </button>
@@ -252,6 +253,7 @@ const NumbersGame = ({
                 className="button is-warning"
                 id="large-number-btn"
                 onClick={addLargeNumber}
+								disabled={!isYourTurn}
               >
                 Large Number
               </button>
@@ -266,6 +268,7 @@ const NumbersGame = ({
               className="button is-warning mt-4"
               id="target"
               onClick={getRandomNumber}
+							disabled={!isYourTurn}
             >
               Target
             </button>

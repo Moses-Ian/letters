@@ -333,6 +333,13 @@ input {
   background-color: var(--quanternary-color);
 }
 
+.leave-button {
+	position: absolute;
+	right: 0;
+	top: -50px;
+	margin-right: 5px;
+}
+
 .join-game-button {
   box-shadow: 3px 8px 10px #026670 !important;
   padding: 6px;
@@ -442,8 +449,6 @@ input {
 	left: 0;
 	width: 100vw;
 }
-
-
 
 
 
