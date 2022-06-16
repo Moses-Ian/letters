@@ -7,6 +7,8 @@ import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
+import { useMutation } from "@apollo/client";
+import { EXTEND } from "./utils/mutations";
 
 //graphql
 import {
@@ -38,18 +40,28 @@ const client = new ApolloClient({
 
 // end graphql
 
-function App() {
-  const attachListeners = (socket) => {
-    socket.on("connect", () => {
-      console.log(`You connected with id: ${socket.id}`);
-    });
-  };
+const swipeConfig = {
+	delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
+	preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
+	trackTouch: true,                      // track touch input
+	trackMouse: false,                     // track mouse input
+	rotationAngle: 0,                      // set a rotation angle
+	swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
+	touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
+}
 
+function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [jwt, setJWT] = useState(null);
 	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
+  const [room, setRoom] = useState("");
+	const [isMobile, setMobile] = useState(true);
+	const [display, setDisplay] = useState('lobby');
+  const [extend] = useMutation(EXTEND, { client });
+
+  const profile = Auth.getProfile();
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -66,6 +78,49 @@ function App() {
 		return newDailyHints;
 	};
 
+  const attachListeners = (socket) => {
+    socket.on("connect", () => {
+      console.log(`You connected with id: ${socket.id}`);
+    });
+  };
+
+	const swipeHandlers = useSwipeable({
+		onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		//once the winner system is in place, we'll make this more robust
+		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
+		...swipeConfig,
+	});
+
+	const extendToken = async () => {
+		try {
+			const mutationResponse = await extend({
+				headers: {
+					authorization: Auth.getProfile()
+				}
+			});
+			return mutationResponse.data.extend.token;
+		} catch (err) {
+			console.error(err.message);
+			return null;
+		}
+	}
+
+	useEffect(() => {
+		async function updateProfile() {
+			if (profile && Auth.loggedIn()) {
+				const token = await extendToken();
+				if (!token) return;
+				const { data } = Auth.decodeToken(token);
+				setUsername(data.username);
+				setLoggedIn(true);
+				setJWT(token);
+				setDailyHints({type: "SET", dailyHints: data.dailyHints});
+			}
+		};
+		updateProfile();
+	}, []);
+	
   useEffect(() => {
     // const newSocket = io(`http://localhost:3001`);
     const newSocket = io(); //works in production and dev ???
@@ -77,43 +132,10 @@ function App() {
     };
   }, [setSocket]);
 	
-  const profile = Auth.getProfile();
-  const [room, setRoom] = useState("");
-
-	useEffect(() => {
-		if (profile) {
-			setUsername(profile.data.username);
-			setLoggedIn(Auth.loggedIn());
-			setJWT(Auth.getToken());
-			setDailyHints({type: "SET", dailyHints: profile.data.dailyHints});
-		}
-	}, []);
-	
-	const [isMobile, setMobile] = useState(true);
 	useEffect(() => {
 		setMobile(window.innerWidth <= 450);
 	}, [window]);
 	
-	const [display, setDisplay] = useState('lobby');
-
-	const swipeConfig = {
-		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
-		trackTouch: true,                      // track touch input
-		trackMouse: false,                     // track mouse input
-		rotationAngle: 0,                      // set a rotation angle
-		swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
-		touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
-	}
-	
-	const swipeHandlers = useSwipeable({
-		onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		//once the winner system is in place, we'll make this more robust
-		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
-		...swipeConfig,
-	});
-
 	console.log('App.js rendered');
 
   return (

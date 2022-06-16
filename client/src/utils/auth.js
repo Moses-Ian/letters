@@ -6,6 +6,10 @@ class AuthService {
 		const token = this.getToken();
     return token ? decode(token) : token;
   }
+	
+	decodeToken(token) {
+		return token ? decode(token) : token;
+	}
 
   // check if the user is still logged in
   loggedIn() {
