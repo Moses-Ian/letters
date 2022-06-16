@@ -5,27 +5,27 @@ nextRound = (room) => {
   let g = rooms.get(room);
   if (!g) return;
   let turn = g.nextTurn();
+	saveScore(g);
 	io.to(g.name).emit('new-round', g.round);
   io.to(g.name).emit("clear-letters");
-  io.to(g.name).emit("send-players", g.players);
+  io.to(g.name).emit("send-players", g.getPlayers(), g.turn);
   tellTurn(g, turn);
 };
 
-saveScore = (score, room, username) => {
-  let g = rooms.get(room);
-  if (!g) return;
-  let player = g.getPlayer(username);
-	if (!player) return;
-  player.score += score;
+saveScore = g => {
+	g.players.forEach(player => {
+		if (player.submission.score) {
+			player.score += player.submission.score;
+			player.submission = {};
+		}
+	});
 };
 
 listRooms = (cb) => {
-	console.log('list rooms');
 	const iter = rooms.values();
 	let result = iter.next();
 	let roomList = [];
 	while (!result.done) {
-		console.log(result.value.name);
 		if (result.value.visible) {
 			// pull out the properties I want to show
 			const { name } = result.value;
@@ -63,7 +63,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
     () => io.to(socket.id).emit("set-game-state-room", g.round),
     1000
   );
-  setTimeout(() => io.to(g.name).emit("send-players", g.players), 1500);
+  setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 1500);
 };
 
 leaveRoom = (socket, room) => {
@@ -83,6 +83,15 @@ tellTurn = (g, turn) => {
   setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
 };
 
+restartGame = (room) => {
+  let g = rooms.get(room);
+  if (!g) return;
+  let turn = g.restart();
+  tellTurn(g, turn);
+	io.to(g.name).emit('set-game-state-room', g.round);
+  io.to(g.name).emit("clear-letters");
+};
+
 disconnect = (socket, reason) => {
   console.log(`disconnect:  ${socket.id}`);
   const socketRooms = socket.adapter.rooms;
@@ -96,5 +105,6 @@ module.exports = {
 	joinRoom,
 	nextRound,
 	saveScore,
+	restartGame,
 	disconnect
 };

@@ -55,6 +55,10 @@ input {
   font-family: Fugaz one;
 }
 
+.input[disabled] {
+	opacity: 0.5;
+}
+
 .button:hover {
   background-color: var(--quanternary-color);
 }
@@ -137,11 +141,20 @@ input {
   margin-top: 10vh;
 }
 
+.ties {
+  font-size: 3rem;
+  text-align: center;
+  color: var(--secondary-color);
+  text-shadow: 4px 4px 2px black, 6px 6px 10px black;
+  transition: text-shadow 400ms ease, font-size 500ms ease;
+  margin-top: 10vh;
+}
+
 .landing-letters-3 {
   color: var(--quanternary-color);
 }
 
-.landing-letters:hover, .winner:hover {
+.landing-letters:hover, .winner:hover, .ties:hover {
   text-shadow: 10px 10px 4px black, 6px 6px 10px black;
   font-size: 7rem;
 }
@@ -184,7 +197,7 @@ input {
 }
 
 .players ul {
-  display: flex;
+  /* display: flex; */ /* commented out because it looks abysmal with the scores added */
 }
 
 .rendered-letters {
@@ -424,4 +437,34 @@ input {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.confetti {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

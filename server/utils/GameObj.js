@@ -9,10 +9,6 @@ class GameObj {
 		this.consonantCount = 0;
 		this.letterCount = 0;
 		this.words = [];
-		// players
-		this.players = [];
-		this.turn = -1;
-		this.round = 1;
 		// numbers game
 		this.numbers = new Array(6).fill('');
 		this.smallNumberCount = 0;
@@ -20,11 +16,15 @@ class GameObj {
 		this.numberCount = 0;
 		this.target = 0;
 		this.operations = []; 
+		// players
+		this.players = [];
+		this.turn = -1;
+		this.round = 1;
 		
 	}
 	
-	restart() {
-		this.letters.fill('');
+	clearBoard() {
+		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
 		this.letterCount = 0;
@@ -38,6 +38,14 @@ class GameObj {
 		this.operations = []; 
 		
 		return this.turn;
+	}
+	
+	restart() {
+		this.players.forEach(player => player.restart());
+		// this.turn = -1; //don't reset the turn -> change up the first player each game
+		this.round = 1;
+		
+		return this.clearBoard();
 	}
 	
 	add(player) {
@@ -68,7 +76,7 @@ class GameObj {
 		}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
-		this.restart();
+		this.clearBoard();
 		this.round++;
 		return this.turn;
 	}
@@ -80,6 +88,12 @@ class GameObj {
       }
     }
   }
+	
+	getPlayers() {
+		return this.players.map(({ username, score }) => {
+			return { username, score };
+		});
+	}
 }
 
 module.exports = GameObj;

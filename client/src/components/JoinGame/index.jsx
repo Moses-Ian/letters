@@ -52,7 +52,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 
   const joinRoomHandler = (e) => {
     e.preventDefault();
-		console.log(e);
     let r = sanitize(roomInput);
     if (r !== "" && r !== room) joinRoom(r);
 		if (selectedRoom) joinRoom(selectedRoom);
@@ -71,8 +70,6 @@ export default function JoinGame({ socket, username, room, setRoom }) {
     setShow(false);
   };
 	
-	console.log(selectedRoom);
-
   return (
     <>
       <div className="field has-text-centered">

@@ -5,25 +5,28 @@ import useWindowSize from "../../utils/useWindowSize";
 
 // const winnerMessage = "WINNER!!";
 
-
-// TODO Change username to winnername or whatever to match the logic
-
-
-const Winner = ({ username }) => {
-const { width, height } = useWindowSize();
+function Winner({ usernames }) {
+	const { width, height } = useWindowSize();
+	
   return (
     <>
-      <div>
-        <h1 className="winner">{username} Wins!!</h1>
-          <Confetti />
-            width={width}
-            height={height}
-      </div>
+			<div className='confetti'>
+				<Confetti 
+					width={width}
+					height={height}
+				/>
+			</div>
+			{usernames.length === 1 
+			?  (
+				<h1 className="winner">{usernames[0]} Wins!!</h1>
+			) : (
+				<>
+					<h1 className="winner">It's a Tie!!</h1>
+					<h2 className="ties">{usernames.join('\n')}</h2>
+				</>
+			)}
     </>
   );
 };
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Winner />, rootElement);
 
 export default Winner;

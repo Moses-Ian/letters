@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSwipeable } from "react-swipeable";
 import MW from "../../assets/images/Merriam-Webster.png";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
+import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 
+const MAX_ROUNDS = 6;	//this could be a game setting
 
 function Room({ 
 	socket, 
@@ -15,7 +16,9 @@ function Room({
 	loggedIn, 
 	jwt,
 	dailyHints,
-	setDailyHints
+	setDailyHints,
+	isMobile,
+	display
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState(false);
@@ -23,13 +26,7 @@ function Room({
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
-	const [display, setDisplay] = useState('lobby');
-	const [isMobile, setMobile] = useState(true);
 	
-	useEffect(() => {
-		setMobile(window.screen.width <= 450);
-	});
-
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
@@ -42,41 +39,18 @@ function Room({
     };
   }, [socket]);
 	
-	const swipeConfig = {
-		delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-		preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
-		trackTouch: true,                      // track touch input
-		trackMouse: false,                     // track mouse input
-		rotationAngle: 0,                      // set a rotation angle
-		swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
-		touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
-	}
-
-	
-	const swipeHandlers = useSwipeable({
-		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		//once the winner system is in place, we'll make this more robust
-		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
-		...swipeConfig,
-	});
-
-  const generatePlayerList = async (playersArr) => {
-    const newPlayersArr = await playersArr.map((player) => {
-      return player.username;
-    });
-    setPlayers(newPlayersArr);
-    setActivePlayer(newPlayersArr.username);
+  const generatePlayerList = async (playersArr, turn) => {
+    setPlayers(playersArr);
+    setActivePlayer(playersArr[turn].username);
   };
 
   const nextRound = () => {
     socket.emit("next-round", room);
-    socket.emit("save-score", score, room, username);
     setScore(0);
   };
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
+  const restartGame = (event) => {
+    socket.emit("restart-game", room);
     setActiveTimer(false);
   };
 
@@ -105,9 +79,23 @@ function Room({
 		return 'inactive-view-right';
 	}
 	
+	const getWinner = () => {
+		let topScore = 0;
+		let best = [];
+		for(let i=0; i<players.length; i++) {
+			if (players[i].score > topScore) {
+				topScore = players[i].score;
+				best = [i];
+			} else if (players[i].score === topScore) {
+				best.push(i);
+			}
+		}
+		return best.map(index => players[index].username);
+	}
+	
   return (
     <>
-			<div className="room" {...swipeHandlers}>
+			<div className="room">
 					
 				<Lobby
 					room={room}
@@ -117,43 +105,47 @@ function Room({
 				/>
 
 				<div className={`view ${setGameDisplay()}`}>
-					{round % 2 ? (
-						<MainGame
-							socket={socket}
-							username={username}
-							room={room}
-							activeTimer={activeTimer}
-							setActiveTimer={setActiveTimer}
-							isYourTurn={isYourTurn}
-							setTurn={setTurn}
-							score={score}
-							setScore={setScore}
-							loggedIn={loggedIn}
-							jwt={jwt}
-							dailyHints={dailyHints}
-							setDailyHints={setDailyHints}
-							display={setGameDisplay()}
-						/>
-					) : (
-						<NumbersGame
-							socket={socket}
-							username={username}
-							room={room}
-							activeTimer={activeTimer}
-							setActiveTimer={setActiveTimer}
-							isYourTurn={isYourTurn}
-							setTurn={setTurn}
-							score={score}
-							setScore={setScore}
-							loggedIn={loggedIn}
-							jwt={jwt}
-							dailyHints={dailyHints}
-							setDailyHints={setDailyHints}
-							display={setGameDisplay()}
-						/>
+					{round <= MAX_ROUNDS ? 
+						round % 2 ? (
+							<MainGame
+								socket={socket}
+								username={username}
+								room={room}
+								activeTimer={activeTimer}
+								setActiveTimer={setActiveTimer}
+								isYourTurn={isYourTurn}
+								setTurn={setTurn}
+								score={score}
+								setScore={setScore}
+								loggedIn={loggedIn}
+								jwt={jwt}
+								dailyHints={dailyHints}
+								setDailyHints={setDailyHints}
+								display={setGameDisplay()}
+							/>
+						) : (
+							<NumbersGame
+								socket={socket}
+								username={username}
+								room={room}
+								activeTimer={activeTimer}
+								setActiveTimer={setActiveTimer}
+								isYourTurn={isYourTurn}
+								setTurn={setTurn}
+								score={score}
+								setScore={setScore}
+								loggedIn={loggedIn}
+								jwt={jwt}
+								dailyHints={dailyHints}
+								setDailyHints={setDailyHints}
+								display={setGameDisplay()}
+							/>
+						)
+					: (
+						<Winner usernames={getWinner()} />
 					)}
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
-						<button className="button is-warning m-2" onClick={restartLetters}>
+						<button className="button is-warning m-2" onClick={restartGame}>
 							Restart
 						</button>
 
@@ -166,10 +158,6 @@ function Room({
 					</div>
 				</div>
 
-				{display === 'winner' ?
-					{/*winner component here*/}
-				: ("")}
-					
 				<LiveChat 
 					socket={socket} 
 					username={username} 
