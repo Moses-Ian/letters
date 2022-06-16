@@ -30,6 +30,3 @@ yarn-error.log*
 
 .DS_Store
 
-# logs
-server/logs
-logs
