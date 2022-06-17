@@ -231,12 +231,12 @@ const NumbersGame = ({
               {numbersArr.map((numberObj, index) => (
                 <li className='letter-box' key={index}>
 									{numberObj.number == 100
-									? <span className='letter-span'>1<sup>00<div /></sup></span>
+									? <span className={`letter-span ${numberObj.number == 100 && 'hundred'}`}>{numberObj.number}</span>
 									:	<span className='letter-span'>{numberObj.number}</span>
 									}
 									{/* other options for dealing with the hundred:
                   <span className='letter-span'>{numberObj.number}</span>
-                  <span className={`letter-span ${numberObj.number == 100 && 'hundred'}`}>{numberObj.number}</span>
+									<span className='letter-span'>1<sup>00<div /></sup></span>
 									*/}
                 </li>
               ))}
