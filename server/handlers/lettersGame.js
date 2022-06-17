@@ -187,7 +187,7 @@ recurseGetHint = async (letters) => {
 }
 
 logInvalidWord = (word) => {
-	appendFile('./logs/invalid_words.log', word+'\n', 'utf-8', (err) => {console.log(err)});
+	appendFile('../logs/invalid_words.log', `BadHint: ${word}`+'\n', 'utf-8', (err) => {console.log(err)});
 }
 
 getHintSize = () => {

@@ -106,6 +106,8 @@ input {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
+  width: 25%;
+  text-align: left;
 }
 
 .live-chat-button {
@@ -174,6 +176,7 @@ input {
 .welcome {
   color: var(--secondary-color);
   font-size: 20px;
+  margin-bottom: 30px;
 }
 
 .players-ul {
@@ -229,11 +232,15 @@ input {
 }
 
 .words-list {
-  height: 9vh;
+  height: 10.5vh;
   overflow-y: scroll;
   text-align: center;
-
 }
+
+/* .words-list ul {
+  display: inline-block;
+  text-align: left;
+} */
 
 .hidden {
   display: none;
@@ -333,6 +340,14 @@ input {
 .join-game-button:hover,
 .sign-up-button:hover {
   background-color: var(--quanternary-color);
+}
+
+.leave-button {
+	position: absolute;
+	right: 0;
+	top: -85px;
+	margin-right: 5px;
+  
 }
 
 .join-game-button {
@@ -446,7 +461,26 @@ input {
 }
 
 
+/* Tablets */
+@media screen and (max-width: 1024px) {
+  .live-chat-input {
+    width: 85%;
+  }
+}
 
+/* Mobile */
+@media screen and (max-width: 480px) {
+  .live-chat-input {
+    width: 65%;
+  }
+}
+
+/* Galaxy fold */
+@media screen and (max-width: 280px) {
+  .live-chat-input {
+    width: 50%;
+  }
+}
 
 
 

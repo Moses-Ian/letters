@@ -47,11 +47,6 @@ const MainGame = ({
 	const elementRef = useRef();
 
   useEffect(() => {
-    if (isYourTurn) document.body.classList.add("your-turn");
-    else document.body.classList.remove("your-turn");
-  }, [isYourTurn]);
-	
-  useEffect(() => {
 		if (display != 'active-view')
 			return;
     elementRef.current.scrollIntoView({
@@ -132,6 +127,7 @@ const MainGame = ({
     event.preventDefault();
     const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
+		if (word === '') return;
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
 		setBadWordMsg(false);
@@ -259,7 +255,7 @@ const MainGame = ({
       </div>
 
       <div className="words-list pl-2 mt-4">
-        <ul>
+        <ul className="word-list-items">
           {words.map((word, index) => (
             <li key={index}>
               {word.username}: {word.word}: {word.score} points

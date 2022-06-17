@@ -13,6 +13,7 @@ function Room({
 	username, 
 	setUsername, 
 	room, 
+	setRoom,
 	loggedIn, 
 	jwt,
 	dailyHints,
@@ -34,10 +35,12 @@ function Room({
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
 
-    return () => {
-      socket.disconnect();
-    };
   }, [socket]);
+	
+  useEffect(() => {
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
 	
   const generatePlayerList = async (playersArr, turn) => {
     setPlayers(playersArr);
@@ -55,7 +58,7 @@ function Room({
   };
 
   const setGameState = (round) => {
-   setRound(round);
+		setRound(round);
   };
 	
 	const setLobbyDisplay = () => {
@@ -93,9 +96,17 @@ function Room({
 		return best.map(index => players[index].username);
 	}
 	
+	const leaveRoom = () => {
+		socket.emit("leave-game", room, () => setRoom(''));
+	}
+	
   return (
     <>
 			<div className="room">
+			
+				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
+					Leave
+				</button>
 					
 				<Lobby
 					room={room}

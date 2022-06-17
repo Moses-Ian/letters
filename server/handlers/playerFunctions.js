@@ -66,11 +66,13 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 1500);
 };
 
-leaveRoom = (socket, room) => {
+leaveRoom = (socket, room, cb = ()=>{}) => {
+	if (room === '') return;
   let g = rooms.get(room);
   if (!g) return;
   socket.leave(g.name);
   let turn = g.remove(socket.id);
+	cb();
   if (g.players.length == 0) {
     rooms.delete(room);
     return;
@@ -103,6 +105,7 @@ disconnect = (socket, reason) => {
 module.exports = {
 	listRooms,
 	joinRoom,
+	leaveRoom,
 	nextRound,
 	saveScore,
 	restartGame,
