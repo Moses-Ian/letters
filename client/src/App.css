@@ -461,6 +461,8 @@ input {
 }
 
 
+
+
 /* Tablets */
 @media screen and (max-width: 1024px) {
   .live-chat-input {
@@ -478,7 +480,7 @@ input {
 /* Galaxy fold */
 @media screen and (max-width: 280px) {
   .live-chat-input {
-    width: 50%;
+    width: 58%;
   }
 }
 
