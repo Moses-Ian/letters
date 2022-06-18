@@ -106,7 +106,7 @@ input {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
-  width: 90%;
+  width: 93%;
   text-align: left;
   opacity: 40%;
 }
@@ -120,6 +120,7 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  /* display: none; */
 }
 
 .chat-form {
@@ -207,6 +208,8 @@ input {
 .rendered-letters {
   text-align: center;
   padding-top: 6vh;
+	padding-right: 0 !important;
+	padding-left: 0 !important;
 }
 
 .letter-box {
@@ -218,6 +221,11 @@ input {
   border-radius: 3px;
   width: calc((100vw - 1.5rem - 110px) / 9);
   max-width: 50px;
+	flex-grow: 1;
+}
+
+.hundred {
+	font-size: 23px !important;
 }
 
 .letter-span {
@@ -225,6 +233,25 @@ input {
   margin: 1px 4px;
   font-size: 27px;
   color: #fce181;
+	position: relative;
+}
+
+sup {
+	font-size: 18px;
+	/* vertical-align: super; */
+	margin-top: 10px;
+	height: fit-content;
+	position: relative;
+	left: 0;
+	top: 3px;
+}
+
+sup div {
+	width: 22px;
+	border-bottom: 1px solid var(--secondary-color);
+	position: absolute;
+	left: 0;
+	top: 22px;
 }
 
 .active-player {
@@ -464,6 +491,13 @@ input {
 
 
 
+/* Desktop */
+@media screen and (min-width: 1280px) {
+  .live-chat-button {
+    display: none;
+  }
+}
+
 /* Tablets */
 @media screen and (max-width: 1024px) {
   .live-chat-input {
@@ -475,6 +509,7 @@ input {
 @media screen and (max-width: 480px) {
   .live-chat-input {
     width: 65%;
+    margin-top: 45vh;
   }
   .chat-form {
     height: 50vh;
@@ -482,8 +517,8 @@ input {
   .words-list {
     height: 11vh;
   }
-  .live-chat-input {
-    margin-top: 45vh;
+  .live-chat-button {
+    display: show;
   }
 }
 
