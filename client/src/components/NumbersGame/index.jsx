@@ -221,16 +221,23 @@ const NumbersGame = ({
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
-        <h1 id="random-number-value">{targetNumber}</h1>
+        <h1>{targetNumber}</h1>
       </div>
       <div className="timer">{activeTimer ? <Timer /> : ""}</div>
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
-          <div id="numbers-section rendered-letters column">
-            <ul>
+          <div className="rendered-letters column">
+            <ul className="is-flex is-justify-content-space-between">
               {numbersArr.map((numberObj, index) => (
-                <li className="letter-box" key={index}>
-                  <span className="letter-span">{numberObj.number}</span>
+                <li className='letter-box' key={index}>
+									{numberObj.number == 100
+									? <span className={`letter-span ${numberObj.number == 100 && 'hundred'}`}>{numberObj.number}</span>
+									:	<span className='letter-span'>{numberObj.number}</span>
+									}
+									{/* other options for dealing with the hundred:
+                  <span className='letter-span'>{numberObj.number}</span>
+									<span className='letter-span'>1<sup>00<div /></sup></span>
+									*/}
                 </li>
               ))}
             </ul>
