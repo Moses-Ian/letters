@@ -78,7 +78,7 @@ input {
 .live-chat-header {
   color: var(--secondary-color);
   font-size: 20px;
-  margin-top: 3vh;
+  margin-top: 2vh;
   background-color: #edeae5c2;
   background-size: 50px;
   border-radius: 5px;
@@ -106,8 +106,9 @@ input {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
-  width: 25%;
+  width: 90%;
   text-align: left;
+  opacity: 40%;
 }
 
 .live-chat-button {
@@ -211,7 +212,7 @@ input {
 .letter-box {
   list-style-type: none;
   display: inline-block;
-  margin: 8px 2px;
+  margin: 6px 2px;
   padding-top: 2px;
   background-color: #02677065;
   border-radius: 3px;
@@ -474,6 +475,15 @@ input {
 @media screen and (max-width: 480px) {
   .live-chat-input {
     width: 65%;
+  }
+  .chat-form {
+    height: 50vh;
+  }
+  .words-list {
+    height: 11vh;
+  }
+  .live-chat-input {
+    margin-top: 45vh;
   }
 }
 
