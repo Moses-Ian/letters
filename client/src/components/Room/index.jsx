@@ -6,7 +6,7 @@ import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 
-const MAX_ROUNDS = 0;	//this could be a game setting
+const MAX_ROUNDS = 6;	//this could be a game setting
 
 function Room({ 
 	socket, 
