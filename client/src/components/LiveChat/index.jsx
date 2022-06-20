@@ -101,8 +101,9 @@ function LiveChat({ socket, username, room, display }) {
 					id="form"
 					onSubmit={handleFormSubmit}
 				>
-					<label>Chat:</label>
+					{/* <label>Chat:</label> */}
 					<input
+            placeholder="Message"
 						className="live-chat-input ml-2"
 						type="text"
 						id="message-input"

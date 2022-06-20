@@ -106,9 +106,10 @@ input {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
-  width: 93%;
+  width: 97%;
   text-align: left;
-  opacity: 40%;
+  opacity: 60%;
+  padding: 3px;
 }
 
 .live-chat-button {
@@ -120,11 +121,10 @@ input {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-  /* display: none; */
 }
 
 .chat-form {
-  height: 4vh;
+  height: 3vh;
 }
 
 .username-chat {
@@ -143,6 +143,11 @@ input {
   text-shadow: 4px 4px 2px black, 6px 6px 10px black;
   transition: text-shadow 400ms ease, font-size 500ms ease;
   margin-top: 10vh;
+}
+
+.winner {
+  margin-top: 6vh !important;
+  padding-bottom: 4vh;
 }
 
 .ties {
@@ -501,15 +506,15 @@ sup div {
 /* Tablets */
 @media screen and (max-width: 1024px) {
   .live-chat-input {
-    width: 85%;
+    width: 90%;
   }
 }
 
 /* Mobile */
 @media screen and (max-width: 480px) {
   .live-chat-input {
-    width: 65%;
-    margin-top: 45vh;
+    width: 80%;
+    margin-top: 46vh;
   }
   .chat-form {
     height: 50vh;
@@ -522,10 +527,12 @@ sup div {
   }
 }
 
-/* Galaxy fold */
+
+/* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
   .live-chat-input {
-    width: 58%;
+    width: 73%;
+    margin-top: 46vh;
   }
 }
 
