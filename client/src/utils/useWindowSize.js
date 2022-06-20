@@ -12,6 +12,10 @@ export default function useWindowSize() {
     window.addEventListener("resize", () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     });
+		
+		window.addEventListener("load", () => {
+			setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+		});
 
     return () => {
       window.removeEventListener("resize", () => {
