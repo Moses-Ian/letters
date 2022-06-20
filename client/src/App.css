@@ -28,7 +28,7 @@ body {
   background-position: center;
 	overflow: hidden;
 }
-
+ 
 #root {
 	height: 100%;
 }
@@ -93,7 +93,7 @@ input {
   color: var(--quinary-color);
   font-size: 15px;
   height: 10vh;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .live-chat {
@@ -266,7 +266,7 @@ sup div {
 
 .words-list {
   height: 10.5vh;
-  overflow-y: scroll;
+  overflow-y: overlay;
   text-align: center;
 }
 
