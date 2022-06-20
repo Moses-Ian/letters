@@ -178,7 +178,7 @@ const MainGame = ({
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
-        <ul className="is-flex is-justify-content-space-between">
+        <ul className="is-flex is-justify-content-center">
           {letters.map((letter, index) => (
             <li className="letter-box" key={index}>
               <span className="letter-span">{letter}</span>

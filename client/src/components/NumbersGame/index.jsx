@@ -227,7 +227,7 @@ const NumbersGame = ({
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div className="rendered-letters column">
-            <ul className="is-flex is-justify-content-space-between">
+            <ul className="is-flex is-justify-content-center">
               {numbersArr.map((numberObj, index) => (
                 <li className='letter-box' key={index}>
 									{numberObj.number == 100
@@ -377,7 +377,7 @@ const NumbersGame = ({
         {showCheckAnswerBtn ? (
 					<>
 					<button
-						className="button is-warning mb-6 mt-4"
+						className="button is-warning mb-6 mt-4 mr-2"
 						onClick={getHint}
 						disabled={!(activeTimer && loggedIn) || dailyHints === 0}
 					>
