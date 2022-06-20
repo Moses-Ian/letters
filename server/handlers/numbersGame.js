@@ -106,7 +106,7 @@ async function getNumbersHint(username, room, jwt, cb) {
 		cb(false);
 		return;
 	}
-	
+	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
 	g.operations.push({ total, operationArr, username, score });
 	io.to(g.name).emit('append-operations', total, operationArr, username, score);
 	cb(signedToken);
