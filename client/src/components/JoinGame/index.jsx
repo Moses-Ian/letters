@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import "../../App.css";
 import { sanitize } from "../../utils";
 
@@ -27,6 +27,27 @@ export default function JoinGame({ socket, username, room, setRoom }) {
   //     if (savedRoom) joinRoom(savedRoom);
   //   }
   // }, [socket]);
+	
+	const joinRoomOnLoad = () => {
+		if (document.location.pathname !== '/join') return;
+		const params = document.location.search.slice(1).split('&');
+		const query = params.reduce(
+			(result, element) => {
+				const [key, value] = element.split('=');
+				if (!key || !value) return result;
+				result[key] = value;
+				return result;
+			},
+			{}
+		);
+		if (query.room) joinRoom(query.room);
+	};
+	
+	useEffect(() => {
+		console.log(socket);
+		if (!socket) return;
+		// joinRoomOnLoad();
+	}, [socket]);
 	
 	const openModal = () => {
 		socket.emit('list-rooms', listRooms);
