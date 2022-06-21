@@ -62,7 +62,7 @@ function App() {
   const [extend] = useMutation(EXTEND, { client });
 	const { width } = useWindowSize();
 
-  const profile = Auth.getProfile();
+  // const profile = Auth.getProfile();
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -106,9 +106,23 @@ function App() {
 			return null;
 		}
 	}
+	
+	
 
+	const createSocket = () => {
+    // const newSocket = io(`http://localhost:3001`);
+    const newSocket = io(); //works in production and dev ???
+    attachListeners(newSocket);
+    setSocket(newSocket);
+    return () => {
+      socket.disconnect();
+      newSocket.close();
+    };
+  }
+	
 	useEffect(() => {
 		async function updateProfile() {
+			const profile = Auth.getProfile();
 			if (profile && Auth.loggedIn()) {
 				const token = await extendToken();
 				if (!token) return;
@@ -120,21 +134,10 @@ function App() {
 			}
 		};
 		updateProfile();
+		createSocket();
 	}, []);
 	
-  useEffect(() => {
-    // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io(); //works in production and dev ???
-    attachListeners(newSocket);
-    setSocket(newSocket);
-    return () => {
-      socket.disconnect();
-      newSocket.close();
-    };
-  }, [setSocket]);
-	
 	useEffect(() => {
-		console.log('useEffect', width);
 		setMobile(width <= 450);
 	}, [width]);
 	
