@@ -514,16 +514,20 @@ sup div {
 @media screen and (max-width: 480px) {
   .live-chat-input {
     width: 80%;
-    margin-top: 46vh;
+    /* margin-top: 7vh; */
   }
-  .chat-form {
-    height: 50vh;
-  }
+  /* .chat-form {
+    height: 20vh;
+  } */
   .words-list {
     height: 11vh;
   }
   .live-chat-button {
     display: show;
+  }
+  .live-chat-message {
+    overflow-y: overlay;
+    height: 60vh;
   }
 }
 
@@ -532,7 +536,7 @@ sup div {
 @media screen and (max-width: 280px) {
   .live-chat-input {
     width: 73%;
-    margin-top: 46vh;
+    /* margin-top: 46vh; */
   }
 }
 
