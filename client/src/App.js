@@ -2,13 +2,13 @@ import React, { useState, useEffect, useReducer } from "react";
 import { useSwipeable } from "react-swipeable";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
-import useWindowSize from "./utils/useWindowSize";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
 import { useMutation } from "@apollo/client";
 import { EXTEND } from "./utils/mutations";
+import useWindowSize from "./utils/useWindowSize";
 
 //graphql
 import {
@@ -60,6 +60,7 @@ function App() {
 	const [isMobile, setMobile] = useState(true);
 	const [display, setDisplay] = useState('lobby');
   const [extend] = useMutation(EXTEND, { client });
+	const { width } = useWindowSize();
 
   const profile = Auth.getProfile();
 
@@ -133,8 +134,9 @@ function App() {
   }, [setSocket]);
 	
 	useEffect(() => {
-		setMobile(window.innerWidth <= 450);
-	}, [window]);
+		console.log('useEffect', width);
+		setMobile(width <= 450);
+	}, [width]);
 	
 	console.log('App.js rendered');
 

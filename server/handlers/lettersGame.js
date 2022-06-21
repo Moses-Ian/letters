@@ -162,6 +162,7 @@ getLettersHint = async (username, room, jwt, cb) => {
 		cb(false);
 		return;
 	}
+	g.getPlayer(username).addSubmission({ word, username, score });
 	g.words.push({ username, word, score });
 	io.to(g.name).emit("append-word", word, username, score);
 	cb(signedToken);
