@@ -1,8 +1,8 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import "../../App.css";
 import { sanitize } from "../../utils";
 
-export default function JoinGame({ socket, username, room, setRoom }) {
+export default function JoinGame({ socket, username, usernameReady, room, setRoom }) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
 	const [roomList, setRoomList] = useReducer(roomReducer, []);
@@ -20,13 +20,31 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 		return newRoomList;
 	}
 
-  // if we don't want the room on refresh function, comment the useEffect
-  // useEffect(() => {
-  //   if (socket) {
-  //     const savedRoom = localStorage.getItem("room");
-  //     if (savedRoom) joinRoom(savedRoom);
-  //   }
-  // }, [socket]);
+	useEffect(() => {
+		if (!socket) return;
+		if (!usernameReady) return;
+		const path = joinRoomOnLoad();
+		// if we don't want the room on refresh function, comment the if block
+		// if (path === "nopath") {
+      // const savedRoom = localStorage.getItem("room");
+      // if (savedRoom) joinRoom(savedRoom);
+		// }
+	}, [socket, usernameReady]);
+	
+	const joinRoomOnLoad = () => {
+		if (document.location.pathname !== '/join') return "nopath";
+		const params = document.location.search.slice(1).split('&');
+		const query = params.reduce(
+			(result, element) => {
+				const [key, value] = element.split('=');
+				if (!key || !value) return result;
+				result[key] = value;
+				return result;
+			},
+			{}
+		);
+		if (query.room) joinRoom(query.room);
+	};
 	
 	const openModal = () => {
 		socket.emit('list-rooms', listRooms);

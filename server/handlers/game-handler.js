@@ -17,6 +17,7 @@ const {
 
 const {
 	listRooms,
+	updateUsername,
 	joinRoom,
 	leaveRoom,
 	nextRound,
@@ -72,6 +73,9 @@ const registerGameHandler = (newio, socket) => {
 	socket.on("get-numbers-hint", getNumbersHint);
   // players
 	socket.on("list-rooms", listRooms);
+	socket.on("update-username", (room, username) => 
+		updateUsername(socket, room, username)
+	);
   socket.on("join-game", (room, oldRoom, username, cb) =>
     joinRoom(socket, room, oldRoom, username, cb)
   );

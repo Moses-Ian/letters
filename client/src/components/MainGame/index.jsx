@@ -156,7 +156,7 @@ const MainGame = ({
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
-    console.log("setGameState in mainGame component");
+    // console.log("setGameState in mainGame component");
   };
 	
 	const badWord = () => {

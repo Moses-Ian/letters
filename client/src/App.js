@@ -53,6 +53,7 @@ const swipeConfig = {
 function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
+	const [usernameReady, setUsernameReady] = useState(false);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [jwt, setJWT] = useState(null);
 	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
@@ -61,8 +62,6 @@ function App() {
 	const [display, setDisplay] = useState('lobby');
   const [extend] = useMutation(EXTEND, { client });
 	const { width } = useWindowSize();
-
-  // const profile = Auth.getProfile();
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -86,8 +85,7 @@ function App() {
   };
 
 	const swipeHandlers = useSwipeable({
-		onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		//once the winner system is in place, we'll make this more robust
+		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
 		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
 		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
 		...swipeConfig,
@@ -123,13 +121,18 @@ function App() {
 			const profile = Auth.getProfile();
 			if (profile && Auth.loggedIn()) {
 				const token = await extendToken();
-				if (!token) return;
+				if (!token) {
+					setUsernameReady(true);
+					return;
+				}
 				const { data } = Auth.decodeToken(token);
 				setUsername(data.username);
+				setUsernameReady(true);
 				setLoggedIn(true);
 				setJWT(token);
 				setDailyHints({type: "SET", dailyHints: data.dailyHints});
 			}
+			setUsernameReady(true);
 		};
 		updateProfile();
 		createSocket();
@@ -139,7 +142,7 @@ function App() {
 		setMobile(width <= 450);
 	}, [width]);
 	
-	console.log('App.js rendered');
+	// console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
@@ -153,6 +156,7 @@ function App() {
 					<JoinGame
 						socket={socket}
 						username={username}
+						usernameReady={usernameReady}
 						room={room}
 						setRoom={setRoom}
 					/>

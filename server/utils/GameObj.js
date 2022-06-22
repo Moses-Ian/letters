@@ -81,6 +81,20 @@ class GameObj {
 		return this.turn;
 	}
 	
+	updatePlayerUsername(id, username) {
+		let player = this.getPlayerById(id);
+		player.addNumberToUsername(this.players);
+		return player;
+	}
+	
+	getPlayerById(id) {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].id === id) {
+        return this.players[i];
+      }
+    }
+	}
+	
   getPlayer(username) {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].username === username) {
