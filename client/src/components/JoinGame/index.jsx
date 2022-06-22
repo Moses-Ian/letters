@@ -2,7 +2,7 @@ import React, { useState, useReducer, useEffect } from "react";
 import "../../App.css";
 import { sanitize } from "../../utils";
 
-export default function JoinGame({ socket, username, room, setRoom }) {
+export default function JoinGame({ socket, username, usernameReady, room, setRoom }) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
 	const [roomList, setRoomList] = useReducer(roomReducer, []);
@@ -44,10 +44,10 @@ export default function JoinGame({ socket, username, room, setRoom }) {
 	};
 	
 	useEffect(() => {
-		console.log(socket);
 		if (!socket) return;
-		// joinRoomOnLoad();
-	}, [socket]);
+		if (!usernameReady) return;
+		joinRoomOnLoad();
+	}, [socket, usernameReady]);
 	
 	const openModal = () => {
 		socket.emit('list-rooms', listRooms);
