@@ -106,8 +106,6 @@ function App() {
 			return null;
 		}
 	}
-	
-	
 
 	const createSocket = () => {
     // const newSocket = io(`http://localhost:3001`);
