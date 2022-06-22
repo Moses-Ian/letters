@@ -97,6 +97,7 @@ function Room({
 	
 	const leaveRoom = () => {
 		socket.emit("leave-game", room, () => setRoom(''));
+		localStorage.removeItem('room');
 	}
 	
   return (

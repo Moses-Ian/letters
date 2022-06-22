@@ -20,16 +20,19 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 		return newRoomList;
 	}
 
-  // if we don't want the room on refresh function, comment the useEffect
-  // useEffect(() => {
-  //   if (socket) {
-  //     const savedRoom = localStorage.getItem("room");
-  //     if (savedRoom) joinRoom(savedRoom);
-  //   }
-  // }, [socket]);
+	useEffect(() => {
+		if (!socket) return;
+		if (!usernameReady) return;
+		const path = joinRoomOnLoad();
+		// if we don't want the room on refresh function, comment the if block
+		// if (path === "nopath") {
+      // const savedRoom = localStorage.getItem("room");
+      // if (savedRoom) joinRoom(savedRoom);
+		// }
+	}, [socket, usernameReady]);
 	
 	const joinRoomOnLoad = () => {
-		if (document.location.pathname !== '/join') return;
+		if (document.location.pathname !== '/join') return "nopath";
 		const params = document.location.search.slice(1).split('&');
 		const query = params.reduce(
 			(result, element) => {
@@ -42,12 +45,6 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 		);
 		if (query.room) joinRoom(query.room);
 	};
-	
-	useEffect(() => {
-		if (!socket) return;
-		if (!usernameReady) return;
-		joinRoomOnLoad();
-	}, [socket, usernameReady]);
 	
 	const openModal = () => {
 		socket.emit('list-rooms', listRooms);
