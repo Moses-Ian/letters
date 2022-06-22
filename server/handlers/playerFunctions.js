@@ -37,6 +37,19 @@ listRooms = (cb) => {
 	cb(roomList);
 }
 
+updateUsername = (socket, room, username) => {
+	console.log('update username', room, username);
+	let g = rooms.get(room);
+	if (!g) return;
+	let player = g.updatePlayerUsername(socket.id, username);
+	if (player.username !== username)
+		setTimeout(
+			() => io.to(socket.id).emit("update-username", player.username),
+			2000
+		);
+  setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 1500);
+};
+
 joinRoom = (socket, room, oldRoom, username, callback) => {
   //get the rooms
   let g = rooms.get(room);
@@ -104,6 +117,7 @@ disconnect = (socket, reason) => {
 
 module.exports = {
 	listRooms,
+	updateUsername,
 	joinRoom,
 	leaveRoom,
 	nextRound,

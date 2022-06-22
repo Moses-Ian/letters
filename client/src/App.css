@@ -50,13 +50,21 @@ body {
 
 .button,
 .hover-transition,
-input {
+input,
+textarea {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
 }
 
 .input[disabled] {
 	opacity: 0.5;
+}
+
+textarea {
+	line-height: 1.2em;
+	resize: none;
+	height: auto;
+	text-align: center;
 }
 
 .button:hover {
@@ -109,7 +117,11 @@ input {
   width: 97%;
   text-align: left;
   opacity: 60%;
-  padding: 3px;
+  /* padding: 3px; */
+	padding: .2em 3px 0 3px;
+	word-wrap: normal;
+	height: fit-content;
+	font-size: 1em;
 }
 
 .live-chat-button {
@@ -514,16 +526,21 @@ sup div {
 @media screen and (max-width: 480px) {
   .live-chat-input {
     width: 80%;
-    margin-top: 46vh;
+		position: absolute;
+		bottom: -3px;
   }
   .chat-form {
     height: 50vh;
+		position: relative;
   }
   .words-list {
     height: 11vh;
   }
   .live-chat-button {
     display: show;
+		position: absolute;
+		bottom: -2px;
+		right: 10px;
   }
 }
 

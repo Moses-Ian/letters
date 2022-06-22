@@ -5,6 +5,10 @@ class PlayerObj {
     this.score = 0;
 		this.submission = {};
   }
+	
+	updateUsername(username) {
+		this.username = username;
+	}
 
 	addNumberToUsername(players) {
 		const re = new RegExp(`${this.username}(?<tag>[0-9]*)`)

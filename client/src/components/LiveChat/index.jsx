@@ -10,9 +10,11 @@ function LiveChat({ socket, username, room, display }) {
   }, [socket]);
 
   const elementRef = useRef();
+	const textareaRef = useRef();
 
   const [formState, setFormState] = useState({ message: "" });
   const [messages, setMessages] = useReducer(messageReducer, []);
+	const [rows, setRows] = useReducer(rowReducer, 1);
 
   useEffect(() => {
 		if (display !== 'active-view')
@@ -42,8 +44,24 @@ function LiveChat({ socket, username, room, display }) {
     }
     return newMessages;
   }
+	
+	function rowReducer(rows, action) {
+		let newRows;
+		switch (action.type) {
+			case "INCREMENT":
+				newRows = rows < 3 ? rows + 1 : rows;
+				break;
+			case "RESET":
+				newRows = 1;
+				break;
+			default:
+				throw new Error();
+		}
+		return newRows;
+	}
 
   const handleFormSubmit = async (event) => {
+		console.log(event.target);
     event.preventDefault();
     if (formState.message.trim() === "") return;
     //append message to element
@@ -53,6 +71,7 @@ function LiveChat({ socket, username, room, display }) {
       username,
     });
     setFormState({ message: "" });
+		setRows({ type: "RESET" });
     //socket.emit
     socket.emit("send-message", formState.message.trim(), username, room);
     console.log(`submit ${formState.message}`);
@@ -60,13 +79,21 @@ function LiveChat({ socket, username, room, display }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+		if (value[value.length-1] === "\n" || value[value.length-1] === "\r")
+			return handleFormSubmit(event);
     if (value.length > MAX_MESSAGE_LENGTH) return;
     //optionally, flash red or something
     setFormState({
       ...formState,
       [name]: value,
     });
+		if (textareaRef.current.scrollHeight > textareaRef.current.clientHeight)
+			setRows({ type: "INCREMENT" });
   };
+	
+	const handleBlur = event => {
+		setRows({ type: "RESET" });
+	}
 
   const recieveMessage = (username, message) => {
     setMessages({
@@ -102,7 +129,8 @@ function LiveChat({ socket, username, room, display }) {
 					onSubmit={handleFormSubmit}
 				>
 					{/* <label>Chat:</label> */}
-					<input
+					<textarea
+						ref={textareaRef}
             placeholder="Message"
 						className="live-chat-input ml-2"
 						type="text"
@@ -110,6 +138,8 @@ function LiveChat({ socket, username, room, display }) {
 						value={formState.message}
 						name="message"
 						onChange={handleChange}
+						rows={rows}
+						onBlur={handleBlur}
 					/>
 					<button className="live-chat-button" type="submit" id="send-button">
 						Send

@@ -34,7 +34,6 @@ function Room({
     socket.on("new-round", (newRound) => setRound(newRound));
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
-
   }, [socket]);
 	
   useEffect(() => {
@@ -98,6 +97,7 @@ function Room({
 	
 	const leaveRoom = () => {
 		socket.emit("leave-game", room, () => setRoom(''));
+		localStorage.removeItem('room');
 	}
 	
   return (
