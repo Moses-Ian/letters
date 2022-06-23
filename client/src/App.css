@@ -443,6 +443,10 @@ sup div {
   color: #fce181 !important;
 }
 
+#work {
+  color: #4a4a4a;
+}
+
 .view {
 	position: absolute;
 	width: 100%;
@@ -496,6 +500,7 @@ sup div {
 
 
 
+
 /* Desktop */
 @media screen and (min-width: 1280px) {
   .live-chat-button {
@@ -529,6 +534,12 @@ sup div {
     overflow-y: overlay;
     height: 60vh;
   }
+  #answer-section {
+    font-size: 10px;
+  }
+  #work {
+    font-size: 20px;
+  }
 }
 
 
@@ -537,6 +548,15 @@ sup div {
   .live-chat-input {
     width: 73%;
     /* margin-top: 46vh; */
+  }
+  #work {
+    font-size: 15px;
+  }
+  .leave-button {
+   font-size: 10px;
+   width: 40px;
+   height: 20px;
+   top: -90px;
   }
 }
 
