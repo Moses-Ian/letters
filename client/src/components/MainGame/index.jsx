@@ -45,6 +45,7 @@ const MainGame = ({
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
 	const elementRef = useRef();
+	const inputRef = useRef();
 
   useEffect(() => {
 		if (display != 'active-view')
@@ -115,6 +116,7 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer(true);
+			inputRef.current.focus();
     }
   };
 
@@ -230,13 +232,12 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
+								ref={inputRef}
               />
-              {badWordMsg ? (
+              {badWordMsg && (
                 <p className="bad-word-msg mt-2">
                   That is a bad word.
                 </p>
-              ) : (
-                ""
               )}
             </div>
 

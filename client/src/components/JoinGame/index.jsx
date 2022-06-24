@@ -111,20 +111,26 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
               </p>
 							
 							{roomList.length !== 0
-							?	(<>
+							?	(<div className="room-list mr-2 ml-2">
 								{roomList.map((room, index) => (
-									<label className="radio mt-2" key={index}>
+									<div className="room-list-div" key={room.name}>
 										<input 
+											className="room-list-radio"
 											type='radio' 
-											name={room.name} 
+											name='joinroom' 
+											id={room.name}
 											value={room.name}
 											checked={selectedRoom === room.name} 
 											onChange={handleSelectedRoomChange}
 										/>
-										{room.name}
-									</label>
+										<label className="room-list-label pl-2 pt-1 pb-1" htmlFor={room.name}>
+											{room.name}
+											<div className="room-list-label-border" />
+										</label>
+									</div>
 								))}
-							</>)
+							</div>	
+							)
 							: (<p className='join-modal-body mt-3 mb-3'>
 									There are currently no active games. Create one!
 								</p>)

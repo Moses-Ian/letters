@@ -59,7 +59,7 @@ function App() {
 	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
   const [room, setRoom] = useState("");
 	const [isMobile, setMobile] = useState(true);
-	const [display, setDisplay] = useState('lobby');
+	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
 	const { width } = useWindowSize();
 
