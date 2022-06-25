@@ -17,7 +17,8 @@ const NumbersGame = ({
 	jwt,
 	dailyHints,
 	setDailyHints,
-	display
+	display,
+	timerCompleteHandler
 }) => {
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
@@ -230,6 +231,7 @@ const NumbersGame = ({
 				{activeTimer === "COUNTING" || activeTimer === "DONE" ? (
 					<Timer 
 						setActiveTimer={setActiveTimer}
+						timerCompleteHandler={timerCompleteHandler}
 					/> 
 				) : (
 					""

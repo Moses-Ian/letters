@@ -1,24 +1,26 @@
 const Game = require("../utils/GameObj.js");
 const PlayerObj = require("../utils/PlayerObj.js");
 
-nextRound = (room) => {
+updateScores = (room) => {
   let g = rooms.get(room);
   if (!g) return;
-  let turn = g.nextTurn();
-	saveScore(g);
-	io.to(g.name).emit('new-round', g.round);
-  io.to(g.name).emit("clear-letters");
-  io.to(g.name).emit("send-players", g.getPlayers(), g.turn);
-  tellTurn(g, turn);
-};
-
-saveScore = g => {
 	g.players.forEach(player => {
 		if (player.submission.score) {
 			player.score += player.submission.score;
 			player.submission = {};
 		}
 	});
+  io.to(g.name).emit("send-players", g.getPlayers(), g.turn);
+};
+
+nextRound = (room) => {
+  let g = rooms.get(room);
+  if (!g) return;
+  let turn = g.nextTurn();
+	io.to(g.name).emit('new-round', g.round);
+  io.to(g.name).emit("clear-letters");
+  tellTurn(g, turn);
+  io.to(g.name).emit("send-players", g.getPlayers(), g.turn); //we send this twice in row -> should be cleaned up somehow
 };
 
 listRooms = (cb) => {
@@ -120,8 +122,8 @@ module.exports = {
 	updateUsername,
 	joinRoom,
 	leaveRoom,
+	updateScores,
 	nextRound,
-	saveScore,
 	restartGame,
 	disconnect
 };

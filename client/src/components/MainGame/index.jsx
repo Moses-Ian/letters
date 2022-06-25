@@ -19,6 +19,7 @@ const MainGame = ({
   dailyHints,
   setDailyHints,
   display,
+	timerCompleteHandler
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -196,6 +197,7 @@ const MainGame = ({
         {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
           <Timer
 						setActiveTimer={setActiveTimer}
+						timerCompleteHandler={timerCompleteHandler}
           />
         ) : (
           ""
@@ -205,12 +207,14 @@ const MainGame = ({
       <div className="field has-text-centered">
         <div className={"letters-buttons " + (activeTimer === "COUNTING" || activeTimer === "DONE" ? "hidden" : "")}>
           <button
+						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
             className="button mr-3 is-warning"
             onClick={addVowel}
           >
             Vowel
           </button>
           <button
+						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
             className="button is-warning"
             onClick={addConsonant}
           >
