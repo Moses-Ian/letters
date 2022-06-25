@@ -19,7 +19,9 @@ function Room({
 	dailyHints,
 	setDailyHints,
 	isMobile,
-	display
+	display,
+	width,
+	height
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
@@ -153,7 +155,11 @@ function Room({
 							/>
 						)
 					: (
-						<Winner usernames={getWinner()} />
+						<Winner 
+							usernames={getWinner()} 
+							width={width}
+							height={height}
+						/>
 					)}
 					<div className="m-3 has-text-centered is-flex is-justify-content-center">
 						<button className="button is-warning m-2" onClick={restartGame}>

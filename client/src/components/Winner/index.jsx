@@ -30,8 +30,7 @@ function draw(ctx) {
 }
 
 
-function Winner({ usernames }) {
-	const { width, height } = useWindowSize();
+function Winner({ usernames, width, height }) {
 	
   return (
     <>
