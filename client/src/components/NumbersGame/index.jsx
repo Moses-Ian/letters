@@ -79,6 +79,12 @@ const NumbersGame = ({
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = false;
         break;
+			case "ENABLE_ALL":
+				newNumbers = numbersArr.map(numberObj => ({
+					number: numberObj.number,
+					disabled: false
+				}));
+				break;
       case "RENDER_NUMBERS":
         newNumbers = [...action.numbersArr];
         break;
@@ -149,7 +155,9 @@ const NumbersGame = ({
 
   function calculateTotal() {
     socket.emit("submit-calculation", operationArr, username, room);
-    setShowCheckAnswerBtn(false);
+    // setShowCheckAnswerBtn(false);
+		setNumbersArr({ type: "ENABLE_ALL" });
+		setOperationArr({ type: "CLEAR" });
   }
 
   function scoreAnswer(total, operationArr, username, score) {
@@ -185,14 +193,7 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-
-    for (let index = 0; index < numbersArr.length; index++) {
-      const element = numbersArr[index];
-      setNumbersArr({
-        type: "ENABLE",
-        index,
-      });
-    }
+		setNumbersArr({ type: "ENABLE_ALL" });
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
