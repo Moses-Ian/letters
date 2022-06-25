@@ -1,4 +1,6 @@
 import React from "react";
+import swipeRight from "../../assets/images/swipe-right5.png";
+
 const Lobby = ({ room, players, activePlayer, display }) => {
   return (
 		<div className={`view ${display}`}>
@@ -27,6 +29,7 @@ const Lobby = ({ room, players, activePlayer, display }) => {
 						))}
 					</ul>
 				</div>
+					<p className="swipe-arrows">Swipe to play <img src={swipeRight} alt="right arrow"/></p>
 			</div>
 		</div>
   );

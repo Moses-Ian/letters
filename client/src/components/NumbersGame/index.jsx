@@ -288,7 +288,7 @@ const NumbersGame = ({
           <div id="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
-                className="button mr-2"
+                className="button mr-1"
                 data-index={index}
                 disabled={numberObj.disabled}
                 key={index}
@@ -305,7 +305,7 @@ const NumbersGame = ({
         {showOperationBtn ? (
           <div className="mt-4" id="operation">
             <button
-              className="multiply-btn button is-warning mr-2"
+              className="multiply-btn button is-warning mr-1"
               id=" multiply"
               onClick={operationSymbol}
               data-symbol="*"
@@ -313,7 +313,7 @@ const NumbersGame = ({
               *
             </button>
             <button
-              className="subtract-btn button is-warning mr-2"
+              className="subtract-btn button is-warning mr-1"
               id="subtract"
               onClick={operationSymbol}
               data-symbol="-"
@@ -321,7 +321,7 @@ const NumbersGame = ({
               -
             </button>
             <button
-              className="divide-btn button is-warning mr-2"
+              className="divide-btn button is-warning mr-1"
               id="divide"
               onClick={operationSymbol}
               data-symbol="/"
@@ -329,7 +329,7 @@ const NumbersGame = ({
               /
             </button>
             <button
-              className="add-btn button is-warning mr-2"
+              className="add-btn button is-warning mr-1"
               id="add"
               onClick={operationSymbol}
               data-symbol="+"
@@ -337,7 +337,7 @@ const NumbersGame = ({
               +
             </button>
             <button
-              className="l-parentheses-btn button is-warning mr-2"
+              className="l-parentheses-btn button is-warning mr-1"
               id="add"
               onClick={operationSymbol}
               data-symbol="("

@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useEffect, useRef, useLayoutEffect } from "react";
 import { sanitize } from "../../utils";
+import swipeLeft from "../../assets/images/swipe-left5.png";
 
 const MAX_MESSAGE_LENGTH = 80;
 
@@ -146,6 +147,7 @@ function LiveChat({ socket, username, room, display }) {
 					</button>
 				</form>
 			</div>
+			<p className="swipe-arrows1"><img src={swipeLeft} alt="right arrow"/> Swipe to play</p>
 		</div>
   );
 }
