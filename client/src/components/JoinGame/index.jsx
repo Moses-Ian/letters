@@ -111,7 +111,7 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
               </p>
 							
 							{roomList.length !== 0
-							?	(<div className="room-list mr-2 ml-2">
+							?	(<div className="room-list m-2">
 								{roomList.map((room, index) => (
 									<div className="room-list-div" key={room.name}>
 										<input 

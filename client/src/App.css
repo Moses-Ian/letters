@@ -506,9 +506,10 @@ sup div {
 }
 
 .room-list {
-	color: black;
+	color: var(--seventh-color);
 	display: flex;
 	flex-direction: column;
+	max-height: 256px;
 }
 
 .room-list-label {
