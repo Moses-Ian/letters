@@ -2,8 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
-import Auth from '../../utils/auth';
-
+import Auth from "../../utils/auth";
 
 const MainGame = ({
   socket,
@@ -15,11 +14,11 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
-	loggedIn,
-	jwt,
-	dailyHints,
-	setDailyHints,
-	display
+  loggedIn,
+  jwt,
+  dailyHints,
+  setDailyHints,
+  display,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -31,7 +30,7 @@ const MainGame = ({
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-		socket.on("bad-word", badWord);
+    socket.on("bad-word", badWord);
 
     return () => {};
   }, [socket]);
@@ -44,12 +43,25 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
+<<<<<<< HEAD
 	const elementRef = useRef();
 	const inputRef = useRef();
 
   useEffect(() => {
 		if (display != 'active-view')
 			return;
+=======
+  const elementRef = useRef();
+  const [mainGameTime, setMainGameTime] = useState(); // TODO
+
+  useEffect(() => {
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
+
+  useEffect(() => {
+    if (display != "active-view") return;
+>>>>>>> dd60ac7887212e9403e5a13f2c7276a29f47e2eb
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -132,7 +144,7 @@ const MainGame = ({
 		if (word === '') return;
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
-		setBadWordMsg(false);
+    setBadWordMsg(false);
   };
 
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
@@ -160,23 +172,23 @@ const MainGame = ({
     setWords({ type: "RENDER_WORDS", words });
     // console.log("setGameState in mainGame component");
   };
-	
-	const badWord = () => {
-		console.log("that is a bad word");
-		setBadWordMsg(true);
-	};
-	
-	const getHint = () => {
-		socket.emit('get-letters-hint', username, room, jwt, useHint);
-	};
-	
-	const useHint = signedToken => {
-		if (signedToken) {
-			setDailyHints({type: "DECREMENT"});
-			Auth.setToken(signedToken);
-		}
-	};
-	
+
+  const badWord = () => {
+    console.log("that is a bad word");
+    setBadWordMsg(true);
+  };
+
+  const getHint = () => {
+    socket.emit("get-letters-hint", username, room, jwt, useHint);
+  };
+
+  const useHint = (signedToken) => {
+    if (signedToken) {
+      setDailyHints({ type: "DECREMENT" });
+      Auth.setToken(signedToken);
+    }
+  };
+
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
@@ -189,7 +201,16 @@ const MainGame = ({
         </ul>
       </div>
 
-      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
+      <div className="timer">
+        {activeTimer ? (
+          <Timer
+            mainGameTime={mainGameTime}
+            setMainGameTime={setMainGameTime}
+          />
+        ) : (
+          ""
+        )}
+      </div>
 
       <div className="field has-text-centered">
         <div className={"letters-buttons " + (activeTimer ? "hidden" : "")}>
@@ -213,17 +234,15 @@ const MainGame = ({
       <div className="field">
         <form>
           <div className="field has-addons mt-2 is-justify-content-center">
-         
-						<div className="control">
-							<input
-								className="button is-warning mr-1"
-								type="button"
-								value={`${dailyHints} Hints`}
-								disabled={!(activeTimer && loggedIn) || dailyHints === 0}
-								onClick={getHint}
-							/>
-						</div>
-        
+            <div className="control">
+              <input
+                className="button is-warning mr-1"
+                type="button"
+                value={`${dailyHints} Hints`}
+                disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+                onClick={getHint}
+              />
+            </div>
 
             <div className="control">
               <input
@@ -232,12 +251,21 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
+<<<<<<< HEAD
 								ref={inputRef}
               />
               {badWordMsg && (
                 <p className="bad-word-msg mt-2">
                   That is a bad word.
                 </p>
+=======
+                disabled={mainGameTime === 0 ? true : false}
+              />
+              {badWordMsg ? (
+                <p className="bad-word-msg mt-2">That is a bad word.</p>
+              ) : (
+                ""
+>>>>>>> dd60ac7887212e9403e5a13f2c7276a29f47e2eb
               )}
             </div>
 
@@ -246,11 +274,10 @@ const MainGame = ({
                 className="button is-warning ml-1"
                 type="submit"
                 value="Submit"
-                disabled={activeTimer ? false : true}
+                disabled={mainGameTime === 0 ? true : false}
                 onClick={submitWord}
               />
             </div>
-						
           </div>
         </form>
       </div>
@@ -262,7 +289,7 @@ const MainGame = ({
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}
-        <div ref={elementRef}></div>
+          <div ref={elementRef}></div>
         </ul>
       </div>
     </div>
@@ -270,5 +297,3 @@ const MainGame = ({
 };
 
 export default MainGame;
-
-

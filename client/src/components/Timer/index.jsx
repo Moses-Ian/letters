@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-function Timer() {
+function Timer({ setMainGameTime }) {
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
+      setMainGameTime(remainingTime);
       return <div className="timer">0</div>;
     }
 
