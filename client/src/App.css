@@ -107,7 +107,7 @@ textarea {
 .live-chat {
   font-size: 15px;
   color: var(--quinary-color);
-  padding-top: 1vh;
+  /* padding-top: 1vh; */
 }
 
 .live-chat-input {
@@ -455,6 +455,10 @@ sup div {
   color: #fce181 !important;
 }
 
+#work {
+  color: #4a4a4a;
+}
+
 .view {
 	position: absolute;
 	width: 100%;
@@ -479,24 +483,12 @@ sup div {
 	left: 100vw;
 }
 
-/* .multiply-btn {
-  background-image: url('./assets/images/multiply.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.subtract-btn {}
-.divide-btn {}
-.add-btn {}
-.l-parentheses-btn {}
-.r-parentheses-btn {} */
-
-.hint-btn {
+/* .hint-btn { */
   /* background-color: var(--secondary-color); */
-  background-image: url('./assets/images/lightbulb.png');
+  /* background-image: url('./assets/images/lightbulb.png');
   background-repeat: no-repeat;
   background-position: center;
-}
+} */
 
 .confetti {
 	position: fixed;
@@ -549,11 +541,31 @@ sup div {
 
 
 
+.swipe-arrows {
+  margin-top: 50vh;
+  text-align: center;
+  color: #026670;
+  font-size: 25px;
+  opacity: 40%;
+  /* visibility: hidden;
+  display: show; */
+}
+
+.swipe-arrows1 {
+  margin-top: 5vh;
+  text-align: center;
+  color: #026670;
+  font-size: 25px;
+  opacity: 40%;
+}
 
 
 /* Desktop */
 @media screen and (min-width: 1280px) {
   .live-chat-button {
+    display: none;
+  }
+  .swipe-arrows {
     display: none;
   }
 }
@@ -562,6 +574,15 @@ sup div {
 @media screen and (max-width: 1024px) {
   .live-chat-input {
     width: 90%;
+  }
+  /* .swipe-arrows {
+    display: none; */
+  /* } */
+}
+
+@media screen and (min-width: 481px) {
+  .swipe-arrows {
+    display: none;
   }
 }
 
@@ -573,7 +594,7 @@ sup div {
 		bottom: -3px;
   }
   .chat-form {
-    height: 50vh;
+    height: 5vh;
 		position: relative;
   }
   .words-list {
@@ -585,6 +606,19 @@ sup div {
 		bottom: -2px;
 		right: 10px;
   }
+  .live-chat-message {
+    overflow-y: overlay;
+    height: 50vh;
+  }
+  #answer-section {
+    font-size: 10px;
+  }
+  #work {
+    font-size: 20px;
+  }
+  .swipe-arrows {
+    display: show;
+  }
 }
 
 
@@ -592,7 +626,20 @@ sup div {
 @media screen and (max-width: 280px) {
   .live-chat-input {
     width: 73%;
-    margin-top: 46vh;
+    /* margin-top: 46vh; */
+  }
+  .live-chat-message {
+    overflow-y: overlay;
+    height: 52vh;
+  }
+  #work {
+    font-size: 15px;
+  }
+  .leave-button {
+   font-size: 10px;
+   width: 40px;
+   height: 20px;
+   top: -90px;
   }
 }
 
