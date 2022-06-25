@@ -22,7 +22,7 @@ function Room({
 	display
 }) {
   const [players, setPlayers] = useState([]);
-  const [activeTimer, setActiveTimer] = useState(false);
+  const [activeTimer, setActiveTimer] = useState("IDLE");
   const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");

@@ -42,6 +42,7 @@ const NumbersGame = ({
   const [showNumberSection, setShowNumberSection] = useState(true);
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
+  const [gameTime, setGameTime] = useState(0); // TODO
 
   function operationReducer(operationArr, action) {
     let newOperation;
@@ -143,7 +144,7 @@ const NumbersGame = ({
     setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
-		setActiveTimer(true);
+		setActiveTimer("COUNTING");
   }
 
   function calculateTotal() {
@@ -223,7 +224,17 @@ const NumbersGame = ({
       <div className="target-number has-text-centered mt-4">
         <h1>{targetNumber}</h1>
       </div>
-      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
+			
+      <div className="timer">
+				{activeTimer === "COUNTING" || activeTimer === "DONE" ? (
+					<Timer 
+						setActiveTimer={setActiveTimer}
+					/> 
+				) : (
+					""
+				)}
+			</div>
+			
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div className="rendered-letters column">
@@ -379,7 +390,7 @@ const NumbersGame = ({
 					<button
 						className="button is-warning mb-6 mt-4 mr-2"
 						onClick={getHint}
-						disabled={!(activeTimer && loggedIn) || dailyHints === 0}
+						disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
 					>
 					{`${dailyHints} Hints`}
 					</button>
@@ -387,6 +398,7 @@ const NumbersGame = ({
             className="button is-warning mb-6 mt-4"
             id="check-answer"
             onClick={calculateTotal}
+						disabled={!(activeTimer === "COUNTING")}
           >
             Submit Answer
           </button>

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-function Timer({ setMainGameTime }) {
+function Timer({ setActiveTimer }) {
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
-      setMainGameTime(remainingTime);
       return <div className="timer">0</div>;
     }
 
@@ -24,7 +23,10 @@ function Timer({ setMainGameTime }) {
         strokeWidth={7}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[15, 8, 5, 0]}
-        onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+        onComplete={() => {
+					setActiveTimer("DONE");
+					return { shouldRepeat: false, delay: 1 };
+				}}
       >
         {renderTime}
       </CountdownCircleTimer>
