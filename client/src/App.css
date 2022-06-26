@@ -497,6 +497,49 @@ sup div {
 	width: 100vw;
 }
 
+.room-list {
+	color: var(--seventh-color);
+	display: flex;
+	flex-direction: column;
+	max-height: 256px;
+}
+
+.room-list-label {
+	width: 100%;
+	display: block;
+	border-radius: 5px;
+	position: relative;
+	text-align: center;
+}
+
+.room-list-radio:checked + .room-list-label{
+	background-color: var(--quanternary-color);
+}
+
+.room-list-label-border {
+	position: absolute;
+	left: 20%;
+	top: 0;
+	width: 60%;
+	height: 100%;
+	border-top: 1px solid var(--seventh-color);
+	border-bottom: 1px solid var(--seventh-color);
+	/* background-color: var(--bg); */
+}
+
+.room-list-div:first-child .room-list-label-border {
+	border-top: 2px solid var(--seventh-color);
+}
+
+.room-list-div:last-child .room-list-label-border {
+	border-bottom: 2px solid var(--seventh-color);
+}
+
+.room-list-radio {
+	display: none;
+}
+
+
 
 .swipe-arrows {
   margin-top: 50vh;
