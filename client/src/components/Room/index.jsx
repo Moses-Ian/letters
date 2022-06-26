@@ -7,6 +7,7 @@ import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
+const DEVELOP = false;
 
 function Room({ 
 	socket, 
@@ -19,10 +20,12 @@ function Room({
 	dailyHints,
 	setDailyHints,
 	isMobile,
-	display
+	display,
+	width,
+	height
 }) {
   const [players, setPlayers] = useState([]);
-  const [activeTimer, setActiveTimer] = useState(false);
+  const [activeTimer, setActiveTimer] = useState("IDLE");
   const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
@@ -31,7 +34,7 @@ function Room({
   useEffect(() => {
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
-    socket.on("new-round", (newRound) => setRound(newRound));
+    socket.on("new-round", updateRound);
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
   }, [socket]);
@@ -47,9 +50,22 @@ function Room({
   };
 
   const nextRound = () => {
-    socket.emit("next-round", room);
-    setScore(0);
+		if (isYourTurn) {
+			socket.emit("update-scores", room);
+			setTimeout(() => socket.emit("next-round", room), 7000);
+		}
   };
+	
+	const nextRoundBtn = () => {
+		//this is only for dev. eventually that button will go away entirely
+		socket.emit("update-scores", room);
+		socket.emit("next-round", room);
+	}
+	
+	const updateRound = newRound => {
+		setRound(newRound);
+		setActiveTimer("IDLE");
+	}
 
   const restartGame = (event) => {
     socket.emit("restart-game", room);
@@ -133,6 +149,7 @@ function Room({
 								dailyHints={dailyHints}
 								setDailyHints={setDailyHints}
 								display={setGameDisplay()}
+								timerCompleteHandler={nextRound}
 							/>
 						) : (
 							<NumbersGame
@@ -150,23 +167,30 @@ function Room({
 								dailyHints={dailyHints}
 								setDailyHints={setDailyHints}
 								display={setGameDisplay()}
+								timerCompleteHandler={nextRound}
 							/>
 						)
 					: (
-						<Winner usernames={getWinner()} />
+						<Winner 
+							usernames={getWinner()} 
+							width={width}
+							height={height}
+						/>
 					)}
-					<div className="m-3 has-text-centered is-flex is-justify-content-center">
-						<button className="button is-warning m-2" onClick={restartGame}>
-							Restart
-						</button>
+					{DEVELOP &&
+						<div className="m-3 has-text-centered is-flex is-justify-content-center">
+							<button className="button is-warning m-2" onClick={restartGame}>
+								Restart
+							</button>
 
-						<button className="button is-warning m-2" onClick={nextRound}>
-							Next Round
-						</button>
-						<div className="webster is-flex is-justify-content-flex-end">
-							<img className="MW" src={MW} alt="Merriam Webster API" />
+							<button className="button is-warning m-2" onClick={nextRoundBtn}>
+								Next Round
+							</button>
+							<div className="webster is-flex is-justify-content-flex-end">
+								<img className="MW" src={MW} alt="Merriam Webster API" />
+							</div>
 						</div>
-					</div>
+					}
 				</div>
 
 				<LiveChat 

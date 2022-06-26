@@ -465,23 +465,7 @@ sup div {
 	transition: left ease-out 500ms;
 }
 
-@media screen and (min-width: 451px) {
-	.view {
-		position: static;
-	}
-}
 
-.active-view {
-	left: 0;
-}
-
-.inactive-view-left {
-	left: -100vw;
-}
-
-.inactive-view-right {
-	left: 100vw;
-}
 
 /* .hint-btn { */
   /* background-color: var(--secondary-color); */
@@ -497,6 +481,46 @@ sup div {
 	width: 100vw;
 }
 
+.room-list {
+	color: var(--seventh-color);
+	display: flex;
+	flex-direction: column;
+	max-height: 256px;
+}
+
+.room-list-label {
+	width: 100%;
+	display: block;
+	border-radius: 5px;
+	position: relative;
+	text-align: center;
+}
+
+.room-list-radio:checked + .room-list-label{
+	background-color: var(--quanternary-color);
+}
+
+.room-list-label-border {
+	position: absolute;
+	left: 20%;
+	top: 0;
+	width: 60%;
+	height: 100%;
+	border-top: 1px solid var(--seventh-color);
+	border-bottom: 1px solid var(--seventh-color);
+}
+
+.room-list-div:first-child .room-list-label-border {
+	border-top: 2px solid var(--seventh-color);
+}
+
+.room-list-div:last-child .room-list-label-border {
+	border-bottom: 2px solid var(--seventh-color);
+}
+
+.room-list-radio {
+	display: none;
+}
 
 .swipe-arrows {
   margin-top: 50vh;
@@ -534,9 +558,11 @@ sup div {
   .live-chat-button {
     display: none;
   }
+
   .swipe-arrows {
     display: none;
   }
+
   .swipe-arrows1 {
     display: none;
   }
@@ -547,6 +573,7 @@ sup div {
   .live-chat-input {
     width: 90%;
   }
+
   /* .swipe-arrows {
     display: none;
   }
@@ -560,6 +587,7 @@ sup div {
   .swipe-arrows {
     display: none;
   }
+
   .swipe-arrows1 {
     display: none;
   }
@@ -572,35 +600,65 @@ sup div {
 		position: absolute;
 		bottom: -3px;
   }
+
   .chat-form {
     height: 5vh;
 		position: relative;
   }
+
   .words-list {
     height: 11vh;
   }
+
   .live-chat-button {
     display: show;
 		position: absolute;
 		bottom: -2px;
 		right: 10px;
   }
+
   .live-chat-message {
     overflow-y: overlay;
     height: 50vh;
   }
+
   #answer-section {
     font-size: 10px;
   }
+
   #work {
     font-size: 20px;
   }
+
   /* .swipe-arrows {
     display: show;
   }
   .swipe-arrows1 {
     display: show;
   } */
+
+  .sign-up-button {
+    font-size: 14px;
+  }
+}
+
+
+@media screen and (min-width: 451px) {
+	.view {
+		position: static;
+	}
+}
+
+.active-view {
+	left: 0;
+}
+
+.inactive-view-left {
+	left: -100vw;
+}
+
+.inactive-view-right {
+	left: 100vw;
 }
 
 
@@ -608,15 +666,17 @@ sup div {
 @media screen and (max-width: 280px) {
   .live-chat-input {
     width: 73%;
-    /* margin-top: 46vh; */
   }
+
   .live-chat-message {
     overflow-y: overlay;
     height: 52vh;
   }
+
   #work {
     font-size: 15px;
   }
+
   .leave-button {
    font-size: 10px;
    width: 40px;
