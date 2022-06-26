@@ -116,7 +116,7 @@ textarea {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
   width: 97%;
   text-align: left;
-  opacity: 60%;
+  opacity: 0.6;
   /* padding: 3px; */
 	padding: .2em 3px 0 3px;
 	word-wrap: normal;
@@ -502,8 +502,8 @@ sup div {
   margin-top: 50vh;
   text-align: center;
   color: #026670;
-  font-size: 25px;
-  opacity: 40%;
+  font-size: 30px;
+  opacity: 0.4;
   /* visibility: hidden;
   display: show; */
 }
@@ -513,7 +513,7 @@ sup div {
   text-align: center;
   color: #026670;
   font-size: 25px;
-  opacity: 40%;
+  opacity: 0.4;
 }
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import swipeRight from "../../assets/images/swipe-right5.png";
+import swipeRight from "../../assets/images/swipe-left7.png";
 
 const Lobby = ({ room, players, activePlayer, display }) => {
   return (
