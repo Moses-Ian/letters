@@ -52,7 +52,7 @@ function Room({
   const nextRound = () => {
 		if (isYourTurn) {
 			socket.emit("update-scores", room);
-			setTimeout(() => socket.emit("next-round", room), 10000);
+			setTimeout(() => socket.emit("next-round", room), 7000);
 		}
   };
 	
