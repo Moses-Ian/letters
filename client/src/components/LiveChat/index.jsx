@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import { sanitize } from "../../utils";
 import swipeLeft from "../../assets/images/swipe-left5.png";
 
@@ -25,6 +25,7 @@ function LiveChat({ socket, username, room, display }) {
       block: "end",
       inline: "nearest",
     });
+	// eslint-disable-next-line
   }, [messages]);
 
   function messageReducer(messages, action) {

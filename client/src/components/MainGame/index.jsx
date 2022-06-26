@@ -24,16 +24,19 @@ const MainGame = ({
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-  useEffect(() => {
+  
+	useEffect(() => {
     socket.emit("get-letters-state", room, setGameState);
+	//eslint-disable-next-line
   }, []);
+	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("bad-word", badWord);
 
-    return () => {};
+	//eslint-disable-next-line
   }, [socket]);
 
   // variables
@@ -53,12 +56,13 @@ const MainGame = ({
   }, [isYourTurn]);
 
   useEffect(() => {
-    if (display != "active-view") return;
+    if (display !== "active-view") return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
       inline: "nearest",
     });
+	//eslint-disable-next-line
   }, [words]);
 
   // functions

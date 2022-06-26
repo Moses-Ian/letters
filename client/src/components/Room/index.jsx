@@ -37,6 +37,8 @@ function Room({
     socket.on("new-round", updateRound);
     socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
+		
+	//eslint-disable-next-line
   }, [socket]);
 	
   useEffect(() => {

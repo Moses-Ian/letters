@@ -20,15 +20,19 @@ const NumbersGame = ({
 	display,
 	timerCompleteHandler
 }) => {
+	
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
+	//eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     socket.on("add-number", addNumber);
     socket.on("add-target", addTarget);
     socket.on("append-operations", scoreAnswer);
     // socket.on("your-turn", () => setTurn(true));
-    return () => {};
+		
+	//eslint-disable-next-line
   }, [socket]);
 
   // track a final answer variable
@@ -43,7 +47,6 @@ const NumbersGame = ({
   const [showNumberSection, setShowNumberSection] = useState(true);
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
-  const [gameTime, setGameTime] = useState(0); // TODO
 
   function operationReducer(operationArr, action) {
     let newOperation;
@@ -204,7 +207,7 @@ const NumbersGame = ({
     setShowAddNumberBtns(false);
 
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
-    if (target != 0)
+    if (target !== 0)
     addTarget(target);
 		console.log('setGameState in NumbersGame component');
   };
@@ -244,8 +247,8 @@ const NumbersGame = ({
             <ul className="is-flex is-justify-content-center">
               {numbersArr.map((numberObj, index) => (
                 <li className='letter-box' key={index}>
-									{numberObj.number == 100
-									? <span className={`letter-span ${numberObj.number == 100 && 'hundred'}`}>{numberObj.number}</span>
+									{numberObj.number === 100
+									? <span className={`letter-span ${numberObj.number === 100 && 'hundred'}`}>{numberObj.number}</span>
 									:	<span className='letter-span'>{numberObj.number}</span>
 									}
 									{/* other options for dealing with the hundred:

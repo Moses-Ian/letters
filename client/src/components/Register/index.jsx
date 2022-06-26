@@ -15,7 +15,6 @@ export default function Register() {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [addUser] = useMutation(ADD_USER);
   const [errorMsg, setErrorMsg] = useState(false);
-	const [usernameErrorMsg, setUsernameErrorMsg] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();

@@ -62,7 +62,6 @@ function App() {
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
 	const { width, height } = useWindowSize();
-	console.log(width);
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -87,8 +86,8 @@ function App() {
 
 	const swipeHandlers = useSwipeable({
 		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
+		onSwipedLeft:  (eventData) => setDisplay(display === 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
 		...swipeConfig,
 	});
 
@@ -137,6 +136,7 @@ function App() {
 		};
 		updateProfile();
 		createSocket();
+	// eslint-disable-next-line
 	}, []);
 	
 	useEffect(() => {

@@ -23,12 +23,14 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 	useEffect(() => {
 		if (!socket) return;
 		if (!usernameReady) return;
+		// eslint-disable-next-line
 		const path = joinRoomOnLoad();
 		// if we don't want the room on refresh function, comment the if block
 		// if (path === "nopath") {
       // const savedRoom = localStorage.getItem("room");
       // if (savedRoom) joinRoom(savedRoom);
 		// }
+	// eslint-disable-next-line
 	}, [socket, usernameReady]);
 	
 	const joinRoomOnLoad = () => {
@@ -52,7 +54,7 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 	}
 	
 	const listRooms = (rooms) => {
-		if(rooms.length != 0)
+		if(rooms.length !== 0)
 			setRoomList({
 				type: 'SET', 
 				rooms
