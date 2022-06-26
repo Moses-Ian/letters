@@ -504,8 +504,7 @@ sup div {
   color: #026670;
   font-size: 30px;
   opacity: 0.4;
-  /* visibility: hidden;
-  display: show; */
+  position: relative;
 }
 
 .swipe-arrows1 {
@@ -514,7 +513,20 @@ sup div {
   color: #026670;
   font-size: 25px;
   opacity: 0.4;
+  position: relative;
 }
+
+.arrow-image {
+  position: absolute;
+  bottom: -6px;
+  margin-left: 8px;
+}
+
+.arrow-image1 {
+  position: inherit;
+  bottom: -6px;
+}
+
 
 
 /* Desktop */
@@ -525,6 +537,9 @@ sup div {
   .swipe-arrows {
     display: none;
   }
+  .swipe-arrows1 {
+    display: none;
+  }
 }
 
 /* Tablets */
@@ -533,12 +548,19 @@ sup div {
     width: 90%;
   }
   /* .swipe-arrows {
-    display: none; */
-  /* } */
+    display: none;
+  }
+  .swipe-arrows1 {
+    display: none;
+  } */
 }
+
 
 @media screen and (min-width: 481px) {
   .swipe-arrows {
+    display: none;
+  }
+  .swipe-arrows1 {
     display: none;
   }
 }
@@ -573,9 +595,12 @@ sup div {
   #work {
     font-size: 20px;
   }
-  .swipe-arrows {
+  /* .swipe-arrows {
     display: show;
   }
+  .swipe-arrows1 {
+    display: show;
+  } */
 }
 
 

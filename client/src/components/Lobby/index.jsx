@@ -29,7 +29,7 @@ const Lobby = ({ room, players, activePlayer, display }) => {
 						))}
 					</ul>
 				</div>
-					<p className="swipe-arrows">Swipe to play <img src={swipeRight} alt="right arrow"/></p>
+					<p className="swipe-arrows">Swipe to play <span className="arrow-image"><img src={swipeRight} alt="right arrow"/></span></p>
 			</div>
 		</div>
   );
