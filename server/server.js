@@ -8,7 +8,18 @@ const helpers = require('./utils/helpers');
 const db = require('./config/connection');
 const session = require('express-session');
 const registerHandlers = require('./handlers');
-require('dotenv').config({path:'../.env'});
+require('dotenv').config({path: path.join(__dirname, '..', '.env')});
+
+// show memory usage
+// if (process.env.NODE_ENV === 'development') {
+	// setInterval(() => {
+		// console.log('===================================');
+		// for (const [key,value] of Object.entries(process.memoryUsage())){
+			// console.log(`Memory usage by ${key}, ${value/1000000}MB `)
+		// }
+		// }, 10000
+	// );
+// }
 
 const app = express();
 const PORT = process.env.PORT || 3001;

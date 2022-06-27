@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
+import Auth from "../../utils/auth";
 
 const MainGame = ({
   socket,
@@ -13,16 +14,24 @@ const MainGame = ({
   setTurn,
   score,
   setScore,
+  loggedIn,
+  jwt,
+  dailyHints,
+  setDailyHints,
+  display,
+	timerCompleteHandler
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-
+  useEffect(() => {
+    socket.emit("get-letters-state", room, setGameState);
+  }, []);
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
-    socket.on("set-game-state", setGameState);
+    socket.on("bad-word", badWord);
 
     return () => {};
   }, [socket]);
@@ -34,11 +43,23 @@ const MainGame = ({
     new Array(9).fill(" ")
   );
   const [words, setWords] = useReducer(wordReducer, []);
+  const [badWordMsg, setBadWordMsg] = useState(false);
+	const elementRef = useRef();
+	const inputRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
+
+  useEffect(() => {
+    if (display != "active-view") return;
+    elementRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }, [words]);
 
   // functions
   function letterReducer(letters, action) {
@@ -98,7 +119,8 @@ const MainGame = ({
       index,
     });
     if (index === 8) {
-      setActiveTimer(true);
+      setActiveTimer("COUNTING");
+			// inputRef.current.focus();
     }
   };
 
@@ -111,8 +133,10 @@ const MainGame = ({
     event.preventDefault();
     const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
+		if (word === '') return;
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
+    setBadWordMsg(false);
   };
 
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
@@ -132,18 +156,35 @@ const MainGame = ({
 
     setLettersInput("");
     setTurn(false);
-    setActiveTimer(false);
+    setActiveTimer("IDLE");
   };
 
   const setGameState = (letters, words) => {
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
+    // console.log("setGameState in mainGame component");
+  };
+
+  const badWord = () => {
+    console.log("that is a bad word");
+    setBadWordMsg(true);
+  };
+
+  const getHint = () => {
+    socket.emit("get-letters-hint", username, room, jwt, useHint);
+  };
+
+  const useHint = (signedToken) => {
+    if (signedToken) {
+      setDailyHints({ type: "DECREMENT" });
+      Auth.setToken(signedToken);
+    }
   };
 
   return (
-    <>
+    <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">
-        <ul>
+        <ul className="is-flex is-justify-content-center">
           {letters.map((letter, index) => (
             <li className="letter-box" key={index}>
               <span className="letter-span">{letter}</span>
@@ -152,19 +193,28 @@ const MainGame = ({
         </ul>
       </div>
 
-      <div className="timer">{activeTimer ? <Timer /> : ""}</div>
+      <div className="timer">
+        {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
+          <Timer
+						setActiveTimer={setActiveTimer}
+						timerCompleteHandler={timerCompleteHandler}
+          />
+        ) : (
+          ""
+        )}
+      </div>
 
       <div className="field has-text-centered">
-        <div className={"letters-buttons " + (activeTimer ? "hidden" : "")}>
+        <div className={"letters-buttons " + (activeTimer === "COUNTING" || activeTimer === "DONE" ? "hidden" : "")}>
           <button
-            disabled={!isYourTurn || activeTimer}
+						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
             className="button mr-3 is-warning"
             onClick={addVowel}
           >
             Vowel
           </button>
           <button
-            disabled={!isYourTurn || activeTimer}
+						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
             className="button is-warning"
             onClick={addConsonant}
           >
@@ -178,20 +228,37 @@ const MainGame = ({
           <div className="field has-addons mt-2 is-justify-content-center">
             <div className="control">
               <input
-                onChange={handleInputChange}
-                className="input is-warning"
-                type="text"
-                placeholder="Your word here"
-                value={lettersInput}
+                className="button is-warning mr-1"
+                type="button"
+                value={`${dailyHints} Hints`}
+                disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
+                onClick={getHint}
               />
             </div>
 
             <div className="control">
               <input
-                className="button is-warning"
+                onChange={handleInputChange}
+                className="input is-warning"
+                type="text"
+                placeholder="Your word here"
+                value={lettersInput}
+								ref={inputRef}
+                disabled={!(activeTimer === "COUNTING")}
+              />
+              {badWordMsg && (
+                <p className="bad-word-msg mt-2">
+                  That is a bad word.
+                </p>
+              )}
+            </div>
+
+            <div className="control">
+              <input
+                className="button is-warning ml-1"
                 type="submit"
                 value="Submit"
-                disabled={activeTimer ? false : true}
+                disabled={!(activeTimer === "COUNTING")}
                 onClick={submitWord}
               />
             </div>
@@ -199,16 +266,17 @@ const MainGame = ({
         </form>
       </div>
 
-      <div className="words-list pl-2">
-        <ul>
+      <div className="words-list pl-2 mt-4">
+        <ul className="word-list-items">
           {words.map((word, index) => (
             <li key={index}>
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}
+          <div ref={elementRef}></div>
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

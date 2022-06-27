@@ -1,6 +1,11 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Thought } = require('../models');
+const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const { DateTime } = require('luxon');
+
+const developerEmails = [
+	'ian@hotmail.com'
+];
 
 const resolvers = {
   Query: {
@@ -37,19 +42,44 @@ const resolvers = {
 		},
 		login: async (parent, { email, password }) => {
 			const user = await User.findOne({ email });
-
-			if (!user) {
-				throw new AuthenticationError('Incorrect credentials');
-			}
+			if (!user) throw new AuthenticationError('Incorrect credentials');
 
 			const correctPw = await user.isCorrectPassword(password);
+			if (!correctPw) throw new AuthenticationError('Incorrect credentials');
 
-			if (!correctPw) {
-				throw new AuthenticationError('Incorrect credentials');
+			try {
+				const now = DateTime.now();
+				const then = DateTime.fromJSDate(user.lastLogin);
+				if(!now.hasSame(then, 'day'))
+					user.dailyHints = 3;
+				user.lastLogin = now;
+				await user.save();
+			} catch (err) {
+				console.error(err);
 			}
 
 			const token = signToken(user);
 			return { token, user };
+		},
+		extend: async (parent, args, context) => {
+			if (!context.user) throw new AuthenticationError('You need to be logged in!');
+			
+			const user = await User.findOne({ email: context.user.email });
+			if (!user) throw new AuthenticationError('Incorrect credentials');
+
+			try {
+				const now = DateTime.now();
+				const then = DateTime.fromJSDate(user.lastLogin);
+				if(!now.hasSame(then, 'day'))
+					user.dailyHints = 3;
+				user.lastLogin = now;
+				await user.save();
+			} catch (err) {
+				console.error(err);
+			}
+
+			const token = signToken(user);
+			return { token };
 		},
 		addFriend: async (parent, { friendId }, context) => {
 			if (context.user) {
@@ -63,6 +93,18 @@ const resolvers = {
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
+		},
+		addHints: async (parent, {email, dailyHints}) => {
+			if (!developerEmails.includes(email)) {
+				console.error(`${email} tried to give themselves ${dailyHints} hints!!!`);
+				return null;
+			}
+			const user = await User.findOneAndUpdate(
+				{ email },
+				{ dailyHints },
+				{ new: true }
+			);
+			return user;
 		}
   }
 };

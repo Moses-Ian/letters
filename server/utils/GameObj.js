@@ -1,16 +1,14 @@
 class GameObj {
 	constructor (name) {
+		//room
+		this.name = name || '';	
+		this.visible = true;
 		// letters game
 		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
 		this.letterCount = 0;
 		this.words = [];
-		// players
-		this.name = name || '';	
-		this.players = [];
-		this.turn = -1;
-		this.round = 1;
 		// numbers game
 		this.numbers = new Array(6).fill('');
 		this.smallNumberCount = 0;
@@ -18,11 +16,15 @@ class GameObj {
 		this.numberCount = 0;
 		this.target = 0;
 		this.operations = []; 
+		// players
+		this.players = [];
+		this.turn = -1;
+		this.round = 1;
 		
 	}
 	
-	restart() {
-		this.letters.fill('');
+	clearBoard() {
+		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
 		this.consonantCount = 0;
 		this.letterCount = 0;
@@ -38,9 +40,16 @@ class GameObj {
 		return this.turn;
 	}
 	
+	restart() {
+		this.players.forEach(player => player.restart());
+		// this.turn = -1; //don't reset the turn -> change up the first player each game
+		this.round = 1;
+		
+		return this.clearBoard();
+	}
+	
 	add(player) {
-		if (player.username == 'Guest')
-			player = this.addNumberToGuest(player);
+		player.addNumberToUsername(this.players);
 		this.players.push(player);
 		if (this.turn == -1)
 			this.turn = 0;
@@ -59,30 +68,33 @@ class GameObj {
 	}
 	
 	nextTurn() {
-		this.turn++;
+		if (this.players.length === 2) {
+			if (this.round % 4 === 1 || this.round % 4 === 3)
+				this.turn++
+		}	else {
+			this.turn++;
+		}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
-		this.restart();
+		this.clearBoard();
 		this.round++;
 		return this.turn;
 	}
 	
-	addNumberToGuest({username, ...player}) {
-		const maxGuest = this.players.reduce((maxGuest, player) => {
-			const matches = player.username.match(/Guest(?<tag>[0-9]*)/);
-			if (matches) {
-				if (matches.groups.tag == '')
-					return (Math.max(maxGuest, 0));
-				return (Math.max(maxGuest, matches.groups.tag));
-			}
-		}, -1);
-		const yourNumber = maxGuest == -1 ? '' : maxGuest+1;
-		return {
-			username: `Guest${yourNumber}`,
-			...player
-		};
+	updatePlayerUsername(id, username) {
+		let player = this.getPlayerById(id);
+		player.addNumberToUsername(this.players);
+		return player;
 	}
-
+	
+	getPlayerById(id) {
+    for (let i = 0; i < this.players.length; i++) {
+      if (this.players[i].id === id) {
+        return this.players[i];
+      }
+    }
+	}
+	
   getPlayer(username) {
     for (let i = 0; i < this.players.length; i++) {
       if (this.players[i].username === username) {
@@ -90,6 +102,12 @@ class GameObj {
       }
     }
   }
+	
+	getPlayers() {
+		return this.players.map(({ username, score }) => {
+			return { username, score };
+		});
+	}
 }
 
 module.exports = GameObj;

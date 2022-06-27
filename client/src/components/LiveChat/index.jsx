@@ -1,20 +1,25 @@
-import React, { useState, useReducer, useEffect, useRef } from "react";
+import React, { useState, useReducer, useEffect, useRef, useLayoutEffect } from "react";
 import { sanitize } from "../../utils";
+import swipeLeft from "../../assets/images/swipe-left5.png";
 
 const MAX_MESSAGE_LENGTH = 80;
 
 // LiveChat is going to take in Room as a prop
-function LiveChat({ socket, username, room }) {
+function LiveChat({ socket, username, room, display }) {
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
   }, [socket]);
 
   const elementRef = useRef();
+	const textareaRef = useRef();
 
   const [formState, setFormState] = useState({ message: "" });
   const [messages, setMessages] = useReducer(messageReducer, []);
+	const [rows, setRows] = useReducer(rowReducer, 1);
 
   useEffect(() => {
+		if (display !== 'active-view')
+			return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -40,8 +45,24 @@ function LiveChat({ socket, username, room }) {
     }
     return newMessages;
   }
+	
+	function rowReducer(rows, action) {
+		let newRows;
+		switch (action.type) {
+			case "INCREMENT":
+				newRows = rows < 3 ? rows + 1 : rows;
+				break;
+			case "RESET":
+				newRows = 1;
+				break;
+			default:
+				throw new Error();
+		}
+		return newRows;
+	}
 
   const handleFormSubmit = async (event) => {
+		console.log(event.target);
     event.preventDefault();
     if (formState.message.trim() === "") return;
     //append message to element
@@ -51,6 +72,7 @@ function LiveChat({ socket, username, room }) {
       username,
     });
     setFormState({ message: "" });
+		setRows({ type: "RESET" });
     //socket.emit
     socket.emit("send-message", formState.message.trim(), username, room);
     console.log(`submit ${formState.message}`);
@@ -58,13 +80,21 @@ function LiveChat({ socket, username, room }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+		if (value[value.length-1] === "\n" || value[value.length-1] === "\r")
+			return handleFormSubmit(event);
     if (value.length > MAX_MESSAGE_LENGTH) return;
     //optionally, flash red or something
     setFormState({
       ...formState,
       [name]: value,
     });
+		if (textareaRef.current.scrollHeight > textareaRef.current.clientHeight)
+			setRows({ type: "INCREMENT" });
   };
+	
+	const handleBlur = event => {
+		setRows({ type: "RESET" });
+	}
 
   const recieveMessage = (username, message) => {
     setMessages({
@@ -74,44 +104,51 @@ function LiveChat({ socket, username, room }) {
     });
     console.log(`receive ${message}`);
   };
-
+	
   return (
-    <div className="live-chat-header is-flex-direction-column">
-      <div className="live-chat-message" id="message-container">
-        {messages.map((m, index) => (
-          <p key={index}>
-            <span
-              className={
-                "username-chat " +
-                (username === m.username ? "me-in-chat" : "not-active")
-              }
-            >
-              {m.username}:{" "}
-            </span>
-            <span>{m.message}</span>
-          </p>
-        ))}
-        <div ref={elementRef}></div>
-      </div>
-      <form
-        className="live-chat chat-form"
-        id="form"
-        onSubmit={handleFormSubmit}
-      >
-        <label>Chat:</label>
-        <input
-          className="live-chat-input ml-2"
-          type="text"
-          id="message-input"
-          value={formState.message}
-          name="message"
-          onChange={handleChange}
-        />
-        <button className="live-chat-button" type="submit" id="send-button">
-          Send
-        </button>
-      </form>
-    </div>
+    <div className={`view ${display}`}>
+	    <div className="live-chat-header is-flex-direction-column">
+				<div className="live-chat-message" id="message-container">
+					{messages.map((m, index) => (
+						<p key={index}>
+							<span
+								className={
+									"username-chat " +
+									(username === m.username ? "me-in-chat" : "not-active")
+								}
+							>
+								{m.username}:{" "}
+							</span>
+							<span>{m.message}</span>
+						</p>
+					))}
+					<div ref={elementRef}></div>
+				</div>
+				<form
+					className="live-chat chat-form"
+					id="form"
+					onSubmit={handleFormSubmit}
+				>
+					{/* <label>Chat:</label> */}
+					<textarea
+						ref={textareaRef}
+            placeholder="Message"
+						className="live-chat-input ml-2"
+						type="text"
+						id="message-input"
+						value={formState.message}
+						name="message"
+						onChange={handleChange}
+						rows={rows}
+						onBlur={handleBlur}
+					/>
+					<button className="live-chat-button" type="submit" id="send-button">
+						Send
+					</button>
+				</form>
+			</div>
+			<p className="swipe-arrows1"><img src={swipeLeft} alt="right arrow"/> Swipe to play</p>
+		</div>
   );
 }
 

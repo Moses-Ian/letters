@@ -7,9 +7,18 @@ export const LOGIN = gql`
       user {
         _id
         username
+				dailyHints
       }
     }
   }
+`;
+
+export const EXTEND = gql`
+	mutation {
+		extend {
+			token
+		}
+	}
 `;
 
 export const ADD_USER = gql`
@@ -19,6 +28,7 @@ export const ADD_USER = gql`
       user {
         _id
         username
+				dailyHints
       }
     }
   }
