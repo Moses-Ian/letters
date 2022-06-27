@@ -69,11 +69,11 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
 			() => io.to(socket.id).emit("update-username", player.username),
 			2000
 		);
-  tellTurn(g, turn);
+  // tellTurn(g, turn);
   //leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
-  callback(true, room);
+  callback(true, room, player === g.players[turn]);
   setTimeout(
     () => io.to(socket.id).emit("set-game-state-room", g.round),
     1000

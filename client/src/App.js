@@ -62,6 +62,7 @@ function App() {
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
 	const { width, height } = useWindowSize();
+  const [isYourTurn, setTurn] = useState(false);
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -143,7 +144,7 @@ function App() {
 		setMobile(width <= 450);
 	}, [width]);
 	
-	// console.log('App.js rendered');
+	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
@@ -162,6 +163,7 @@ function App() {
 						setRoom={setRoom}
 						width={width}
 						height={height}
+						setTurn={setTurn}
 					/>
 				) : (
           <Room 
@@ -176,6 +178,8 @@ function App() {
 						setDailyHints={setDailyHints}
 						isMobile={isMobile}
 						display={display}
+						isYourTurn={isYourTurn}
+						setTurn={setTurn}
 					/>
         )}
       </div>

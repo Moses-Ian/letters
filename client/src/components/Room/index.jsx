@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MW from "../../assets/images/Merriam-Webster.png";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
@@ -22,11 +22,12 @@ function Room({
 	isMobile,
 	display,
 	width,
-	height
+	height,
+	isYourTurn,
+	setTurn
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
-  const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
   const [score, setScore] = useState(0);
@@ -51,15 +52,15 @@ function Room({
     setActivePlayer(playersArr[turn].username);
   };
 
-  const nextRound = () => {
+  const nextRound = useCallback(() => {
 		if (isYourTurn) {
 			socket.emit("update-scores", room);
 			setTimeout(() => socket.emit("next-round", room), 7000);
 		}
-  };
+  }, [isYourTurn]);
 	
 	const nextRoundBtn = () => {
-		//this is only for dev. eventually that button will go away entirely
+		//this is only for dev.
 		socket.emit("update-scores", room);
 		socket.emit("next-round", room);
 	}
@@ -117,6 +118,8 @@ function Room({
 		socket.emit("leave-game", room, () => setRoom(''));
 		localStorage.removeItem('room');
 	}
+	
+	console.log(username);
 	
   return (
     <>

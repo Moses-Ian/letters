@@ -48,52 +48,53 @@ export default function Register() {
   };
 
   return (
-    <>
-      <div className="Register">
-        <button className="sign-up-button" onClick={() => setShow(true)}>
-          {" "}
-          Sign Up{" "}
-        </button>
-        <form onSubmit={handleFormSubmit}>
-          <Modal title="Sign up" onClose={() => setShow(false)} show={show}>
-            <div>
-              <input
-                autoFocus
-                className="type-box input"
-                type="text"
-                placeholder="Username"
-                name="username"
-                onChange={handleChange}
-              ></input>
-            </div>
-            <div>
-              <input
-                className="type-box input"
-                type="email"
-                placeholder="Email"
-                name="email"
-                onChange={handleChange}
-              ></input>
-            </div>
-            <div>
-              <input
-                className="type-box input"
-                type="password"
-                placeholder="Password"
-                name="password"
-                onChange={handleChange}
-              ></input>
-              {errorMsg ? (
-                <div className="modal-error-msg">
+		<div className="Register">
+			<button className="sign-up-button" onClick={() => setShow(true)}>
+				{" "}
+				Sign Up{" "}
+			</button>
+			
+			{show &&
+				<form onSubmit={handleFormSubmit}>
+					<Modal title="Sign up" onClose={() => setShow(false)}>
+						<div>
+							<input
+								autoFocus
+								className="type-box input"
+								type="text"
+								placeholder="Username"
+								name="username"
+								onChange={handleChange}
+							></input>
+						</div>
+						<div>
+							<input
+								className="type-box input"
+								type="email"
+								placeholder="Email"
+								name="email"
+								onChange={handleChange}
+							></input>
+						</div>
+						<div>
+							<input
+								className="type-box input"
+								type="password"
+								placeholder="Password"
+								name="password"
+								onChange={handleChange}
+							></input>
+							{errorMsg ? (
+								<div className="modal-error-msg">
 									{errorMsg}
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          </Modal>
-        </form>
-      </div>
-    </>
+								</div>
+							) : (
+								""
+							)}
+						</div>
+					</Modal>
+				</form>
+			}
+		</div>
   );
 }

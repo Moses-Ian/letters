@@ -43,7 +43,7 @@ const MainGame = ({
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill(" ")
+    new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
@@ -124,7 +124,7 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
-			// inputRef.current.focus();
+			setTimeout(() => inputRef.current.focus(), 3);
     }
   };
 
@@ -164,11 +164,12 @@ const MainGame = ({
   };
 
   const setGameState = (letters, words) => {
+		if (words.length === 0 && letters[0] === "") return;
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
     // console.log("setGameState in mainGame component");
   };
-
+	
   const badWord = () => {
     console.log("that is a bad word");
     setBadWordMsg(true);
@@ -184,6 +185,8 @@ const MainGame = ({
       Auth.setToken(signedToken);
     }
   };
+
+	console.log('maingame rendered');
 
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">

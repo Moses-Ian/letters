@@ -1,8 +1,8 @@
 import React, { useState, useReducer, useEffect } from "react";
-import "../../App.css";
+import Modal from "../Modal";
 import { sanitize } from "../../utils";
 
-export default function JoinGame({ socket, username, usernameReady, room, setRoom }) {
+export default function JoinGame({ socket, username, usernameReady, room, setRoom, setTurn }) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
 	const [roomList, setRoomList] = useReducer(roomReducer, []);
@@ -25,6 +25,8 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 		if (!usernameReady) return;
 		// eslint-disable-next-line
 		const path = joinRoomOnLoad();
+		if (path === "nopath")
+			socket.emit('list-rooms', listRooms);
 		// if we don't want the room on refresh function, comment the if block
 		// if (path === "nopath") {
       // const savedRoom = localStorage.getItem("room");
@@ -49,7 +51,6 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
 	};
 	
 	const openModal = () => {
-		socket.emit('list-rooms', listRooms);
 		setShow(true);
 	}
 	
@@ -79,90 +80,70 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
   };
 
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, username, (success, newRoom) => {
+    socket.emit("join-game", name, room, username, (success, newRoom, turn) => {
       setRoom(newRoom);
+			setTurn(turn);
       localStorage.setItem("room", newRoom);
     });
   };
 
   const closeModal = (e) => {
-    e.stopPropagation();
     setShow(false);
   };
 	
-  return (
-    <>
-      <div className="field has-text-centered">
-				<button
-					className="join-game-button is-warning"
-					onClick={openModal}
-				>
-					Join as {username}
-				</button>
-      </div>
+	if (!show) return (
+		<div className="field has-text-centered">
+			<button
+				className="join-game-button is-warning"
+				onClick={openModal}
+			>
+				Join as {username}
+			</button>
+		</div>
+	)
 
-      {show ? (
-        <div className="modal-main" onClick={closeModal}>
-          <form className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h4 className="modal-title">Join Game</h4>
-            </div>
-            <div className="modal-body">
-              <p className="join-modal-body">
-                What is the name of the room you would like to join?
-              </p>
-							
-							{roomList.length !== 0
-							?	(<div className="room-list m-2">
-								{roomList.map((room, index) => (
-									<div className="room-list-div" key={room.name}>
-										<input 
-											className="room-list-radio"
-											type='radio' 
-											name='joinroom' 
-											id={room.name}
-											value={room.name}
-											checked={selectedRoom === room.name} 
-											onChange={handleSelectedRoomChange}
-										/>
-										<label className="room-list-label pl-2 pt-1 pb-1" htmlFor={room.name}>
-											{room.name}
-											<div className="room-list-label-border" />
-										</label>
-									</div>
-								))}
-							</div>	
-							)
-							: (<p className='join-modal-body mt-3 mb-3'>
-									There are currently no active games. Create one!
-								</p>)
-							}
-							
-              <input
-                autoFocus
-                className="type-box input mt-2"
-                type="text"
-                placeholder="Type room name"
-                onChange={handleInputChange}
-                value={roomInput}
-              />
-            </div>
-            <div className="modal-footer">
-              <input
-                type="submit"
-                className="modal-enter-button"
-                value="Enter Game"
-                onClick={joinRoomHandler}
-              />
-              <button className="modal-close-button" onClick={closeModal}>
-                Close
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        ""
-      )}
-    </>
-  );
+	return (
+		<form onSubmit={joinRoomHandler}>
+			<Modal title="Join Game" submitText="Enter Game" onClose={() => setShow(false)}>
+				<p className="join-modal-body">
+					What is the name of the room you would like to join?
+				</p>
+				
+				{roomList.length !== 0
+				?	(<div className="room-list m-2">
+					{roomList.map((room, index) => (
+						<div className="room-list-div" key={room.name}>
+							<input 
+								className="room-list-radio"
+								type='radio' 
+								name='joinroom' 
+								id={room.name}
+								value={room.name}
+								checked={selectedRoom === room.name} 
+								onChange={handleSelectedRoomChange}
+							/>
+							<label className="room-list-label pl-2 pt-1 pb-1" htmlFor={room.name}>
+								{room.name}
+								<div className="room-list-label-border" />
+							</label>
+						</div>
+					))}
+				</div>	
+				) : (
+					<p className='join-modal-body mt-3 mb-3'>
+						There are currently no active games. Create one!
+					</p>)
+				}
+				
+				<input
+					autoFocus
+					className="type-box input mt-2"
+					type="text"
+					placeholder="Type room name"
+					onChange={handleInputChange}
+					value={roomInput}
+				/>
+			</Modal>
+		</form>
+	)
 }
