@@ -15,31 +15,31 @@
 }
 
 html {
-  height: 100%;
-  overscroll-behavior-y: auto;
+  height: 100vh;
 }
 
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100%;
+  height: 100vh;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow-y: scroll;
 }
 
 #root {
-  height: 100%;
+  height: 100vh;
 }
 
 .App {
-  height: 100%;
+  height: 100vh;
 }
 
 .room {
-  height: 100%;
+  height: 100vh;
   position: relative;
 }
 
@@ -108,24 +108,25 @@ textarea {
 .live-chat {
   font-size: 15px;
   color: var(--quinary-color);
-  /* padding-top: 1vh; */
 }
 
 .live-chat-input {
+  height: 4vh !important;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
-  width: 97%;
+  width: 70vw !important;
   text-align: left;
   opacity: 0.6;
   /* padding: 3px; */
   padding: 0.2em 3px 0 3px;
   word-wrap: normal;
-  height: fit-content;
+  /* height: fit-content; */
   font-size: 1em;
 }
 
 .live-chat-button {
+  height: 4vh;
   margin-left: 1vw;
   background-color: var(--quanternary-color);
   border-radius: 5px;
@@ -134,11 +135,11 @@ textarea {
   font-family: Fugaz One;
   color: var(--seventh-color);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  vertical-align: 100%;
 }
-
-.chat-form {
+/* .chat-form {
   height: 3vh;
-}
+} */
 
 .username-chat {
   color: #5d909a;
