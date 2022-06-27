@@ -6,7 +6,6 @@ const routes = require('./routes');
 const path = require('path');
 const helpers = require('./utils/helpers');
 const db = require('./config/connection');
-const session = require('express-session');
 const registerHandlers = require('./handlers');
 require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 
