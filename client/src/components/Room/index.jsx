@@ -57,6 +57,7 @@ function Room({
 	}
 	
   const generatePlayerList = async (playersArr, turn) => {
+		console.log(playersArr);
     setPlayers(playersArr);
     setActivePlayer(playersArr[turn].username);
   };
@@ -75,10 +76,10 @@ function Room({
 		socket.emit("next-round", room);
 	}
 	
-	// const updateRound = (newRound, newPlayers, newTurn) => {
-	const updateRound = (newRound, newTurn) => {
+	const updateRound = (newRound, activeUsername) => {
 		setRound(newRound);
-		setTurn(players[newTurn].username === username);
+		setTurn(activeUsername === username);
+		setActivePlayer(activeUsername);
 		setActiveTimer("IDLE");
 	}
 
@@ -126,6 +127,8 @@ function Room({
 		socket.emit("leave-game", room, () => setRoom(''));
 		localStorage.removeItem('room');
 	}
+	
+	console.log('Room rendered');
 	
   return (
     <>

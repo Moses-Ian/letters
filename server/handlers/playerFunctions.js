@@ -17,7 +17,7 @@ nextRound = (room) => {
   let g = rooms.get(room);
   if (!g) return;
   let turn = g.nextTurn();
-	io.to(g.name).emit('new-round', g.round, g.turn);
+	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
 };
 
 listRooms = (cb) => {
