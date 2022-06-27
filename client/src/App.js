@@ -41,43 +41,43 @@ const client = new ApolloClient({
 // end graphql
 
 const swipeConfig = {
-	delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-	preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
-	trackTouch: true,                      // track touch input
-	trackMouse: false,                     // track mouse input
-	rotationAngle: 0,                      // set a rotation angle
-	swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
-	touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
-}
+  delta: 10, // min distance(px) before a swipe starts. *See Notes*
+  preventScrollOnSwipe: true, // prevents scroll during swipe (*See Details*)
+  trackTouch: true, // track touch input
+  trackMouse: false, // track mouse input
+  rotationAngle: 0, // set a rotation angle
+  swipeDuration: Infinity, // allowable duration of a swipe (ms). *See Notes*
+  touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
+};
 
 function App() {
   const [socket, setSocket] = useState(null);
-	const [username, setUsername] = useState('Guest');
-	const [usernameReady, setUsernameReady] = useState(false);
-	const [loggedIn, setLoggedIn] = useState(false);
-	const [jwt, setJWT] = useState(null);
-	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
+  const [username, setUsername] = useState("Guest");
+  const [usernameReady, setUsernameReady] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [jwt, setJWT] = useState(null);
+  const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
   const [room, setRoom] = useState("");
-	const [isMobile, setMobile] = useState(true);
-	const [display, setDisplay] = useState('game');
+  const [isMobile, setMobile] = useState(true);
+  const [display, setDisplay] = useState("game");
   const [extend] = useMutation(EXTEND, { client });
-	const { width, height } = useWindowSize();
-	console.log(width);
+  const { width, height } = useWindowSize();
+  console.log(width);
 
-	function dailyHintReducer(dailyHints, action) {
-		let newDailyHints;
-		switch (action.type) {
-			case "DECREMENT":
-				newDailyHints = dailyHints - 1;
-				break;
-			case "SET":
-				newDailyHints = action.dailyHints;
-				break;
-			default:
-				throw new Error();
-		}
-		return newDailyHints;
-	};
+  function dailyHintReducer(dailyHints, action) {
+    let newDailyHints;
+    switch (action.type) {
+      case "DECREMENT":
+        newDailyHints = dailyHints - 1;
+        break;
+      case "SET":
+        newDailyHints = action.dailyHints;
+        break;
+      default:
+        throw new Error();
+    }
+    return newDailyHints;
+  }
 
   const attachListeners = (socket) => {
     socket.on("connect", () => {
@@ -85,28 +85,30 @@ function App() {
     });
   };
 
-	const swipeHandlers = useSwipeable({
-		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		onSwipedLeft: (eventData) => setDisplay(display == 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display == 'chat' ? 'game' : 'lobby'),
-		...swipeConfig,
-	});
+  const swipeHandlers = useSwipeable({
+    // onSwiped: (eventData) => console.log("User Swiped!", eventData),
+    onSwipedLeft: (eventData) =>
+      setDisplay(display === "lobby" ? "game" : "chat"),
+    onSwipedRight: (eventData) =>
+      setDisplay(display === "chat" ? "game" : "lobby"),
+    ...swipeConfig,
+  });
 
-	const extendToken = async () => {
-		try {
-			const mutationResponse = await extend({
-				headers: {
-					authorization: Auth.getProfile()
-				}
-			});
-			return mutationResponse.data.extend.token;
-		} catch (err) {
-			console.error(err.message);
-			return null;
-		}
-	}
+  const extendToken = async () => {
+    try {
+      const mutationResponse = await extend({
+        headers: {
+          authorization: Auth.getProfile(),
+        },
+      });
+      return mutationResponse.data.extend.token;
+    } catch (err) {
+      console.error(err.message);
+      return null;
+    }
+  };
 
-	const createSocket = () => {
+  const createSocket = () => {
     // const newSocket = io(`http://localhost:3001`);
     const newSocket = io(); //works in production and dev ???
     attachListeners(newSocket);
@@ -115,68 +117,68 @@ function App() {
       socket.disconnect();
       newSocket.close();
     };
-  }
-	
-	useEffect(() => {
-		async function updateProfile() {
-			const profile = Auth.getProfile();
-			if (profile && Auth.loggedIn()) {
-				const token = await extendToken();
-				if (!token) {
-					setUsernameReady(true);
-					return;
-				}
-				const { data } = Auth.decodeToken(token);
-				setUsername(data.username);
-				setUsernameReady(true);
-				setLoggedIn(true);
-				setJWT(token);
-				setDailyHints({type: "SET", dailyHints: data.dailyHints});
-			}
-			setUsernameReady(true);
-		};
-		updateProfile();
-		createSocket();
-	}, []);
-	
-	useEffect(() => {
-		setMobile(width <= 450);
-	}, [width]);
-	
-	// console.log('App.js rendered');
+  };
+
+  useEffect(() => {
+    async function updateProfile() {
+      const profile = Auth.getProfile();
+      if (profile && Auth.loggedIn()) {
+        const token = await extendToken();
+        if (!token) {
+          setUsernameReady(true);
+          return;
+        }
+        const { data } = Auth.decodeToken(token);
+        setUsername(data.username);
+        setUsernameReady(true);
+        setLoggedIn(true);
+        setJWT(token);
+        setDailyHints({ type: "SET", dailyHints: data.dailyHints });
+      }
+      setUsernameReady(true);
+    }
+    updateProfile();
+    createSocket();
+  }, []);
+
+  useEffect(() => {
+    setMobile(width <= 450);
+  }, [width]);
+
+  // console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
       <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
-			{!loggedIn && room === "" ? (
+        {!loggedIn && room === "" ? (
           <LandingPage socket={socket} username={username} />
         ) : (
           <Header username={username} loggedIn={loggedIn} />
-			)}
-				{room === "" ? (
-					<JoinGame
-						socket={socket}
-						username={username}
-						usernameReady={usernameReady}
-						room={room}
-						setRoom={setRoom}
-						width={width}
-						height={height}
-					/>
-				) : (
-          <Room 
-						socket={socket} 
-						username={username} 
-						setUsername={setUsername}
-						room={room}
-						setRoom={setRoom}
-						loggedIn={loggedIn}
-						jwt={jwt}
-						dailyHints={dailyHints}
-						setDailyHints={setDailyHints}
-						isMobile={isMobile}
-						display={display}
-					/>
+        )}
+        {room === "" ? (
+          <JoinGame
+            socket={socket}
+            username={username}
+            usernameReady={usernameReady}
+            room={room}
+            setRoom={setRoom}
+            width={width}
+            height={height}
+          />
+        ) : (
+          <Room
+            socket={socket}
+            username={username}
+            setUsername={setUsername}
+            room={room}
+            setRoom={setRoom}
+            loggedIn={loggedIn}
+            jwt={jwt}
+            dailyHints={dailyHints}
+            setDailyHints={setDailyHints}
+            isMobile={isMobile}
+            display={display}
+          />
         )}
       </div>
     </ApolloProvider>
