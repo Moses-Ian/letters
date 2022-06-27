@@ -31,7 +31,6 @@ function Room({
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
-  const [score, setScore] = useState(0);
 	
   useEffect(() => {
 		socket.on("set-lobby", setLobby);
@@ -57,7 +56,6 @@ function Room({
 	}
 	
   const generatePlayerList = async (playersArr, turn) => {
-		console.log(playersArr);
     setPlayers(playersArr);
     setActivePlayer(playersArr[turn].username);
   };
@@ -128,8 +126,6 @@ function Room({
 		localStorage.removeItem('room');
 	}
 	
-	console.log('Room rendered');
-	
   return (
     <>
 			<div className="room">
@@ -156,8 +152,6 @@ function Room({
 								setActiveTimer={setActiveTimer}
 								isYourTurn={isYourTurn}
 								setTurn={setTurn}
-								score={score}
-								setScore={setScore}
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}
@@ -174,8 +168,6 @@ function Room({
 								setActiveTimer={setActiveTimer}
 								isYourTurn={isYourTurn}
 								setTurn={setTurn}
-								score={score}
-								setScore={setScore}
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}

@@ -13,8 +13,6 @@ const NumbersGame = ({
   setActiveTimer,
   isYourTurn,
   setTurn,
-  score,
-  setScore,
 	loggedIn,
 	jwt,
 	dailyHints,
@@ -227,8 +225,6 @@ const NumbersGame = ({
 		}
 		console.log('numbers solver not done yet');
 	};
-	
-	console.log("numbersgame rendered");
 	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">

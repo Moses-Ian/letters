@@ -12,8 +12,6 @@ const MainGame = ({
   setActiveTimer,
   isYourTurn,
   setTurn,
-  score,
-  setScore,
   loggedIn,
   jwt,
   dailyHints,
@@ -150,8 +148,6 @@ const MainGame = ({
       username: submittedUser,
       score: submittedScore,
     });
-    if (submittedUser === username && submittedScore > score)
-      setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -185,8 +181,6 @@ const MainGame = ({
       Auth.setToken(signedToken);
     }
   };
-
-	// console.log('maingame rendered');
 
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">

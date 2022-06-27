@@ -58,11 +58,12 @@ function App() {
 	const [jwt, setJWT] = useState(null);
 	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
   const [room, setRoom] = useState("");
-	const [isMobile, setMobile] = useState(true);
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
 	const { width, height } = useWindowSize();
   const [isYourTurn, setTurn] = useState(false);
+
+	const isMobile = (width <= 450);
 
 	function dailyHintReducer(dailyHints, action) {
 		let newDailyHints;
@@ -139,10 +140,6 @@ function App() {
 		createSocket();
 	// eslint-disable-next-line
 	}, []);
-	
-	useEffect(() => {
-		setMobile(width <= 450);
-	}, [width]);
 	
 	console.log('App.js rendered');
 
