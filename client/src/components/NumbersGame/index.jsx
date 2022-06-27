@@ -3,6 +3,8 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import Auth from '../../utils/auth';
 
+const DEFAULT_NUMBERS = new Array(6).fill({number: '', disabled: false});
+
 const NumbersGame = ({
   socket,
   username,
@@ -38,7 +40,7 @@ const NumbersGame = ({
   // track a final answer variable
   const [operationArr, setOperationArr] = useReducer(operationReducer, []);
 
-  const [numbersArr, setNumbersArr] = useReducer(numbersReducer, []);
+  const [numbersArr, setNumbersArr] = useReducer(numbersReducer, DEFAULT_NUMBERS);
   const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
   const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
@@ -201,6 +203,8 @@ const NumbersGame = ({
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
+		if (operations.length === 0 && numbers[0] === "") return;
+		
     const numberObjects = numbers.map(number => {return {number, disabled: false}});
     setNumbersArr({ type: "RENDER_NUMBERS", numbersArr: numberObjects });
     if (numberCount === 6)
@@ -224,6 +228,8 @@ const NumbersGame = ({
 		console.log('numbers solver not done yet');
 	};
 	
+	console.log("numbersgame rendered");
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
@@ -231,18 +237,16 @@ const NumbersGame = ({
       </div>
 			
       <div className="timer">
-				{activeTimer === "COUNTING" || activeTimer === "DONE" ? (
+				{(activeTimer === "COUNTING" || activeTimer === "DONE") &&
 					<Timer 
 						setActiveTimer={setActiveTimer}
 						timerCompleteHandler={timerCompleteHandler}
 					/> 
-				) : (
-					""
-				)}
+				}
 			</div>
 			
       <div className="numbers-generated has-text-centered" id="root">
-        {showNumberSection ? (
+        {showNumberSection &&
           <div className="rendered-letters column">
             <ul className="is-flex is-justify-content-center">
               {numbersArr.map((numberObj, index) => (
@@ -259,10 +263,9 @@ const NumbersGame = ({
               ))}
             </ul>
           </div>
-        ) : (
-          ""
-        )}
-        {showAddNumberBtns ? (
+        }
+				
+        {showAddNumberBtns &&
           <>
             <div className="has-text-centered mt-4">
               <button
@@ -283,10 +286,9 @@ const NumbersGame = ({
               </button>
             </div>
           </>
-        ) : (
-          ""
-        )}
-        {showTargetBtn ? (
+        }
+				
+        {showTargetBtn &&
           <div className="has-text-centered">
             <button
               className="button is-warning mt-4"
@@ -297,11 +299,9 @@ const NumbersGame = ({
               Target
             </button>
           </div>
-        ) : (
-          ""
-        )}
+        }
 
-        {showAnswerBtn ? (
+        {showAnswerBtn &&
           <div id="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
@@ -315,11 +315,9 @@ const NumbersGame = ({
               </button>
             ))}
           </div>
-        ) : (
-          ""
-        )}
+        }
 
-        {showOperationBtn ? (
+        {showOperationBtn &&
           <div className="mt-4" id="operation">
             <button
               className="multiply-btn button is-warning mr-1"
@@ -377,9 +375,8 @@ const NumbersGame = ({
               Reset
             </button>
           </div>
-        ) : (
-          ""
-        )}
+        }
+				
         <div id="work">
           <h1 className="mt-4" id="show-operation">
             {operationArr.join(" ")}
@@ -391,27 +388,25 @@ const NumbersGame = ({
           ))}
         </div>
 
-        {showCheckAnswerBtn ? (
+        {showCheckAnswerBtn &&
 					<>
-					<button
-						className="button is-warning mb-6 mt-4 mr-2"
-						onClick={getHint}
-						disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
-					>
-					{`${dailyHints} Hints`}
-					</button>
-          <button
-            className="button is-warning mb-6 mt-4"
-            id="check-answer"
-            onClick={calculateTotal}
-						disabled={!(activeTimer === "COUNTING")}
-          >
-            Submit Answer
-          </button>
+						<button
+							className="button is-warning mb-6 mt-4 mr-2"
+							onClick={getHint}
+							disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
+						>
+						{`${dailyHints} Hints`}
+						</button>
+						<button
+							className="button is-warning mb-6 mt-4"
+							id="check-answer"
+							onClick={calculateTotal}
+							disabled={!(activeTimer === "COUNTING")}
+						>
+							Submit Answer
+						</button>
 					</>
-        ) : (
-          ""
-        )}
+        }
       </div>
     </div>
   );

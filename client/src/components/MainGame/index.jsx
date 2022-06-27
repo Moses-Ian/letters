@@ -124,7 +124,7 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
-			setTimeout(() => inputRef.current.focus(), 3);
+			setTimeout(() => {if (inputRef.current) inputRef.current.focus()}, 6);
     }
   };
 
@@ -159,7 +159,7 @@ const MainGame = ({
     setWords({ type: "CLEAR" });
 
     setLettersInput("");
-    setTurn(false);
+    // setTurn(false);
     setActiveTimer("IDLE");
   };
 
@@ -186,7 +186,7 @@ const MainGame = ({
     }
   };
 
-	console.log('maingame rendered');
+	// console.log('maingame rendered');
 
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">

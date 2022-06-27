@@ -158,6 +158,7 @@ function App() {
 					<JoinGame
 						socket={socket}
 						username={username}
+						setUsername={setUsername}
 						usernameReady={usernameReady}
 						room={room}
 						setRoom={setRoom}

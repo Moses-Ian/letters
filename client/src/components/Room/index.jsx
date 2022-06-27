@@ -6,6 +6,7 @@ import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 
+const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
 const DEVELOP = false;
 
@@ -33,10 +34,10 @@ function Room({
   const [score, setScore] = useState(0);
 	
   useEffect(() => {
+		socket.on("set-lobby", setLobby);
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", updateRound);
-    socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
 		
 	//eslint-disable-next-line
@@ -47,6 +48,14 @@ function Room({
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
 	
+	const setLobby = (newRound, newPlayers, newTurn) => {
+		setRound(newRound);
+		setPlayers(newPlayers);
+		setActivePlayer(newPlayers[newTurn].username);
+		setTurn(newPlayers[newTurn].username === username);
+		setActiveTimer("IDLE");
+	}
+	
   const generatePlayerList = async (playersArr, turn) => {
     setPlayers(playersArr);
     setActivePlayer(playersArr[turn].username);
@@ -55,8 +64,9 @@ function Room({
   const nextRound = useCallback(() => {
 		if (isYourTurn) {
 			socket.emit("update-scores", room);
-			setTimeout(() => socket.emit("next-round", room), 7000);
+			setTimeout(() => socket.emit("next-round", room), ROUND_DELAY);
 		}
+	//eslint-disable-next-line
   }, [isYourTurn]);
 	
 	const nextRoundBtn = () => {
@@ -65,8 +75,10 @@ function Room({
 		socket.emit("next-round", room);
 	}
 	
-	const updateRound = newRound => {
+	// const updateRound = (newRound, newPlayers, newTurn) => {
+	const updateRound = (newRound, newTurn) => {
 		setRound(newRound);
+		setTurn(players[newTurn].username === username);
 		setActiveTimer("IDLE");
 	}
 
@@ -75,10 +87,6 @@ function Room({
     setActiveTimer(false);
   };
 
-  const setGameState = (round) => {
-		setRound(round);
-  };
-	
 	const setLobbyDisplay = () => {
 		if (!isMobile || display==='lobby')
 			return 'active-view';
@@ -118,8 +126,6 @@ function Room({
 		socket.emit("leave-game", room, () => setRoom(''));
 		localStorage.removeItem('room');
 	}
-	
-	console.log(username);
 	
   return (
     <>

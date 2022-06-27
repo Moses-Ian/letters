@@ -2,7 +2,15 @@ import React, { useState, useReducer, useEffect } from "react";
 import Modal from "../Modal";
 import { sanitize } from "../../utils";
 
-export default function JoinGame({ socket, username, usernameReady, room, setRoom, setTurn }) {
+export default function JoinGame({ 
+	socket, 
+	username, 
+	setUsername,
+	usernameReady, 
+	room, 
+	setRoom, 
+	setTurn 
+}) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
 	const [roomList, setRoomList] = useReducer(roomReducer, []);
@@ -80,17 +88,16 @@ export default function JoinGame({ socket, username, usernameReady, room, setRoo
   };
 
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, username, (success, newRoom, turn) => {
-      setRoom(newRoom);
-			setTurn(turn);
-      localStorage.setItem("room", newRoom);
-    });
-  };
-
-  const closeModal = (e) => {
-    setShow(false);
+    socket.emit("join-game", name, room, username, onJoin);
   };
 	
+	const onJoin = (success, newRoom, turn, newUsername) => {
+		setRoom(newRoom);
+		setTurn(turn);
+		if (newUsername !== username) setUsername(newUsername);
+		localStorage.setItem("room", newRoom);
+	};
+
 	if (!show) return (
 		<div className="field has-text-centered">
 			<button
