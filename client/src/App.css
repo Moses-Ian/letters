@@ -574,6 +574,7 @@ sup div {
   }
 }
 
+
 @media screen and (min-width: 1024px) {
   .live-chat-button {
     display: none;
@@ -585,6 +586,13 @@ sup div {
   .live-chat-input {
     width: 90%;
   }
+
+  /* .landing-letters:hover,
+  .winner:hover,
+  .ties:hover {
+    text-shadow: 10px 10px 4px black, 6px 6px 10px black;
+    font-size: 5rem;
+} */
 
   /* .swipe-arrows {
     display: none;
@@ -652,6 +660,13 @@ sup div {
   .sign-up-button {
     font-size: 14px;
   }
+
+  .landing-letters:hover,
+  .winner:hover,
+  .ties:hover {
+    text-shadow: 10px 10px 4px black, 6px 6px 10px black;
+    font-size: 5rem;
+}
 }
 
 
@@ -694,4 +709,15 @@ sup div {
     height: 20px;
     top: -90px;
   }
+
+  .landing-letters {
+    font-size: 3rem;
+  }
+
+  .landing-letters:hover,
+  .winner:hover,
+  .ties:hover {
+    text-shadow: 10px 10px 4px black, 6px 6px 10px black;
+    font-size: 3rem;
+}
 }
