@@ -19,7 +19,7 @@ const MainGame = ({
   dailyHints,
   setDailyHints,
   display,
-	timerCompleteHandler
+  timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -44,8 +44,8 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
-	const elementRef = useRef();
-	const inputRef = useRef();
+  const elementRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -53,7 +53,7 @@ const MainGame = ({
   }, [isYourTurn]);
 
   useEffect(() => {
-    if (display != "active-view") return;
+    if (display !== "active-view") return;
     elementRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -120,7 +120,7 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
-			// inputRef.current.focus();
+      // inputRef.current.focus();
     }
   };
 
@@ -133,7 +133,7 @@ const MainGame = ({
     event.preventDefault();
     const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
-		if (word === '') return;
+    if (word === "") return;
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
     setBadWordMsg(false);
@@ -196,8 +196,8 @@ const MainGame = ({
       <div className="timer">
         {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
           <Timer
-						setActiveTimer={setActiveTimer}
-						timerCompleteHandler={timerCompleteHandler}
+            setActiveTimer={setActiveTimer}
+            timerCompleteHandler={timerCompleteHandler}
           />
         ) : (
           ""
@@ -205,16 +205,31 @@ const MainGame = ({
       </div>
 
       <div className="field has-text-centered">
-        <div className={"letters-buttons " + (activeTimer === "COUNTING" || activeTimer === "DONE" ? "hidden" : "")}>
+        <div
+          className={
+            "letters-buttons " +
+            (activeTimer === "COUNTING" || activeTimer === "DONE"
+              ? "hidden"
+              : "")
+          }
+        >
           <button
-						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
+            disabled={
+              !isYourTurn ||
+              activeTimer === "COUNTING" ||
+              activeTimer === "DONE"
+            }
             className="button mr-3 is-warning"
             onClick={addVowel}
           >
             Vowel
           </button>
           <button
-						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
+            disabled={
+              !isYourTurn ||
+              activeTimer === "COUNTING" ||
+              activeTimer === "DONE"
+            }
             className="button is-warning"
             onClick={addConsonant}
           >
@@ -231,7 +246,9 @@ const MainGame = ({
                 className="button is-warning mr-1"
                 type="button"
                 value={`${dailyHints} Hints`}
-                disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
+                disabled={
+                  !(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0
+                }
                 onClick={getHint}
               />
             </div>
@@ -243,13 +260,11 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
-								ref={inputRef}
+                ref={inputRef}
                 disabled={!(activeTimer === "COUNTING")}
               />
               {badWordMsg && (
-                <p className="bad-word-msg mt-2">
-                  That is a bad word.
-                </p>
+                <p className="bad-word-msg mt-2">That is a bad word.</p>
               )}
             </div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
-import Auth from '../../utils/auth';
+import Auth from "../../utils/auth";
 
 const NumbersGame = ({
   socket,
@@ -13,12 +13,12 @@ const NumbersGame = ({
   setTurn,
   score,
   setScore,
-	loggedIn,
-	jwt,
-	dailyHints,
-	setDailyHints,
-	display,
-	timerCompleteHandler
+  loggedIn,
+  jwt,
+  dailyHints,
+  setDailyHints,
+  display,
+  timerCompleteHandler,
 }) => {
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
@@ -80,12 +80,12 @@ const NumbersGame = ({
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = false;
         break;
-			case "ENABLE_ALL":
-				newNumbers = numbersArr.map(numberObj => ({
-					number: numberObj.number,
-					disabled: false
-				}));
-				break;
+      case "ENABLE_ALL":
+        newNumbers = numbersArr.map((numberObj) => ({
+          number: numberObj.number,
+          disabled: false,
+        }));
+        break;
       case "RENDER_NUMBERS":
         newNumbers = [...action.numbersArr];
         break;
@@ -133,7 +133,7 @@ const NumbersGame = ({
         number,
         disabled: false,
       },
-      index
+      index,
     };
     setNumbersArr(action);
   };
@@ -151,14 +151,14 @@ const NumbersGame = ({
     setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
-		setActiveTimer("COUNTING");
+    setActiveTimer("COUNTING");
   }
 
   function calculateTotal() {
     socket.emit("submit-calculation", operationArr, username, room);
     // setShowCheckAnswerBtn(false);
-		setNumbersArr({ type: "ENABLE_ALL" });
-		setOperationArr({ type: "CLEAR" });
+    setNumbersArr({ type: "ENABLE_ALL" });
+    setOperationArr({ type: "CLEAR" });
   }
 
   function scoreAnswer(total, operationArr, username, score) {
@@ -194,61 +194,68 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-		setNumbersArr({ type: "ENABLE_ALL" });
+    setNumbersArr({ type: "ENABLE_ALL" });
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
-    const numberObjects = numbers.map(number => {return {number, disabled: false}});
+    const numberObjects = numbers.map((number) => {
+      return { number, disabled: false };
+    });
     setNumbersArr({ type: "RENDER_NUMBERS", numbersArr: numberObjects });
-    if (numberCount === 6)
-    setShowAddNumberBtns(false);
+    if (numberCount === 6) setShowAddNumberBtns(false);
 
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
-    if (target != 0)
-    addTarget(target);
-		console.log('setGameState in NumbersGame component');
+    if (target !== 0) addTarget(target);
+    console.log("setGameState in NumbersGame component");
   };
 
-	const getHint = () => {
-		socket.emit('get-numbers-hint', username, room, jwt, useHint);
-	};
-	
-	const useHint = signedToken => {
-		if (signedToken) {
-			setDailyHints({type: "DECREMENT"});
-			Auth.setToken(signedToken);
-		}
-		console.log('numbers solver not done yet');
-	};
-	
+  const getHint = () => {
+    socket.emit("get-numbers-hint", username, room, jwt, useHint);
+  };
+
+  const useHint = (signedToken) => {
+    if (signedToken) {
+      setDailyHints({ type: "DECREMENT" });
+      Auth.setToken(signedToken);
+    }
+    console.log("numbers solver not done yet");
+  };
+
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
         <h1>{targetNumber}</h1>
       </div>
-			
+
       <div className="timer">
-				{activeTimer === "COUNTING" || activeTimer === "DONE" ? (
-					<Timer 
-						setActiveTimer={setActiveTimer}
-						timerCompleteHandler={timerCompleteHandler}
-					/> 
-				) : (
-					""
-				)}
-			</div>
-			
+        {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
+          <Timer
+            setActiveTimer={setActiveTimer}
+            timerCompleteHandler={timerCompleteHandler}
+          />
+        ) : (
+          ""
+        )}
+      </div>
+
       <div className="numbers-generated has-text-centered" id="root">
         {showNumberSection ? (
           <div className="rendered-letters column">
             <ul className="is-flex is-justify-content-center">
               {numbersArr.map((numberObj, index) => (
-                <li className='letter-box' key={index}>
-									{numberObj.number == 100
-									? <span className={`letter-span ${numberObj.number == 100 && 'hundred'}`}>{numberObj.number}</span>
-									:	<span className='letter-span'>{numberObj.number}</span>
-									}
-									{/* other options for dealing with the hundred:
+                <li className="letter-box" key={index}>
+                  {numberObj.number === 100 ? (
+                    <span
+                      className={`letter-span ${
+                        numberObj.number === 100 && "hundred"
+                      }`}
+                    >
+                      {numberObj.number}
+                    </span>
+                  ) : (
+                    <span className="letter-span">{numberObj.number}</span>
+                  )}
+                  {/* other options for dealing with the hundred:
                   <span className='letter-span'>{numberObj.number}</span>
 									<span className='letter-span'>1<sup>00<div /></sup></span>
 									*/}
@@ -266,7 +273,7 @@ const NumbersGame = ({
                 className="button is-warning mr-2"
                 id="small-number-btn"
                 onClick={addSmallNumber}
-								disabled={!isYourTurn}
+                disabled={!isYourTurn}
               >
                 Small Number
               </button>
@@ -274,7 +281,7 @@ const NumbersGame = ({
                 className="button is-warning"
                 id="large-number-btn"
                 onClick={addLargeNumber}
-								disabled={!isYourTurn}
+                disabled={!isYourTurn}
               >
                 Large Number
               </button>
@@ -289,7 +296,7 @@ const NumbersGame = ({
               className="button is-warning mt-4"
               id="target"
               onClick={getRandomNumber}
-							disabled={!isYourTurn}
+              disabled={!isYourTurn}
             >
               Target
             </button>
@@ -382,30 +389,32 @@ const NumbersGame = ({
             {operationArr.join(" ")}
           </h1>
           {userTotal.map((total, index) => (
-            <li className='numbers-score' key={index}>
+            <li className="numbers-score" key={index}>
               {total.username}: {total.total}: {total.score} points
             </li>
           ))}
         </div>
 
         {showCheckAnswerBtn ? (
-					<>
-					<button
-						className="button is-warning mb-6 mt-4 mr-2"
-						onClick={getHint}
-						disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
-					>
-					{`${dailyHints} Hints`}
-					</button>
-          <button
-            className="button is-warning mb-6 mt-4"
-            id="check-answer"
-            onClick={calculateTotal}
-						disabled={!(activeTimer === "COUNTING")}
-          >
-            Submit Answer
-          </button>
-					</>
+          <>
+            <button
+              className="button is-warning mb-6 mt-4 mr-2"
+              onClick={getHint}
+              disabled={
+                !(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0
+              }
+            >
+              {`${dailyHints} Hints`}
+            </button>
+            <button
+              className="button is-warning mb-6 mt-4"
+              id="check-answer"
+              onClick={calculateTotal}
+              disabled={!(activeTimer === "COUNTING")}
+            >
+              Submit Answer
+            </button>
+          </>
         ) : (
           ""
         )}
