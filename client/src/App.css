@@ -499,6 +499,7 @@ sup div {
   border-radius: 5px;
   position: relative;
   text-align: center;
+  /* margin-top: 2px; */
 }
 
 .room-list-radio:checked + .room-list-label {
@@ -507,20 +508,20 @@ sup div {
 
 .room-list-label-border {
 	position: absolute;
-	left: 20%;
+	/* left: 20%; */
 	top: 0;
-	width: 60%;
+	width: 95%;
 	height: 100%;
-	border-top: 1px solid var(--seventh-color);
-	border-bottom: 1px solid var(--seventh-color);
+	/* border-top: 1px dotted var(--seventh-color); */
+	border-bottom: 1px dotted var(--seventh-color);
 }
 
 .room-list-div:first-child .room-list-label-border {
-  border-top: 2px solid var(--seventh-color);
+  border-top: 1px dotted var(--seventh-color);
 }
 
 .room-list-div:last-child .room-list-label-border {
-  border-bottom: 2px solid var(--seventh-color);
+  border-bottom: 1px dotted var(--seventh-color);
 }
 
 .room-list-radio {
