@@ -41,14 +41,14 @@ const client = new ApolloClient({
 // end graphql
 
 const swipeConfig = {
-	delta: 10,                             // min distance(px) before a swipe starts. *See Notes*
-	preventScrollOnSwipe: true,           // prevents scroll during swipe (*See Details*)
-	trackTouch: true,                      // track touch input
-	trackMouse: false,                     // track mouse input
-	rotationAngle: 0,                      // set a rotation angle
-	swipeDuration: Infinity,               // allowable duration of a swipe (ms). *See Notes*
-	touchEventOptions: { passive: true },  // options for touch listeners (*See Details*)
-}
+  delta: 10, // min distance(px) before a swipe starts. *See Notes*
+  preventScrollOnSwipe: true, // prevents scroll during swipe (*See Details*)
+  trackTouch: true, // track touch input
+  trackMouse: false, // track mouse input
+  rotationAngle: 0, // set a rotation angle
+  swipeDuration: Infinity, // allowable duration of a swipe (ms). *See Notes*
+  touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
+};
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -103,7 +103,7 @@ function App() {
 		}
 	}
 
-	const createSocket = () => {
+  const createSocket = () => {
     // const newSocket = io(`http://localhost:3001`);
     const newSocket = io(); //works in production and dev ???
     attachListeners(newSocket);
@@ -199,4 +199,3 @@ function App() {
 }
 
 export default App;
-						// setDailyHints={setDailyHints}

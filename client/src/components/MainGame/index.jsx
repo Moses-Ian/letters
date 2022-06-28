@@ -16,7 +16,7 @@ const MainGame = ({
   dailyHints,
   saveToken,
   display,
-	timerCompleteHandler
+  timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -44,8 +44,8 @@ const MainGame = ({
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
-	const elementRef = useRef();
-	const inputRef = useRef();
+  const elementRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -121,6 +121,7 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
+			// waits for the input to disable. if it is, then focus on it
 			setTimeout(() => {if (inputRef.current) inputRef.current.focus()}, 6);
     }
   };
@@ -134,7 +135,7 @@ const MainGame = ({
     event.preventDefault();
     const word = sanitize(lettersInput, { upper: true });
     setLettersInput("");
-		if (word === '') return;
+    if (word === "") return;
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
     setBadWordMsg(false);
@@ -154,7 +155,6 @@ const MainGame = ({
     setWords({ type: "CLEAR" });
 
     setLettersInput("");
-    // setTurn(false);
     setActiveTimer("IDLE");
   };
 
@@ -162,7 +162,6 @@ const MainGame = ({
 		if (words.length === 0 && letters[0] === "") return;
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
-    // console.log("setGameState in mainGame component");
   };
 	
   const badWord = () => {
@@ -195,8 +194,8 @@ const MainGame = ({
       <div className="timer">
         {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
           <Timer
-						setActiveTimer={setActiveTimer}
-						timerCompleteHandler={timerCompleteHandler}
+            setActiveTimer={setActiveTimer}
+            timerCompleteHandler={timerCompleteHandler}
           />
         ) : (
           ""
@@ -204,16 +203,31 @@ const MainGame = ({
       </div>
 
       <div className="field has-text-centered">
-        <div className={"letters-buttons " + (activeTimer === "COUNTING" || activeTimer === "DONE" ? "hidden" : "")}>
+        <div
+          className={
+            "letters-buttons " +
+            (activeTimer === "COUNTING" || activeTimer === "DONE"
+              ? "hidden"
+              : "")
+          }
+        >
           <button
-						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
+            disabled={
+              !isYourTurn ||
+              activeTimer === "COUNTING" ||
+              activeTimer === "DONE"
+            }
             className="button mr-3 is-warning"
             onClick={addVowel}
           >
             Vowel
           </button>
           <button
-						disabled={!isYourTurn || activeTimer === "COUNTING" || activeTimer === "DONE"}
+            disabled={
+              !isYourTurn ||
+              activeTimer === "COUNTING" ||
+              activeTimer === "DONE"
+            }
             className="button is-warning"
             onClick={addConsonant}
           >
@@ -230,7 +244,9 @@ const MainGame = ({
                 className="button is-warning mr-1"
                 type="button"
                 value={`${dailyHints} Hints`}
-                disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
+                disabled={
+                  !(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0
+                }
                 onClick={getHint}
               />
             </div>
@@ -242,13 +258,11 @@ const MainGame = ({
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
-								ref={inputRef}
+                ref={inputRef}
                 disabled={!(activeTimer === "COUNTING")}
               />
               {badWordMsg && (
-                <p className="bad-word-msg mt-2">
-                  That is a bad word.
-                </p>
+                <p className="bad-word-msg mt-2">That is a bad word.</p>
               )}
             </div>
 

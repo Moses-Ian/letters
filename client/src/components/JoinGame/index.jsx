@@ -13,20 +13,20 @@ export default function JoinGame({
 }) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
-	const [roomList, setRoomList] = useReducer(roomReducer, []);
-	const [selectedRoom, setSelectedRoom] = useState(null);
-	
-	function roomReducer(roomList, action) {
-		let newRoomList;
-		switch (action.type) {
-			case 'SET':
-				newRoomList = [...action.rooms];
-				break;
-			default:
-				throw new Error();
-		}
-		return newRoomList;
-	}
+  const [roomList, setRoomList] = useReducer(roomReducer, []);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  function roomReducer(roomList, action) {
+    let newRoomList;
+    switch (action.type) {
+      case "SET":
+        newRoomList = [...action.rooms];
+        break;
+      default:
+        throw new Error();
+    }
+    return newRoomList;
+  }
 
 	useEffect(() => {
 		if (!socket) return;
@@ -83,7 +83,7 @@ export default function JoinGame({
     e.preventDefault();
     let r = sanitize(roomInput);
     if (r !== "" && r !== room) joinRoom(r);
-		if (selectedRoom) joinRoom(selectedRoom);
+    if (selectedRoom) joinRoom(selectedRoom);
     setShow(false);
   };
 

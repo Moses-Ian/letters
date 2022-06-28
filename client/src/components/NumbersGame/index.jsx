@@ -82,12 +82,12 @@ const NumbersGame = ({
         newNumbers = numbersArr;
         newNumbers[action.index].disabled = false;
         break;
-			case "ENABLE_ALL":
-				newNumbers = numbersArr.map(numberObj => ({
-					number: numberObj.number,
-					disabled: false
-				}));
-				break;
+      case "ENABLE_ALL":
+        newNumbers = numbersArr.map((numberObj) => ({
+          number: numberObj.number,
+          disabled: false,
+        }));
+        break;
       case "RENDER_NUMBERS":
         newNumbers = [...action.numbersArr];
         break;
@@ -135,7 +135,7 @@ const NumbersGame = ({
         number,
         disabled: false,
       },
-      index
+      index,
     };
     setNumbersArr(action);
   };
@@ -153,14 +153,14 @@ const NumbersGame = ({
     setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
-		setActiveTimer("COUNTING");
+    setActiveTimer("COUNTING");
   }
 
   function calculateTotal() {
     socket.emit("submit-calculation", operationArr, username, room);
     // setShowCheckAnswerBtn(false);
-		setNumbersArr({ type: "ENABLE_ALL" });
-		setOperationArr({ type: "CLEAR" });
+    setNumbersArr({ type: "ENABLE_ALL" });
+    setOperationArr({ type: "CLEAR" });
   }
 
   function scoreAnswer(total, operationArr, username, score) {
@@ -196,7 +196,7 @@ const NumbersGame = ({
 
   const backspace = (event) => {
     setOperationArr({ type: "CLEAR" });
-		setNumbersArr({ type: "ENABLE_ALL" });
+    setNumbersArr({ type: "ENABLE_ALL" });
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
@@ -204,13 +204,10 @@ const NumbersGame = ({
 		
     const numberObjects = numbers.map(number => {return {number, disabled: false}});
     setNumbersArr({ type: "RENDER_NUMBERS", numbersArr: numberObjects });
-    if (numberCount === 6)
-    setShowAddNumberBtns(false);
+    if (numberCount === 6) setShowAddNumberBtns(false);
 
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
-    if (target !== 0)
-    addTarget(target);
-		console.log('setGameState in NumbersGame component');
+    if (target !== 0)  addTarget(target);
   };
 
 	const getHint = () => {
@@ -229,7 +226,7 @@ const NumbersGame = ({
       <div className="target-number has-text-centered mt-4">
         <h1>{targetNumber}</h1>
       </div>
-			
+
       <div className="timer">
 				{(activeTimer === "COUNTING" || activeTimer === "DONE") &&
 					<Timer 
@@ -266,7 +263,7 @@ const NumbersGame = ({
                 className="button is-warning mr-2"
                 id="small-number-btn"
                 onClick={addSmallNumber}
-								disabled={!isYourTurn}
+                disabled={!isYourTurn}
               >
                 Small Number
               </button>
@@ -274,7 +271,7 @@ const NumbersGame = ({
                 className="button is-warning"
                 id="large-number-btn"
                 onClick={addLargeNumber}
-								disabled={!isYourTurn}
+                disabled={!isYourTurn}
               >
                 Large Number
               </button>
@@ -288,7 +285,7 @@ const NumbersGame = ({
               className="button is-warning mt-4"
               id="target"
               onClick={getRandomNumber}
-							disabled={!isYourTurn}
+              disabled={!isYourTurn}
             >
               Target
             </button>
@@ -376,7 +373,7 @@ const NumbersGame = ({
             {operationArr.join(" ")}
           </h1>
           {userTotal.map((total, index) => (
-            <li className='numbers-score' key={index}>
+            <li className="numbers-score" key={index}>
               {total.username}: {total.total}: {total.score} points
             </li>
           ))}
