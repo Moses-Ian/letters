@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
@@ -54,9 +54,7 @@ function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
 	const [usernameReady, setUsernameReady] = useState(false);
-	const [loggedIn, setLoggedIn] = useState(false);
 	const [jwt, setJWT] = useState(null);
-	const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
@@ -64,22 +62,10 @@ function App() {
   const [isYourTurn, setTurn] = useState(false);
 
 	const isMobile = (width <= 450);
-
-	function dailyHintReducer(dailyHints, action) {
-		let newDailyHints;
-		switch (action.type) {
-			case "DECREMENT":
-				newDailyHints = dailyHints - 1;
-				break;
-			case "SET":
-				newDailyHints = action.dailyHints;
-				break;
-			default:
-				throw new Error();
-		}
-		return newDailyHints;
-	};
-
+	const loggedIn = Auth.loggedIn();
+	const decodedToken = Auth.decodeToken(Auth.getToken())
+	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
+	
   const attachListeners = (socket) => {
     socket.on("connect", () => {
       console.log(`You connected with id: ${socket.id}`);
@@ -92,6 +78,11 @@ function App() {
 		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
 		...swipeConfig,
 	});
+
+	const saveToken = useCallback((jwt) => {
+		setJWT(jwt);
+		Auth.setToken(jwt);
+	}, []);
 
 	const extendToken = async () => {
 		try {
@@ -128,11 +119,10 @@ function App() {
 					return;
 				}
 				const { data } = Auth.decodeToken(token);
+				console.log(data);
 				setUsername(data.username);
 				setUsernameReady(true);
-				setLoggedIn(true);
-				setJWT(token);
-				setDailyHints({type: "SET", dailyHints: data.dailyHints});
+				saveToken(token);
 			}
 			setUsernameReady(true);
 		};
@@ -173,7 +163,7 @@ function App() {
 						loggedIn={loggedIn}
 						jwt={jwt}
 						dailyHints={dailyHints}
-						setDailyHints={setDailyHints}
+						saveToken={saveToken}
 						isMobile={isMobile}
 						display={display}
 						isYourTurn={isYourTurn}
@@ -186,3 +176,4 @@ function App() {
 }
 
 export default App;
+						// setDailyHints={setDailyHints}

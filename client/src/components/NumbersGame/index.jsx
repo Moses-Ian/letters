@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
-import Auth from '../../utils/auth';
 
 const DEFAULT_NUMBERS = new Array(6).fill({number: '', disabled: false});
 
@@ -16,7 +15,7 @@ const NumbersGame = ({
 	loggedIn,
 	jwt,
 	dailyHints,
-	setDailyHints,
+	saveToken,
 	display,
 	timerCompleteHandler
 }) => {
@@ -220,8 +219,7 @@ const NumbersGame = ({
 	
 	const useHint = signedToken => {
 		if (signedToken) {
-			setDailyHints({type: "DECREMENT"});
-			Auth.setToken(signedToken);
+			saveToken(signedToken);
 		}
 		console.log('numbers solver not done yet');
 	};

@@ -19,7 +19,7 @@ function Room({
 	loggedIn, 
 	jwt,
 	dailyHints,
-	setDailyHints,
+	saveToken,
 	isMobile,
 	display,
 	width,
@@ -155,7 +155,7 @@ function Room({
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}
-								setDailyHints={setDailyHints}
+								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
@@ -171,7 +171,7 @@ function Room({
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}
-								setDailyHints={setDailyHints}
+								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
