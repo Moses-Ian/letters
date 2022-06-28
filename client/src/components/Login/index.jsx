@@ -5,15 +5,11 @@ import { sanitize } from "../../utils";
 
 //graphql
 import { useMutation } from "@apollo/client";
-import Auth from "../../utils/auth";
 import { LOGIN } from "../../utils/mutations";
 
 
-export default function Login() {
+export default function Login({ saveToken }) {
   const [show, setShow] = useState(false);
-
-  // Ian's cool graphql code
-
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login] = useMutation(LOGIN);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -28,9 +24,7 @@ export default function Login() {
         },
       });
       const token = mutationResponse.data.login.token;
-      Auth.login(token);
-
-      console.log(token);
+			saveToken(token);
     } catch (e) {
       console.log(e);
       setErrorMsg(true);

@@ -81,7 +81,12 @@ function App() {
 
 	const saveToken = useCallback((jwt) => {
 		setJWT(jwt);
-		Auth.setToken(jwt);
+		Auth.login(jwt);
+	}, []);
+	
+	const deleteToken = useCallback((jwt) => {
+		setJWT(null);
+		Auth.logout();
 	}, []);
 
 	const extendToken = async () => {
@@ -119,7 +124,6 @@ function App() {
 					return;
 				}
 				const { data } = Auth.decodeToken(token);
-				console.log(data);
 				setUsername(data.username);
 				setUsernameReady(true);
 				saveToken(token);
@@ -131,15 +135,34 @@ function App() {
 	// eslint-disable-next-line
 	}, []);
 	
+	useEffect(() => {
+		const decodedToken = Auth.decodeToken(jwt);
+		if (!decodedToken) {
+			setUsername('Guest');
+			setUsernameReady(true);
+			return;
+		}
+		setUsername(decodedToken.data.username);
+		setUsernameReady(true);
+	}, [jwt]);
+	
 	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
       <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
 			{!loggedIn && room === "" ? (
-          <LandingPage socket={socket} username={username} />
+          <LandingPage 
+						socket={socket} 
+						username={username} 
+						saveToken={saveToken}
+					/>
         ) : (
-          <Header username={username} loggedIn={loggedIn} />
+          <Header 
+						username={username} 
+						loggedIn={loggedIn} 
+						deleteToken={deleteToken}
+					/>
 			)}
 				{room === "" ? (
 					<JoinGame
