@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Confetti from "react-confetti";
-import useWindowSize from "../../utils/useWindowSize";
 
 const L = ctx => ctx.fillText("L", 0, 5);
 const THREE = ctx => ctx.fillText("3", 0, 5);

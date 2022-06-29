@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MW from "../../assets/images/Merriam-Webster.png";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
@@ -6,6 +6,7 @@ import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 
+const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
 const DEVELOP = false;
 
@@ -18,25 +19,27 @@ function Room({
 	loggedIn, 
 	jwt,
 	dailyHints,
-	setDailyHints,
+	saveToken,
 	isMobile,
 	display,
 	width,
-	height
+	height,
+	isYourTurn,
+	setTurn
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
-  const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
-  const [score, setScore] = useState(0);
 	
   useEffect(() => {
+		socket.on("set-lobby", setLobby);
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", updateRound);
-    socket.on("set-game-state-room", setGameState);
 		socket.on("update-username", (newUsername) => setUsername(newUsername));
+		
+	//eslint-disable-next-line
   }, [socket]);
 	
   useEffect(() => {
@@ -44,26 +47,37 @@ function Room({
     else document.body.classList.remove("your-turn");
   }, [isYourTurn]);
 	
+	const setLobby = (newRound, newPlayers, newTurn) => {
+		setRound(newRound);
+		setPlayers(newPlayers);
+		setActivePlayer(newPlayers[newTurn].username);
+		setTurn(newPlayers[newTurn].username === username);
+		setActiveTimer("IDLE");
+	}
+	
   const generatePlayerList = async (playersArr, turn) => {
     setPlayers(playersArr);
     setActivePlayer(playersArr[turn].username);
   };
 
-  const nextRound = () => {
+  const nextRound = useCallback(() => {
 		if (isYourTurn) {
 			socket.emit("update-scores", room);
-			setTimeout(() => socket.emit("next-round", room), 7000);
+			setTimeout(() => socket.emit("next-round", room), ROUND_DELAY);
 		}
-  };
+	//eslint-disable-next-line
+  }, [isYourTurn]);
 	
 	const nextRoundBtn = () => {
-		//this is only for dev. eventually that button will go away entirely
+		//this is only for dev.
 		socket.emit("update-scores", room);
 		socket.emit("next-round", room);
 	}
 	
-	const updateRound = newRound => {
+	const updateRound = (newRound, activeUsername) => {
 		setRound(newRound);
+		setTurn(activeUsername === username);
+		setActivePlayer(activeUsername);
 		setActiveTimer("IDLE");
 	}
 
@@ -72,10 +86,6 @@ function Room({
     setActiveTimer(false);
   };
 
-  const setGameState = (round) => {
-		setRound(round);
-  };
-	
 	const setLobbyDisplay = () => {
 		if (!isMobile || display==='lobby')
 			return 'active-view';
@@ -142,12 +152,10 @@ function Room({
 								setActiveTimer={setActiveTimer}
 								isYourTurn={isYourTurn}
 								setTurn={setTurn}
-								score={score}
-								setScore={setScore}
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}
-								setDailyHints={setDailyHints}
+								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
@@ -160,12 +168,10 @@ function Room({
 								setActiveTimer={setActiveTimer}
 								isYourTurn={isYourTurn}
 								setTurn={setTurn}
-								score={score}
-								setScore={setScore}
 								loggedIn={loggedIn}
 								jwt={jwt}
 								dailyHints={dailyHints}
-								setDailyHints={setDailyHints}
+								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>

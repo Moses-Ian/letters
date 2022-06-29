@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
 import { io } from "socket.io-client";
 import Auth from "./utils/auth";
@@ -52,61 +52,56 @@ const swipeConfig = {
 
 function App() {
   const [socket, setSocket] = useState(null);
-  const [username, setUsername] = useState("Guest");
-  const [usernameReady, setUsernameReady] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [jwt, setJWT] = useState(null);
-  const [dailyHints, setDailyHints] = useReducer(dailyHintReducer, 0);
+	const [username, setUsername] = useState('Guest');
+	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
+	const [jwt, setJWT] = useState(null);
   const [room, setRoom] = useState("");
-  const [isMobile, setMobile] = useState(true);
-  const [display, setDisplay] = useState("game");
+	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
-  const { width, height } = useWindowSize();
-  console.log(width);
+	const { width, height } = useWindowSize();
+  const [isYourTurn, setTurn] = useState(false);
 
-  function dailyHintReducer(dailyHints, action) {
-    let newDailyHints;
-    switch (action.type) {
-      case "DECREMENT":
-        newDailyHints = dailyHints - 1;
-        break;
-      case "SET":
-        newDailyHints = action.dailyHints;
-        break;
-      default:
-        throw new Error();
-    }
-    return newDailyHints;
-  }
-
+	const isMobile = (width <= 450);
+	const loggedIn = Auth.loggedIn();
+	const decodedToken = Auth.decodeToken(Auth.getToken())
+	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
+	
   const attachListeners = (socket) => {
     socket.on("connect", () => {
       console.log(`You connected with id: ${socket.id}`);
     });
   };
 
-  const swipeHandlers = useSwipeable({
-    // onSwiped: (eventData) => console.log("User Swiped!", eventData),
-    onSwipedLeft: (eventData) =>
-      setDisplay(display === "lobby" ? "game" : "chat"),
-    onSwipedRight: (eventData) =>
-      setDisplay(display === "chat" ? "game" : "lobby"),
-    ...swipeConfig,
-  });
+	const swipeHandlers = useSwipeable({
+		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
+		onSwipedLeft:  (eventData) => setDisplay(display === 'lobby' ? 'game' : 'chat'),
+		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
+		...swipeConfig,
+	});
 
-  const extendToken = async () => {
-    try {
-      const mutationResponse = await extend({
-        headers: {
-          authorization: Auth.getProfile(),
-        },
-      });
-      return mutationResponse.data.extend.token;
-    } catch (err) {
-      console.error(err.message);
-      return null;
-    }
-  };
+	const saveToken = useCallback((jwt) => {
+		setJWT(jwt);
+		Auth.login(jwt);
+	}, []);
+	
+	const deleteToken = useCallback((jwt) => {
+		setJWT(null);
+		Auth.logout();
+	}, []);
+
+	const extendToken = async () => {
+		try {
+			const mutationResponse = await extend({
+				headers: {
+					authorization: Auth.getProfile()
+				}
+			});
+			return mutationResponse.data.extend.token;
+		} catch (err) {
+			console.error(err.message);
+			return null;
+		}
+	}
 
   const createSocket = () => {
     // const newSocket = io(`http://localhost:3001`);
@@ -117,68 +112,86 @@ function App() {
       socket.disconnect();
       newSocket.close();
     };
-  };
-
-  useEffect(() => {
-    async function updateProfile() {
-      const profile = Auth.getProfile();
-      if (profile && Auth.loggedIn()) {
-        const token = await extendToken();
-        if (!token) {
-          setUsernameReady(true);
-          return;
-        }
-        const { data } = Auth.decodeToken(token);
-        setUsername(data.username);
-        setUsernameReady(true);
-        setLoggedIn(true);
-        setJWT(token);
-        setDailyHints({ type: "SET", dailyHints: data.dailyHints });
-      }
-      setUsernameReady(true);
-    }
-    updateProfile();
-    createSocket();
-  }, []);
-
-  useEffect(() => {
-    setMobile(width <= 450);
-  }, [width]);
-
-  // console.log('App.js rendered');
+  }
+	
+	useEffect(() => {
+		async function updateProfile() {
+			const profile = Auth.getProfile();
+			if (profile && Auth.loggedIn()) {
+				const token = await extendToken();
+				if (!token) {
+					setUsernameReady(true);
+					return;
+				}
+				const { data } = Auth.decodeToken(token);
+				setUsername(data.username);
+				setUsernameReady(true);
+				saveToken(token);
+			}
+			setUsernameReady(true);
+		};
+		updateProfile();
+		createSocket();
+	// eslint-disable-next-line
+	}, []);
+	
+	useEffect(() => {
+		const decodedToken = Auth.decodeToken(jwt);
+		if (!decodedToken) {
+			setUsername('Guest');
+			setUsernameReady(true);
+			return;
+		}
+		setUsername(decodedToken.data.username);
+		setUsernameReady(true);
+	}, [jwt]);
+	
+	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
       <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
-        {!loggedIn && room === "" ? (
-          <LandingPage socket={socket} username={username} />
+			{!loggedIn && room === "" ? (
+          <LandingPage 
+						socket={socket} 
+						username={username} 
+						saveToken={saveToken}
+					/>
         ) : (
-          <Header username={username} loggedIn={loggedIn} />
-        )}
-        {room === "" ? (
-          <JoinGame
-            socket={socket}
-            username={username}
-            usernameReady={usernameReady}
-            room={room}
-            setRoom={setRoom}
-            width={width}
-            height={height}
-          />
-        ) : (
-          <Room
-            socket={socket}
-            username={username}
-            setUsername={setUsername}
-            room={room}
-            setRoom={setRoom}
-            loggedIn={loggedIn}
-            jwt={jwt}
-            dailyHints={dailyHints}
-            setDailyHints={setDailyHints}
-            isMobile={isMobile}
-            display={display}
-          />
+          <Header 
+						username={username} 
+						loggedIn={loggedIn} 
+						deleteToken={deleteToken}
+					/>
+			)}
+				{room === "" ? (
+					<JoinGame
+						socket={socket}
+						username={username}
+						setUsername={setUsername}
+						usernameReady={usernameReady}
+						room={room}
+						setRoom={setRoom}
+						width={width}
+						height={height}
+						setTurn={setTurn}
+					/>
+				) : (
+          <Room 
+						socket={socket} 
+						username={username} 
+						setUsername={setUsername}
+						room={room}
+						setRoom={setRoom}
+						loggedIn={loggedIn}
+						jwt={jwt}
+						dailyHints={dailyHints}
+						saveToken={saveToken}
+						isMobile={isMobile}
+						display={display}
+						isYourTurn={isYourTurn}
+						setTurn={setTurn}
+					/>
         )}
       </div>
     </ApolloProvider>

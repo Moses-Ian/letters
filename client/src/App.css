@@ -15,31 +15,31 @@
 }
 
 html {
-  height: 100vh;
+  height: 100%;
 }
 
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
-  height: 100vh;
+  height: 100%;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  /* overflow: hidden; */
-  overflow-y: scroll;
+  overflow: hidden;
+  /* overflow-y: scroll; */
 }
 
 #root {
-  height: 100vh;
+  /* height: 100%; */
 }
 
 .App {
-  height: 100vh;
+  height: 100%;
 }
 
 .room {
-  height: 100vh;
+  height: 100%;
   position: relative;
 }
 
@@ -51,8 +51,8 @@ body {
 
 .button,
 .hover-transition,
-input,
-textarea {
+input
+ {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
 }
@@ -91,7 +91,7 @@ textarea {
   background-color: #edeae5c2;
   background-size: 50px;
   border-radius: 5px;
-  padding: 2vh;
+  padding: 2vh 2vh 1vh 2vh;
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
@@ -102,7 +102,9 @@ textarea {
   color: var(--quinary-color);
   font-size: 15px;
   height: 10vh;
-  overflow-y: overlay;
+  overflow-y: scroll;
+  /* overflow-y: overlay; */
+	margin-bottom: 1vh;
 }
 
 .live-chat {
@@ -110,38 +112,53 @@ textarea {
   color: var(--quinary-color);
 }
 
+.chat-form {
+  height: fit-content;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: fit-content;
+}
+
 .live-chat-input {
-  height: 4vh !important;
+	flex-grow: 1;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
-  width: 70vw;
   text-align: left;
   opacity: 0.6;
-  /* padding: 3px; */
-  padding: 0.2em 3px 0 3px;
-  word-wrap: normal;
-  /* height: fit-content; */
-  font-size: 1em;
-  display: flexbox;
+  padding: 0.2em 3px .2em 3px;
+	
+	
+	/* The following attributes fucked everything up. You can try to fight me on this if you want to include any of them. */
+	
+  /* word-wrap: normal; */
+  /* width: 70vw; */
+  /* height: fit-content; /* the div gets bigger when you type multiple lines */ 
+  /* height: 4vh !important; */
+  /* font-size: 1em; */
+  /* display: block; */
 }
 
 .live-chat-button {
-  height: 4vh;
-  margin-left: 1vw;
+	margin-left: 1vw;
   background-color: var(--quanternary-color);
   border-radius: 5px;
-  font-size: 11px;
-  border: 1px solid rgba(0, 0, 0, 0);
+	border: none;
   font-family: Fugaz One;
-  color: var(--seventh-color);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-  vertical-align: 100%;
-  position: absolute;
+  color: var(--seventh-color);
+	
+	/* the following attributes messed with everything. seriously, git gud with flexbox and we wont have these weird height/width issues */
+
+  /* height: 3.3vh;	 */
+	/* height: 100%; */
+  /* font-size: 11px; */
+  /* border: 1px solid rgba(0, 0, 0, 0);  */
+	/* zero alpha? just use border: none; */
+  /* vertical-align: 100%; */
+  /* position: absolute; */
 }
-/* .chat-form {
-  height: 3vh;
-} */
 
 .username-chat {
   color: #5d909a;
@@ -561,17 +578,6 @@ sup div {
 
 /* Desktop */
 @media screen and (min-width: 1280px) {
-  .live-chat-button {
-    display: none;
-  }
-
-  .swipe-arrows {
-    display: none;
-  }
-
-  .swipe-arrows1 {
-    display: none;
-  }
 }
 
 
@@ -583,9 +589,11 @@ sup div {
 
 /* Tablets */
 @media screen and (max-width: 1024px) {
-  .live-chat-input {
-    width: 90%;
-  }
+	/* when you start manually setting widths at different screen sizes, you know you should have taken a different approach */
+	
+  /* .live-chat-input { */
+    /* width: 90%; */
+  /* } */
 
   /* .landing-letters:hover,
   .winner:hover,
@@ -602,8 +610,12 @@ sup div {
   } */
 }
 
+/* yeah, its backwards */
+@media screen and (min-width: 451px) {
+	.view {
+		position: static;
+	}
 
-@media screen and (min-width: 481px) {
   .swipe-arrows {
     display: none;
   }
@@ -613,32 +625,44 @@ sup div {
   }
 }
 
-/* Mobile */
-@media screen and (max-width: 480px) {
-  .live-chat-input {
-    width: 78%;
-    position: absolute;
-    bottom: -3px;
-  }
+.active-view {
+	left: 0;
+}
 
-  .chat-form {
-    height: 5vh;
-    position: relative;
-  }
+.inactive-view-left {
+	left: -100vw;
+}
+
+.inactive-view-right {
+	left: 100vw;
+}
+
+/* Mobile */
+@media screen and (max-width: 450px) {
+  /* .chat-form { */
+    /* height: 5vh; */
+    /* position: relative; */
+  /* } */
+
+  /* .live-chat-input { */
+    /* width: 78%; */
+    /* position: absolute; */
+    /* bottom: -3px; */
+  /* } */
+
+  /* .live-chat-button { */
+    /* display: show; */
+    /* position: absolute; */
+    /* bottom: -2px; */
+    /* right: 10px; */
+  /* } */
 
   .words-list {
     height: 11vh;
   }
 
-  .live-chat-button {
-    display: show;
-    position: absolute;
-    bottom: -2px;
-    right: 10px;
-  }
-
   .live-chat-message {
-    overflow-y: overlay;
+    /* overflow-y: overlay; */
     height: 50vh;
   }
 
@@ -666,38 +690,19 @@ sup div {
   .ties:hover {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 5rem;
-}
-}
-
-
-@media screen and (min-width: 451px) {
-	.view {
-		position: static;
 	}
-}
-
-.active-view {
-	left: 0;
-}
-
-.inactive-view-left {
-	left: -100vw;
-}
-
-.inactive-view-right {
-	left: 100vw;
 }
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
-  .live-chat-input {
-    width: 73%;
-  }
+  /* .live-chat-input { */
+    /* width: 73%; */
+  /* } */
 
-  .live-chat-message {
-    overflow-y: overlay;
-    height: 52vh;
-  }
+  /* .live-chat-message { */
+    /* overflow-y: overlay; */
+    /* height: 52vh; */
+  /* } */
 
   #work {
     font-size: 15px;
@@ -719,5 +724,16 @@ sup div {
   .ties:hover {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 3rem;
+	}
 }
+
+/* short screens */
+/* chosen by eyesight. if you have a g */
+@media screen and (max-height: 845px) {
+	body {
+		height: fit-content;
+		min-height: 100vh;
+		overflow-y: scroll;
+	}
+		
 }

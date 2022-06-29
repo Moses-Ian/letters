@@ -2,7 +2,6 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
-import Auth from "../../utils/auth";
 
 const MainGame = ({
   socket,
@@ -12,35 +11,36 @@ const MainGame = ({
   setActiveTimer,
   isYourTurn,
   setTurn,
-  score,
-  setScore,
   loggedIn,
   jwt,
   dailyHints,
-  setDailyHints,
+  saveToken,
   display,
   timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-  useEffect(() => {
+  
+	useEffect(() => {
     socket.emit("get-letters-state", room, setGameState);
+	//eslint-disable-next-line
   }, []);
+	
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("bad-word", badWord);
 
-    return () => {};
+	//eslint-disable-next-line
   }, [socket]);
 
   // variables
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill(" ")
+    new Array(9).fill("")
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
@@ -59,6 +59,7 @@ const MainGame = ({
       block: "end",
       inline: "nearest",
     });
+	//eslint-disable-next-line
   }, [words]);
 
   // functions
@@ -120,7 +121,8 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
-      // inputRef.current.focus();
+			// waits for the input to disable. if it is, then focus on it
+			setTimeout(() => {if (inputRef.current) inputRef.current.focus()}, 6);
     }
   };
 
@@ -146,8 +148,6 @@ const MainGame = ({
       username: submittedUser,
       score: submittedScore,
     });
-    if (submittedUser === username && submittedScore > score)
-      setScore(submittedScore);
   };
 
   const clearLetters = () => {
@@ -155,16 +155,15 @@ const MainGame = ({
     setWords({ type: "CLEAR" });
 
     setLettersInput("");
-    setTurn(false);
     setActiveTimer("IDLE");
   };
 
   const setGameState = (letters, words) => {
+		if (words.length === 0 && letters[0] === "") return;
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
-    // console.log("setGameState in mainGame component");
   };
-
+	
   const badWord = () => {
     console.log("that is a bad word");
     setBadWordMsg(true);
@@ -176,8 +175,7 @@ const MainGame = ({
 
   const useHint = (signedToken) => {
     if (signedToken) {
-      setDailyHints({ type: "DECREMENT" });
-      Auth.setToken(signedToken);
+			saveToken(signedToken);
     }
   };
 

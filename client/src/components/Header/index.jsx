@@ -1,7 +1,6 @@
 import React from "react";
-import Auth from "../../utils/auth";
 
-const Header = ({ username, loggedIn }) => {
+const Header = ({ username, loggedIn, deleteToken }) => {
   return (
     <>
       <div className="is-flex is-justify-content-space-between">
@@ -12,7 +11,7 @@ const Header = ({ username, loggedIn }) => {
 				{loggedIn &&
 					<button
 						className="modal-toggle-button is-warning mt-5"
-						onClick={() => Auth.logout()}
+						onClick={deleteToken}
 					>
 						Logout
 					</button>
