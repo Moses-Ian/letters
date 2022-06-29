@@ -123,7 +123,7 @@ textarea {
   word-wrap: normal;
   /* height: fit-content; */
   font-size: 1em;
-  display: flexbox;
+  
 }
 
 .live-chat-button {
@@ -558,7 +558,6 @@ sup div {
 }
 
 
-
 /* Desktop */
 @media screen and (min-width: 1280px) {
   .live-chat-button {
@@ -687,6 +686,7 @@ sup div {
 .inactive-view-right {
 	left: 100vw;
 }
+
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
