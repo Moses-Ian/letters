@@ -53,7 +53,7 @@ const swipeConfig = {
 function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
-	const [usernameReady, setUsernameReady] = useState(false);
+	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
 	const [jwt, setJWT] = useState(null);
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');

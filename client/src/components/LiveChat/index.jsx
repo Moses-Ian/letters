@@ -143,7 +143,7 @@ function LiveChat({ socket, username, room, display }) {
 						rows={rows}
 						onBlur={handleBlur}
 					/>
-					<button className="live-chat-button" type="submit" id="send-button">
+					<button className="live-chat-button mr-2" type="submit" id="send-button">
 						Send
 					</button>
 				</form>
