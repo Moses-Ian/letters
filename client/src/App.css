@@ -31,7 +31,7 @@ body {
 }
 
 #root {
-  height: 100%;
+  /* height: 100%; */
 }
 
 .App {
@@ -91,7 +91,7 @@ textarea {
   background-color: #edeae5c2;
   background-size: 50px;
   border-radius: 5px;
-  padding: 2vh;
+  padding: 2vh 2vh 1vh 2vh;
   width: auto;
   box-shadow: 3px 8px 10px #026670;
   border: #02677083 5px solid;
@@ -102,7 +102,9 @@ textarea {
   color: var(--quinary-color);
   font-size: 15px;
   height: 10vh;
-  overflow-y: overlay;
+  overflow-y: scroll;
+  /* overflow-y: overlay; */
+	margin-bottom: 1vh;
 }
 
 .live-chat {
@@ -576,17 +578,6 @@ sup div {
 
 /* Desktop */
 @media screen and (min-width: 1280px) {
-  .live-chat-button {
-    display: none;
-  }
-
-  .swipe-arrows {
-    display: none;
-  }
-
-  .swipe-arrows1 {
-    display: none;
-  }
 }
 
 
@@ -671,7 +662,7 @@ sup div {
   }
 
   .live-chat-message {
-    overflow-y: overlay;
+    /* overflow-y: overlay; */
     height: 50vh;
   }
 
@@ -708,10 +699,10 @@ sup div {
     /* width: 73%; */
   /* } */
 
-  .live-chat-message {
-    overflow-y: overlay;
-    height: 52vh;
-  }
+  /* .live-chat-message { */
+    /* overflow-y: overlay; */
+    /* height: 52vh; */
+  /* } */
 
   #work {
     font-size: 15px;

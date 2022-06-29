@@ -20,13 +20,17 @@ function LiveChat({ socket, username, room, display }) {
   useEffect(() => {
 		if (display !== 'active-view')
 			return;
-    elementRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
+    // elementRef.current.scrollIntoView({
+      // behavior: "smooth",
+      // block: "end",
+      // inline: "nearest",
+    // });	// smooth scroll just suddenly stopped working?
+		elementRef.current.scrollIntoView({
+			block: "end", 
+			inline: "nearest"
+		});
 	// eslint-disable-next-line
-  }, [messages]);
+  }, [messages]); 
 
   function messageReducer(messages, action) {
     let newMessages;
@@ -63,7 +67,6 @@ function LiveChat({ socket, username, room, display }) {
 	}
 
   const handleFormSubmit = async (event) => {
-		console.log(event.target);
     event.preventDefault();
     if (formState.message.trim() === "") return;
     //append message to element
@@ -76,7 +79,6 @@ function LiveChat({ socket, username, room, display }) {
 		setRows({ type: "RESET" });
     //socket.emit
     socket.emit("send-message", formState.message.trim(), username, room);
-    console.log(`submit ${formState.message}`);
   };
 
   const handleChange = (event) => {
