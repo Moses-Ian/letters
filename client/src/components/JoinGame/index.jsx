@@ -9,7 +9,8 @@ export default function JoinGame({
 	usernameReady, 
 	room, 
 	setRoom, 
-	setTurn 
+	setTurn,
+	setRound
 }) {
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
@@ -91,9 +92,10 @@ export default function JoinGame({
     socket.emit("join-game", name, room, username, onJoin);
   };
 	
-	const onJoin = (success, newRoom, turn, newUsername) => {
+	const onJoin = (success, newRoom, turn, round, newUsername) => {
 		setRoom(newRoom);
 		setTurn(turn);
+		setRound(round);
 		if (newUsername !== username) setUsername(newUsername);
 		localStorage.setItem("room", newRoom);
 	};

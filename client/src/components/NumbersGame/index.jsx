@@ -208,6 +208,8 @@ const NumbersGame = ({
 
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
     if (target !== 0)  addTarget(target);
+		
+		if (numbers[5] !== '') setActiveTimer('WAIT');
   };
 
 	const getHint = () => {
@@ -234,6 +236,7 @@ const NumbersGame = ({
 						timerCompleteHandler={timerCompleteHandler}
 					/> 
 				}
+				{(activeTimer === "WAIT" && <p>Waiting for the next round...</p>)}
 			</div>
 			
       <div className="numbers-generated has-text-centered" id="root">

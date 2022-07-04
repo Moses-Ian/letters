@@ -25,11 +25,12 @@ function Room({
 	width,
 	height,
 	isYourTurn,
-	setTurn
+	setTurn,
+	round,
+	setRound
 }) {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
-  const [round, setRound] = useState(1);
   const [activePlayer, setActivePlayer] = useState("");
 	
   useEffect(() => {

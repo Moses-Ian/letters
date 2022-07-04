@@ -59,9 +59,9 @@ function App() {
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
-	console.log(client);
 	const { width, height } = useWindowSize();
   const [isYourTurn, setTurn] = useState(false);
+  const [round, setRound] = useState(1);
 
 	const isMobile = (width <= 450);
 	const loggedIn = Auth.loggedIn();
@@ -134,6 +134,11 @@ function App() {
 		};
 		updateProfile();
 		createSocket();
+		
+		return () => {
+			console.log('unrender');
+		};
+		
 	// eslint-disable-next-line
 	}, []);
 	
@@ -177,6 +182,7 @@ function App() {
 						width={width}
 						height={height}
 						setTurn={setTurn}
+						setRound={setRound}
 					/>
 				) : (
           <Room 
@@ -193,6 +199,8 @@ function App() {
 						display={display}
 						isYourTurn={isYourTurn}
 						setTurn={setTurn}
+						round={round}
+						setRound={setRound}
 					/>
         )}
       </div>
