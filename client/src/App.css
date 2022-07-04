@@ -582,9 +582,6 @@ sup div {
 
 
 @media screen and (min-width: 1024px) {
-  .live-chat-button {
-    display: none;
-  }
 }
 
 /* Tablets */
