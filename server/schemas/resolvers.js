@@ -62,6 +62,7 @@ const resolvers = {
 			return { token, user };
 		},
 		extend: async (parent, args, context) => {
+			console.log(context);
 			if (!context.user) throw new AuthenticationError('You need to be logged in!');
 			
 			const user = await User.findOne({ email: context.user.email });

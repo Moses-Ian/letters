@@ -25,6 +25,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
+	console.log(Auth.decodeToken(token));
   return {
     headers: {
       ...headers,
@@ -58,6 +59,7 @@ function App() {
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
+	console.log(client);
 	const { width, height } = useWindowSize();
   const [isYourTurn, setTurn] = useState(false);
 
