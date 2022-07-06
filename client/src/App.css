@@ -103,8 +103,8 @@ textarea {
   font-size: 15px;
   height: 10vh;
   overflow-y: scroll;
-  overflow-y: overlay;
-	margin-bottom: 1vh;
+  /* overflow-y: overlay; */
+  margin-bottom: 1vh;
 }
 
 .live-chat {
