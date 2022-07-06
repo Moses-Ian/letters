@@ -17,10 +17,7 @@ nextRound = (room) => {
   let g = rooms.get(room);
   if (!g) return;
   let turn = g.nextTurn();
-	io.to(g.name).emit('new-round', g.round);
-  io.to(g.name).emit("clear-letters");
-  tellTurn(g, turn);
-  io.to(g.name).emit("send-players", g.getPlayers(), g.turn); //we send this twice in row -> should be cleaned up somehow
+	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
 };
 
 listRooms = (cb) => {
@@ -64,21 +61,14 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   //add the players
 	const player = new PlayerObj(username, socket.id);
   let turn = g.add(player);
-	if (player.username !== username)
-		setTimeout(
-			() => io.to(socket.id).emit("update-username", player.username),
-			2000
-		);
-  tellTurn(g, turn);
   //leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
-  callback(true, room);
+  callback(true, room, player === g.players[turn], player.username);
   setTimeout(
-    () => io.to(socket.id).emit("set-game-state-room", g.round),
+    () => io.to(g.name).emit('set-lobby', g.round, g.getPlayers(), g.turn),
     1000
   );
-  setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 1500);
 };
 
 leaveRoom = (socket, room, cb = ()=>{}) => {
@@ -105,8 +95,8 @@ restartGame = (room) => {
   if (!g) return;
   let turn = g.restart();
   tellTurn(g, turn);
-	io.to(g.name).emit('set-game-state-room', g.round);
-  io.to(g.name).emit("clear-letters");
+	io.to(g.name).emit('new-round', g.round, g.getPlayers(), g.turn);
+  io.to(g.name).emit("clear-letters");	// we need to update how the reset works
 };
 
 disconnect = (socket, reason) => {

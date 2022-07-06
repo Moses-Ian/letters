@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import { sanitize } from "../../utils";
 import swipeLeft from "../../assets/images/swipe-right7.png";
 
@@ -20,12 +20,17 @@ function LiveChat({ socket, username, room, display }) {
   useEffect(() => {
 		if (display !== 'active-view')
 			return;
-    elementRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-  }, [messages]);
+    // elementRef.current.scrollIntoView({
+      // behavior: "smooth",
+      // block: "end",
+      // inline: "nearest",
+    // });	// smooth scroll just suddenly stopped working?
+		elementRef.current.scrollIntoView({
+			block: "end", 
+			inline: "nearest"
+		});
+	// eslint-disable-next-line
+  }, [messages]); 
 
   function messageReducer(messages, action) {
     let newMessages;
@@ -62,7 +67,6 @@ function LiveChat({ socket, username, room, display }) {
 	}
 
   const handleFormSubmit = async (event) => {
-		console.log(event.target);
     event.preventDefault();
     if (formState.message.trim() === "") return;
     //append message to element
@@ -75,7 +79,6 @@ function LiveChat({ socket, username, room, display }) {
 		setRows({ type: "RESET" });
     //socket.emit
     socket.emit("send-message", formState.message.trim(), username, room);
-    console.log(`submit ${formState.message}`);
   };
 
   const handleChange = (event) => {
@@ -142,7 +145,7 @@ function LiveChat({ socket, username, room, display }) {
 						rows={rows}
 						onBlur={handleBlur}
 					/>
-					<button className="live-chat-button" type="submit" id="send-button">
+					<button className="live-chat-button mr-2" type="submit" id="send-button">
 						Send
 					</button>
 				</form>

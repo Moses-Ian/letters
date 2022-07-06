@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Timer({ setActiveTimer, timerCompleteHandler }) {
