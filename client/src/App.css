@@ -104,7 +104,7 @@ textarea {
   height: 10vh;
   overflow-y: scroll;
   /* overflow-y: overlay; */
-	margin-bottom: 1vh;
+  margin-bottom: 1vh;
 }
 
 .live-chat {
@@ -226,7 +226,7 @@ textarea {
   display: inline;
 }
 
-.players {
+.players, .settings, .share, .wotd {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 20px;
@@ -244,6 +244,16 @@ textarea {
 
 .players ul {
   /* display: flex; */ /* commented out because it looks abysmal with the scores added */
+}
+
+.settings, .share, .bonus {
+  width: 100px;
+  color: var(--primary-color);
+}
+
+.wotd {
+  width: 340px !important;
+  color: var(--quanternary-color);
 }
 
 .rendered-letters {
@@ -488,14 +498,6 @@ sup div {
   transition: left ease-out 500ms;
 }
 
-
-/* .hint-btn { */
-/* background-color: var(--secondary-color); */
-/* background-image: url('./assets/images/lightbulb.png');
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-
 .confetti {
   position: fixed;
   top: 0;
@@ -546,7 +548,7 @@ sup div {
 }
 
 .swipe-arrows {
-  margin-top: 50vh;
+  margin-top: 17vh;
   text-align: center;
   color: #026670;
   font-size: 30px;
@@ -573,7 +575,6 @@ sup div {
   position: inherit;
   bottom: -6px;
 }
-
 
 
 /* Desktop */
