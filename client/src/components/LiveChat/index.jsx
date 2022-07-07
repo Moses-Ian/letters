@@ -20,12 +20,8 @@ function LiveChat({ socket, username, room, display }) {
   useEffect(() => {
 		if (display !== 'active-view')
 			return;
-    // elementRef.current.scrollIntoView({
-      // behavior: "smooth",
-      // block: "end",
-      // inline: "nearest",
-    // });	// smooth scroll just suddenly stopped working?
 		elementRef.current.scrollIntoView({
+      // behavior: "smooth",	// smooth scroll just suddenly stopped working?
 			block: "end", 
 			inline: "nearest"
 		});

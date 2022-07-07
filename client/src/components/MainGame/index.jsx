@@ -162,6 +162,7 @@ const MainGame = ({
 		if (words.length === 0 && letters[0] === "") return;
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
+		if (letters[9] !== '') setActiveTimer("WAIT");
   };
 	
   const badWord = () => {
@@ -192,15 +193,14 @@ const MainGame = ({
       </div>
 
       <div className="timer">
-        {activeTimer === "COUNTING" || activeTimer === "DONE" ? (
+        {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
           <Timer
             setActiveTimer={setActiveTimer}
             timerCompleteHandler={timerCompleteHandler}
           />
-        ) : (
-          ""
         )}
-      </div>
+				{activeTimer === "WAIT" && (<p>Waiting for the next round...</p>)}
+       </div>
 
       <div className="field has-text-centered">
         <div

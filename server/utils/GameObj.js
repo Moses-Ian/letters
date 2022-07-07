@@ -3,6 +3,7 @@ class GameObj {
 		//room
 		this.name = name || '';	
 		this.visible = true;
+		// this.password = '';
 		// letters game
 		this.letters = new Array(9).fill('');
 		this.vowelCount = 0;
@@ -20,6 +21,12 @@ class GameObj {
 		this.players = [];
 		this.turn = -1;
 		this.round = 1;
+		// game settings	-> this is a really big issue. i'll tackle this in earnest later
+		// this.mode = "ffa";
+		// this.maxPlayers = -1;	//no limit
+		// this.teams = [];			//in teams, this will be an array of arrays of playerIDs
+		// this.maxRounds = 6;
+		// this.hintsAllowed = true;
 		
 	}
 	

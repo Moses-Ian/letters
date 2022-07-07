@@ -1,6 +1,8 @@
 const {lettersSolver} = require('../utils/algorithms');
 const {appendFile} = require('fs');
 const {useHint} = require('../schemas/serverResolvers');
+const Filter = require('bad-words');
+const filter = new Filter();
 
 const vowels = ["A", "E", "I", "O", "U"];
 const consonants = [
@@ -85,11 +87,11 @@ generateConsonant = (letters, firstTry = true) => {
 submitWord = async (socket, word, username, room) => {
   let g = rooms.get(room);
   if (!g) return;
-  const score = await scoreWord(word, g.letters);
-	if (typeof score === "object" && score.offensive) {
+	if (isOffensive(word)) {
 		io.to(socket.id).emit("bad-word");
 		return;
 	}
+  const score = await scoreWord(word, g.letters);
 	g.getPlayer(username).addSubmission({ word, username, score });
   g.words.push({ word, username, score });
   io.to(g.name).emit("append-word", word, username, score);
@@ -111,7 +113,6 @@ scoreWord = async (word, letters) => {
   //make sure it's in the dictionary
 	const result = await inDictionary(word);
   if (!result) return 0;
-	if (typeof result === "object") return result;
 
   return word.length;
 };
@@ -125,7 +126,6 @@ inDictionary = async (word) => {
     const data = await response.json();
     if (data.length == 0) throw `Problem contacting DictionaryApi: Got []`;
 		if (typeof data[0] === "string")	return false;
-		if (isOffensive(data)) return {offensive: true};
 		return true;
   } catch (err) {
     console.error(err);
@@ -134,10 +134,8 @@ inDictionary = async (word) => {
 	return false;
 };
 
-isOffensive = (data) => {
-	for (let i=0; i<data.length; i++)
-		if (data[i].meta.offensive) return true;
-	return false;
+isOffensive = (word) => {
+	return filter.isProfane(word);
 };
 
 getLettersState = (room, cb) => {

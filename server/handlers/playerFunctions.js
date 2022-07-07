@@ -64,9 +64,10 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   //leave the old room
   leaveRoom(socket, oldRoom);
   //send it back to client
-  callback(true, room, player === g.players[turn], player.username);
+  callback(true, room, player === g.players[turn], g.round, player.username);
   setTimeout(
-    () => io.to(g.name).emit('set-lobby', g.round, g.getPlayers(), g.turn),
+    // () => io.to(g.name).emit('set-lobby', g.round, g.getPlayers(), g.turn),
+    () => io.to(g.name).emit('send-players', g.getPlayers(), g.turn),
     1000
   );
 };
