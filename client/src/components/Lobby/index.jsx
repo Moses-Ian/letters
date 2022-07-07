@@ -18,9 +18,11 @@ const Lobby = ({ room, players, activePlayer, display }) => {
 		//clicking the button should open up a modal first
 		console.log('share');
 		
-		const to = ['infestedian@gmail.com'];	// to be filled by user -> MUST VALIDATE
-		const from = 'epsilon.studios@l3tters.com';
-		const message = 'Sent from the client';
+		// to be filled by user -> MUST VALIDATE		
+		const to = [
+			'infestedian@gmail.com',
+			'imoses2@hotmail.com'
+		];
 		
 		try {
 			const response = await shareLobbyByEmail({ 

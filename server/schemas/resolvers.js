@@ -139,13 +139,15 @@ const resolvers = {
 			//validate inputs -> we do this in both the client and here
 			//prevent spam
 			//send email
-			console.log(args);
 			const {room, to} = args;
+			const personalizations = to.map(email => {return {to: email}});
+			const url = process.env.NODE_ENV === 'production' ? `www.l3tters.com/join?room=${room}` 
+				: `localhost:3000/join?room=${room}`;
 			const message = {
-				to: to[0],	//need to send to all
+				personalizations,
 				from: 'epsilon.studios@l3tters.com',
 				subject: 'Join a game on L3tters.com!',
-				text: `Click the link to join your friend in a game of L3tters! www.l3tters.com/join?room=${room}`
+				text: `Click the link to join your friend in a game of L3tters! ${url}`
 			}
 			
 			try {
@@ -156,6 +158,7 @@ const resolvers = {
 					error: null
 				}
 			} catch(err) {
+				console.error(err.response.body);
 				return {
 					success: false,
 					message: null,
