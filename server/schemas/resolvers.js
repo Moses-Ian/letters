@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const sendgridMail = require('@sendgrid/mail');
 const { User } = require('../models');
+const { sanitize, validateEmail } = require('../utils/helpers');
 const { signToken } = require('../utils/auth');
 const { DateTime } = require('luxon');
 
@@ -64,7 +65,6 @@ const resolvers = {
 			return { token, user };
 		},
 		extend: async (parent, args, context) => {
-			console.log(context);
 			if (!context.user) throw new AuthenticationError('You need to be logged in!');
 			
 			const user = await User.findOne({ email: context.user.email });
@@ -135,22 +135,32 @@ const resolvers = {
 			}
 		},
 		shareLobbyByEmail: async (parent, args, context) => {
-			//verify user
-			//validate inputs -> we do this in both the client and here
-			//prevent spam
-			//send email
-			const {room, to} = args;
-			const personalizations = to.map(email => {return {to: email}});
-			const url = process.env.NODE_ENV === 'production' ? `www.l3tters.com/join?room=${room}` 
-				: `localhost:3000/join?room=${room}`;
-			const message = {
-				personalizations,
-				from: 'epsilon.studios@l3tters.com',
-				subject: 'Join a game on L3tters.com!',
-				text: `Click the link to join your friend in a game of L3tters! ${url}`
-			}
-			
 			try {
+				//verify user
+				if (!context.user) throw new AuthenticationError('You need to be logged in!');
+				
+				//build the message
+				const {room, to} = args;
+				
+				if (sanitize(room) === '')
+					throw `Invalid room name`;
+				
+				const personalizations = to.map(email => {
+					//validate inputs -> we do this in both the client and here
+					if (!validateEmail(email))
+						throw `Invalid email - ${email}`;
+					return {to: email}
+				});
+				const url = process.env.NODE_ENV === 'production' ? `www.l3tters.com/join?room=${room}` 
+					: `localhost:3000/join?room=${room}`;
+				const message = {
+					personalizations,
+					from: 'epsilon.studios@l3tters.com',
+					subject: 'Join a game on L3tters.com!',
+					text: `Click the link to join your friend in a game of L3tters! ${url}`
+				}
+			
+				//send email
 				const email = await sendgridMail.send(message);
 				return {
 					success: true,
@@ -158,7 +168,7 @@ const resolvers = {
 					error: null
 				}
 			} catch(err) {
-				console.error(err.response.body);
+				console.error(err);
 				return {
 					success: false,
 					message: null,

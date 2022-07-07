@@ -4,13 +4,10 @@ import settings from "../../assets/images/settings.png";
 import share from "../../assets/images/share.png"
 import { useMutation } from '@apollo/client';
 import { SHARE_LOBBY_BY_EMAIL } from '../../utils/mutations';
-import { useApolloClient } from '@apollo/client';
+import { validateEmail } from '../../utils';
 
 const Lobby = ({ room, players, activePlayer, display }) => {
 	
-	const client = useApolloClient();
-	
-	// const [sendEmail] = useMutation(SEND_EMAIL, { client });
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	
 	const onShare = async () => {
@@ -25,15 +22,19 @@ const Lobby = ({ room, players, activePlayer, display }) => {
 		];
 		
 		try {
+			to.forEach(email => {
+				if (!validateEmail(email))
+					throw `Invalid email - ${email}`;
+			});
 			const response = await shareLobbyByEmail({ 
 				variables: {
 					room,
 					to
 				}
 			});
-			console.log(response);
+			console.log(response.data.shareLobbyByEmail);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		};
 	};
 	
