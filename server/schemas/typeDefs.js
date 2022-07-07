@@ -47,11 +47,29 @@ const typeDefs = gql`
 		addUser(username: String!, email: String!, password: String!): Auth
 		addFriend(friendId: ID!): User
 		addHints(email: String!, dailyHints: Int!): User
+		sendEmail(input: EmailInput!): Response!
+		shareLobbyByEmail(room: String!, to: [String]): Response!
 	}
 	
 	type Auth {
 		token: ID!
 		user: User
+	}
+	
+	type Email {
+		message: String
+		from: String
+	}
+	
+	input EmailInput {
+		message: String!
+		from: String!
+	}
+	
+	type Response {
+		success: Boolean
+		message: String
+		error: String
 	}
 	
 `;

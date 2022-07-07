@@ -48,3 +48,22 @@ export const ADD_FRIEND = gql`
   }
 `;
 
+export const SEND_EMAIL = gql`
+	mutation sendEmail($input:EmailInput!) {
+		sendEmail(input:$input) {
+			success
+			message
+			error
+		}
+	}
+`;
+
+export const SHARE_LOBBY_BY_EMAIL = gql`
+	mutation shareLobbyByEmail($room: String!, $to: [String]!) {
+		shareLobbyByEmail(room: $room, to: $to) {
+			success
+			message
+			error
+		}
+	}
+`;

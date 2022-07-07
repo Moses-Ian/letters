@@ -1,4 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
+const sendgridMail = require('@sendgrid/mail');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 const { DateTime } = require('luxon');
@@ -6,6 +7,7 @@ const { DateTime } = require('luxon');
 const developerEmails = [
 	'ian@hotmail.com'
 ];
+sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const resolvers = {
   Query: {
@@ -106,6 +108,60 @@ const resolvers = {
 				{ new: true }
 			);
 			return user;
+		},
+		sendEmail: async (_, args, context) => {
+			console.log('sendEmail');
+			console.log(args);
+			const message = {
+				to: 'infestedian@gmail.com',
+				from: 'epsilon.studios@l3tters.com',
+				subject: 'email from contact form',
+				text: `email from ${args.input.from}, message - ${args.input.message}`
+			};
+			
+			try {
+				const email = await sendgridMail.send(message)
+				return {
+					success: true,
+					message: 'Successfully sent email',
+					error: null
+				};
+			} catch(err) {
+				return {
+					success: false,
+					message: null,
+					error: err
+				};
+			}
+		},
+		shareLobbyByEmail: async (parent, args, context) => {
+			//verify user
+			//validate inputs -> we do this in both the client and here
+			//prevent spam
+			//send email
+			console.log(args);
+			const {room, to} = args;
+			const message = {
+				to: to[0],	//need to send to all
+				from: 'epsilon.studios@l3tters.com',
+				subject: 'Join a game on L3tters.com!',
+				text: `Click the link to join your friend in a game of L3tters! www.l3tters.com/join?room=${room}`
+			}
+			
+			try {
+				const email = await sendgridMail.send(message);
+				return {
+					success: true,
+					message: 'Successfully sent email',
+					error: null
+				}
+			} catch(err) {
+				return {
+					success: false,
+					message: null,
+					error: err
+				};
+			}
 		}
   }
 };
