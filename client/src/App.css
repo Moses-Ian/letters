@@ -51,6 +51,7 @@ body {
 
 .button,
 .hover-transition,
+
 input
  {
   box-shadow: 3px 8px 10px #026670 !important;
@@ -68,7 +69,7 @@ textarea {
   text-align: center;
 }
 
-.button:hover {
+.button:hover, .lobby-btn:hover {
   background-color: var(--quanternary-color);
 }
 
@@ -226,11 +227,15 @@ textarea {
   display: inline;
 }
 
-.players, .settings, .share, .wotd {
+.players, 
+.wotd-head, 
+.lobby-btn {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 20px;
   margin: 5px;
+  width: 250px;
+  text-align: center;
 }
 
 .players h1 {
@@ -246,14 +251,34 @@ textarea {
   /* display: flex; */ /* commented out because it looks abysmal with the scores added */
 }
 
-.settings, .share, .bonus {
-  width: 100px;
+.lobby-btn, 
+.bonus {
+  width: 120px;
+  height: 110px;
   color: var(--primary-color);
+  border: 1px solid rgba(0, 0, 0, 0);
+  display: inline-flexbox;
 }
 
+.bonus {
+  height: 50px;
+}
+
+.bonus, 
 .wotd {
-  width: 340px !important;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.button-flex {
+  margin-left: 50px;
+}
+
+.wotd-head {
+  width: 250px !important;
   color: var(--quanternary-color);
+  text-align: center;
+  margin-left: 54px;
 }
 
 .rendered-letters {
@@ -305,7 +330,7 @@ sup div {
   top: 22px;
 }
 
-.active-player {
+.active-player, .wotd {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 17px #fff;
 }
@@ -548,7 +573,7 @@ sup div {
 }
 
 .swipe-arrows {
-  margin-top: 17vh;
+  margin-top: 7vh;
   text-align: center;
   color: #026670;
   font-size: 30px;
