@@ -15,7 +15,7 @@
 }
 
 html {
-  height: 100%;
+  height: 140%;
 }
 
 body {
@@ -262,6 +262,7 @@ textarea {
 
 .bonus {
   height: 50px;
+  font-size: 14px;
 }
 
 .bonus, 
@@ -402,14 +403,16 @@ sup div {
   text-shadow: 1px 1px 1px black, 1px 1px 5px black;
 }
 
-.type-box {
+.type-box, 
+.user-search {
   height: 32px !important;
   border-radius: 5px;
   margin: 5px 0 5px 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.type-box:hover {
+.type-box:hover, 
+.user-search:hover {
   background-color: var(--quanternary-color);
 }
 
@@ -604,10 +607,16 @@ sup div {
 
 /* Desktop */
 @media screen and (min-width: 1280px) {
+  /* .lobby {
+    display: none;
+  } */
 }
 
 
 @media screen and (min-width: 1024px) {
+  /* .lobby {
+    display: none;
+  } */
 }
 
 /* Tablets */
