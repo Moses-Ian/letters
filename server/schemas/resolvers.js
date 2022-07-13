@@ -37,7 +37,6 @@ const resolvers = {
   },
   Mutation: {
 		addUser: async (parent, args) => {
-			console.log('addUser');
 			const user = await User.create(args);
 			const token = signToken(user);
 
@@ -97,6 +96,23 @@ const resolvers = {
 
 			throw new AuthenticationError('You need to be logged in!');
 		},
+		addFriendByUsername: async (parent, { username }, context) => {
+			if (context.user) {
+				const friend = await User.findOne({username})
+					.select('_id');
+				if (!friend)
+					throw new Error(`No user named ${username}!`);
+				const updatedUser = await User.findOneAndUpdate(
+					{ _id: context.user._id },
+					{ $addToSet: { friends: friend._id } },
+					{ new: true }
+				).populate('friends');
+
+				return updatedUser;
+			}
+
+			throw new AuthenticationError('You need to be logged in!');
+		},
 		addHints: async (parent, {email, dailyHints}) => {
 			if (!developerEmails.includes(email)) {
 				console.error(`${email} tried to give themselves ${dailyHints} hints!!!`);
@@ -110,8 +126,6 @@ const resolvers = {
 			return user;
 		},
 		sendEmail: async (_, args, context) => {
-			console.log('sendEmail');
-			console.log(args);
 			const message = {
 				to: 'infestedian@gmail.com',
 				from: 'epsilon.studios@l3tters.com',

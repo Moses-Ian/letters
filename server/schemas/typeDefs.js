@@ -46,6 +46,7 @@ const typeDefs = gql`
 		extend: Auth
 		addUser(username: String!, email: String!, password: String!): Auth
 		addFriend(friendId: ID!): User
+		addFriendByUsername(username: String!): User
 		addHints(email: String!, dailyHints: Int!): User
 		sendEmail(input: EmailInput!): Response!
 		shareLobbyByEmail(room: String!, to: [String]): Response!

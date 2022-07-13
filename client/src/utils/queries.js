@@ -32,3 +32,13 @@ export const QUERY_ME = gql`
   }
 `;
 
+export const GET_FRIENDS = gql`
+	query {
+		me {
+			friends {
+				username
+			}
+		}
+	}
+`;
+

@@ -264,6 +264,20 @@ textarea {
   display: inline-block;
 }
 
+.add-btn {
+  float: right;
+}
+
+.search-btn {
+  width: 50px;
+  height: 33px;
+  font-size: 12px !important;
+}
+
+.user-search {
+  width: 20vw;
+}
+
 .bonus {
   height: 50px;
   font-size: 14px;
@@ -425,7 +439,8 @@ sup div {
 .modal-close-button,
 .modal-toggle-button,
 .join-game-button,
-.sign-up-button {
+.sign-up-button,
+.search-btn {
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -449,7 +464,8 @@ sup div {
 .modal-close-button:hover,
 .modal-toggle-button:hover,
 .join-game-button:hover,
-.sign-up-button:hover {
+.sign-up-button:hover,
+.search-btn:hover {
   background-color: var(--quanternary-color);
 }
 
