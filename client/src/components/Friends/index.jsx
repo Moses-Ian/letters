@@ -12,8 +12,8 @@ import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
 
 export default function Friends ({ socket, room }){
   const [show, setShow] = useState(false);
-	// const [listOfPlayers, setListOfPlayers] = useState([]);
-	const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
+	const [listOfPlayers, setListOfPlayers] = useState([]);
+	// const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
@@ -25,7 +25,7 @@ export default function Friends ({ socket, room }){
 	//when we show the modal, query for names of users in game and my friends list
 	useEffect(() => {
 		if (show) {
-			// socket.emit('get-real-usernames', room, getRealUsernames);
+			socket.emit('get-real-usernames', room, getRealUsernames);
 			if (!friendsData)
 				getFriends()
 		}
