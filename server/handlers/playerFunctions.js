@@ -91,6 +91,16 @@ tellTurn = (g, turn) => {
   setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
 };
 
+getRealUsernames = (room, cb) => {
+	let g = rooms.get(room);
+	if (!g) {
+		cb([]);
+		return;
+	}
+	let usernames = g.players.filter(player => player.realUsername !== 'Guest').map(player => player.realUsername);
+	cb(usernames);
+}
+
 restartGame = (room) => {
   let g = rooms.get(room);
   if (!g) return;
@@ -115,6 +125,7 @@ module.exports = {
 	leaveRoom,
 	updateScores,
 	nextRound,
+	getRealUsernames,
 	restartGame,
 	disconnect
 };

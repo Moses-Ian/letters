@@ -22,6 +22,7 @@ const {
 	leaveRoom,
 	updateScores,
 	nextRound,
+	getRealUsernames,
 	restartGame,
 	disconnect
 } = require('./playerFunctions');
@@ -84,6 +85,7 @@ const registerGameHandler = (newio, socket) => {
 	);
 	socket.on("update-scores", updateScores);
   socket.on("next-round", nextRound);
+	socket.on("get-real-usernames", getRealUsernames);
   socket.on("restart-game", restartGame);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
