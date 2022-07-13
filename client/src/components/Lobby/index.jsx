@@ -10,6 +10,12 @@ import { validateEmail } from '../../utils';
 
 import Friends from "../Friends"
 
+//this is very cute and absolutely not necessary
+const url = process.env.NODE_ENV === 'production' 
+	? room => `www.l3tters.com/join?room=${room}` 
+	: room => `localhost:3000/join?room=${room}`;
+
+
 const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
@@ -19,27 +25,41 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 		//clicking the button should open up a modal first
 		console.log('share');
 		
+		if (navigator.share) {
+			console.log('can share');
+			// navigator.share({
+				// url: url(room);
+			// }
+		}
+		
+		console.log(url(room));
+		
+		
+		
+		
+		
+		
 		// to be filled by user -> MUST VALIDATE		
-		const to = [
-			'chrismasters_326@outlook.com',
+		// const to = [
+			// 'chrismasters_326@outlook.com',
 		
-		];
+		// ];
 		
-		try {
-			to.forEach(email => {
-				if (!validateEmail(email))
-					throw `Invalid email - ${email}`;
-			});
-			const response = await shareLobbyByEmail({ 
-				variables: {
-					room,
-					to
-				}
-			});
-			console.log(response.data.shareLobbyByEmail);
-		} catch (err) {
-			console.error(err);
-		};
+		// try {
+			// to.forEach(email => {
+				// if (!validateEmail(email))
+					// throw `Invalid email - ${email}`;
+			// });
+			// const response = await shareLobbyByEmail({ 
+				// variables: {
+					// room,
+					// to
+				// }
+			// });
+			// console.log(response.data.shareLobbyByEmail);
+		// } catch (err) {
+			// console.error(err);
+		// };
 	};
 	
 	

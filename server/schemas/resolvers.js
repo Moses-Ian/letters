@@ -165,7 +165,8 @@ const resolvers = {
 						throw `Invalid email - ${email}`;
 					return {to: email}
 				});
-				const url = process.env.NODE_ENV === 'production' ? `www.l3tters.com/join?room=${room}` 
+				const url = process.env.NODE_ENV === 'production' 
+					? `www.l3tters.com/join?room=${room}` 
 					: `localhost:3000/join?room=${room}`;
 				const message = {
 					personalizations,
