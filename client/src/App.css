@@ -257,7 +257,11 @@ textarea {
   height: 110px;
   color: var(--primary-color);
   border: 1px solid rgba(0, 0, 0, 0);
-  display: inline-flexbox;
+  /* display: inline-flexbox; */
+}
+
+.friends {
+  display: inline-block;
 }
 
 .bonus {

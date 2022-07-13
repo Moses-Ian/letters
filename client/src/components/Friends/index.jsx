@@ -8,29 +8,29 @@ export default function Friends (){
 
 
   return (
-    <div className="Friends">
+    <div className="friends">
       <button className="lobby-btn" onClick={() => setShow(true)}>
         <img src={friend} alt="Friends"/><span>Friends</span>
       </button>
     
-    {show && 
-    <form>
-      <Modal title="Friends" onClose={() => setShow(false)}>
-        <div>
-          <p className="join-modal-body">Search users to add to friends!!</p>
-          <input
-          className="user-search input"
-          type="text"
-          placeholder="Search username"
-          name="search"
-          ></input>
-        </div>
-        <div>
-         <p className=" join-modal-body mt-3">See who's online</p>
-        </div>
-      </Modal>
-    </form>
-    }
+      {show && 
+        <form>
+          <Modal title="Friends" onClose={() => setShow(false)}>
+            <div>
+              <p className="join-modal-body">Search users to add to friends!!</p>
+              <input
+                className="user-search input"
+                type="text"
+                placeholder="Search username"
+                name="search"
+              ></input>
+            </div>
+            <div>
+              <p className=" join-modal-body mt-2">See who's online.</p>
+            </div>
+          </Modal>
+        </form>
+      }
     </div>
   )
 }
