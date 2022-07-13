@@ -6,7 +6,7 @@ import Auth from "../../utils/auth";
 
 //graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_FRIENDS } from "../../utils/queries";
+import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
 import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
 
 
@@ -17,6 +17,10 @@ export default function Friends ({ socket, room }){
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
+	const [searchState, setSearchState] = useState('');
+	const [getUser, {error: searchError, data: searchData}] = useLazyQuery(QUERY_USER);
+	const [errorMsg, setErrorMsg] = useState('');
+	const [searchResult, setSearchResult] = useState(null);
 
 	//when we show the modal, query for names of users in game and my friends list
 	useEffect(() => {
@@ -57,6 +61,13 @@ export default function Friends ({ socket, room }){
 		let friendDataMap = friends.map(friend => friend.username);
 		let friendMap = listOfPlayers.map(player => friendDataMap.includes(player));
 		setPlayersAreFriend(friendMap);	
+		
+		if (searchResult) {
+			setSearchResult({
+				...searchResult,
+				isFriend: friendDataMap.includes(searchResult.username)
+			});
+		}
 	}
 	
 	const addFriend = async event => {
@@ -72,9 +83,43 @@ export default function Friends ({ socket, room }){
 			updatePlayersAreFriend(mutationResponse.data.addFriendByUsername.friends);
 		} catch (e) {
 			console.error(e);
-			// setErrorMsg(true);
 		}
 	};
+	
+	const handleChange = event => {
+		setSearchState(event.target.value);
+	};
+	
+	const searchUsers = async event => {
+		event.preventDefault();
+		event.stopPropagation();
+		setSearchState('');
+		
+		let username = sanitize(searchState);
+		if (username === '')
+			return;
+		const result = await getUser({
+			variables: {
+				username
+			}
+		});
+		if (!result.data.user) {
+			setErrorMsg(`No user named ${username}`);
+			return;
+		}
+		setErrorMsg('');
+		if (!friendsData) 
+			setSearchResult({username, isFriend: false});
+		else {
+			let friendDataMap = friendsData.me.friends.map(friend => friend.username);
+			setSearchResult({
+				username,
+				isFriend: friendDataMap.includes(result.data.user.username)
+			});
+		}
+	}
+	
+	
 	
   return (
     <div className="Friends">
@@ -92,7 +137,21 @@ export default function Friends ({ socket, room }){
           type="text"
           placeholder="Search username"
           name="search"
+					value={searchState}
+					onChange={handleChange}
           ></input>
+					<div>{errorMsg}</div>
+					{searchResult &&
+						<ul>
+							<li data-username={searchResult.username}>
+								{searchResult.username}
+								{searchResult.isFriend 
+								? '✓'
+								:	<button onClick={addFriend}>add</button>}
+							</li>
+						</ul>
+					}
+					<button onClick={searchUsers}>search</button>
         </div>
         <div>
 					<p className=" join-modal-body mt-3">See who's online</p>
