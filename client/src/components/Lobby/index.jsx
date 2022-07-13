@@ -10,7 +10,7 @@ import { validateEmail } from '../../utils';
 
 import Friends from "../Friends"
 
-const Lobby = ({ socket, room, players, activePlayer, display }) => {
+const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	
@@ -90,7 +90,7 @@ const Lobby = ({ socket, room, players, activePlayer, display }) => {
 						<button className="lobby-btn" onClick={onShare}><img src={share} alt="Invite"/><span>Invite</span></button>
 
 						{/* <button className="lobby-btn"><img src={friend} alt="Friends"/><span>Friends</span></button> */}
-						<Friends socket={socket} room={room} />
+							<Friends socket={socket} username={username} room={room} />
 						</div>
 
 						<p className="swipe-arrows">Swipe to play <span className="arrow-image"><img src={swipeRight} alt="right arrow"/></span></p>

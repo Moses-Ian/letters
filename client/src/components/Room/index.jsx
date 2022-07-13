@@ -137,6 +137,7 @@ function Room({
 					
 				<Lobby
 					socket={socket}
+					username={username}
 					room={room}
 					players={players}
 					activePlayer={activePlayer}

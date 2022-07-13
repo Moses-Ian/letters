@@ -97,6 +97,24 @@ const resolvers = {
 
 			throw new AuthenticationError('You need to be logged in!');
 		},
+		addFriendByUsername: async (parent, { username }, context) => {
+			if (context.user) {
+				// console.log(username);
+				const friend = await User.findOne({username})
+					.select('_id');
+				// console.log(friend);
+				const updatedUser = await User.findOneAndUpdate(
+					{ _id: context.user._id },
+					{ $addToSet: { friends: friend._id } },
+					{ new: true }
+				).populate('friends');
+
+				return updatedUser;
+				// return {};
+			}
+
+			throw new AuthenticationError('You need to be logged in!');
+		},
 		addHints: async (parent, {email, dailyHints}) => {
 			if (!developerEmails.includes(email)) {
 				console.error(`${email} tried to give themselves ${dailyHints} hints!!!`);
