@@ -4,11 +4,15 @@ import settings from "../../assets/images/settings.png";
 import share from "../../assets/images/share.png"
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
-import { useMutation } from '@apollo/client';
-import { SHARE_LOBBY_BY_EMAIL } from '../../utils/mutations';
 import { validateEmail } from '../../utils';
 
 import Friends from "../Friends"
+
+
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
+import { SHARE_LOBBY_BY_EMAIL } from '../../utils/mutations';
+
 
 //this is very cute and absolutely not necessary
 const url = room => `${window.location.origin}/join?room=${room}`;
@@ -17,53 +21,58 @@ const url = room => `${window.location.origin}/join?room=${room}`;
 const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
+	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	
 	const onShare = async () => {
-		//sends the email once the 'to' field has been filled
-		//clicking the button should open up a modal first
 		console.log('share');
-		
-		if (navigator.share) {
-			console.log('can share');
-			navigator.share({
-				url: url(room)
-			})
-		}
-		
-		// console.log(window.location);
-		
 		console.log(url(room));
 		
+		//if the os has native share features, use those
+		if (navigator.share) {
+			navigator.share({
+				title: 'Join a game on L3tters.com!',
+				url: url(room),
+				text: `Join ${username} in a game of L3tters!`
+			})
+			return;
+		}
 		
-		
-		
-		
-		
+		//sends the email once the 'to' field has been filled
+		//clicking the button should open up a modal first
 		// to be filled by user -> MUST VALIDATE		
-		// const to = [
-			// 'chrismasters_326@outlook.com',
+		const to = [
+			'chrismasters_326@outlook.com',
+		];
+		if (to.length !== 0)
+			shareByEmail(to);
 		
-		// ];
-		
-		// try {
-			// to.forEach(email => {
-				// if (!validateEmail(email))
-					// throw `Invalid email - ${email}`;
-			// });
-			// const response = await shareLobbyByEmail({ 
-				// variables: {
-					// room,
-					// to
-				// }
-			// });
-			// console.log(response.data.shareLobbyByEmail);
-		// } catch (err) {
-			// console.error(err);
-		// };
+		//invite all my friends for now
+		const friendsToInvite = friendsData.me.friends.map(friend => friend.username);
+		if friendsToInvite.length !== 0)
+			shareByPush(friendsToInvite);
 	};
 	
+	const shareByEmail = to => {
+		try {
+			to.forEach(email => {
+				if (!validateEmail(email))
+					throw `Invalid email - ${email}`;
+			});
+			const response = await shareLobbyByEmail({ 
+				variables: {
+					room,
+					to
+				}
+			});
+			console.log(response.data.shareLobbyByEmail);
+		} catch (err) {
+			console.error(err);
+		};
+	};
 	
-	
+	const shareByPush(friends) {
+		// do something
+	}
 	
   return (
 		<div className={`view ${display}`}>
