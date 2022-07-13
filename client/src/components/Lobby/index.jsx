@@ -11,9 +11,7 @@ import { validateEmail } from '../../utils';
 import Friends from "../Friends"
 
 //this is very cute and absolutely not necessary
-const url = process.env.NODE_ENV === 'production' 
-	? room => `www.l3tters.com/join?room=${room}` 
-	: room => `localhost:3000/join?room=${room}`;
+const url = room => `${window.location.origin}/join?room=${room}`;
 
 
 const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
@@ -31,6 +29,8 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 				url: url(room)
 			})
 		}
+		
+		// console.log(window.location);
 		
 		console.log(url(room));
 		
