@@ -5,21 +5,23 @@ import { sanitize } from "../../utils";
 import Auth from "../../utils/auth";
 
 //graphql
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_FRIENDS } from "../../utils/queries";
+import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
 
 
 export default function Friends ({ socket, room }){
   const [show, setShow] = useState(false);
-	const [listOfPlayers, setListOfPlayers] = useState([]);
-	// const [listOfPlayers, setListOfPlayers] = useState(['ian', 'chris', 'hadas', 'moses']); // debug
-	const [getFriends, { loading, error, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
+	// const [listOfPlayers, setListOfPlayers] = useState([]);
+	const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
+	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
+	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
 
 	//when we show the modal, query for names of users in game and my friends list
 	useEffect(() => {
 		if (show) {
-			socket.emit('get-real-usernames', room, getRealUsernames);
+			// socket.emit('get-real-usernames', room, getRealUsernames);
 			if (!friendsData)
 				getFriends()
 		}
@@ -29,7 +31,6 @@ export default function Friends ({ socket, room }){
 		// hide yourself from the list
 		if (Auth.loggedIn()) {
 			let username = Auth.getProfile().data.username;
-			console.log(username);
 			data = data.filter(name => name !== username);
 		}
 		
@@ -39,8 +40,8 @@ export default function Friends ({ socket, room }){
 
 	//once both of those queries resolve, compare them to see which users in game are my friends
 	useEffect(() => {
-		if (error) {
-			console.log(error);
+		if (friendsError) {
+			console.error(friendsError);
 			return;
 		}
 		if (loading) return;
@@ -49,15 +50,30 @@ export default function Friends ({ socket, room }){
 			setPlayersAreFriend(new Array(listOfPlayers.length).fill(false));
 			return;
 		}
-		let friendDataMap = friendsData.me.friends.map(friend => friend.username);
-		let friendMap = listOfPlayers.map(player => friendDataMap.includes(player));
-		setPlayersAreFriend(friendMap);
-	}, [listOfPlayers, loading, error, friendsData]);
+		updatePlayersAreFriend(friendsData.me.friends);
+	}, [listOfPlayers, loading, friendsError, friendsData]);
 	
-	const addFriend = event => {
+	const updatePlayersAreFriend = (friends) => {
+		let friendDataMap = friends.map(friend => friend.username);
+		let friendMap = listOfPlayers.map(player => friendDataMap.includes(player));
+		setPlayersAreFriend(friendMap);	
+	}
+	
+	const addFriend = async event => {
 		event.preventDefault();
 		event.stopPropagation();
-		console.log(event.target.closest('li').dataset.name);
+		let {username} = event.target.closest('li').dataset;
+		try {
+			const mutationResponse = await addFriendMutation({
+				variables: {
+					username
+				}
+			});
+			updatePlayersAreFriend(mutationResponse.data.addFriendByUsername.friends);
+		} catch (e) {
+			console.error(e);
+			// setErrorMsg(true);
+		}
 	};
 	
   return (
@@ -83,7 +99,7 @@ export default function Friends ({ socket, room }){
 					<ul>
 					{
 						listOfPlayers.map((player, index) => (
-							<li key={index} data-name={player}>
+							<li key={index} data-username={player}>
 								{player} 
 								{playersAreFriend[index] 
 								? '✓'
