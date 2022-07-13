@@ -28,8 +28,8 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 		if (navigator.share) {
 			console.log('can share');
 			navigator.share({
-				url: url(room);
-			}
+				url: url(room)
+			})
 		}
 		
 		console.log(url(room));
