@@ -136,6 +136,7 @@ function Room({
 				</button>
 					
 				<Lobby
+					socket={socket}
 					room={room}
 					players={players}
 					activePlayer={activePlayer}
