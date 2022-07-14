@@ -5,6 +5,7 @@ import share from "../../assets/images/share.png"
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
 import { validateEmail } from '../../utils';
+import Auth from '../../utils/auth';
 
 import Friends from "../Friends"
 
@@ -71,18 +72,18 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	};
 	
 	const shareByPush = friends => {
+		friends = ['ian'];
+		
 		// do something
 		console.log('share by push');
-		// fetch('./sendNotification', {
-			// method: 'post',
-			// headers: {'Content-type': 'application/json'},
-			// body: JSON.stringify({
-				// subscription,
-				// payload,
-				// delay,
-				// ttl
-			// })
-		// });
+		fetch('./sendNotification', {
+			method: 'post',
+			headers: {
+				'Content-type': 'application/json',
+				'Authorization': 'Bearer ' + Auth.getToken()
+				},
+			body: JSON.stringify(friends)
+		});
 	}
 	
   return (

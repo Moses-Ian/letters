@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const {authMiddleware} = require('../utils/auth');
 const { User } = require('../models');
+const webPush = require('web-push');
+
+const TWENTY_MINUTES = 1000 * 60 * 20;
 
 // service-worker requests the VAPID key
 router.get('/vapidPublicKey', (req, res) => {
@@ -36,30 +39,51 @@ router.post('/register', async (req, res) => {
 });
 
 // the invite-friends button was clicked
-router.post('/sendNotification', (req, res) => {
-	console.log('send notification');
+router.post('/sendNotification', async (req, res) => {
+	//I'm going to cheat to insert middleware
+	console.log('\nsend notification\n');
+	req = authMiddleware({req});
+	if (!req.user) {
+		res.statusMessage = 'Unauthorized - Must be logged in to invite friends to game';
+		res.sendStatus(401);
+		return;
+	}
+	
+	// console.log(req.user);
+	// console.log(req.body);
+	
+	// get my list of friends
+	// -> with their subscription details
+	
+	// for now, just find me
+	const users = await User.find({username: req.user.username})
+		.select('username subscription');
+	console.log(users);
+	
+	
+	// filter the body down to only people in my friends list
+	
+	// send the push
+	users.forEach(user => {
+		const subscription = user.subscription;
+		const payload = "Let's play L3tters!";
+		const options = { TTL: TWENTY_MINUTES	};
+		// setTimeout(() => {
+			webPush.sendNotification(subscription, payload, options)
+				.catch(error => {
+					console.error(error);
+					// res.sendStatus(500);
+				});
+		// }, req.body.delay * 1000);	//i think delay is just for the demo?
+	});
+
 	res.sendStatus(201);
 	
 	
 	
-	// const subscription = req.body.subscription;
-	// const payload = req.body.payload;
-	// const options = {
-		// TTL: req.body.ttl
-	// };
 
 	// would we need the subscriptions of every user they invited?
 	// is payload the invitation message/link?
-	// setTimeout(() => {
-		// webPush.sendNotification(subscription, payload, options)
-			// .then(() => {
-				// res.sendStatus(201);
-			// })
-			// .catch(error => {
-				// console.log(error);
-				// res.sendStatus(500);
-			// });
-	// }, req.body.delay * 1000);	//i think delay is just for the demo?
 });
 
 
