@@ -48,11 +48,11 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 		
 		//invite all my friends for now
 		const friendsToInvite = friendsData.me.friends.map(friend => friend.username);
-		if friendsToInvite.length !== 0)
+		if (friendsToInvite.length !== 0)
 			shareByPush(friendsToInvite);
 	};
 	
-	const shareByEmail = to => {
+	const shareByEmail = async to => {
 		try {
 			to.forEach(email => {
 				if (!validateEmail(email))
@@ -70,7 +70,7 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 		};
 	};
 	
-	const shareByPush(friends) {
+	const shareByPush = friends => {
 		// do something
 	}
 	
