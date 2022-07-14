@@ -72,6 +72,17 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const shareByPush = friends => {
 		// do something
+		console.log('share by push');
+		// fetch('./sendNotification', {
+			// method: 'post',
+			// headers: {'Content-type': 'application/json'},
+			// body: JSON.stringify({
+				// subscription,
+				// payload,
+				// delay,
+				// ttl
+			// })
+		// });
 	}
 	
   return (
@@ -116,7 +127,7 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 
 						<button className="lobby-btn"><img src={settings} alt="Settings"/><span>Settings</span></button>
 
-						<button className="lobby-btn" onClick={onShare}><img src={share} alt="Invite"/><span>Invite</span></button>
+						<button className="lobby-btn" onClick={shareByPush}><img src={share} alt="Invite"/><span>Invite</span></button>
 
 						{/* <button className="lobby-btn"><img src={friend} alt="Friends"/><span>Friends</span></button> */}
 							<Friends socket={socket} username={username} room={room} />

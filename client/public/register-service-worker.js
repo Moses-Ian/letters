@@ -30,10 +30,16 @@
 				});
 			})
 			.then(subscription => {
+				// Get the stored jwt
+				const authToken = localStorage.getItem('id_token');
+				
 				// POST the subscription details
 				fetch('./register', {
 					method: 'post',
-					headers: {'Content-type': 'application/json'},
+					headers: {
+						'Content-type': 'application/json',
+						'Authorization': 'Bearer ' + authToken
+					},
 					body: JSON.stringify({ subscription })
 				});
 			})

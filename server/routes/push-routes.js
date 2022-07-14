@@ -1,20 +1,38 @@
 const router = require('express').Router();
+const {authMiddleware} = require('../utils/auth');
+const { User } = require('../models');
 
 // service-worker requests the VAPID key
 router.get('/vapidPublicKey', (req, res) => {
 	console.log('vapidPublicKey');
-	console.log(process.env.VAPID_PUBLIC_KEY);
+	// console.log(process.env.VAPID_PUBLIC_KEY);
 	res.send(process.env.VAPID_PUBLIC_KEY);
 });
 
 // service-worker subscribes to push notifications
-router.post('/register', (req, res) => {
-	// A real world application would store the subscription info.
-	
-	//do something
-	console.log('register');
-	
-	res.sendStatus(201);
+router.post('/register', async (req, res) => {
+	//I'm going to cheat to insert middleware
+	console.log('\nregister\n');
+	req = authMiddleware({req});
+	const {subscription} = req.body;
+	if (!req.user) {
+		res.statusMessage = 'Unauthorized - Must be logged in to register push notification subscription';
+		res.sendStatus(401);
+		return;
+	}
+
+	//save the subscription to the user's data
+	try {
+		const updatedUser = await User.findOneAndUpdate(
+			{ _id: req.user._id },
+			{ subscription },
+			{ new: true }
+		);
+		res.sendStatus(201);
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(500);
+	}
 });
 
 // the invite-friends button was clicked
