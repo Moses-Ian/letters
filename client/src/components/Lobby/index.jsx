@@ -72,7 +72,7 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	};
 	
 	const shareByPush = friends => {
-		friends = ['ian'];
+		friends = ['ian', 'moses', 'ian2', 'ianm'];
 		
 		// do something
 		console.log('share by push');
@@ -82,7 +82,7 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 				'Content-type': 'application/json',
 				'Authorization': 'Bearer ' + Auth.getToken()
 				},
-			body: JSON.stringify(friends)
+			body: JSON.stringify({room, friends})
 		});
 	}
 	
