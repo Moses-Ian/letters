@@ -1,7 +1,9 @@
 import React from "react";
 import swipeRight from "../../assets/images/swipe-left7.png";
 import settings from "../../assets/images/settings.png";
-import share from "../../assets/images/share.png"
+import share from "../../assets/images/share.png";
+import leave from "../../assets/images/leave.png";
+import logout from "../../assets/images/logout.png";
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
 import { useMutation } from '@apollo/client';
@@ -72,7 +74,6 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 						))}
 					</ul>
 				</div>
-
 				<div className="lobby">
 					<p className="wotd-head">WORD OF THE DAY!!<span className="wotd">PLACEHOLDER</span><span className="bonus"> 5 bonus points if you find this word.</span></p>
 
@@ -88,8 +89,13 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 							<span>Invite</span></button>
 
 							<Friends socket={socket} username={username} room={room} />
-					</div>
 
+							<button className="lobby-btn"><img src={logout}></img>
+							<span>Logout</span></button>
+
+							<button className="lobby-btn"><img src={leave}></img>
+							<span>Leave</span></button>
+					</div>
 					<p className="swipe-arrows">Swipe to play <span className="arrow-image"><img src={swipeRight} alt="right arrow"/></span></p>
 				</div>
 			</div>

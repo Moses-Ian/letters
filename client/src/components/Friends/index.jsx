@@ -130,19 +130,21 @@ export default function Friends ({ socket, room }){
     
     {show && 
     <form>
-      <Modal title="Friends" onClose={() => setShow(false)}>
+      <Modal hideEnterButton={true} title="Friends" onClose={() => setShow(false)}>
         <div>
-          <p className="join-modal-body">Search users to add to friends!!</p>
-          <input
-          className="user-search mb-3"
-          type="text"
-          placeholder="Search username"
-          name="search"
-					value={searchState}
-					onChange={handleChange}
-          ></input>
+            <p className="join-modal-body">Search users to add to friends!!</p>
+          <div className="flex-friend mt-2">
+            <input
+            className="user-search"
+            type="text"
+            placeholder="Search username"
+            name="search"
+            value={searchState}
+            onChange={handleChange}
+            ></input>
 
-          <button className="search-btn ml-1" onClick={searchUsers}>Find</button>
+          <button className="search-btn ml-1 button is-small is-warning" onClick={searchUsers}>Find</button>
+        </div>
 
 					<div>{errorMsg}</div>
 					{searchResult &&
@@ -166,7 +168,7 @@ export default function Friends ({ socket, room }){
 								{player} 
 								{playersAreFriend[index] 
 								? '✓'
-								:	<button onClick={addFriend}>add</button>}
+								:	<button className="add-btn" onClick={addFriend}><img src={add} alt="Add button"/></button>}
 							</li>
 						))
 					}
