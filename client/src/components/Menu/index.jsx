@@ -22,12 +22,16 @@ const Menu = ({ socket, username, room, players, activePlayer, display }) => {
         </div>
 
 				 {/* footer added */}
-					<button className="modal-close-button">
-						Close
-					</button>
+          <div className="modal-footer">
+					  <button className="modal-close-button">
+						  Close
+					  </button>
+          </div>
+
 				</div>
 			</div>
-		
   );
 };
+
+
 export default Menu;
