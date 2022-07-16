@@ -50,17 +50,13 @@ router.post('/sendNotification', async (req, res) => {
 	}
 	if (!req.body.room || !req.body.friends || req.body.friends.length === 0) {
 		// bad request
+		res.statusMessage = 'Bad Request - Body must include a room and list of friends (by username)';
+		res.sendStatus(400);
+		return;
 	}
-		
-	
-	// console.log(req.headers.referer);
-	// console.log(req.user);
-	console.log(req.body);
 	
 	// get my list of friends
 	// -> with their subscription details
-	
-	// for now, just find me
 	const me = await User.find({username: req.user.username})
 		.populate({
 			path: 'friends', 
@@ -71,31 +67,20 @@ router.post('/sendNotification', async (req, res) => {
 				{ subscription: { $exists: true      } }] }
 		});
 		// could also check that expiration time is valid
-	console.log(me[0].friends);
-	
-	
-	// filter the body down to only people in my friends list
-	// const users = req.body.friends.filter(friend => 
 	
 	// send the push
-	// users.forEach(user => {
-		// const subscription = user.subscription;
-		// const payload = `Join ${req.user.username} in a game of L3tters!
-// ${req.headers.referer}join?room=${req.body.room}`;
-		// const options = { TTL: TWENTY_MINUTES	};
-		// webPush.sendNotification(subscription, payload, options)
-			// .catch(error => {
-				// console.error(error);
-			// });
-	// });
+	me[0].friends.forEach(user => {
+		const subscription = user.subscription;
+		const payload = `Join ${req.user.username} in a game of L3tters!
+${req.headers.referer}join?room=${req.body.room}`;
+		const options = { TTL: TWENTY_MINUTES	};
+		webPush.sendNotification(subscription, payload, options)
+			.catch(error => {
+				console.error(error);
+			});
+	});
 
 	res.sendStatus(201);
-	
-	
-	
-
-	// would we need the subscriptions of every user they invited?
-	// is payload the invitation message/link?
 });
 
 
