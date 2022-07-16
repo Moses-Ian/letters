@@ -133,6 +133,7 @@ export default function Friends ({ socket, room }){
       <Modal hideEnterButton={true} title="Friends" onClose={() => setShow(false)}>
         <div>
             <p className="join-modal-body">Search users to add to friends!!</p>
+						
           <div className="flex-friend mt-2">
             <input
             className="user-search"

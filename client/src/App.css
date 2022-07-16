@@ -301,7 +301,7 @@ textarea {
   display: inline-block;
   margin: 6px 2px;
   padding-top: 2px;
-  background-color: #02677065;
+  background-color: #0267705c;
   border-radius: 3px;
   width: calc((100vw - 1.5rem - 110px) / 9);
   max-width: 50px;
