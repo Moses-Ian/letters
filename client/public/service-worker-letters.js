@@ -51,3 +51,27 @@ self.addEventListener('push', event => {
     self.registration.showNotification('L3tters', {body: payload})
   );
 });
+// Register event listener for the 'push-subscription-changed' event
+// I'm not convinced that this works as it's supposed to 
+// -> if people's subscriptions aren't automatically updating, this may be the culprit
+self.addEventListener("pushsubscriptionchange", event => {
+	console.log('push subscription changed');
+  event.waitUntil(swRegistration.pushManager.subscribe(event.oldSubscription.options)
+    .then(subscription => {
+			// Get the stored jwt
+			const authToken = localStorage.getItem('id_token');
+				
+      fetch("register", {
+        method: "post",
+        headers: {
+          "Content-type": "application/json",
+					'Authorization': 'Bearer ' + authToken
+        },
+        body: JSON.stringify({
+          endpoint: subscription.endpoint
+        })
+      });
+			return;
+    })
+  );
+}, false);

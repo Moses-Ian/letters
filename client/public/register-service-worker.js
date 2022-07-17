@@ -13,8 +13,9 @@
 				return registration.pushManager.getSubscription()
 				.then(async subscription => {
 					// If a subscription was found, return it.
-					if (subscription) 
+					if (subscription) {
 						return subscription;
+					}
 
 					// Get the server's public key
 					const response = await fetch('./vapidPublicKey');

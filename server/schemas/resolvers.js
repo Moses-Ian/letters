@@ -242,6 +242,8 @@ const resolvers = {
 ${context.headers.referer}join?room=${args.input.room}`;
 					webPush.sendNotification(subscription, payload, options)
 						.catch(error => {
+							console.log('this one right here, sir');
+							console.log(user.username);
 							console.error(error);
 						});
 				});

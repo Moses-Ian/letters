@@ -12,7 +12,7 @@ import Friends from "../Friends"
 
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
-import { SHARE_LOBBY_BY_EMAIL } from '../../utils/mutations';
+import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from '../../utils/mutations';
 
 
 //this is very cute and absolutely not necessary
@@ -22,6 +22,7 @@ const url = room => `${window.location.origin}/join?room=${room}`;
 const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
+	const [sendNotification] = useMutation(SEND_NOTIFICATION);
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	
 	const onShare = async () => {
@@ -74,16 +75,11 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	const shareByPush = friends => {
 		friends = ['ian', 'moses', 'ian2', 'ianm'];
 		
-		// do something
-		console.log('share by push');
-		fetch('./sendNotification', {
-			method: 'post',
-			headers: {
-				'Content-type': 'application/json',
-				'Authorization': 'Bearer ' + Auth.getToken()
-				},
-			body: JSON.stringify({room, friends})
-		});
+		try {
+			sendNotification({variables: {NotificationInput: {room, friends}}});
+		} catch (err) {
+			console.error(err);
+		}
 	}
 	
   return (
