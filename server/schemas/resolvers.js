@@ -198,7 +198,7 @@ const resolvers = {
 				};
 			}
 		},
-		register: async (parent, args, context) => {
+		registerPushSubscription: async (parent, args, context) => {
 			try {
 				//verify user
 				if (!context.user) throw new AuthenticationError('You need to be logged in!');

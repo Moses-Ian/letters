@@ -35,7 +35,7 @@
 				const authToken = localStorage.getItem('id_token');
 				
 				// POST the subscription details
-				fetch('./register', {
+				fetch('./registerPushSubscription', {
 					method: 'post',
 					headers: {
 						'Content-type': 'application/json',

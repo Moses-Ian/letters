@@ -41,7 +41,7 @@ const typeDefs = gql`
 		addHints(email: String!, dailyHints: Int!): User
 		sendEmail(input: EmailInput!): Response!
 		shareLobbyByEmail(room: String!, to: [String]): Response!
-		register(subscription: SubscriptionInput!): Void
+		registerPushSubscription(subscription: SubscriptionInput!): Void
 		sendNotification(input: NotificationInput!): Void
 	}
 	

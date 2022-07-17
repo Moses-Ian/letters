@@ -20,7 +20,7 @@ router.get('/vapidPublicKey', (req, res) => {
 });
 
 // service-worker subscribes to push notifications
-router.post('/register', async (req, res) => {
+router.post('/registerPushSubscription', async (req, res) => {
 	//I'm going to cheat to insert middleware
 	req = authMiddleware({req});
 	const {subscription} = req.body;
