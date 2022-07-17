@@ -8,6 +8,7 @@ const helpers = require('./utils/helpers');
 const db = require('./config/connection');
 const registerHandlers = require('./handlers');
 require('dotenv').config({path: path.join(__dirname, '..', '.env')});
+const webPush = require('web-push');
 
 // show memory usage
 // if (process.env.NODE_ENV === 'development') {
@@ -23,6 +24,13 @@ require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+//push notification stuff
+webPush.setVapidDetails(
+  "mailto: <imoses2@hotmail.com>",
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY
+);
+
 //apollo stuff
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -30,7 +38,6 @@ const apolloServer = new ApolloServer({
   context: authMiddleware
 });
 apolloServer.applyMiddleware({ app });
-
 
 //socket.io stuff
 const server = require('http').createServer(app);	

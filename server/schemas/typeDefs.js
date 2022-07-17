@@ -25,20 +25,11 @@ const dateScalar = new GraphQLScalarType({
 const typeDefs = gql`
 	scalar Date
 
-	type User {
-		_id: ID
-		username: String
-		email: String
-		friendCount: Int
-		lastLogin: Date
-		dailyHints: Int
-		friends: [User]
-	}
-
 	type Query {
 		me: User
 		users: [User]
 		user(username: String!): User
+		VAPIDPublicKey: VAPIDPublicKey
 	}
 
 	type Mutation {
@@ -50,6 +41,38 @@ const typeDefs = gql`
 		addHints(email: String!, dailyHints: Int!): User
 		sendEmail(input: EmailInput!): Response!
 		shareLobbyByEmail(room: String!, to: [String]): Response!
+		registerPushSubscription(subscription: SubscriptionInput!): Void
+		sendNotification(input: NotificationInput!): Void
+	}
+	
+	type User {
+		_id: ID
+		username: String
+		email: String
+		friendCount: Int
+		lastLogin: Date
+		dailyHints: Int
+		friends: [User]
+	}
+	
+	type VAPIDPublicKey {
+		VAPIDPublicKey: String
+	}
+	
+	input SubscriptionInput {
+		endpoint: String!
+		expirationTime: Date
+		keys: Keys!
+	}
+	
+	input Keys {
+		p256dh: String!
+		auth: String!
+	}
+	
+	input NotificationInput {
+		room: String!
+		friends: [String]!
 	}
 	
 	type Auth {
@@ -73,6 +96,10 @@ const typeDefs = gql`
 		error: String
 	}
 	
+	type Void {
+		void: String
+	}
+
 `;
 
 // export the typeDefs

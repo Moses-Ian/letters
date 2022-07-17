@@ -77,3 +77,11 @@ export const SHARE_LOBBY_BY_EMAIL = gql`
 		}
 	}
 `;
+
+export const SEND_NOTIFICATION = gql`
+	mutation sendNotification($NotificationInput: NotificationInput!) {
+		sendNotification(input: $NotificationInput) {
+			void
+		}
+	}
+`;
