@@ -36,16 +36,5 @@
 			}, 200);
 		}
 	</script>
-  <script>
-    (function () {
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("./service-worker-letters.js")
-          .then(() => console.log("Service Worker registered successfully."))
-          .catch((error) =>
-            console.log("Service Worker registration failed:", error)
-          );
-      }
-    })();
-  </script>
+  <script src='./register-service-worker.js'></script>
 </html>
