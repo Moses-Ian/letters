@@ -52,6 +52,12 @@ const swipeConfig = {
   touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
 };
 
+// app-install stuff
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+const isApp = (document.referrer.startsWith('android-app://') ||
+		isStandalone ||
+		navigator.standalone);
+
 function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
@@ -136,6 +142,13 @@ function App() {
 		updateProfile();
 		createSocket();
 		
+		//listen for the before-install-prompt event
+		window.addEventListener('beforeinstallprompt', event => {
+			event.preventDefault();
+			window.deferredPrompt = event
+			// showInstallPromotion();
+		})
+
 		return () => {
 			console.log('unrender');
 		};
@@ -154,7 +167,20 @@ function App() {
 		setUsernameReady(true);
 	}, [jwt]);
 	
+	//ask the user if they want to install the app
+	function showInstallPromotion(event) {
+		console.log('do you want to install the app?')
+		const promptEvent = window.deferredPrompt;
+		if (!promptEvent) 
+			return;
+		
+		//this baby does it all -> if they say yes, it downloads and opens the app
+		promptEvent.prompt()
+		
+	}
+
 	console.log('App.js rendered');
+	console.log(isApp)
 
   return (
     <ApolloProvider client={client}>
@@ -173,18 +199,21 @@ function App() {
 					/>
 			)}
 				{room === "" ? (
-					<JoinGame
-						socket={socket}
-						username={username}
-						setUsername={setUsername}
-						usernameReady={usernameReady}
-						room={room}
-						setRoom={setRoom}
-						width={width}
-						height={height}
-						setTurn={setTurn}
-						setRound={setRound}
-					/>
+					<>
+						<JoinGame
+							socket={socket}
+							username={username}
+							setUsername={setUsername}
+							usernameReady={usernameReady}
+							room={room}
+							setRoom={setRoom}
+							width={width}
+							height={height}
+							setTurn={setTurn}
+							setRound={setRound}
+						/>
+						{!isApp && <button onClick={showInstallPromotion}>Install the app!</button>}
+					</>
 				) : (
           <Room 
 						socket={socket} 
