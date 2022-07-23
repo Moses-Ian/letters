@@ -52,12 +52,6 @@ const swipeConfig = {
   touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
 };
 
-// app-install stuff
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-const isApp = (document.referrer.startsWith('android-app://') ||
-		isStandalone ||
-		navigator.standalone);
-
 function App() {
   const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
@@ -74,7 +68,28 @@ function App() {
 	const loggedIn = Auth.loggedIn();
 	const decodedToken = Auth.decodeToken(Auth.getToken())
 	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
-	
+	// app-install stuff
+	const isApp = (document.referrer.startsWith('android-app://') ||
+			window.matchMedia('(display-mode: standalone)').matches ||
+			navigator.standalone);
+
+	//ask the user if they want to install the app
+	const showInstallPromotion = event => {
+		const promptEvent = window.deferredPrompt;
+		if (!promptEvent) 
+			return;
+		//this baby does it all -> if they say yes, it downloads and opens the app
+		promptEvent.prompt()
+	}
+
+	//listen for the before-install-prompt event
+	const listenInstallPrompt = () => {
+		window.addEventListener('beforeinstallprompt', event => {
+			event.preventDefault();
+			window.deferredPrompt = event
+		})
+	};
+
   const attachListeners = (socket) => {
     socket.on("connect", () => {
       console.log(`You connected with id: ${socket.id}`);
@@ -141,14 +156,8 @@ function App() {
 		};
 		updateProfile();
 		createSocket();
+		listenInstallPrompt();
 		
-		//listen for the before-install-prompt event
-		window.addEventListener('beforeinstallprompt', event => {
-			event.preventDefault();
-			window.deferredPrompt = event
-			// showInstallPromotion();
-		})
-
 		return () => {
 			console.log('unrender');
 		};
@@ -167,20 +176,7 @@ function App() {
 		setUsernameReady(true);
 	}, [jwt]);
 	
-	//ask the user if they want to install the app
-	function showInstallPromotion(event) {
-		console.log('do you want to install the app?')
-		const promptEvent = window.deferredPrompt;
-		if (!promptEvent) 
-			return;
-		
-		//this baby does it all -> if they say yes, it downloads and opens the app
-		promptEvent.prompt()
-		
-	}
-
 	console.log('App.js rendered');
-	console.log(isApp)
 
   return (
     <ApolloProvider client={client}>
@@ -212,7 +208,15 @@ function App() {
 							setTurn={setTurn}
 							setRound={setRound}
 						/>
-						{!isApp && <button onClick={showInstallPromotion}>Install the app!</button>}
+						{!isApp && 
+							<div className="field has-text-centered">
+								<button 
+									onClick={showInstallPromotion}
+									className='install-app-button mt-2 p-2'
+								>
+										Install the app!
+								</button>
+						</div>}
 					</>
 				) : (
           <Room 
