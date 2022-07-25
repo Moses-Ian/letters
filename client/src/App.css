@@ -421,7 +421,8 @@ sup div {
 .modal-close-button,
 .modal-toggle-button,
 .join-game-button,
-.sign-up-button {
+.sign-up-button,
+.install-app-button {
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -445,7 +446,8 @@ sup div {
 .modal-close-button:hover,
 .modal-toggle-button:hover,
 .join-game-button:hover,
-.sign-up-button:hover {
+.sign-up-button:hover,
+.install-app-button:hover {
   background-color: var(--quanternary-color);
 }
 

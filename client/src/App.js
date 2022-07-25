@@ -68,7 +68,28 @@ function App() {
 	const loggedIn = Auth.loggedIn();
 	const decodedToken = Auth.decodeToken(Auth.getToken())
 	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
-	
+	// app-install stuff
+	const isApp = (document.referrer.startsWith('android-app://') ||
+			window.matchMedia('(display-mode: standalone)').matches ||
+			navigator.standalone);
+
+	//ask the user if they want to install the app
+	const showInstallPromotion = event => {
+		const promptEvent = window.deferredPrompt;
+		if (!promptEvent) 
+			return;
+		//this baby does it all -> if they say yes, it downloads and opens the app
+		promptEvent.prompt()
+	}
+
+	//listen for the before-install-prompt event
+	const listenInstallPrompt = () => {
+		window.addEventListener('beforeinstallprompt', event => {
+			event.preventDefault();
+			window.deferredPrompt = event
+		})
+	};
+
   const attachListeners = (socket) => {
     socket.on("connect", () => {
       console.log(`You connected with id: ${socket.id}`);
@@ -135,6 +156,7 @@ function App() {
 		};
 		updateProfile();
 		createSocket();
+		listenInstallPrompt();
 		
 		return () => {
 			console.log('unrender');
@@ -173,18 +195,29 @@ function App() {
 					/>
 			)}
 				{room === "" ? (
-					<JoinGame
-						socket={socket}
-						username={username}
-						setUsername={setUsername}
-						usernameReady={usernameReady}
-						room={room}
-						setRoom={setRoom}
-						width={width}
-						height={height}
-						setTurn={setTurn}
-						setRound={setRound}
-					/>
+					<>
+						<JoinGame
+							socket={socket}
+							username={username}
+							setUsername={setUsername}
+							usernameReady={usernameReady}
+							room={room}
+							setRoom={setRoom}
+							width={width}
+							height={height}
+							setTurn={setTurn}
+							setRound={setRound}
+						/>
+						{!isApp && 
+							<div className="field has-text-centered">
+								<button 
+									onClick={showInstallPromotion}
+									className='install-app-button mt-2 p-2'
+								>
+										Install the app!
+								</button>
+						</div>}
+					</>
 				) : (
           <Room 
 						socket={socket} 
