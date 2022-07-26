@@ -306,6 +306,7 @@ textarea {
   width: calc((100vw - 1.5rem - 110px) / 9);
   max-width: 50px;
   flex-grow: 1;
+  border: 0.5px solid #edeae535;
 }
 
 .hundred {
@@ -435,7 +436,8 @@ sup div {
 .modal-close-button,
 .modal-toggle-button,
 .join-game-button,
-.sign-up-button {
+.sign-up-button,
+.install-app-button {
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -460,7 +462,7 @@ sup div {
 .modal-toggle-button:hover,
 .join-game-button:hover,
 .sign-up-button:hover,
-.search-btn:hover {
+.install-app-button:hover {
   background-color: var(--quanternary-color);
 }
 

@@ -6,27 +6,57 @@ import leave from "../../assets/images/leave.png";
 import logout from "../../assets/images/logout.png";
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
-import { useMutation } from '@apollo/client';
-import { SHARE_LOBBY_BY_EMAIL } from '../../utils/mutations';
 import { validateEmail } from '../../utils';
+import Auth from '../../utils/auth';
 
 import Friends from "../Friends"
+
+
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
+import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from '../../utils/mutations';
+
+
+//this is very cute and absolutely not necessary
+const url = room => `${window.location.origin}/join?room=${room}`;
+
 
 const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
+	const [sendNotification] = useMutation(SEND_NOTIFICATION);
+	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	
 	const onShare = async () => {
+		console.log('share');
+		console.log(url(room));
+		
+		//if the os has native share features, use those
+		if (navigator.share) {
+			navigator.share({
+				title: 'Join a game on L3tters.com!',
+				url: url(room),
+				text: `Join ${username} in a game of L3tters!`
+			})
+			return;
+		}
+		
 		//sends the email once the 'to' field has been filled
 		//clicking the button should open up a modal first
-		console.log('share');
-		
 		// to be filled by user -> MUST VALIDATE		
 		const to = [
 			'chrismasters_326@outlook.com',
-		
 		];
+		if (to.length !== 0)
+			shareByEmail(to);
 		
+		//invite all my friends for now
+		const friendsToInvite = friendsData.me.friends.map(friend => friend.username);
+		if (friendsToInvite.length !== 0)
+			shareByPush(friendsToInvite);
+	};
+	
+	const shareByEmail = async to => {
 		try {
 			to.forEach(email => {
 				if (!validateEmail(email))
@@ -44,8 +74,15 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 		};
 	};
 	
-	
-	
+	const shareByPush = friends => {
+		friends = ['ian', 'moses', 'ian2', 'ianm'];
+		
+		try {
+			sendNotification({variables: {NotificationInput: {room, friends}}});
+		} catch (err) {
+			console.error(err);
+		}
+	}
 	
   return (
 		<div className={`view ${display}`}>
@@ -85,8 +122,7 @@ const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
 							<button className="lobby-btn"><img src={settings} alt="Settings"/>
 							<span>Settings</span></button>
 
-							<button className="lobby-btn" onClick={onShare}><img src={share} alt="Invite"/>
-							<span>Invite</span></button>
+						<button className="lobby-btn" onClick={shareByPush}><img src={share} alt="Invite"/><span>Invite</span></button>
 
 							<Friends socket={socket} username={username} room={room} />
 

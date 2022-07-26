@@ -4,10 +4,12 @@ const { User } = require('../models');
 const { sanitize, validateEmail } = require('../utils/helpers');
 const { signToken } = require('../utils/auth');
 const { DateTime } = require('luxon');
+const webPush = require('web-push');
 
 const developerEmails = [
 	'ian@hotmail.com'
 ];
+const TWENTY_MINUTES = 1000 * 60 * 20;
 sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const resolvers = {
@@ -34,6 +36,10 @@ const resolvers = {
 				.select('-__v -password')
 				.populate('friends')
 		},
+		// get VAPID Public Key
+		VAPIDPublicKey: () => {
+			return { VAPIDPublicKey: process.env.VAPID_PUBLIC_KEY}
+		},
   },
   Mutation: {
 		addUser: async (parent, args) => {
@@ -43,6 +49,7 @@ const resolvers = {
 			return { token, user };
 		},
 		login: async (parent, { email, password }) => {
+			console.log('login');
 			const user = await User.findOne({ email });
 			if (!user) throw new AuthenticationError('Incorrect credentials');
 
@@ -165,7 +172,8 @@ const resolvers = {
 						throw `Invalid email - ${email}`;
 					return {to: email}
 				});
-				const url = process.env.NODE_ENV === 'production' ? `www.l3tters.com/join?room=${room}` 
+				const url = process.env.NODE_ENV === 'production' 
+					? `www.l3tters.com/join?room=${room}` 
 					: `localhost:3000/join?room=${room}`;
 				const message = {
 					personalizations,
@@ -188,6 +196,62 @@ const resolvers = {
 					message: null,
 					error: err
 				};
+			}
+		},
+		registerPushSubscription: async (parent, args, context) => {
+			try {
+				//verify user
+				if (!context.user) throw new AuthenticationError('You need to be logged in!');
+				
+				//save the subscription to the user's data
+				await User.findOneAndUpdate(
+					{ _id: context.user._id },
+					{ subscription: args.subscription },
+					{ new: true }
+				);
+			
+				return null;
+			} catch (err) {
+				console.error(err);
+				return null;
+			}
+		},
+		sendNotification: async (parent, args, context) => {
+			try {
+				//verify user
+				if (!context.user) throw new AuthenticationError('You need to be logged in!');
+				
+				// get my list of friends
+				// -> with their subscription details
+				const me = await User.find({username: context.user.username})
+					.populate({
+						path: 'friends', 
+						select: 'username subscription',
+						match: {$and: [
+							{ username: { $ne: context.user.username } },
+							{ username: { $in: args.input.friends  } },
+							{ subscription: { $exists: true      } }] }
+					});
+					// could also check that expiration time is valid
+
+				// send the push
+				const options = { TTL: TWENTY_MINUTES	};
+				me[0].friends.forEach(user => {
+					const subscription = user.subscription;
+					const payload = `Join ${context.user.username} in a game of L3tters!
+${context.headers.referer}join?room=${args.input.room}`;
+					webPush.sendNotification(subscription, payload, options)
+						.catch(error => {
+							console.log('this one right here, sir');
+							console.log(user.username);
+							console.error(error);
+						});
+				});
+				
+				return null;
+			} catch (err) {
+				console.error(err);
+				return null;
 			}
 		}
   }

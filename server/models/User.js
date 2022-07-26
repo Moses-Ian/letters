@@ -39,6 +39,14 @@ const userSchema = new Schema(
         ref: "User",
       },
     ],
+		subscription: {
+			endpoint: String,
+			expirationTime: Date,
+			keys: {
+				p256dh: String,
+				auth: String
+			}
+		}
   },
   {
     toJSON: {
