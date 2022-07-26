@@ -5,6 +5,7 @@ import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
+import Menu from "../Menu"
 
 const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
@@ -134,15 +135,24 @@ function Room({
 				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
 					Leave
 				</button>
+				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
 					
-				<Lobby
+				{/* <Lobby
 					socket={socket}
 					username={username}
 					room={room}
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
-				/>
+				/> */}
+
+				<Menu 
+				socket={socket}
+				username={username}
+				room={room}
+				players={players}
+				activePlayer={activePlayer}
+				display={setLobbyDisplay()}/>
 
 				<div className={`view ${setGameDisplay()}`}>
 					{round <= MAX_ROUNDS ? 

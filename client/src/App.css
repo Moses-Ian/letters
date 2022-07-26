@@ -54,7 +54,7 @@ body {
 
 input
  {
-  box-shadow: 3px 8px 10px #026670 !important;
+  box-shadow: 2px 4px 8px #026670 !important;
   font-family: Fugaz one;
 }
 
@@ -129,16 +129,6 @@ textarea {
   text-align: left;
   opacity: 0.6;
   padding: 0.2em 3px .2em 3px;
-	
-	
-	/* The following attributes fucked everything up. You can try to fight me on this if you want to include any of them. */
-	
-  /* word-wrap: normal; */
-  /* width: 70vw; */
-  /* height: fit-content; /* the div gets bigger when you type multiple lines */ 
-  /* height: 4vh !important; */
-  /* font-size: 1em; */
-  /* display: block; */
 }
 
 .live-chat-button {
@@ -149,16 +139,6 @@ textarea {
   font-family: Fugaz One;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
   color: var(--seventh-color);
-	
-	/* the following attributes messed with everything. seriously, git gud with flexbox and we wont have these weird height/width issues */
-
-  /* height: 3.3vh;	 */
-	/* height: 100%; */
-  /* font-size: 11px; */
-  /* border: 1px solid rgba(0, 0, 0, 0);  */
-	/* zero alpha? just use border: none; */
-  /* vertical-align: 100%; */
-  /* position: absolute; */
 }
 
 .username-chat {
@@ -256,8 +236,35 @@ textarea {
   width: 120px;
   height: 110px;
   color: var(--primary-color);
-  border: 1px solid rgba(0, 0, 0, 0);
-  display: inline-flexbox;
+  border: none;
+}
+
+.friends {
+  display: inline-block;
+}
+
+.add-btn {
+  float: right;
+  border: none;
+  outline: none;
+  background-color: var(--sixth-color);
+}
+
+.search-btn {
+  box-shadow: none !important;
+}
+
+.user-search {
+  flex-grow: 2;
+  flex-basis: 0;
+  box-shadow: none !important;
+  border-radius: 5px;
+  border: none;
+}
+
+.flex-friend {
+  display: flex;
+  width: 100%;
 }
 
 .bonus {
@@ -294,11 +301,12 @@ textarea {
   display: inline-block;
   margin: 6px 2px;
   padding-top: 2px;
-  background-color: #02677065;
+  background-color: #0267705c;
   border-radius: 3px;
   width: calc((100vw - 1.5rem - 110px) / 9);
   max-width: 50px;
   flex-grow: 1;
+  border: 0.5px solid #edeae535;
 }
 
 .hundred {
@@ -403,16 +411,23 @@ sup div {
   text-shadow: 1px 1px 1px black, 1px 1px 5px black;
 }
 
-.type-box, 
-.user-search {
+.menu-content {
+  width: 400px;
+  background-color: var(--sixth-color);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.3);
+}
+
+
+.type-box {
   height: 32px !important;
   border-radius: 5px;
   margin: 5px 0 5px 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.type-box:hover, 
-.user-search:hover {
+.type-box:hover {
   background-color: var(--quanternary-color);
 }
 
@@ -456,6 +471,14 @@ sup div {
   right: 0;
   top: -85px;
   margin-right: 5px;
+}
+
+.menu-button {
+  position: absolute;
+  right: 0;
+  /* top: -120px; */
+  margin-right: 5px;
+  top: -50px;
 }
 
 .join-game-button {

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Modal from "../Modal";
 import friend from "../../assets/images/friend.png";
+import add from "../../assets/images/add-friend.png"
 import { sanitize } from "../../utils";
 import Auth from "../../utils/auth";
 
@@ -122,24 +123,30 @@ export default function Friends ({ socket, room }){
 	
 	
   return (
-    <div className="Friends">
+    <div className="friends">
       <button className="lobby-btn" onClick={() => setShow(true)}>
-        <img src={friend} alt="Friends"/><span>Friends</span>
+        <img src={friend} alt="Friends list"/><span>Friends</span>
       </button>
     
     {show && 
     <form>
-      <Modal title="Friends" onClose={() => setShow(false)}>
+      <Modal hideEnterButton={true} title="Friends" onClose={() => setShow(false)}>
         <div>
-          <p className="join-modal-body">Search users to add to friends!!</p>
-          <input
-          className="user-search input"
-          type="text"
-          placeholder="Search username"
-          name="search"
-					value={searchState}
-					onChange={handleChange}
-          ></input>
+            <p className="join-modal-body">Search users to add to friends!!</p>
+						
+          <div className="flex-friend mt-2">
+            <input
+            className="user-search"
+            type="text"
+            placeholder="Search username"
+            name="search"
+            value={searchState}
+            onChange={handleChange}
+            ></input>
+
+          <button className="search-btn ml-1 button is-small is-warning" onClick={searchUsers}>Find</button>
+        </div>
+
 					<div>{errorMsg}</div>
 					{searchResult &&
 						<ul>
@@ -147,11 +154,11 @@ export default function Friends ({ socket, room }){
 								{searchResult.username}
 								{searchResult.isFriend 
 								? '✓'
-								:	<button onClick={addFriend}>add</button>}
+								:	<button className="add-btn" onClick={addFriend}><img src={add} alt="Add button"/></button>}
 							</li>
 						</ul>
 					}
-					<button onClick={searchUsers}>search</button>
+					
         </div>
         <div>
 					<p className=" join-modal-body mt-3">See who's online</p>
@@ -162,7 +169,7 @@ export default function Friends ({ socket, room }){
 								{player} 
 								{playersAreFriend[index] 
 								? '✓'
-								:	<button onClick={addFriend}>add</button>}
+								:	<button className="add-btn" onClick={addFriend}><img src={add} alt="Add button"/></button>}
 							</li>
 						))
 					}
