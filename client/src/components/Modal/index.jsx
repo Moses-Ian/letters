@@ -1,7 +1,8 @@
 import React from "react";
 import "../../App.css";
 
-const Modal = ({ onClose, title, submitText, children }) => {
+const Modal = ({ onClose, title, submitText, children, hideEnterButton=false }) => {
+
 
   return (
 		<div className="modal-main" onClick={onClose}>
@@ -13,7 +14,7 @@ const Modal = ({ onClose, title, submitText, children }) => {
 				<div className="modal-body">{children}</div>
 
 				<div className="modal-footer">
-					<button className="modal-enter-button">{submitText || "Enter"}</button>
+					{!hideEnterButton && <button className="modal-enter-button">{submitText || "Enter"}</button>}
 					<button onClick={onClose} className="modal-close-button">
 						Close
 					</button>
