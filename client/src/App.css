@@ -51,9 +51,7 @@ body {
 
 .button,
 .hover-transition,
-
-input
- {
+input {
   box-shadow: 3px 8px 10px #026670 !important;
   font-family: Fugaz one;
 }
@@ -69,7 +67,8 @@ textarea {
   text-align: center;
 }
 
-.button:hover, .lobby-btn:hover {
+.button:hover,
+.lobby-btn:hover {
   background-color: var(--quanternary-color);
 }
 
@@ -115,48 +114,47 @@ textarea {
 
 .chat-form {
   height: fit-content;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
 }
 
 .live-chat-input {
-	flex-grow: 1;
+  flex-grow: 1;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3) !important;
   text-align: left;
   opacity: 0.6;
-  padding: 0.2em 3px .2em 3px;
-	
-	
-	/* The following attributes fucked everything up. You can try to fight me on this if you want to include any of them. */
-	
+  padding: 0.2em 3px 0.2em 3px;
+
+  /* The following attributes fucked everything up. You can try to fight me on this if you want to include any of them. */
+
   /* word-wrap: normal; */
   /* width: 70vw; */
-  /* height: fit-content; /* the div gets bigger when you type multiple lines */ 
+  /* height: fit-content; /* the div gets bigger when you type multiple lines */
   /* height: 4vh !important; */
   /* font-size: 1em; */
   /* display: block; */
 }
 
 .live-chat-button {
-	margin-left: 1vw;
+  margin-left: 1vw;
   background-color: var(--quanternary-color);
   border-radius: 5px;
-	border: none;
+  border: none;
   font-family: Fugaz One;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
   color: var(--seventh-color);
-	
-	/* the following attributes messed with everything. seriously, git gud with flexbox and we wont have these weird height/width issues */
+
+  /* the following attributes messed with everything. seriously, git gud with flexbox and we wont have these weird height/width issues */
 
   /* height: 3.3vh;	 */
-	/* height: 100%; */
+  /* height: 100%; */
   /* font-size: 11px; */
   /* border: 1px solid rgba(0, 0, 0, 0);  */
-	/* zero alpha? just use border: none; */
+  /* zero alpha? just use border: none; */
   /* vertical-align: 100%; */
   /* position: absolute; */
 }
@@ -227,8 +225,8 @@ textarea {
   display: inline;
 }
 
-.players, 
-.wotd-head, 
+.players,
+.wotd-head,
 .lobby-btn {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -249,9 +247,11 @@ textarea {
 
 .players ul {
   /* display: flex; */ /* commented out because it looks abysmal with the scores added */
+  max-height: 10vh;
+  /* overflow-y: auto; */
 }
 
-.lobby-btn, 
+.lobby-btn,
 .bonus {
   width: 120px;
   height: 110px;
@@ -265,7 +265,7 @@ textarea {
   font-size: 14px;
 }
 
-.bonus, 
+.bonus,
 .wotd {
   display: inline-block;
   margin-top: 15px;
@@ -331,7 +331,8 @@ sup div {
   top: 22px;
 }
 
-.active-player, .wotd {
+.active-player,
+.wotd {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 17px #fff;
 }
@@ -403,7 +404,7 @@ sup div {
   text-shadow: 1px 1px 1px black, 1px 1px 5px black;
 }
 
-.type-box, 
+.type-box,
 .user-search {
   height: 32px !important;
   border-radius: 5px;
@@ -411,7 +412,7 @@ sup div {
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.type-box:hover, 
+.type-box:hover,
 .user-search:hover {
   background-color: var(--quanternary-color);
 }
@@ -556,13 +557,13 @@ sup div {
 }
 
 .room-list-label-border {
-	position: absolute;
-	/* left: 20%; */
-	top: 0;
-	width: 95%;
-	height: 100%;
-	/* border-top: 1px dotted var(--seventh-color); */
-	border-bottom: 1px dotted var(--seventh-color);
+  position: absolute;
+  /* left: 20%; */
+  top: 0;
+  width: 95%;
+  height: 100%;
+  /* border-top: 1px dotted var(--seventh-color); */
+  border-bottom: 1px dotted var(--seventh-color);
 }
 
 .room-list-div:first-child .room-list-label-border {
@@ -606,14 +607,12 @@ sup div {
   bottom: -6px;
 }
 
-
 /* Desktop */
 @media screen and (min-width: 1280px) {
   /* .lobby {
     display: none;
   } */
 }
-
 
 @media screen and (min-width: 1024px) {
   /* .lobby {
@@ -623,10 +622,10 @@ sup div {
 
 /* Tablets */
 @media screen and (max-width: 1024px) {
-	/* when you start manually setting widths at different screen sizes, you know you should have taken a different approach */
-	
+  /* when you start manually setting widths at different screen sizes, you know you should have taken a different approach */
+
   /* .live-chat-input { */
-    /* width: 90%; */
+  /* width: 90%; */
   /* } */
 
   /* .landing-letters:hover,
@@ -646,9 +645,9 @@ sup div {
 
 /* yeah, its backwards */
 @media screen and (min-width: 451px) {
-	.view {
-		position: static;
-	}
+  .view {
+    position: static;
+  }
 
   .swipe-arrows {
     display: none;
@@ -660,35 +659,35 @@ sup div {
 }
 
 .active-view {
-	left: 0;
+  left: 0;
 }
 
 .inactive-view-left {
-	left: -100vw;
+  left: -100vw;
 }
 
 .inactive-view-right {
-	left: 100vw;
+  left: 100vw;
 }
 
 /* Mobile */
 @media screen and (max-width: 450px) {
   /* .chat-form { */
-    /* height: 5vh; */
-    /* position: relative; */
+  /* height: 5vh; */
+  /* position: relative; */
   /* } */
 
   /* .live-chat-input { */
-    /* width: 78%; */
-    /* position: absolute; */
-    /* bottom: -3px; */
+  /* width: 78%; */
+  /* position: absolute; */
+  /* bottom: -3px; */
   /* } */
 
   /* .live-chat-button { */
-    /* display: show; */
-    /* position: absolute; */
-    /* bottom: -2px; */
-    /* right: 10px; */
+  /* display: show; */
+  /* position: absolute; */
+  /* bottom: -2px; */
+  /* right: 10px; */
   /* } */
 
   .words-list {
@@ -724,18 +723,18 @@ sup div {
   .ties:hover {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 5rem;
-	}
+  }
 }
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
   /* .live-chat-input { */
-    /* width: 73%; */
+  /* width: 73%; */
   /* } */
 
   /* .live-chat-message { */
-    /* overflow-y: overlay; */
-    /* height: 52vh; */
+  /* overflow-y: overlay; */
+  /* height: 52vh; */
   /* } */
 
   #work {
@@ -758,16 +757,15 @@ sup div {
   .ties:hover {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 3rem;
-	}
+  }
 }
 
 /* short screens */
 /* chosen by eyesight. if you have a g */
 @media screen and (max-height: 845px) {
-	body {
-		height: fit-content;
-		min-height: 100vh;
-		overflow-y: scroll;
-	}
-		
+  body {
+    height: fit-content;
+    min-height: 100vh;
+    overflow-y: scroll;
+  }
 }
