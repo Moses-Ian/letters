@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
+import MWlogo from "../../assets/images/Merriam-Webster.png";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
 
@@ -21,19 +22,19 @@ const MainGame = ({
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-  
-	useEffect(() => {
+
+  useEffect(() => {
     socket.emit("get-letters-state", room, setGameState);
-	//eslint-disable-next-line
+    //eslint-disable-next-line
   }, []);
-	
+
   useEffect(() => {
     socket.on("add-letter", addLetter);
     socket.on("append-word", appendWord);
     socket.on("clear-letters", clearLetters);
     socket.on("bad-word", badWord);
 
-	//eslint-disable-next-line
+    //eslint-disable-next-line
   }, [socket]);
 
   // variables
@@ -59,7 +60,7 @@ const MainGame = ({
       block: "end",
       inline: "nearest",
     });
-	//eslint-disable-next-line
+    //eslint-disable-next-line
   }, [words]);
 
   // functions
@@ -121,8 +122,10 @@ const MainGame = ({
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
-			// waits for the input to disable. if it is, then focus on it
-			setTimeout(() => {if (inputRef.current) inputRef.current.focus()}, 6);
+      // waits for the input to disable. if it is, then focus on it
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.focus();
+      }, 6);
     }
   };
 
@@ -159,12 +162,12 @@ const MainGame = ({
   };
 
   const setGameState = (letters, words) => {
-		if (words.length === 0 && letters[0] === "") return;
+    if (words.length === 0 && letters[0] === "") return;
     setLetters({ type: "RENDER_LETTERS", letters });
     setWords({ type: "RENDER_WORDS", words });
-		if (letters[9] !== '') setActiveTimer("WAIT");
+    if (letters[9] !== "") setActiveTimer("WAIT");
   };
-	
+
   const badWord = () => {
     console.log("that is a bad word");
     setBadWordMsg(true);
@@ -176,7 +179,7 @@ const MainGame = ({
 
   const useHint = (signedToken) => {
     if (signedToken) {
-			saveToken(signedToken);
+      saveToken(signedToken);
     }
   };
 
@@ -199,8 +202,8 @@ const MainGame = ({
             timerCompleteHandler={timerCompleteHandler}
           />
         )}
-				{activeTimer === "WAIT" && (<p>Waiting for the next round...</p>)}
-       </div>
+        {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
+      </div>
 
       <div className="field has-text-centered">
         <div
@@ -288,6 +291,10 @@ const MainGame = ({
           ))}
           <div ref={elementRef}></div>
         </ul>
+      </div>
+
+      <div className="mwlogo">
+        <img src={MWlogo} alt="Merriam Webster Dictionary" />
       </div>
     </div>
   );
