@@ -322,6 +322,10 @@ textarea {
   position: relative;
 }
 
+.mwlogo img {
+  height: 50px;
+}
+
 sup {
   font-size: 18px;
   /* vertical-align: super; */
@@ -719,6 +723,7 @@ sup div {
 
   .live-chat-message {
     /* overflow-y: overlay; */
+    /* overflow: auto; */
     height: 50vh;
   }
 
