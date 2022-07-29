@@ -43,10 +43,6 @@ body {
   color: white;
 }
 
-.tippy-box {
-  background-color: rgba(95, 96, 101, 0.45);
-}
-
 .room {
   height: 100%;
   position: relative;
