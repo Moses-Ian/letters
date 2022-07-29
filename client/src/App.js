@@ -109,6 +109,7 @@ function App() {
 	}, []);
 	
 	const deleteToken = useCallback((jwt) => {
+		console.log('deleteToken')
 		setJWT(null);
 		Auth.logout();
 	}, []);
@@ -191,7 +192,7 @@ function App() {
           <Header 
 						username={username} 
 						loggedIn={loggedIn} 
-						deleteToken={deleteToken}
+						// deleteToken={deleteToken}
 					/>
 			)}
 				{room === "" ? (
@@ -235,6 +236,7 @@ function App() {
 						setTurn={setTurn}
 						round={round}
 						setRound={setRound}
+						deleteToken={deleteToken}
 					/>
 					)}
       </div>

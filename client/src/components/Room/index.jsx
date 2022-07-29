@@ -18,6 +18,7 @@ function Room({
 	room, 
 	setRoom,
 	loggedIn, 
+	deleteToken,
 	jwt,
 	dailyHints,
 	saveToken,
@@ -123,37 +124,37 @@ function Room({
 		return best.map(index => players[index].username);
 	}
 	
-	const leaveRoom = () => {
-		socket.emit("leave-game", room, () => setRoom(''));
-		localStorage.removeItem('room');
-	}
-	
+
   return (
     <>
 			<div className="room">
 			
-				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
-					Leave
-				</button>
-				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
-					
-				{/* <Lobby
+			
+				
+				{isMobile ?          
+				<Lobby
 					socket={socket}
 					username={username}
 					room={room}
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
-				/> */}
-
+				/> 
+			:
 				<Menu 
-				socket={socket}
-				username={username}
-				room={room}
-				players={players}
-				activePlayer={activePlayer}
-				display={setLobbyDisplay()}/>
+					socket={socket}
+					username={username}
+					room={room}
+					players={players}
+					activePlayer={activePlayer}
+					display={setLobbyDisplay()}
+					setRoom={setRoom}
+					deleteToken={deleteToken}
+					loggedIn={loggedIn}
+				/>
+				}	
 
+		
 				<div className={`view ${setGameDisplay()}`}>
 					{round <= MAX_ROUNDS ? 
 						round % 2 ? (
