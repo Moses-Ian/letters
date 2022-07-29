@@ -2,6 +2,8 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import MWlogo from "../../assets/images/Merriam-Webster.png";
 import "bulma/css/bulma.min.css";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 import { sanitize } from "../../utils";
 
 const MainGame = ({
@@ -185,15 +187,20 @@ const MainGame = ({
 
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
-      <div className="rendered-letters column">
-        <ul className="is-flex is-justify-content-center">
-          {letters.map((letter, index) => (
-            <li className="letter-box" key={index}>
-              <span className="letter-span">{letter}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Tippy
+        content="Click the buttons to select consonant and vowel letters to fill all the boxes. The longest valid word earns more points!"
+        className="tippy"
+      >
+        <div className="rendered-letters column">
+          <ul className="is-flex is-justify-content-center">
+            {letters.map((letter, index) => (
+              <li className="letter-box" key={index}>
+                <span className="letter-span">{letter}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Tippy>
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (

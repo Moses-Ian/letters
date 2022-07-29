@@ -38,6 +38,15 @@ body {
   height: 100%;
 }
 
+/* tooltip */
+.tippy {
+  color: white;
+}
+
+.tippy-box {
+  background-color: rgba(95, 96, 101, 0.45);
+}
+
 .room {
   height: 100%;
   position: relative;
@@ -102,7 +111,7 @@ textarea {
   color: var(--quinary-color);
   font-size: 15px;
   height: 10vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   /* overflow-y: overlay; */
   margin-bottom: 1vh;
 }
@@ -229,7 +238,7 @@ textarea {
 .players ul {
   /* display: flex; */ /* commented out because it looks abysmal with the scores added */
   max-height: 10vh;
-  /* overflow-y: auto; */
+  overflow-y: auto;
 }
 
 .lobby-btn,
@@ -723,7 +732,6 @@ sup div {
 
   .live-chat-message {
     /* overflow-y: overlay; */
-    /* overflow: auto; */
     height: 50vh;
   }
 
