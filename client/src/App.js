@@ -5,8 +5,6 @@ import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
-import { useMutation } from "@apollo/client";
-import { EXTEND } from "./utils/mutations";
 import useWindowSize from "./utils/useWindowSize";
 import { L3ttersProvider } from "./utils/GlobalState";
 
@@ -55,7 +53,7 @@ const swipeConfig = {
 function App() {
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
-  const [extend] = useMutation(EXTEND, { client });
+	const [jwt, setJWT] = useState(null);
 
 	// constants
 	const loggedIn = Auth.loggedIn();
@@ -89,21 +87,6 @@ function App() {
 		...swipeConfig,
 	});
 	
-	// graphql -> 
-	const extendToken = async () => {
-		try {
-			const mutationResponse = await extend({
-				headers: {
-					authorization: Auth.getProfile()
-				}
-			});
-			return mutationResponse.data.extend.token;
-		} catch (err) {
-			console.error(err.message);
-			return null;
-		}
-	}
-
 	useEffect(() => {
 		listenInstallPrompt();
 
@@ -117,7 +100,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-			<L3ttersProvider value={{ extendToken, room, setRoom, display, loggedIn} }>
+			<L3ttersProvider value={{ room, setRoom, display, loggedIn, jwt, setJWT} }>
 				<div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
 				{!loggedIn && room === "" ? (
 						<LandingPage />

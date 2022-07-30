@@ -141,9 +141,6 @@ function Room() {
 				</button>
 					
 				<Lobby
-					socket={socket}
-					username={username}
-					room={room}
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
@@ -153,33 +150,15 @@ function Room() {
 					{round <= MAX_ROUNDS ? 
 						round % 2 ? (
 							<MainGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
 						) : (
 							<NumbersGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
 								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
@@ -206,9 +185,6 @@ function Room() {
 				</div>
 
 				<LiveChat 
-					socket={socket} 
-					username={username} 
-					room={room} 
 					display={setChatDisplay()}
 				/>
 			</div>

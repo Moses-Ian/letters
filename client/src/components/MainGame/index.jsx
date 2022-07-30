@@ -5,23 +5,26 @@ import { sanitize } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MainGame = ({
-  socket,
-  username,
-  room,
   activeTimer,
   setActiveTimer,
-  isYourTurn,
-  setTurn,
-  loggedIn,
-  jwt,
-  dailyHints,
-  saveToken,
-  display,
   timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
+	
+	const { 
+		socket,
+		username,
+		room,
+		isYourTurn,
+		setTurn,
+		loggedIn,
+		jwt,
+		dailyHints,
+		saveToken,
+		display,
+	} = useL3ttersContext();
   
 	useEffect(() => {
     socket.emit("get-letters-state", room, setGameState);

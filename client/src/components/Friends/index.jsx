@@ -3,6 +3,7 @@ import Modal from "../Modal";
 import friend from "../../assets/images/friend.png";
 import { sanitize } from "../../utils";
 import Auth from "../../utils/auth";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 //graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -10,7 +11,9 @@ import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
 import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
 
 
-export default function Friends ({ socket, room }){
+export default function Friends (){
+	const { socket, room } = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
 	const [listOfPlayers, setListOfPlayers] = useState([]);
 	// const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug

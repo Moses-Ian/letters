@@ -2,22 +2,24 @@ import React, { useState, useEffect, createContext, useContext, useCallback } fr
 import useWindowSize from "./useWindowSize";
 import { io } from "socket.io-client";
 import Auth from "./auth";
+import { useMutation } from "@apollo/client";
+import { EXTEND } from "./mutations";
 
 const L3ttersContext = createContext();
 const { Provider } = L3ttersContext;
 
 const L3ttersProvider = ({ value = {}, ...props }) => {
 	// values -> it's redundant to destructure them like this, but WAY more readable
-	const { extendToken, room, setRoom, display, loggedIn } = value;
+	const { room, setRoom, display, loggedIn, jwt, setJWT } = value;
 	
 	//states
 	const { width, height } = useWindowSize();
+  const [extend] = useMutation(EXTEND);
   const [socket, setSocket] = useState(null);
   const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
 	const [username, setUsername] = useState('Guest');
 	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
-	const [jwt, setJWT] = useState(null);
 	
 	// constants
 	const isMobile = (width <= 450);
@@ -44,6 +46,7 @@ const L3ttersProvider = ({ value = {}, ...props }) => {
 	
 	// token stuff
 	const saveToken = useCallback((jwt) => {
+		console.log('saveToken');
 		setJWT(jwt);
 		Auth.login(jwt);
 	}, []);
@@ -52,6 +55,21 @@ const L3ttersProvider = ({ value = {}, ...props }) => {
 		setJWT(null);
 		Auth.logout();
 	}, []);
+
+	const extendToken = async () => {
+		console.log('extend token');
+		try {
+			const mutationResponse = await extend({
+				headers: {
+					authorization: Auth.getProfile()
+				}
+			});
+			return mutationResponse.data.extend.token;
+		} catch (err) {
+			console.error(err.message);
+			return null;
+		}
+	}
 
 	useEffect(() => {
 		const decodedToken = Auth.decodeToken(jwt);
@@ -110,8 +128,6 @@ const L3ttersProvider = ({ value = {}, ...props }) => {
 		round,
 		setRound,
 	};
-
-	console.log('l3tters provider rendered');
 
 	return <Provider value={states} {...props} />
 }

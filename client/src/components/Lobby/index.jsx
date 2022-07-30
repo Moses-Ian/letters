@@ -6,8 +6,8 @@ import share from "../../assets/images/share.png"
 import dollar from "../../assets/images/dollar.png"
 import { validateEmail } from '../../utils';
 import Auth from '../../utils/auth';
-
 import Friends from "../Friends"
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 
 import { useLazyQuery, useMutation } from '@apollo/client';
@@ -19,7 +19,8 @@ import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from '../../utils/mutations';
 const url = room => `${window.location.origin}/join?room=${room}`;
 
 
-const Lobby = ({ socket, username, room, players, activePlayer, display }) => {
+const Lobby = ({ players, activePlayer, display }) => {
+	const { socket, username, room } = useL3ttersContext();
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	const [sendNotification] = useMutation(SEND_NOTIFICATION);
