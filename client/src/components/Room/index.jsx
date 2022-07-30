@@ -20,19 +20,12 @@ function Room() {
 		setUsername, 
 		room, 
 		setRoom,
-		loggedIn, 
-		jwt,
-		dailyHints,
-		saveToken,
 		display,
 		isYourTurn,
 		setTurn,
 		round,
 		setRound
 	} = useL3ttersContext();
-	
-	
-	
 	
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
@@ -152,14 +145,13 @@ function Room() {
 							<MainGame
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
+								display={setGameDisplay()}
 							/>
 						) : (
 							<NumbersGame
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
 						)

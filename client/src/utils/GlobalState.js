@@ -49,11 +49,13 @@ const L3ttersProvider = ({ value = {}, ...props }) => {
 		console.log('saveToken');
 		setJWT(jwt);
 		Auth.login(jwt);
+	// eslint-disable-next-line
 	}, []);
 	
 	const deleteToken = useCallback((jwt) => {
 		setJWT(null);
 		Auth.logout();
+	// eslint-disable-next-line
 	}, []);
 
 	const extendToken = async () => {

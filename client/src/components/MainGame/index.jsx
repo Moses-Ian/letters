@@ -18,12 +18,11 @@ const MainGame = ({
 		username,
 		room,
 		isYourTurn,
-		setTurn,
 		loggedIn,
 		jwt,
 		dailyHints,
 		saveToken,
-		display,
+		display
 	} = useL3ttersContext();
   
 	useEffect(() => {

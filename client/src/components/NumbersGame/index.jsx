@@ -16,12 +16,10 @@ const NumbersGame = ({
 		username,
 		room,
 		isYourTurn,
-		setTurn,
 		loggedIn,
 		jwt,
 		dailyHints,
 		saveToken,
-		display
 	} = useL3ttersContext();
 	
   useEffect(() => {

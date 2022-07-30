@@ -5,7 +5,6 @@ import share from "../../assets/images/share.png"
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
 import { validateEmail } from '../../utils';
-import Auth from '../../utils/auth';
 import Friends from "../Friends"
 import { useL3ttersContext } from "../../utils/GlobalState";
 

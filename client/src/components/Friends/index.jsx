@@ -21,7 +21,7 @@ export default function Friends (){
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
 	const [searchState, setSearchState] = useState('');
-	const [getUser, {error: searchError, data: searchData}] = useLazyQuery(QUERY_USER);
+	const [getUser] = useLazyQuery(QUERY_USER);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [searchResult, setSearchResult] = useState(null);
 
@@ -32,6 +32,7 @@ export default function Friends (){
 			if (!friendsData)
 				getFriends()
 		}
+	// eslint-disable-next-line
 	}, [show]);
 	
 	const getRealUsernames = (data) => {
@@ -58,6 +59,7 @@ export default function Friends (){
 			return;
 		}
 		updatePlayersAreFriend(friendsData.me.friends);
+	// eslint-disable-next-line
 	}, [listOfPlayers, loading, friendsError, friendsData]);
 	
 	const updatePlayersAreFriend = (friends) => {

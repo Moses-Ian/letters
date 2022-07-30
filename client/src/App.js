@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import Auth from "./utils/auth";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
-import useWindowSize from "./utils/useWindowSize";
 import { L3ttersProvider } from "./utils/GlobalState";
-
 
 //graphql
 import {
