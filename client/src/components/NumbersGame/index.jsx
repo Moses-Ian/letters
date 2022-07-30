@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
+import Tippy from "@tippyjs/react";
 
-const DEFAULT_NUMBERS = new Array(6).fill({number: '', disabled: false});
+const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 
 const NumbersGame = ({
   socket,
@@ -12,17 +13,16 @@ const NumbersGame = ({
   setActiveTimer,
   isYourTurn,
   setTurn,
-	loggedIn,
-	jwt,
-	dailyHints,
-	saveToken,
-	display,
-	timerCompleteHandler
+  loggedIn,
+  jwt,
+  dailyHints,
+  saveToken,
+  display,
+  timerCompleteHandler,
 }) => {
-	
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
-	//eslint-disable-next-line
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -30,14 +30,17 @@ const NumbersGame = ({
     socket.on("add-target", addTarget);
     socket.on("append-operations", scoreAnswer);
     // socket.on("your-turn", () => setTurn(true));
-		
-	//eslint-disable-next-line
+
+    //eslint-disable-next-line
   }, [socket]);
 
   // track a final answer variable
   const [operationArr, setOperationArr] = useReducer(operationReducer, []);
 
-  const [numbersArr, setNumbersArr] = useReducer(numbersReducer, DEFAULT_NUMBERS);
+  const [numbersArr, setNumbersArr] = useReducer(
+    numbersReducer,
+    DEFAULT_NUMBERS
+  );
   const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
   const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
@@ -200,29 +203,31 @@ const NumbersGame = ({
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
-		if (operations.length === 0 && numbers[0] === "") return;
-		
-    const numberObjects = numbers.map(number => {return {number, disabled: false}});
+    if (operations.length === 0 && numbers[0] === "") return;
+
+    const numberObjects = numbers.map((number) => {
+      return { number, disabled: false };
+    });
     setNumbersArr({ type: "RENDER_NUMBERS", numbersArr: numberObjects });
     if (numberCount === 6) setShowAddNumberBtns(false);
 
     setUserTotal({ type: "RENDER_TOTALS", userTotal: operations });
-    if (target !== 0)  addTarget(target);
-		
-		if (numbers[5] !== '') setActiveTimer('WAIT');
+    if (target !== 0) addTarget(target);
+
+    if (numbers[5] !== "") setActiveTimer("WAIT");
   };
 
-	const getHint = () => {
-		socket.emit('get-numbers-hint', username, room, jwt, useHint);
-	};
-	
-	const useHint = signedToken => {
-		if (signedToken) {
-			saveToken(signedToken);
-		}
-		console.log('numbers solver not done yet');
-	};
-	
+  const getHint = () => {
+    socket.emit("get-numbers-hint", username, room, jwt, useHint);
+  };
+
+  const useHint = (signedToken) => {
+    if (signedToken) {
+      saveToken(signedToken);
+    }
+    console.log("numbers solver not done yet");
+  };
+
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
@@ -230,29 +235,31 @@ const NumbersGame = ({
       </div>
 
       <div className="timer">
-				{(activeTimer === "COUNTING" || activeTimer === "DONE") &&
-					<Timer 
-						setActiveTimer={setActiveTimer}
-						timerCompleteHandler={timerCompleteHandler}
-					/> 
-				}
-				{(activeTimer === "WAIT" && <p>Waiting for the next round...</p>)}
-			</div>
-			
+        {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
+          <Timer
+            setActiveTimer={setActiveTimer}
+            timerCompleteHandler={timerCompleteHandler}
+          />
+        )}
+        {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
+      </div>
+
       <div className="numbers-generated has-text-centered" id="root">
-        {showNumberSection &&
-          <div className="rendered-letters column">
-            <ul className="is-flex is-justify-content-center">
-              {numbersArr.map((numberObj, index) => (
-                <li className='letter-box' key={index}>
-									<span className={`letter-span ${numberObj.number === '100' && 'hundred'}`}>{numberObj.number}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        }
-				
-        {showAddNumberBtns &&
+        <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
+          {showNumberSection && (
+            <div className="rendered-letters column">
+              <ul className="is-flex is-justify-content-center">
+                {numbersArr.map((numberObj, index) => (
+                  <li className="letter-box" key={index}>
+                    <span className={`letter-span ${numberObj.number === '100' && 'hundred'}`}>{numberObj.number}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Tippy>
+
+        {showAddNumberBtns && (
           <>
             <div className="has-text-centered mt-4">
               <button
@@ -273,9 +280,9 @@ const NumbersGame = ({
               </button>
             </div>
           </>
-        }
-				
-        {showTargetBtn &&
+        )}
+
+        {showTargetBtn && (
           <div className="has-text-centered">
             <button
               className="button is-warning mt-4"
@@ -286,9 +293,9 @@ const NumbersGame = ({
               Target
             </button>
           </div>
-        }
+        )}
 
-        {showAnswerBtn &&
+        {showAnswerBtn && (
           <div id="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
@@ -302,9 +309,9 @@ const NumbersGame = ({
               </button>
             ))}
           </div>
-        }
+        )}
 
-        {showOperationBtn &&
+        {showOperationBtn && (
           <div className="mt-4" id="operation">
             <button
               className="multiply-btn button is-warning mr-1"
@@ -362,8 +369,8 @@ const NumbersGame = ({
               Reset
             </button>
           </div>
-        }
-				
+        )}
+
         <div id="work">
           <h1 className="mt-4" id="show-operation">
             {operationArr.join(" ")}
@@ -375,25 +382,27 @@ const NumbersGame = ({
           ))}
         </div>
 
-        {showCheckAnswerBtn &&
-					<>
-						<button
-							className="button is-warning mb-6 mt-4 mr-2"
-							onClick={getHint}
-							disabled={!(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0}
-						>
-						{`${dailyHints} Hints`}
-						</button>
-						<button
-							className="button is-warning mb-6 mt-4"
-							id="check-answer"
-							onClick={calculateTotal}
-							disabled={!(activeTimer === "COUNTING")}
-						>
-							Submit Answer
-						</button>
-					</>
-        }
+        {showCheckAnswerBtn && (
+          <>
+            <button
+              className="button is-warning mb-6 mt-4 mr-2"
+              onClick={getHint}
+              disabled={
+                !(activeTimer === "COUNTING" && loggedIn) || dailyHints === 0
+              }
+            >
+              {`${dailyHints} Hints`}
+            </button>
+            <button
+              className="button is-warning mb-6 mt-4"
+              id="check-answer"
+              onClick={calculateTotal}
+              disabled={!(activeTimer === "COUNTING")}
+            >
+              Submit Answer
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
