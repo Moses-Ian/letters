@@ -103,8 +103,7 @@ textarea {
   color: var(--quinary-color);
   font-size: 15px;
   height: 10vh;
-  overflow-y: scroll;
-  /* overflow-y: overlay; */
+  overflow-y: overlay;
   margin-bottom: 1vh;
 }
 
@@ -476,9 +475,8 @@ sup div {
 .menu-button {
   position: absolute;
   right: 0;
-  /* top: -120px; */
+  top: -120px;
   margin-right: 5px;
-  top: -50px;
 }
 
 .join-game-button {
