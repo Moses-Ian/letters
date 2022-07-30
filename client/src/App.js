@@ -53,16 +53,13 @@ const swipeConfig = {
 };
 
 function App() {
-	const [username, setUsername] = useState('Guest');
-	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
-	const [jwt, setJWT] = useState(null);
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
 
+	// constants
 	const loggedIn = Auth.loggedIn();
-	const decodedToken = Auth.decodeToken(Auth.getToken())
-	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
+
 	// app-install stuff
 	const isApp = (document.referrer.startsWith('android-app://') ||
 			window.matchMedia('(display-mode: standalone)').matches ||
@@ -91,17 +88,8 @@ function App() {
 		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
 		...swipeConfig,
 	});
-
-	const saveToken = useCallback((jwt) => {
-		setJWT(jwt);
-		Auth.login(jwt);
-	}, []);
 	
-	const deleteToken = useCallback((jwt) => {
-		setJWT(null);
-		Auth.logout();
-	}, []);
-
+	// graphql -> 
 	const extendToken = async () => {
 		try {
 			const mutationResponse = await extend({
@@ -117,69 +105,28 @@ function App() {
 	}
 
 	useEffect(() => {
-		async function updateProfile() {
-			const profile = Auth.getProfile();
-			if (profile && Auth.loggedIn()) {
-				const token = await extendToken();
-				if (!token) {
-					setUsernameReady(true);
-					return;
-				}
-				const { data } = Auth.decodeToken(token);
-				setUsername(data.username);
-				setUsernameReady(true);
-				saveToken(token);
-			}
-			setUsernameReady(true);
-		};
-		updateProfile();
 		listenInstallPrompt();
-		
+
 		return () => {
 			console.log('unrender');
 		};
-		
 	// eslint-disable-next-line
 	}, []);
-	
-	useEffect(() => {
-		const decodedToken = Auth.decodeToken(jwt);
-		if (!decodedToken) {
-			setUsername('Guest');
-			setUsernameReady(true);
-			return;
-		}
-		setUsername(decodedToken.data.username);
-		setUsernameReady(true);
-	}, [jwt]);
 	
 	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
-			<L3ttersProvider>
+			<L3ttersProvider value={{ extendToken, room, setRoom, display, loggedIn} }>
 				<div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
 				{!loggedIn && room === "" ? (
-						<LandingPage 
-							username={username} 
-							saveToken={saveToken}
-						/>
+						<LandingPage />
 					) : (
-						<Header 
-							username={username} 
-							loggedIn={loggedIn} 
-							deleteToken={deleteToken}
-						/>
+						<Header />
 				)}
 					{room === "" ? (
 						<>
-							<JoinGame
-								username={username}
-								setUsername={setUsername}
-								usernameReady={usernameReady}
-								room={room}
-								setRoom={setRoom}
-							/>
+							<JoinGame />
 							{!isApp && 
 								<div className="field has-text-centered">
 									<button 
@@ -191,17 +138,7 @@ function App() {
 							</div>}
 						</>
 					) : (
-						<Room 
-							username={username} 
-							setUsername={setUsername}
-							room={room}
-							setRoom={setRoom}
-							loggedIn={loggedIn}
-							jwt={jwt}
-							dailyHints={dailyHints}
-							saveToken={saveToken}
-							display={display}
-						/>
+						<Room	/>
 						)}
 				</div>
 			</L3ttersProvider>

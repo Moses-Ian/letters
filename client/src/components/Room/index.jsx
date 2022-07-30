@@ -11,26 +11,21 @@ const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
 const DEVELOP = true;
 
-function Room({ 
-	username, 
-	setUsername, 
-	room, 
-	setRoom,
-	loggedIn, 
-	jwt,
-	dailyHints,
-	saveToken,
-	display,
-	// isYourTurn,
-	// setTurn,
-	// round,
-	// setRound
-}) {
+function Room() {
 	
 	const { 
 		isMobile, 
-		socket, 
-		isYourTurn, 
+		socket,
+		username, 
+		setUsername, 
+		room, 
+		setRoom,
+		loggedIn, 
+		jwt,
+		dailyHints,
+		saveToken,
+		display,
+		isYourTurn,
 		setTurn,
 		round,
 		setRound

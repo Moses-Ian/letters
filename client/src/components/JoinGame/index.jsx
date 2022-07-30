@@ -3,17 +3,18 @@ import Modal from "../Modal";
 import { sanitize } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
-export default function JoinGame({ 
-	username, 
-	setUsername,
-	usernameReady, 
-	room, 
-	setRoom, 
-	// setTurn,
-	// setRound
-}) {
+export default function JoinGame() {
 	
-	const { socket, setTurn, setRound } = useL3ttersContext();
+	const { 
+		socket,
+		username, 
+		setUsername,
+		usernameReady, 
+		room, 
+		setRoom, 
+		setTurn,
+		setRound
+	} = useL3ttersContext();
 	
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");

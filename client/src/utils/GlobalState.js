@@ -1,20 +1,28 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect, createContext, useContext, useCallback } from "react";
 import useWindowSize from "./useWindowSize";
 import { io } from "socket.io-client";
+import Auth from "./auth";
 
 const L3ttersContext = createContext();
 const { Provider } = L3ttersContext;
 
-const L3ttersProvider = ({ value = [], ...props }) => {
+const L3ttersProvider = ({ value = {}, ...props }) => {
+	// values -> it's redundant to destructure them like this, but WAY more readable
+	const { extendToken, room, setRoom, display, loggedIn } = value;
+	
 	//states
 	const { width, height } = useWindowSize();
   const [socket, setSocket] = useState(null);
-  const [room, setRoom] = useState("");
   const [isYourTurn, setTurn] = useState(false);
   const [round, setRound] = useState(1);
+	const [username, setUsername] = useState('Guest');
+	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
+	const [jwt, setJWT] = useState(null);
 	
 	// constants
 	const isMobile = (width <= 450);
+	const decodedToken = Auth.decodeToken(Auth.getToken())
+	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
 	
 	// socket stuff
   const attachListeners = (socket) => {
@@ -34,9 +42,51 @@ const L3ttersProvider = ({ value = [], ...props }) => {
     };
   }
 	
+	// token stuff
+	const saveToken = useCallback((jwt) => {
+		setJWT(jwt);
+		Auth.login(jwt);
+	}, []);
+	
+	const deleteToken = useCallback((jwt) => {
+		setJWT(null);
+		Auth.logout();
+	}, []);
+
 	useEffect(() => {
+		const decodedToken = Auth.decodeToken(jwt);
+		if (!decodedToken) {
+			setUsername('Guest');
+			setUsernameReady(true);
+			return;
+		}
+		setUsername(decodedToken.data.username);
+		setUsernameReady(true);
+	}, [jwt]);
+	
+	
+	//initialize the profile, socket, and install-listener
+	useEffect(() => {
+		async function updateProfile() {
+			const profile = Auth.getProfile();
+			if (profile && Auth.loggedIn()) {
+				const token = await extendToken();
+				if (!token) {
+					setUsernameReady(true);
+					return;
+				}
+				const { data } = Auth.decodeToken(token);
+				setUsername(data.username);
+				setUsernameReady(true);
+				saveToken(token);
+			}
+			setUsernameReady(true);
+		};
+		updateProfile();
 		createSocket();
-	}, [])
+		
+	// eslint-disable-next-line
+	}, []);
 	
 	// outputs
 	const states = {
@@ -44,11 +94,24 @@ const L3ttersProvider = ({ value = [], ...props }) => {
 		height,
 		isMobile,
 		socket,
+		username,
+		setUsername,
+		usernameReady,
+		room,
+		setRoom,
+		loggedIn,
+		dailyHints,
+		jwt,
+		saveToken,
+		deleteToken,
+		display,
 		isYourTurn,
 		setTurn,
 		round,
-		setRound
+		setRound,
 	};
+
+	console.log('l3tters provider rendered');
 
 	return <Provider value={states} {...props} />
 }

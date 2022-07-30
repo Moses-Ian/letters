@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import Modal from "../Modal";
 import "../../App.css";
 import { sanitize } from "../../utils";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 //graphql
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../utils/mutations";
 
 
-export default function Login({ saveToken }) {
+export default function Login() {
+	const { saveToken } = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login] = useMutation(LOGIN);

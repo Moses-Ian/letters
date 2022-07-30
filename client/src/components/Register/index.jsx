@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
 import "../../App.css";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 //graphql
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import { sanitize } from "../../utils";
 
-export default function Register({ saveToken }) {
+export default function Register() {
+	const { saveToken } = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
 
   // Ian's cool graphql code
