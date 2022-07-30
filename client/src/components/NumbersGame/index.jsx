@@ -2,24 +2,27 @@ import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 
 const NumbersGame = ({
-  socket,
-  username,
-  room,
   activeTimer,
   setActiveTimer,
-  isYourTurn,
-  setTurn,
-  loggedIn,
-  jwt,
-  dailyHints,
-  saveToken,
-  display,
-  timerCompleteHandler,
+	timerCompleteHandler
 }) => {
+	
+	const {
+		socket,
+		username,
+		room,
+		isYourTurn,
+		loggedIn,
+		jwt,
+		dailyHints,
+		saveToken,
+	} = useL3ttersContext();
+	
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
     //eslint-disable-next-line

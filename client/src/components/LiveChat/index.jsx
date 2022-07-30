@@ -1,11 +1,14 @@
 import React, { useState, useReducer, useEffect, useRef } from "react";
 import { sanitize } from "../../utils";
 import swipeLeft from "../../assets/images/swipe-right7.png";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_MESSAGE_LENGTH = 80;
 
 // LiveChat is going to take in Room as a prop
-function LiveChat({ socket, username, room, display }) {
+function LiveChat({ display }) {
+	const { socket, username, room } = useL3ttersContext();
+	
   useEffect(() => {
     socket.on("receive-message", recieveMessage);
   }, [socket]);

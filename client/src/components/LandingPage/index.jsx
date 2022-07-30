@@ -4,12 +4,13 @@ import Login from "../Login";
 import Register from "../Register";
 import Footer from "../Footer";
 
-function LandingPage({ saveToken }) {
+function LandingPage() {
+	
   return (
     <>
       <div className="column">
-        <Login saveToken={saveToken} />
-        <Register saveToken={saveToken} />
+        <Login />
+        <Register />
         <div>
           <div className="center">
             <h1 className="landing-letters">

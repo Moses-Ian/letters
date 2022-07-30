@@ -5,27 +5,30 @@ import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { sanitize } from "../../utils";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MainGame = ({
-  socket,
-  username,
-  room,
   activeTimer,
   setActiveTimer,
-  isYourTurn,
-  setTurn,
-  loggedIn,
-  jwt,
-  dailyHints,
-  saveToken,
-  display,
   timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
   // socket.emit('print-room', room);
-
-  useEffect(() => {
+	
+	const { 
+		socket,
+		username,
+		room,
+		isYourTurn,
+		loggedIn,
+		jwt,
+		dailyHints,
+		saveToken,
+		display
+	} = useL3ttersContext();
+  
+	useEffect(() => {
     socket.emit("get-letters-state", room, setGameState);
     //eslint-disable-next-line
   }, []);
@@ -184,7 +187,7 @@ const MainGame = ({
       saveToken(signedToken);
     }
   };
-
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <Tippy

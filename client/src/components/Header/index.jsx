@@ -1,6 +1,10 @@
 import React from "react";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
-const Header = ({ username, loggedIn, deleteToken }) => {
+
+const Header = () => {
+	const { username, loggedIn, deleteToken } = useL3ttersContext()
+	
   return (
     <>
       <div className="is-flex is-justify-content-space-between">
