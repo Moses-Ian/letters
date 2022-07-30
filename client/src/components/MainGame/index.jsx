@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import { sanitize } from "../../utils";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MainGame = ({
   socket,
@@ -179,7 +180,7 @@ const MainGame = ({
 			saveToken(signedToken);
     }
   };
-
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="rendered-letters column">

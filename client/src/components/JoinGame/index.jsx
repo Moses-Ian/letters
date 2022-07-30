@@ -1,17 +1,20 @@
 import React, { useState, useReducer, useEffect } from "react";
 import Modal from "../Modal";
 import { sanitize } from "../../utils";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 export default function JoinGame({ 
-	socket, 
 	username, 
 	setUsername,
 	usernameReady, 
 	room, 
 	setRoom, 
-	setTurn,
-	setRound
+	// setTurn,
+	// setRound
 }) {
+	
+	const { socket, setTurn, setRound } = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
   const [roomList, setRoomList] = useReducer(roomReducer, []);

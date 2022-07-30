@@ -1,5 +1,6 @@
 import React from "react";
 import Confetti from "react-confetti";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const L = ctx => ctx.fillText("L", 0, 5);
 const THREE = ctx => ctx.fillText("3", 0, 5);
@@ -28,7 +29,9 @@ function draw(ctx) {
 }
 
 
-function Winner({ usernames, width, height }) {
+function Winner({ usernames }) {
+	
+	const { width, height } = useL3ttersContext();
 	
   return (
     <>

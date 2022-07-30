@@ -5,13 +5,13 @@ import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = false;
+const DEVELOP = true;
 
 function Room({ 
-	socket, 
 	username, 
 	setUsername, 
 	room, 
@@ -20,15 +20,25 @@ function Room({
 	jwt,
 	dailyHints,
 	saveToken,
-	isMobile,
 	display,
-	width,
-	height,
-	isYourTurn,
-	setTurn,
-	round,
-	setRound
+	// isYourTurn,
+	// setTurn,
+	// round,
+	// setRound
 }) {
+	
+	const { 
+		isMobile, 
+		socket, 
+		isYourTurn, 
+		setTurn,
+		round,
+		setRound
+	} = useL3ttersContext();
+	
+	
+	
+	
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
@@ -182,8 +192,6 @@ function Room({
 					: (
 						<Winner 
 							usernames={getWinner()} 
-							width={width}
-							height={height}
 						/>
 					)}
 					{DEVELOP &&

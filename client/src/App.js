@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
-import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
@@ -9,6 +8,7 @@ import Room from "./components/Room";
 import { useMutation } from "@apollo/client";
 import { EXTEND } from "./utils/mutations";
 import useWindowSize from "./utils/useWindowSize";
+import { L3ttersProvider } from "./utils/GlobalState";
 
 
 //graphql
@@ -53,18 +53,13 @@ const swipeConfig = {
 };
 
 function App() {
-  const [socket, setSocket] = useState(null);
 	const [username, setUsername] = useState('Guest');
 	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
 	const [jwt, setJWT] = useState(null);
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
   const [extend] = useMutation(EXTEND, { client });
-	const { width, height } = useWindowSize();
-  const [isYourTurn, setTurn] = useState(false);
-  const [round, setRound] = useState(1);
 
-	const isMobile = (width <= 450);
 	const loggedIn = Auth.loggedIn();
 	const decodedToken = Auth.decodeToken(Auth.getToken())
 	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
@@ -89,12 +84,6 @@ function App() {
 			window.deferredPrompt = event
 		})
 	};
-
-  const attachListeners = (socket) => {
-    socket.on("connect", () => {
-      console.log(`You connected with id: ${socket.id}`);
-    });
-  };
 
 	const swipeHandlers = useSwipeable({
 		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
@@ -127,17 +116,6 @@ function App() {
 		}
 	}
 
-  const createSocket = () => {
-    // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io(); //works in production and dev ???
-    attachListeners(newSocket);
-    setSocket(newSocket);
-    return () => {
-      socket.disconnect();
-      newSocket.close();
-    };
-  }
-	
 	useEffect(() => {
 		async function updateProfile() {
 			const profile = Auth.getProfile();
@@ -155,7 +133,6 @@ function App() {
 			setUsernameReady(true);
 		};
 		updateProfile();
-		createSocket();
 		listenInstallPrompt();
 		
 		return () => {
@@ -180,64 +157,54 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
-			{!loggedIn && room === "" ? (
-          <LandingPage 
-						socket={socket} 
-						username={username} 
-						saveToken={saveToken}
-					/>
-        ) : (
-          <Header 
-						username={username} 
-						loggedIn={loggedIn} 
-						deleteToken={deleteToken}
-					/>
-			)}
-				{room === "" ? (
-					<>
-						<JoinGame
-							socket={socket}
-							username={username}
+			<L3ttersProvider>
+				<div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
+				{!loggedIn && room === "" ? (
+						<LandingPage 
+							username={username} 
+							saveToken={saveToken}
+						/>
+					) : (
+						<Header 
+							username={username} 
+							loggedIn={loggedIn} 
+							deleteToken={deleteToken}
+						/>
+				)}
+					{room === "" ? (
+						<>
+							<JoinGame
+								username={username}
+								setUsername={setUsername}
+								usernameReady={usernameReady}
+								room={room}
+								setRoom={setRoom}
+							/>
+							{!isApp && 
+								<div className="field has-text-centered">
+									<button 
+										onClick={showInstallPromotion}
+										className='install-app-button mt-2 p-2'
+									>
+											Install the app!
+									</button>
+							</div>}
+						</>
+					) : (
+						<Room 
+							username={username} 
 							setUsername={setUsername}
-							usernameReady={usernameReady}
 							room={room}
 							setRoom={setRoom}
-							width={width}
-							height={height}
-							setTurn={setTurn}
-							setRound={setRound}
+							loggedIn={loggedIn}
+							jwt={jwt}
+							dailyHints={dailyHints}
+							saveToken={saveToken}
+							display={display}
 						/>
-						{!isApp && 
-							<div className="field has-text-centered">
-								<button 
-									onClick={showInstallPromotion}
-									className='install-app-button mt-2 p-2'
-								>
-										Install the app!
-								</button>
-						</div>}
-					</>
-				) : (
-          <Room 
-						socket={socket} 
-						username={username} 
-						setUsername={setUsername}
-						room={room}
-						setRoom={setRoom}
-						loggedIn={loggedIn}
-						jwt={jwt}
-						dailyHints={dailyHints}
-						saveToken={saveToken}
-						isMobile={isMobile}
-						display={display}
-						isYourTurn={isYourTurn}
-						setTurn={setTurn}
-						round={round}
-						setRound={setRound}
-					/>
-					)}
-      </div>
+						)}
+				</div>
+			</L3ttersProvider>
     </ApolloProvider>
   );
 }
