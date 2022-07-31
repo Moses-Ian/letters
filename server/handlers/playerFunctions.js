@@ -54,6 +54,7 @@ joinRoom = (socket, room, oldRoom, username, callback) => {
   let g = rooms.get(room);
   if (!g) {
     g = new Game(room); //create the room
+		g.gameTimer.start();		//for debugging
     rooms.set(room, g);
   }
   //join the rooms

@@ -38,6 +38,10 @@ class MyMap extends Map {
 	}
 }
 
+// global.functions = {
+	// addVowel
+// }
+
 //variables
 //==================================
 global.rooms = new MyMap();

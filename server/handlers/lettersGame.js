@@ -37,6 +37,7 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 addVowel = (room) => {
+	console.log('vowel');
   let g = rooms.get(room);
   if (!g) return;
   if (g.vowelCount == 5) return;
@@ -57,6 +58,7 @@ generateVowel = (letters, firstTry = true) => {
 };
 
 addConsonant = (room) => {
+	console.log('consonant');
   let g = rooms.get(room);
   if (!g) return;
   if (g.consonantCount == 6) return;

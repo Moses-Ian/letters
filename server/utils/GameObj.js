@@ -1,8 +1,11 @@
+const GameTimer = require("./GameTimer");
+
 class GameObj {
 	constructor (name) {
 		//room
 		this.name = name || '';	
 		this.visible = true;
+		this.gameTimer = new GameTimer(this);
 		// this.password = '';
 		// letters game
 		this.letters = new Array(9).fill('');
@@ -114,6 +117,41 @@ class GameObj {
 		return this.players.map(({ username, score }) => {
 			return { username, score };
 		});
+	}
+	
+	addRandom() {
+		if (this.round % 2) {
+			// letters game
+			if (this.vowelCount >= 5) {
+				addConsonant(this.name);
+				return;
+			}
+			if (this.consonantCount >= 6) {
+				addVowel(this.name);
+				return;
+			}
+			if (Math.random() < 0.45) {
+				addVowel(this.name);
+				return;
+			}
+			addConsonant(this.name);
+			return;
+		}
+		// numbers game
+		if (this.largeNumberCount >= 4) {
+			addSmallNumber(this.name);
+			return;
+		}
+		if (this.smallNumberCount >= 6) {
+			addLargeNumber(this.name);
+			return;
+		}
+		if (Math.random() < 0.67) {
+			addSmallNumber(this.name);
+			return;
+		}
+		addLargeNumber(this.name);
+		return;
 	}
 }
 
