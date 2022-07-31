@@ -42,3 +42,8 @@ export const GET_FRIENDS = gql`
 	}
 `;
 
+export const QUERY_WORD_OF_THE_DAY = gql`
+	query {
+		wordOfTheDay
+	}
+`;

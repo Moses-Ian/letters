@@ -115,6 +115,10 @@ scoreWord = async (word, letters) => {
   //make sure it's in the dictionary
 	const result = await inDictionary(word);
   if (!result) return 0;
+	
+	//word of the day
+	if (word === WORD_OF_THE_DAY)
+		result += 5;
 
   return word.length;
 };
