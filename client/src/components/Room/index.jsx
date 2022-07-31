@@ -6,30 +6,28 @@ import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 import Menu from "../Menu"
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
 const DEVELOP = false;
 
-function Room({ 
-	socket, 
-	username, 
-	setUsername, 
-	room, 
-	setRoom,
-	loggedIn, 
-	jwt,
-	dailyHints,
-	saveToken,
-	isMobile,
-	display,
-	width,
-	height,
-	isYourTurn,
-	setTurn,
-	round,
-	setRound
-}) {
+function Room() {
+	
+	const { 
+		isMobile, 
+		socket,
+		username, 
+		setUsername, 
+		room, 
+		setRoom,
+		display,
+		isYourTurn,
+		setTurn,
+		round,
+		setRound
+	} = useL3ttersContext();
+	
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
@@ -138,9 +136,6 @@ function Room({
 				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
 					
 				{/* <Lobby
-					socket={socket}
-					username={username}
-					room={room}
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
@@ -158,42 +153,21 @@ function Room({
 					{round <= MAX_ROUNDS ? 
 						round % 2 ? (
 							<MainGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
-								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
+								display={setGameDisplay()}
 							/>
 						) : (
 							<NumbersGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
-								display={setGameDisplay()}
 								timerCompleteHandler={nextRound}
 							/>
 						)
 					: (
 						<Winner 
 							usernames={getWinner()} 
-							width={width}
-							height={height}
 						/>
 					)}
 					{DEVELOP &&
@@ -205,17 +179,11 @@ function Room({
 							<button className="button is-warning m-2" onClick={nextRoundBtn}>
 								Next Round
 							</button>
-							<div className="webster is-flex is-justify-content-flex-end">
-								<img className="MW" src={MW} alt="Merriam Webster API" />
-							</div>
 						</div>
 					}
 				</div>
 
 				<LiveChat 
-					socket={socket} 
-					username={username} 
-					room={room} 
 					display={setChatDisplay()}
 				/>
 			</div>
