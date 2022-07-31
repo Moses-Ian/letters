@@ -1,5 +1,5 @@
 module.exports = [
-	'trashcan',
-	'jasmine',
-	'cellphone',
+	'TRASHCAN',
+	'JASMINE',
+	'CELLPHONE',
 ]

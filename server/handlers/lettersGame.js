@@ -100,6 +100,8 @@ submitWord = async (socket, word, username, room) => {
 };
 
 scoreWord = async (word, letters) => {
+	let score = 0;
+	
   let checklist = new Array(word.length);
   checklist.fill(false);
 
@@ -116,11 +118,13 @@ scoreWord = async (word, letters) => {
 	const result = await inDictionary(word);
   if (!result) return 0;
 	
+	score = word.length;
+
 	//word of the day
 	if (word === WORD_OF_THE_DAY)
-		result += 5;
+		score += 5;
 
-  return word.length;
+  return score;
 };
 
 inDictionary = async (word) => {
