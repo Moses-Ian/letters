@@ -10,7 +10,7 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 
 const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = true;
+const DEVELOP = false;
 
 function Room() {
 	
@@ -179,9 +179,6 @@ function Room() {
 							<button className="button is-warning m-2" onClick={nextRoundBtn}>
 								Next Round
 							</button>
-							<div className="webster is-flex is-justify-content-flex-end">
-								<img className="MW" src={MW} alt="Merriam Webster API" />
-							</div>
 						</div>
 					}
 				</div>
