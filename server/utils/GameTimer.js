@@ -91,6 +91,8 @@ class GameTimer {
 			this.clear();
 			this.submit();
 		}
+		if (code === ADDED_CHARACTER && this.state === START)
+			this.submit();
 		if (code === SET_TARGET) {
 			this.clear();
 			this.submit();
