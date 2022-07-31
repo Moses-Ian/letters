@@ -9,7 +9,6 @@ const largeNumbers = ["25", "50", "75", "100"];
 const AVAILABLE_LARGE_NUMBERS = 4;
 
 addSmallNumber = (room) => {
-	console.log('small');
   let g = rooms.get(room);
   if (g.smallNumberCount == 4) return;
 	if (g.numberCount == 6) return;
@@ -22,7 +21,6 @@ addSmallNumber = (room) => {
 };
 
 addLargeNumber = (room) => {
-	console.log('large');
   let g = rooms.get(room);
   if (g.largeNumberCount == 4) return;
 	if (g.numberCount == 6) return;

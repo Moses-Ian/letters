@@ -9,7 +9,6 @@ const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 const NumbersGame = ({
   activeTimer,
   setActiveTimer,
-	timerCompleteHandler
 }) => {
 	
 	const {
@@ -239,10 +238,7 @@ const NumbersGame = ({
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
-          <Timer
-            setActiveTimer={setActiveTimer}
-            timerCompleteHandler={timerCompleteHandler}
-          />
+          <Timer setActiveTimer={setActiveTimer} />
         )}
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>

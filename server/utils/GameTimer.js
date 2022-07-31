@@ -22,26 +22,24 @@ class GameTimer {
 		this.name = room.name;
 		this.state = START;
 		this.timeout;
+		this.start();
 	}
 	
 	start() {
 		this.state = START;
-		console.log('start');
+		// console.log('start');
 		// do nothing
-		
-		// debug -> go straight to select
-		this.select();
 	}
 	
 	select() {
 		this.state = SELECT;
-		console.log('select');
+		// console.log('select');
 		this.timeout = setTimeout(() => this.add(), SIXTY_SECONDS);
 	}
 	
 	add() {
 		this.state = ADD;
-		console.log('add');
+		// console.log('add');
 		this.room.addRandom(this.name);
 		if (this.room.letterCount === 9) {
 			this.submit();
@@ -59,23 +57,27 @@ class GameTimer {
 	
 	submit() {
 		this.state = SUBMIT;
-		console.log('submit');
+		// console.log('submit');
 		this.timeout = setTimeout(() => this.results(), THIRTY_SECONDS);
 	}
 	
 	results() {
 		this.state = RESULTS;
-		console.log('results');
+		// console.log('results');
+		updateScores(this.name);
 		if (this.room.round === 6) {
 			this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
 		} else {
-			this.timeout = setTimeout(() => this.select(), SEVEN_SECONDS);
+			this.timeout = setTimeout(() => {
+				this.select();
+				nextRound(this.name);
+			}, SEVEN_SECONDS);
 		}
 	}
 	
 	end() {
 		this.state = END;
-		console.log('end');
+		// console.log('end');
 		// literally do nothing
 	}
 	
@@ -84,7 +86,7 @@ class GameTimer {
 	}
 	
 	interrupt(code) {
-		console.log(code);
+		// console.log(code);
 		if (code === ADDED_CHARACTER && this.room.letterCount === 9) {
 			this.clear();
 			this.submit();
@@ -93,7 +95,7 @@ class GameTimer {
 			this.clear();
 			this.submit();
 		}
-		if (code === NEXT_ROUND) {
+		if (code === NEXT_ROUND && this.state !== SELECT) {
 			this.clear();
 			this.select();
 		}

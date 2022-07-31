@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import MW from "../../assets/images/Merriam-Webster.png";
+import React, { useState, useEffect } from "react";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
@@ -8,9 +7,8 @@ import LiveChat from "../LiveChat";
 import Menu from "../Menu"
 import { useL3ttersContext } from "../../utils/GlobalState";
 
-const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = true;
+const DEVELOP = false;
 
 function Room() {
 	
@@ -60,14 +58,6 @@ function Room() {
     setActivePlayer(playersArr[turn].username);
   };
 
-  const nextRound = useCallback(() => {
-		if (isYourTurn) {
-			socket.emit("update-scores", room);
-			setTimeout(() => socket.emit("next-round", room), ROUND_DELAY);
-		}
-	//eslint-disable-next-line
-  }, [isYourTurn]);
-	
 	const nextRoundBtn = () => {
 		//this is only for dev.
 		socket.emit("update-scores", room);
@@ -155,14 +145,12 @@ function Room() {
 							<MainGame
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								timerCompleteHandler={nextRound}
 								display={setGameDisplay()}
 							/>
 						) : (
 							<NumbersGame
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								timerCompleteHandler={nextRound}
 							/>
 						)
 					: (

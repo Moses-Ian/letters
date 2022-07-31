@@ -1,7 +1,7 @@
 import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-function Timer({ setActiveTimer, timerCompleteHandler }) {
+function Timer({ setActiveTimer }) {
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
       return <div className="timer">0</div>;
@@ -25,7 +25,6 @@ function Timer({ setActiveTimer, timerCompleteHandler }) {
         colorsTime={[15, 8, 5, 0]}
         onComplete={() => {
 					setActiveTimer("DONE");
-					timerCompleteHandler();
 					return { shouldRepeat: false, delay: 1 };
 				}}
       >

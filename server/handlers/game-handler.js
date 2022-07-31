@@ -87,12 +87,12 @@ const registerGameHandler = (newio, socket) => {
 	socket.on("leave-game", (oldRoom, cb) =>
 		leaveRoom(socket, oldRoom, cb)
 	);
-	socket.on("update-scores", updateScores);
-  socket.on("next-round", nextRound);
 	socket.on("get-real-usernames", getRealUsernames);
   socket.on("restart-game", restartGame);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
+	socket.on("update-scores", updateScores);
+  socket.on("next-round", nextRound);
   socket.on("print-all-rooms", printAllRooms);
   socket.on("print-room", printRoom);
   socket.on("print-players", printPlayers);
