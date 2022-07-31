@@ -6,10 +6,15 @@ const RESULTS = 4;
 const END = 5;
 const TARGET = 6;
 
-const SIXTY_SECONDS = 1000;//60 * 1000;
-const FIVE_SECONDS = 1000;//5 * 1000;
+const SIXTY_SECONDS = 60 * 1000;
+const FIVE_SECONDS = 5 * 1000;
 const THIRTY_SECONDS = 30 * 1000;
 const SEVEN_SECONDS = 7 * 1000;
+
+// defining them like this makes them public
+ADDED_CHARACTER = 0;
+SET_TARGET = 1;
+NEXT_ROUND = 2;
 
 class GameTimer {
 	constructor(room) {
@@ -20,19 +25,30 @@ class GameTimer {
 	}
 	
 	start() {
-		this.state = SELECT;
-		this.timeout = setTimeout(() => this.addLetter(), SIXTY_SECONDS);
+		this.state = START;
+		console.log('start');
+		// do nothing
+		
+		// debug -> go straight to select
+		this.select();
 	}
 	
-	addLetter() {
+	select() {
+		this.state = SELECT;
+		console.log('select');
+		this.timeout = setTimeout(() => this.add(), SIXTY_SECONDS);
+	}
+	
+	add() {
 		this.state = ADD;
+		console.log('add');
 		this.room.addRandom(this.name);
 		if (this.room.letterCount === 9) {
 			this.submit();
 		} else if (this.room.numberCount === 6) {
 			this.timeout = setTimeout(() => this.target(), FIVE_SECONDS);
 		} else {
-			this.timeout = setTimeout(() => this.addLetter(), FIVE_SECONDS);
+			this.timeout = setTimeout(() => this.add(), FIVE_SECONDS);
 		}
 	}
 	
@@ -51,9 +67,9 @@ class GameTimer {
 		this.state = RESULTS;
 		console.log('results');
 		if (this.room.round === 6) {
-			this.end();
+			this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
 		} else {
-			this.timeout = setTimeout(() => this.start(), SEVEN_SECONDS);
+			this.timeout = setTimeout(() => this.select(), SEVEN_SECONDS);
 		}
 	}
 	
@@ -61,6 +77,26 @@ class GameTimer {
 		this.state = END;
 		console.log('end');
 		// literally do nothing
+	}
+	
+	clear() {
+		clearTimeout(this.timeout);
+	}
+	
+	interrupt(code) {
+		console.log(code);
+		if (code === ADDED_CHARACTER && this.room.letterCount === 9) {
+			this.clear();
+			this.submit();
+		}
+		if (code === SET_TARGET) {
+			this.clear();
+			this.submit();
+		}
+		if (code === NEXT_ROUND) {
+			this.clear();
+			this.select();
+		}
 	}
 }
 

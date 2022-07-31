@@ -48,6 +48,7 @@ addVowel = (room) => {
   g.vowelCount++;
   io.to(g.name).emit("add-letter", vowel, g.letterCount);
   g.letterCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 generateVowel = (letters, firstTry = true) => {
@@ -69,6 +70,7 @@ addConsonant = (room) => {
   g.consonantCount++;
   io.to(g.name).emit("add-letter", consonant, g.letterCount);
   g.letterCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 generateConsonant = (letters, firstTry = true) => {

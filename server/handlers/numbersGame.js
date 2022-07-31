@@ -46,6 +46,7 @@ getRandomNumber = (room) => {
     let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
     g.target = randomNumber;
     io.to(g.name).emit("add-target", g.target);
+		g.gameTimer.interrupt(SET_TARGET);
   }
 }
 

@@ -18,6 +18,7 @@ nextRound = (room) => {
   if (!g) return;
   let turn = g.nextTurn();
 	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
+	g.gameTimer.interrupt(NEXT_ROUND);
 };
 
 listRooms = (cb) => {
