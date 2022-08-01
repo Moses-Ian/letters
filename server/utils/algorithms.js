@@ -6,12 +6,15 @@ In 50000 trials, mine took 134 ms
 
 */
 let dictionary = require('./dictionary_obj_5_to_9.json');
+let Operations = require('./Operations');
 
 // for testing with a smaller dictionary
 // const dictionary = {
 	// "a":{"a":{"a":{"d":{"k":{"r":{"r":{"s":{"v":{"words":["aardvarks"]}}}}}}},"d":{"f":{"l":{"o":{"r":{"w":{"words":["aardwolf"]}}}}},"e":{"l":{"o":{"r":{"s":{"v":{"w":{"words":["aardwolves"]}}}}}}}},"g":{"h":{"r":{"words":["aargh"]}}}},"d":{"e":{"n":{"words":["dean","dane"]}}}},
 	// "e":{"e":{"l":{"r":{"t":{"t":{"words":["letter"]}}}}}}
 // };
+
+OPS = ['+', '-', '*', '/'];
 
 const lettersSolver = (letters, solutionLength) => {
 	
@@ -111,9 +114,56 @@ const getRandomCombination = (letters, solutionLength) => {
 	return characters.sort().concat(leftovers.sort());
 }
 
+const numbersSolver = (numbers, target) => {
+	let openSet = [];
+	let closedSet = [];
+	
+	let start;
+	let end;
+	
+	start = new Operations(['0'], numbers, target);
+	end = 60;		// if you get within 60, you get points
+	
+	openSet.push(start);
+	
+	while( openSet.length > 0) {
+		let winner = 0;
+		for (let i=0; i<openSet.length; i++) 
+			if (openSet[i].f < openSet[winner].f)
+				winner = i;
+		
+		let current = openSet[winner];
+		
+		if (current.f <= end)
+			return current.operations.join('');
+		
+		openSet.splice(winner, 1);
+		closedSet.push(current);
+		
+		let neighbors = current.addNeighbors();
+		
+		for (let i=0; i<neighbors.length; i++) {
+			let neighbor = neighbors[i];
+			
+			if (!inSet(closedSet, neighbor) && !inSet(openSet, neighbor))
+				openSet.push(neighbor);
+		}
+	}
+	
+}
+
+const inSet = (set, neighbor) => {
+	for (let i=0; i<set.length; i++) 
+		if (set[i].f === neighbor.f)
+			return true;
+	return false;
+}
+
+
 module.exports = {
 	lettersSolver,
 	getRandomCombination,
 	dictionary,
-	nextCombination
+	nextCombination,
+	numbersSolver
 };
