@@ -154,7 +154,7 @@ getLettersState = (room, cb) => {
   cb(g.letters, g.words)
 };
 
-getLettersHint = async (username, room, jwt, cb) => {
+getLettersHint = async (socket, username, room, jwt, cb) => {
 	let g = rooms.get(room);
 	if (!g) return;
 	// should await both simultaneously
@@ -172,7 +172,7 @@ getLettersHint = async (username, room, jwt, cb) => {
 	}
 	g.getPlayer(username).addSubmission({ word, username, score });
 	g.words.push({ username, word, score });
-	io.to(g.name).emit("append-word", word, username, score);
+	io.to(socket.id).emit("append-word", word, username, score);
 	cb(signedToken);
 }
 

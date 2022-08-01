@@ -140,7 +140,7 @@ const numbersSolver = (numbers, target) => {
 		
 		// if this f is within our target, return it
 		if (current.f <= end)
-			return current.operations.join('');
+			return current.operations;
 		
 		// move it from the open set to the closed set
 		openSet.splice(winner, 1);
@@ -158,6 +158,9 @@ const numbersSolver = (numbers, target) => {
 				openSet.push(neighbor);
 		}
 	}
+	
+	// no solution
+	return '';
 }
 
 // I somewhat crudely define 'being the same' as 'having the same f'

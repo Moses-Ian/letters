@@ -1,5 +1,6 @@
 const mexp = require('math-expression-evaluator');
 const {useHint} = require('../schemas/serverResolvers');
+const {numbersSolver} = require('../utils/algorithms');
 
 // small numbers
 const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -54,7 +55,7 @@ function calculateTotal(socket, operationArr, username, room) {
 	let score;
 	try {
 		total = mexp.eval(operationArr.join(''));
-		score = scoreAnswer(total, g);
+		score = scoreAnswer(total, g.target);
 	} catch (err) {
 		total = 0;
 		score = 0;
@@ -64,8 +65,8 @@ function calculateTotal(socket, operationArr, username, room) {
   io.to(socket.id).emit("append-operations", total, operationArr, username, score);
 }
 
-function scoreAnswer(total, g) {
-  let difference = Math.abs(g.target - total);
+function scoreAnswer(total, target) {
+  let difference = Math.abs(target - total);
   let score = 0;
   if (difference === 0) {
     score = 10;
@@ -86,7 +87,7 @@ function getNumbersState(room, cb) {
   cb(g.numbers, g.operations, g.target, g.numberCount)
 };
 
-async function getNumbersHint(username, room, jwt, cb) {
+async function getNumbersHint(socket, username, room, jwt, cb) {
 	let g = rooms.get(room);
 	if (!g) return;
 	//should await both sumiltaneously
@@ -109,17 +110,24 @@ async function getNumbersHint(username, room, jwt, cb) {
 	}
 	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
 	g.operations.push({ total, operationArr, username, score });
-	io.to(g.name).emit('append-operations', total, operationArr, username, score);
+	io.to(socket.id).emit('append-operations', total, operationArr, username, score);
 	cb(signedToken);
 };
 
 async function getHint(numbers, target) {
-	console.log('numbers hint');
 	
-	//your algorithm goes here
-	//if it's complex, put it in utils/algorithms.js, or its own file, and import it into here
+	let operationArr = numbersSolver(numbers, target);
+
+	if (operationArr.length === 0)
+		return {score: 0};	//if the algorithm can't find a solution
 	
-	return {score: 0};	//if the algorithm can't find a solution
+	try {
+		total = mexp.eval(operationArr.join(''));
+		score = scoreAnswer(total, target);
+	} catch (err) {
+		return {score: 0};
+	}
+	return {operationArr, total, score};
 }
 
 

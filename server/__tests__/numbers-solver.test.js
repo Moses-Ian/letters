@@ -247,21 +247,21 @@ describe('solve problem correctly', () => {
 		let target = 800;
 		let nums = [100, 8];
 		
-		expect(numbersSolver(nums, target)).toBe('100*8');
+		expect(numbersSolver(nums, target).join('')).toBe('100*8');
 	});
 	
 	test('800, [100, 2, 6]', () => {
 		let target = 800;
 		let nums = [100, 2, 6];
 		
-		expect(numbersSolver(nums, target)).toBe('100*(6+2)');
+		expect(numbersSolver(nums, target).join('')).toBe('100*(6+2)');
 	});
 	
 	test('807, [100, 2, 6, 7]', () => {
 		let target = 807;
 		let nums = [100, 2, 6, 7];
 		
-		expect(numbersSolver(nums, target)).toBe('100*(6+2)');
+		expect(numbersSolver(nums, target).join('')).toBe('100*(6+2)');
 	});
 	
 	test('807, [100, 2, 6, 2, 5]', () => {
@@ -270,28 +270,28 @@ describe('solve problem correctly', () => {
 		
 		// expect(numbersSolver(nums, target)).toBe('(6+2)*100+(2+5)');
 		// this result is a bug. (5-2)/2 = 3/2 = 1.5 shouldn't be legal.
-		expect(numbersSolver(nums, target)).toBe('100*(6+(5-2)/2)');
+		expect(numbersSolver(nums, target).join('')).toBe('100*(6+(5-2)/2)');
 	});
 	
 	test('809, [100, 2, 6, 6]', () => {
 		let target = 809;
 		let nums = [100, 2, 6, 6];
 		
-		expect(numbersSolver(nums, target)).toBe('100*(6+2)');
+		expect(numbersSolver(nums, target).join('')).toBe('100*(6+2)');
 	});
 	
 	test('800, [100, 10, 2]', () => {
 		let target = 800;
 		let nums = [100, 10, 2];
 		
-		expect(numbersSolver(nums, target)).toBe('100*(10-2)');
+		expect(numbersSolver(nums, target).join('')).toBe('100*(10-2)');
 	});
 	
 	test('500, [100, 10, 2]', () => {
 		let target = 500;
 		let nums = [100, 10, 2];
 		
-		expect(numbersSolver(nums, target)).toBe('100/2*10');
+		expect(numbersSolver(nums, target).join('')).toBe('100/2*10');
 	});
 	
 });

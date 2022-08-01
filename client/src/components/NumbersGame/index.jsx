@@ -227,7 +227,6 @@ const NumbersGame = ({
     if (signedToken) {
       saveToken(signedToken);
     }
-    console.log("numbers solver not done yet");
   };
 
   return (
@@ -244,8 +243,8 @@ const NumbersGame = ({
       </div>
 
       <div className="numbers-generated has-text-centered" id="root">
-        <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
-          {showNumberSection && (
+				{showNumberSection && (
+					<Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
               <ul className="is-flex is-justify-content-center">
                 {numbersArr.map((numberObj, index) => (
@@ -255,8 +254,8 @@ const NumbersGame = ({
                 ))}
               </ul>
             </div>
-          )}
-        </Tippy>
+					</Tippy>
+				)}
 
         {showAddNumberBtns && (
           <>

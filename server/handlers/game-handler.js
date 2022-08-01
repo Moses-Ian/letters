@@ -68,7 +68,8 @@ const registerGameHandler = (newio, socket) => {
 		submitWord(socket, word, username, room)
 	);
   socket.on("get-letters-state", getLettersState);
-	socket.on("get-letters-hint", getLettersHint);
+	socket.on("get-letters-hint", (username, room, jwt, cb) => 
+		getLettersHint(socket, username, room, jwt, cb));
   // numbers game
   socket.on("add-small", addSmallNumber);
   socket.on("add-large", addLargeNumber);
@@ -76,7 +77,8 @@ const registerGameHandler = (newio, socket) => {
   socket.on("submit-calculation", (operationArr, username, room) =>
 		calculateTotal(socket, operationArr, username, room));
   socket.on("get-numbers-state", getNumbersState);
-	socket.on("get-numbers-hint", getNumbersHint);
+	socket.on("get-numbers-hint", (username, room, jwt, cb) => 
+		getNumbersHint(socket, username, room, jwt, cb));
   // players
 	socket.on("list-rooms", listRooms);
 	socket.on("update-username", (room, username) => 
