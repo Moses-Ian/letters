@@ -114,62 +114,59 @@ const getRandomCombination = (letters, solutionLength) => {
 	return characters.sort().concat(leftovers.sort());
 }
 
+// uses A* algorithm
 const numbersSolver = (numbers, target) => {
+	// the open set is stuff that needs to be explored
 	let openSet = [];
+	// the closed set is stuff that I have fully explored
 	let closedSet = [];
 	
-	let start;
-	let end;
-	
-	start = new Operations(['0'], numbers, target);
-	end = 60;		// if you get within 60, you get points
-	
+	// get started
+	let start = new Operations(['0'], numbers, target);
 	openSet.push(start);
-	
-	let openSetHighWaterMark = 0;
-	let closedSetHighWaterMark = 0;
+
+	// if you get within 60, you get points
+	let end = 60;		
 	
 	while( openSet.length > 0) {
-		if (openSet.length > openSetHighWaterMark) {
-			openSetHighWaterMark = openSet.length;
-			console.log(openSetHighWaterMark, closedSetHighWaterMark);
-		}
-		if (closedSet.length > closedSetHighWaterMark) {
-			closedSetHighWaterMark = closedSet.length;
-			console.log(openSetHighWaterMark, closedSetHighWaterMark);
-		}
+		// find the index with the lowest f
 		let winner = 0;
 		for (let i=0; i<openSet.length; i++) 
 			if (openSet[i].f < openSet[winner].f)
 				winner = i;
 		
+		// grab that set of operations
 		let current = openSet[winner];
 		
+		// if this f is within our target, return it
 		if (current.f <= end)
 			return current.operations.join('');
 		
+		// move it from the open set to the closed set
 		openSet.splice(winner, 1);
 		closedSet.push(current);
 		
+		// find it's neighboring operations
 		let neighbors = current.addNeighbors();
 		
+		// for each neighbor...
 		for (let i=0; i<neighbors.length; i++) {
 			let neighbor = neighbors[i];
 			
+			// as long as they're not in either set, add them to the open set
 			if (!inSet(closedSet, neighbor) && !inSet(openSet, neighbor))
 				openSet.push(neighbor);
 		}
 	}
-	
 }
 
+// I somewhat crudely define 'being the same' as 'having the same f'
 const inSet = (set, neighbor) => {
 	for (let i=0; i<set.length; i++) 
 		if (set[i].f === neighbor.f)
 			return true;
 	return false;
 }
-
 
 module.exports = {
 	lettersSolver,
