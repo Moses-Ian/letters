@@ -96,7 +96,7 @@ submitWord = async (socket, word, username, room) => {
   const score = await scoreWord(word, g.letters);
 	g.getPlayer(username).addSubmission({ word, username, score });
   g.words.push({ word, username, score });
-  io.to(g.name).emit("append-word", word, username, score);
+	io.to(socket.id).emit("append-word", word, username, score);
 };
 
 scoreWord = async (word, letters) => {

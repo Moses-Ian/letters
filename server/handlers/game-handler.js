@@ -73,7 +73,8 @@ const registerGameHandler = (newio, socket) => {
   socket.on("add-small", addSmallNumber);
   socket.on("add-large", addLargeNumber);
   socket.on("set-target", getRandomNumber);
-  socket.on("submit-calculation", calculateTotal);
+  socket.on("submit-calculation", (operationArr, username, room) =>
+		calculateTotal(socket, operationArr, username, room));
   socket.on("get-numbers-state", getNumbersState);
 	socket.on("get-numbers-hint", getNumbersHint);
   // players

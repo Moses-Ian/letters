@@ -29,9 +29,11 @@ function Room() {
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
+	const [submissions, setSubmissions] = useState([]);
 	
   useEffect(() => {
 		socket.on("set-lobby", setLobby);
+		socket.on("send-submissions", updateSubmissions);
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", updateRound);
@@ -52,6 +54,11 @@ function Room() {
 		setTurn(newPlayers[newTurn].username === username);
 		setActiveTimer("IDLE");
 	}
+	
+	const updateSubmissions = submissionsArr => {
+		setSubmissions(submissionsArr);
+		console.log(submissionsArr);
+	};
 	
   const generatePlayerList = async (playersArr, turn) => {
     setPlayers(playersArr);

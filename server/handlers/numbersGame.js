@@ -48,7 +48,7 @@ getRandomNumber = (room) => {
   }
 }
 
-function calculateTotal(operationArr, username, room) {
+function calculateTotal(socket, operationArr, username, room) {
   let g = rooms.get(room);
 	let total;
 	let score;
@@ -61,7 +61,7 @@ function calculateTotal(operationArr, username, room) {
 	}
 	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
   g.operations.push({ total, operationArr, username, score });
-  io.to(g.name).emit("append-operations", total, operationArr, username, score);
+  io.to(socket.id).emit("append-operations", total, operationArr, username, score);
 }
 
 function scoreAnswer(total, g) {

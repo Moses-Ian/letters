@@ -2,15 +2,22 @@ const Game = require("../utils/GameObj.js");
 const PlayerObj = require("../utils/PlayerObj.js");
 
 updateScores = (room) => {
+	console.log('update scores');
   let g = rooms.get(room);
   if (!g) return;
+	let submissions = [];
 	g.players.forEach(player => {
 		if (player.submission.score) {
 			player.score += player.submission.score;
+			submissions.push(player.submission);
 			player.submission = {};
-		}
+		} else 
+			// send an empty object to prevent react from bitching
+			submissions.push({});
 	});
-  io.to(g.name).emit("send-players", g.getPlayers(), g.turn);
+	console.log(submissions);
+  io.to(g.name).emit("send-submissions", submissions);
+  setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 100);
 };
 
 nextRound = (room) => {
