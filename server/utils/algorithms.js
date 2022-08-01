@@ -126,7 +126,18 @@ const numbersSolver = (numbers, target) => {
 	
 	openSet.push(start);
 	
+	let openSetHighWaterMark = 0;
+	let closedSetHighWaterMark = 0;
+	
 	while( openSet.length > 0) {
+		if (openSet.length > openSetHighWaterMark) {
+			openSetHighWaterMark = openSet.length;
+			console.log(openSetHighWaterMark, closedSetHighWaterMark);
+		}
+		if (closedSet.length > closedSetHighWaterMark) {
+			closedSetHighWaterMark = closedSet.length;
+			console.log(openSetHighWaterMark, closedSetHighWaterMark);
+		}
 		let winner = 0;
 		for (let i=0; i<openSet.length; i++) 
 			if (openSet[i].f < openSet[winner].f)
