@@ -242,7 +242,7 @@ const NumbersGame = ({
 		console.log(savedOperationArr.join(''));
 		const action = {
 			type: "PUSH_ALL",
-			operation: ['(', ...savedOperationArr, ')']
+			operation: savedOperationArr
 		};
 		setOperationArr(action);
 	}
