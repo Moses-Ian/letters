@@ -249,13 +249,6 @@ textarea {
   display: inline-block;
 }
 
-.add-btn {
-  float: right;
-  border: none;
-  outline: none;
-  background-color: var(--sixth-color);
-}
-
 .search-btn {
   box-shadow: none !important;
 }

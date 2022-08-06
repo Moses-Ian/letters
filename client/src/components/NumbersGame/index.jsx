@@ -199,7 +199,7 @@ const NumbersGame = ({
     setOperationArr(action);
   };
 
-  const backspace = (event) => {
+  const clear = (event) => {
     setOperationArr({ type: "CLEAR" });
     setNumbersArr({ type: "ENABLE_ALL" });
   };
@@ -345,7 +345,7 @@ const NumbersGame = ({
             </button>
             <button
               className="l-parentheses-btn button is-warning mr-1"
-              id="add"
+              id="left-parens"
               onClick={operationSymbol}
               data-symbol="("
             >
@@ -353,7 +353,7 @@ const NumbersGame = ({
             </button>
             <button
               className="r-parentheses-btn button is-warning"
-              id="add"
+              id="right-parens"
               onClick={operationSymbol}
               data-symbol=")"
             >
@@ -361,8 +361,8 @@ const NumbersGame = ({
             </button>
             <button
               className="button is-small is-warning ml-3 mt-1"
-              id=" multiply"
-              onClick={backspace}
+              id="clear"
+              onClick={clear}
             >
               Reset
             </button>
