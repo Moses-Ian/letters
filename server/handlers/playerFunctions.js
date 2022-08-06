@@ -23,8 +23,15 @@ nextRound = (room) => {
   if (!g) return;
   let turn = g.nextTurn();
 	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
-	g.gameTimer.interrupt(NEXT_ROUND);
 };
+
+nextRoundClicked = room => {
+  let g = rooms.get(room);
+  if (!g) return;
+  let turn = g.nextTurn();
+	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
+	g.gameTimer.interrupt(NEXT_ROUND);
+}
 
 listRooms = (cb) => {
 	const iter = rooms.values();
@@ -86,6 +93,7 @@ leaveRoom = (socket, room, cb = ()=>{}) => {
   let turn = g.remove(socket.id);
 	cb();
   if (g.players.length == 0) {
+		g.gameTimer.clear();
     rooms.delete(room);
     return;
   }

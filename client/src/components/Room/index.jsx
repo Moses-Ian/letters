@@ -8,7 +8,7 @@ import Menu from "../Menu"
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = false;
+const DEVELOP = true;
 
 function Room() {
 	
@@ -68,7 +68,7 @@ function Room() {
 	const nextRoundBtn = () => {
 		//this is only for dev.
 		socket.emit("update-scores", room);
-		socket.emit("next-round", room);
+		socket.emit("next-round-button", room);
 	}
 	
 	const updateRound = (newRound, activeUsername) => {

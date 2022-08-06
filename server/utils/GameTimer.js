@@ -97,7 +97,7 @@ class GameTimer {
 			this.clear();
 			this.submit();
 		}
-		if (code === NEXT_ROUND && this.state !== SELECT) {
+		if (code === NEXT_ROUND && this.state !== 0) {
 			this.clear();
 			this.select();
 		}
