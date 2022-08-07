@@ -3,8 +3,8 @@ const {useHint} = require('../schemas/serverResolvers');
 const {numbersSolver} = require('../utils/algorithms');
 
 // small numbers
-const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-const AVAILABLE_SMALL_NUMBERS = 9;
+const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+const AVAILABLE_SMALL_NUMBERS = 10;
 // large numbers
 const largeNumbers = ["25", "50", "75", "100"];
 const AVAILABLE_LARGE_NUMBERS = 4;
@@ -55,7 +55,7 @@ function calculateTotal(socket, operationArr, username, room) {
 	let score;
 	try {
 		total = mexp.eval(operationArr.join(''));
-		score = scoreAnswer(total, g.target);
+		score = scoreAnswer(operationArr, total, g.target);
 	} catch (err) {
 		total = 0;
 		score = 0;
@@ -65,7 +65,17 @@ function calculateTotal(socket, operationArr, username, room) {
   io.to(socket.id).emit("append-operations", total, operationArr, username, score);
 }
 
-function scoreAnswer(total, target) {
+function scoreAnswer(operationArr, total, target) {
+	// total must be a whole number -> I'm not sure that we should include this rule, so I commented it out
+	// if (Math.floor(total) !== total)
+		// return 0;
+	
+	// verify that there are no adjacent numbers
+	for(let i=1; i<operationArr.length; i++)
+		if (parseInt(operationArr[i]) && parseInt(operationArr[i-1]))
+			return 0;
+		
+	// score based on the distance
   let difference = Math.abs(target - total);
   let score = 0;
   if (difference === 0) {
@@ -123,7 +133,7 @@ async function getHint(numbers, target) {
 	
 	try {
 		total = mexp.eval(operationArr.join(''));
-		score = scoreAnswer(total, target);
+		score = scoreAnswer(operationArr, total, target);
 	} catch (err) {
 		return {score: 0};
 	}

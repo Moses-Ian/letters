@@ -9,7 +9,7 @@ import Players from "../Players";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = false;
+const DEVELOP = true;
 
 function Room() {
 	
