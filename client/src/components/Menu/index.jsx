@@ -14,7 +14,7 @@ export default function Menu ({ socket, username, room, players, activePlayer, d
 
 
     {show &&
-      <div hideEnterButton={true} onClose={() => setShow(false)}>
+      <div onClose={() => setShow(false)}>
         
         <div className="modal-main">
           <div className="menu-content" onClick={(e) => e.stopPropagation()}>

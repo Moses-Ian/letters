@@ -91,27 +91,7 @@ const Lobby = ({ players, activePlayer, display }) => {
 				<h1 className="room-name has-text-centered is-size-4">
 					You are playing in: {room}
 				</h1>
-
-				<div className="players is-align-self-center">
-					<div>
-						<h1 className="has-text-warning">Players:</h1>
-					</div>
-					<ul>
-						{players.map((player, index) => (
-							<li
-								className={
-									"playerLi " +
-									(activePlayer === player.username
-										? "active-player"
-										: "not-active")
-								}
-								key={index}
-							>
-								- {player.username} {player.score} points
-							</li>
-						))}
-					</ul>
-				</div>
+				
 				<div className="lobby">
 					<div className="wotd-head">
 						<p>WORD OF THE DAY!!</p>

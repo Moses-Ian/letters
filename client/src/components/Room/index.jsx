@@ -5,6 +5,7 @@ import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 import Menu from "../Menu"
+import Players from "../Players";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
@@ -147,6 +148,9 @@ function Room() {
 				display={setLobbyDisplay()}/>
 
 				<div className={`view ${setGameDisplay()}`}>
+				
+					<Players players={players} activePlayer={activePlayer} />
+				
 					{round <= MAX_ROUNDS ? 
 						round % 2 ? (
 							<MainGame
