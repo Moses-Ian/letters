@@ -489,9 +489,8 @@ sup div {
 .menu-button {
   position: absolute;
   right: 0;
-  /* top: -120px; */
+  top: -120px;
   margin-right: 5px;
-  top: -50px;
 }
 
 .join-game-button {

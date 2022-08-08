@@ -21,7 +21,7 @@ const url = room => `${window.location.origin}/join?room=${room}`;
 
 
 const Lobby = ({ players, activePlayer, display }) => {
-	const { socket, username, room } = useL3ttersContext();
+	const { socket, username, room, setRoom, deleteToken, loggedIn } = useL3ttersContext();
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	const [sendNotification] = useMutation(SEND_NOTIFICATION);
@@ -83,6 +83,11 @@ const Lobby = ({ players, activePlayer, display }) => {
 		} catch (err) {
 			console.error(err);
 		}
+	};
+
+	const leaveRoom = () => {
+		socket.emit("leave-game", room, () => setRoom(''));
+		localStorage.removeItem('room');
 	}
 	
   return (
@@ -107,14 +112,16 @@ const Lobby = ({ players, activePlayer, display }) => {
 							<button className="lobby-btn"><img src={settings} alt="Settings"/>
 							<span>Settings</span></button>
 
-						<button className="lobby-btn" onClick={shareByPush}><img src={share} alt="Invite"/><span>Invite</span></button>
+							<button className="lobby-btn" onClick={shareByPush}><img src={share} alt="Invite"/><span>Invite</span></button>
 
 							<Friends socket={socket} username={username} room={room} />
 
-							<button className="lobby-btn"><img src={logout}></img>
+							
+							<button className="lobby-btn" onClick={deleteToken} disabled={!loggedIn}><img src={logout}></img>
 							<span>Logout</span></button>
+						
 
-							<button className="lobby-btn"><img src={leave}></img>
+							<button className="lobby-btn" onClick={leaveRoom}><img src={leave}></img>
 							<span>Leave</span></button>
 					</div>
 					<p className="swipe-arrows">Swipe to play <span className="arrow-image"><img src={swipeRight} alt="right arrow"/></span></p>

@@ -12,6 +12,7 @@ const rectangle = (ctx, w, h) => ctx.fillRect(-w, -h, w, h);
 
 const shapes = [L, THREE, T, T, E, R, S, rectangle, rectangle, rectangle, rectangle, rectangle, rectangle];
 
+
 function draw(ctx) {
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max-min) + min);
