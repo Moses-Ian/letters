@@ -47,6 +47,7 @@ addVowel = (room) => {
   g.vowelCount++;
   io.to(g.name).emit("add-letter", vowel, g.letterCount);
   g.letterCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 generateVowel = (letters, firstTry = true) => {
@@ -67,6 +68,7 @@ addConsonant = (room) => {
   g.consonantCount++;
   io.to(g.name).emit("add-letter", consonant, g.letterCount);
   g.letterCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 generateConsonant = (letters, firstTry = true) => {
@@ -94,10 +96,12 @@ submitWord = async (socket, word, username, room) => {
   const score = await scoreWord(word, g.letters);
 	g.getPlayer(username).addSubmission({ word, username, score });
   g.words.push({ word, username, score });
-  io.to(g.name).emit("append-word", word, username, score);
+	io.to(socket.id).emit("append-word", word, username, score);
 };
 
 scoreWord = async (word, letters) => {
+	let score = 0;
+	
   let checklist = new Array(word.length);
   checklist.fill(false);
 
@@ -113,8 +117,14 @@ scoreWord = async (word, letters) => {
   //make sure it's in the dictionary
 	const result = await inDictionary(word);
   if (!result) return 0;
+	
+	score = word.length;
 
-  return word.length;
+	//word of the day
+	if (word === WORD_OF_THE_DAY)
+		score += 5;
+
+  return score;
 };
 
 inDictionary = async (word) => {
@@ -144,7 +154,7 @@ getLettersState = (room, cb) => {
   cb(g.letters, g.words)
 };
 
-getLettersHint = async (username, room, jwt, cb) => {
+getLettersHint = async (socket, username, room, jwt, cb) => {
 	let g = rooms.get(room);
 	if (!g) return;
 	// should await both simultaneously
@@ -162,7 +172,7 @@ getLettersHint = async (username, room, jwt, cb) => {
 	}
 	g.getPlayer(username).addSubmission({ word, username, score });
 	g.words.push({ username, word, score });
-	io.to(g.name).emit("append-word", word, username, score);
+	io.to(socket.id).emit("append-word", word, username, score);
 	cb(signedToken);
 }
 

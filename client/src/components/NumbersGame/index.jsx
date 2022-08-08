@@ -9,7 +9,6 @@ const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 const NumbersGame = ({
   activeTimer,
   setActiveTimer,
-	timerCompleteHandler
 }) => {
 	
 	const {
@@ -200,7 +199,7 @@ const NumbersGame = ({
     setOperationArr(action);
   };
 
-  const backspace = (event) => {
+  const clear = (event) => {
     setOperationArr({ type: "CLEAR" });
     setNumbersArr({ type: "ENABLE_ALL" });
   };
@@ -228,7 +227,6 @@ const NumbersGame = ({
     if (signedToken) {
       saveToken(signedToken);
     }
-    console.log("numbers solver not done yet");
   };
 
   return (
@@ -239,17 +237,14 @@ const NumbersGame = ({
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
-          <Timer
-            setActiveTimer={setActiveTimer}
-            timerCompleteHandler={timerCompleteHandler}
-          />
+          <Timer setActiveTimer={setActiveTimer} />
         )}
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>
 
       <div className="numbers-generated has-text-centered" id="root">
-        <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
-          {showNumberSection && (
+				{showNumberSection && (
+					<Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
               <ul className="is-flex is-justify-content-center">
                 {numbersArr.map((numberObj, index) => (
@@ -259,8 +254,8 @@ const NumbersGame = ({
                 ))}
               </ul>
             </div>
-          )}
-        </Tippy>
+					</Tippy>
+				)}
 
         {showAddNumberBtns && (
           <>
@@ -350,7 +345,7 @@ const NumbersGame = ({
             </button>
             <button
               className="l-parentheses-btn button is-warning mr-1"
-              id="add"
+              id="left-parens"
               onClick={operationSymbol}
               data-symbol="("
             >
@@ -358,7 +353,7 @@ const NumbersGame = ({
             </button>
             <button
               className="r-parentheses-btn button is-warning"
-              id="add"
+              id="right-parens"
               onClick={operationSymbol}
               data-symbol=")"
             >
@@ -366,8 +361,8 @@ const NumbersGame = ({
             </button>
             <button
               className="button is-small is-warning ml-3 mt-1"
-              id=" multiply"
-              onClick={backspace}
+              id="clear"
+              onClick={clear}
             >
               Reset
             </button>

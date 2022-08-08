@@ -10,7 +10,6 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 const MainGame = ({
   activeTimer,
   setActiveTimer,
-  timerCompleteHandler,
 }) => {
   // socket.emit('print-all-rooms');
   // socket.emit('print-players', room);
@@ -207,10 +206,7 @@ const MainGame = ({
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
-          <Timer
-            setActiveTimer={setActiveTimer}
-            timerCompleteHandler={timerCompleteHandler}
-          />
+          <Timer setActiveTimer={setActiveTimer} />
         )}
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>

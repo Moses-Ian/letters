@@ -4,13 +4,18 @@ const PlayerObj = require("../utils/PlayerObj.js");
 updateScores = (room) => {
   let g = rooms.get(room);
   if (!g) return;
+	let submissions = [];
 	g.players.forEach(player => {
 		if (player.submission.score) {
 			player.score += player.submission.score;
+			submissions.push(player.submission);
 			player.submission = {};
-		}
+		} else 
+			// send an empty object to prevent react from bitching
+			submissions.push({});
 	});
-  io.to(g.name).emit("send-players", g.getPlayers(), g.turn);
+  io.to(g.name).emit("send-submissions", submissions);
+  setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 100);
 };
 
 nextRound = (room) => {
@@ -18,6 +23,7 @@ nextRound = (room) => {
   if (!g) return;
   let turn = g.nextTurn();
 	io.to(g.name).emit('new-round', g.round, g.players[turn].username);
+	g.gameTimer.interrupt(NEXT_ROUND);
 };
 
 listRooms = (cb) => {

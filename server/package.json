@@ -5,7 +5,8 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "seed": "node seeders/seeds.js",
-    "test": "jest --watch -verbose"
+    "test": "jest --watch -verbose",
+	"numbers-test": "jest numbers-solver -verbose"
   },
   "devDependencies": {
     "jest": "^28.1.1",

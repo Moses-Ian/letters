@@ -40,6 +40,10 @@ const resolvers = {
 		VAPIDPublicKey: () => {
 			return { VAPIDPublicKey: process.env.VAPID_PUBLIC_KEY}
 		},
+		// get word of the day
+		wordOfTheDay: () => {
+			return WORD_OF_THE_DAY;
+		}
   },
   Mutation: {
 		addUser: async (parent, args) => {
