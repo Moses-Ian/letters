@@ -124,22 +124,12 @@ function Room() {
     <>
 			<div className="room">
 			
-<<<<<<< HEAD
-			
-				
-				{isMobile ?          
-				<Lobby
-					socket={socket}
-					username={username}
-					room={room}
-=======
 				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
 					Leave
 				</button>
 				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
 					
 				{/* <Lobby
->>>>>>> b6cddabbd7d8ac0aea6e222dce3347482a6572ce
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
@@ -179,11 +169,6 @@ function Room() {
 					: (
 						<Winner 
 							usernames={getWinner()} 
-<<<<<<< HEAD
-							width={width}
-							height={height}	
-=======
->>>>>>> b6cddabbd7d8ac0aea6e222dce3347482a6572ce
 						/>
 					)}
 					{DEVELOP &&
