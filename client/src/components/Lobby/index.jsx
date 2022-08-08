@@ -21,7 +21,7 @@ const url = room => `${window.location.origin}/join?room=${room}`;
 
 
 const Lobby = ({ players, activePlayer, display }) => {
-	const { socket, username, room } = useL3ttersContext();
+	const { socket, username, room, setRoom, deleteToken, loggedIn } = useL3ttersContext();
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	const [sendNotification] = useMutation(SEND_NOTIFICATION);
@@ -118,7 +118,7 @@ const Lobby = ({ players, activePlayer, display }) => {
 
 							
 							<button className="lobby-btn" onClick={deleteToken} disabled={!loggedIn}><img src={logout}></img>
-								<span>Logout</span></button>
+							<span>Logout</span></button>
 						
 
 							<button className="lobby-btn" onClick={leaveRoom}><img src={leave}></img>

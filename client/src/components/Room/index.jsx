@@ -24,6 +24,9 @@ function Room() {
 		isYourTurn,
 		setTurn,
 		round,
+		leaveRoom,
+		deleteToken,
+		loggedIn,
 		setRound
 	} = useL3ttersContext();
 	
@@ -124,12 +127,12 @@ function Room() {
     <>
 			<div className="room">
 			
-				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
+				{/* <button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
 					Leave
-				</button>
+				</button> */}
 				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
 					
-				{/* <Lobby
+				{ isMobile ? <Lobby
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
@@ -146,7 +149,7 @@ function Room() {
 					deleteToken={deleteToken}
 					loggedIn={loggedIn}
 				/>
-				}	
+				}	 
 
 		
 				<div className={`view ${setGameDisplay()}`}>
