@@ -1,9 +1,10 @@
 const mexp = require('math-expression-evaluator');
 const {useHint} = require('../schemas/serverResolvers');
+const {numbersSolver} = require('../utils/algorithms');
 
 // small numbers
-const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-const AVAILABLE_SMALL_NUMBERS = 9;
+const smallNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+const AVAILABLE_SMALL_NUMBERS = 10;
 // large numbers
 const largeNumbers = ["25", "50", "75", "100"];
 const AVAILABLE_LARGE_NUMBERS = 4;
@@ -20,7 +21,7 @@ addSmallNumber = (room) => {
   g.numberCount++;
 };
 
-const addLargeNumber = (room) => {
+addLargeNumber = (room) => {
   let g = rooms.get(room);
   if (g.largeNumberCount == 4) return;
 	if (g.numberCount == 6) return;
@@ -38,33 +39,44 @@ const addNumber = (g, number) => {
   return true;
 };
 
-function getRandomNumber(room) {
+getRandomNumber = (room) => {
   let g = rooms.get(room);
   if (g.numberCount == 6) {
     let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
     g.target = randomNumber;
     io.to(g.name).emit("add-target", g.target);
+		g.gameTimer.interrupt(SET_TARGET);
   }
 }
 
-function calculateTotal(operationArr, username, room) {
+function calculateTotal(socket, operationArr, username, room) {
   let g = rooms.get(room);
 	let total;
 	let score;
 	try {
 		total = mexp.eval(operationArr.join(''));
-		score = scoreAnswer(total, g);
+		score = scoreAnswer(operationArr, total, g.target);
 	} catch (err) {
 		total = 0;
 		score = 0;
 	}
 	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
   g.operations.push({ total, operationArr, username, score });
-  io.to(g.name).emit("append-operations", total, operationArr, username, score);
+  io.to(socket.id).emit("append-operations", total, operationArr, username, score);
 }
 
-function scoreAnswer(total, g) {
-  let difference = Math.abs(g.target - total);
+function scoreAnswer(operationArr, total, target) {
+	// total must be a whole number -> I'm not sure that we should include this rule, so I commented it out
+	// if (Math.floor(total) !== total)
+		// return 0;
+	
+	// verify that there are no adjacent numbers
+	for(let i=1; i<operationArr.length; i++)
+		if (parseInt(operationArr[i]) && parseInt(operationArr[i-1]))
+			return 0;
+		
+	// score based on the distance
+  let difference = Math.abs(target - total);
   let score = 0;
   if (difference === 0) {
     score = 10;
@@ -85,7 +97,7 @@ function getNumbersState(room, cb) {
   cb(g.numbers, g.operations, g.target, g.numberCount)
 };
 
-async function getNumbersHint(username, room, jwt, cb) {
+async function getNumbersHint(socket, username, room, jwt, cb) {
 	let g = rooms.get(room);
 	if (!g) return;
 	//should await both sumiltaneously
@@ -108,17 +120,24 @@ async function getNumbersHint(username, room, jwt, cb) {
 	}
 	g.getPlayer(username).addSubmission({ total, operationArr, username, score });
 	g.operations.push({ total, operationArr, username, score });
-	io.to(g.name).emit('append-operations', total, operationArr, username, score);
+	io.to(socket.id).emit('append-operations', total, operationArr, username, score);
 	cb(signedToken);
 };
 
 async function getHint(numbers, target) {
-	console.log('numbers hint');
 	
-	//your algorithm goes here
-	//if it's complex, put it in utils/algorithms.js, or its own file, and import it into here
+	let operationArr = numbersSolver(numbers, target);
+
+	if (operationArr.length === 0)
+		return {score: 0};	//if the algorithm can't find a solution
 	
-	return {score: 0};	//if the algorithm can't find a solution
+	try {
+		total = mexp.eval(operationArr.join(''));
+		score = scoreAnswer(operationArr, total, target);
+	} catch (err) {
+		return {score: 0};
+	}
+	return {operationArr, total, score};
 }
 
 

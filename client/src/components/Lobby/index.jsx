@@ -7,13 +7,12 @@ import logout from "../../assets/images/logout.png";
 // import friend from "../../assets/images/friend.png"
 import dollar from "../../assets/images/dollar.png"
 import { validateEmail } from '../../utils';
-import Auth from '../../utils/auth';
-
 import Friends from "../Friends"
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 
-import { useLazyQuery, useMutation } from '@apollo/client';
-import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { GET_FRIENDS, QUERY_USER, QUERY_WORD_OF_THE_DAY } from "../../utils/queries";
 import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from '../../utils/mutations';
 
 
@@ -21,11 +20,13 @@ import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from '../../utils/mutations';
 const url = room => `${window.location.origin}/join?room=${room}`;
 
 
-const Lobby = ({ socket, username, room, players, activePlayer, display, setRoom, deleteToken, loggedIn }) => {
+const Lobby = ({ players, activePlayer, display }) => {
+	const { socket, username, room } = useL3ttersContext();
 	
 	const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
 	const [sendNotification] = useMutation(SEND_NOTIFICATION);
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
+	const { loading: loadWord, data: wordData } = useQuery(QUERY_WORD_OF_THE_DAY);
 	
 	const onShare = async () => {
 		console.log('share');
@@ -95,29 +96,13 @@ const Lobby = ({ socket, username, room, players, activePlayer, display, setRoom
 				<h1 className="room-name has-text-centered is-size-4">
 					You are playing in: {room}
 				</h1>
-
-				<div className="players is-align-self-center">
-					<div>
-						<h1 className="has-text-warning">Players:</h1>
-					</div>
-					<ul>
-						{players.map((player, index) => (
-							<li
-								className={
-									"playerLi " +
-									(activePlayer === player.username
-										? "active-player"
-										: "not-active")
-								}
-								key={index}
-							>
-								- {player.username} {player.score} points
-							</li>
-						))}
-					</ul>
-				</div>
+				
 				<div className="lobby">
-					<p className="wotd-head">WORD OF THE DAY!!<span className="wotd">PLACEHOLDER</span><span className="bonus"> 5 bonus points if you find this word.</span></p>
+					<div className="wotd-head">
+						<p>WORD OF THE DAY!!</p>
+						<p><span className="wotd">{!loadWord ? wordData.wordOfTheDay : '---'}</span></p>
+						<p><span className="bonus"> 5 bonus points if you find this word.</span></p>
+					</div>
 
 						<div className="button-flex">
 

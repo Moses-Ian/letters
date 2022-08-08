@@ -1,42 +1,40 @@
-import React, { useState, useEffect, useCallback } from "react";
-import MW from "../../assets/images/Merriam-Webster.png";
+import React, { useState, useEffect } from "react";
 import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
 import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 import Menu from "../Menu"
+import Players from "../Players";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
-const ROUND_DELAY = 7000;
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = false;
+const DEVELOP = true;
 
-function Room({ 
-	socket, 
-	username, 
-	setUsername, 
-	room, 
-	setRoom,
-	loggedIn, 
-	deleteToken,
-	jwt,
-	dailyHints,
-	saveToken,
-	isMobile,
-	display,
-	width,
-	height,
-	isYourTurn,
-	setTurn,
-	round,
-	setRound
-}) {
+function Room() {
+	
+	const { 
+		isMobile, 
+		socket,
+		username, 
+		setUsername, 
+		room, 
+		setRoom,
+		display,
+		isYourTurn,
+		setTurn,
+		round,
+		setRound
+	} = useL3ttersContext();
+	
   const [players, setPlayers] = useState([]);
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
+	const [submissions, setSubmissions] = useState([]);
 	
   useEffect(() => {
 		socket.on("set-lobby", setLobby);
+		socket.on("send-submissions", updateSubmissions);
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
     socket.on("new-round", updateRound);
@@ -58,19 +56,16 @@ function Room({
 		setActiveTimer("IDLE");
 	}
 	
+	const updateSubmissions = submissionsArr => {
+		setSubmissions(submissionsArr);
+		console.log(submissionsArr);
+	};
+	
   const generatePlayerList = async (playersArr, turn) => {
     setPlayers(playersArr);
     setActivePlayer(playersArr[turn].username);
   };
 
-  const nextRound = useCallback(() => {
-		if (isYourTurn) {
-			socket.emit("update-scores", room);
-			setTimeout(() => socket.emit("next-round", room), ROUND_DELAY);
-		}
-	//eslint-disable-next-line
-  }, [isYourTurn]);
-	
 	const nextRoundBtn = () => {
 		//this is only for dev.
 		socket.emit("update-scores", room);
@@ -129,6 +124,7 @@ function Room({
     <>
 			<div className="room">
 			
+<<<<<<< HEAD
 			
 				
 				{isMobile ?          
@@ -136,6 +132,14 @@ function Room({
 					socket={socket}
 					username={username}
 					room={room}
+=======
+				<button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
+					Leave
+				</button>
+				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
+					
+				{/* <Lobby
+>>>>>>> b6cddabbd7d8ac0aea6e222dce3347482a6572ce
 					players={players}
 					activePlayer={activePlayer}
 					display={setLobbyDisplay()}
@@ -156,45 +160,30 @@ function Room({
 
 		
 				<div className={`view ${setGameDisplay()}`}>
+				
+					<Players players={players} activePlayer={activePlayer} />
+				
 					{round <= MAX_ROUNDS ? 
 						round % 2 ? (
 							<MainGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
 								display={setGameDisplay()}
-								timerCompleteHandler={nextRound}
 							/>
 						) : (
 							<NumbersGame
-								socket={socket}
-								username={username}
-								room={room}
 								activeTimer={activeTimer}
 								setActiveTimer={setActiveTimer}
-								isYourTurn={isYourTurn}
-								setTurn={setTurn}
-								loggedIn={loggedIn}
-								jwt={jwt}
-								dailyHints={dailyHints}
-								saveToken={saveToken}
-								display={setGameDisplay()}
-								timerCompleteHandler={nextRound}
 							/>
 						)
 					: (
 						<Winner 
 							usernames={getWinner()} 
+<<<<<<< HEAD
 							width={width}
 							height={height}	
+=======
+>>>>>>> b6cddabbd7d8ac0aea6e222dce3347482a6572ce
 						/>
 					)}
 					{DEVELOP &&
@@ -206,17 +195,11 @@ function Room({
 							<button className="button is-warning m-2" onClick={nextRoundBtn}>
 								Next Round
 							</button>
-							<div className="webster is-flex is-justify-content-flex-end">
-								<img className="MW" src={MW} alt="Merriam Webster API" />
-							</div>
 						</div>
 					}
 				</div>
 
 				<LiveChat 
-					socket={socket} 
-					username={username} 
-					room={room} 
 					display={setChatDisplay()}
 				/>
 			</div>

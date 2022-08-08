@@ -4,6 +4,7 @@ import friend from "../../assets/images/friend.png";
 import add from "../../assets/images/add-friend.png"
 import { sanitize } from "../../utils";
 import Auth from "../../utils/auth";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 //graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -11,7 +12,9 @@ import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
 import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
 
 
-export default function Friends ({ socket, room }){
+export default function Friends (){
+	const { socket, room } = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
 	const [listOfPlayers, setListOfPlayers] = useState([]);
 	// const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
@@ -19,7 +22,7 @@ export default function Friends ({ socket, room }){
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
 	const [searchState, setSearchState] = useState('');
-	const [getUser, {error: searchError, data: searchData}] = useLazyQuery(QUERY_USER);
+	const [getUser] = useLazyQuery(QUERY_USER);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [searchResult, setSearchResult] = useState(null);
 
@@ -30,6 +33,7 @@ export default function Friends ({ socket, room }){
 			if (!friendsData)
 				getFriends()
 		}
+	// eslint-disable-next-line
 	}, [show]);
 	
 	const getRealUsernames = (data) => {
@@ -56,6 +60,7 @@ export default function Friends ({ socket, room }){
 			return;
 		}
 		updatePlayersAreFriend(friendsData.me.friends);
+	// eslint-disable-next-line
 	}, [listOfPlayers, loading, friendsError, friendsData]);
 	
 	const updatePlayersAreFriend = (friends) => {
