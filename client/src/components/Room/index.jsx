@@ -194,7 +194,7 @@ function Room({
 						<Winner 
 							usernames={getWinner()} 
 							width={width}
-							height={height}
+							height={height}	
 						/>
 					)}
 					{DEVELOP &&
