@@ -27,11 +27,6 @@ body {
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  /* overflow-y: scroll; */
-}
-
-#root {
-  /* height: 100%; */
 }
 
 .App {
@@ -629,42 +624,6 @@ sup div {
   bottom: -6px;
 }
 
-/* Desktop */
-@media screen and (min-width: 1280px) {
-  /* .lobby {
-    display: none;
-  } */
-}
-
-@media screen and (min-width: 1024px) {
-  /* .lobby {
-    display: none;
-  } */
-}
-
-/* Tablets */
-@media screen and (max-width: 1024px) {
-  /* when you start manually setting widths at different screen sizes, you know you should have taken a different approach */
-
-  /* .live-chat-input { */
-  /* width: 90%; */
-  /* } */
-
-  /* .landing-letters:hover,
-  .winner:hover,
-  .ties:hover {
-    text-shadow: 10px 10px 4px black, 6px 6px 10px black;
-    font-size: 5rem;
-} */
-
-  /* .swipe-arrows {
-    display: none;
-  }
-  .swipe-arrows1 {
-    display: none;
-  } */
-}
-
 /* yeah, its backwards */
 @media screen and (min-width: 451px) {
   .view {
@@ -694,30 +653,11 @@ sup div {
 
 /* Mobile */
 @media screen and (max-width: 450px) {
-  /* .chat-form { */
-  /* height: 5vh; */
-  /* position: relative; */
-  /* } */
-
-  /* .live-chat-input { */
-  /* width: 78%; */
-  /* position: absolute; */
-  /* bottom: -3px; */
-  /* } */
-
-  /* .live-chat-button { */
-  /* display: show; */
-  /* position: absolute; */
-  /* bottom: -2px; */
-  /* right: 10px; */
-  /* } */
-
   .words-list {
     height: 11vh;
   }
 
   .live-chat-message {
-    /* overflow-y: overlay; */
     height: 50vh;
   }
 
@@ -728,13 +668,6 @@ sup div {
   #work {
     font-size: 20px;
   }
-
-  /* .swipe-arrows {
-    display: show;
-  }
-  .swipe-arrows1 {
-    display: show;
-  } */
 
   .sign-up-button {
     font-size: 14px;
@@ -750,15 +683,6 @@ sup div {
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
-  /* .live-chat-input { */
-  /* width: 73%; */
-  /* } */
-
-  /* .live-chat-message { */
-  /* overflow-y: overlay; */
-  /* height: 52vh; */
-  /* } */
-
   #work {
     font-size: 15px;
   }

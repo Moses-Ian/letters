@@ -36,26 +36,26 @@ const Lobby = ({ players, activePlayer, display }) => {
     console.log(url(room));
 
     //if the os has native share features, use those
-    if (navigator.share) {
-      navigator.share({
-        title: "Join a game on L3tters.com!",
-        url: url(room),
-        text: `Join ${username} in a game of L3tters!`,
-      });
-      return;
-    }
+    // if (navigator.share) {
+    //   navigator.share({
+    //     title: "Join a game on L3tters.com!",
+    //     url: url(room),
+    //     text: `Join ${username} in a game of L3tters!`,
+    //   });
+    //   return;
+    // }
 
     //sends the email once the 'to' field has been filled
     //clicking the button should open up a modal first
     // to be filled by user -> MUST VALIDATE
-    const to = ["chrismasters_326@outlook.com"];
+    const to = ["hadas.gadish@gmail.com"];
     if (to.length !== 0) shareByEmail(to);
 
     //invite all my friends for now
-    const friendsToInvite = friendsData.me.friends.map(
-      (friend) => friend.username
-    );
-    if (friendsToInvite.length !== 0) shareByPush(friendsToInvite);
+    // const friendsToInvite = friendsData.me.friends.map(
+    //   (friend) => friend.username
+    // );
+    // if (friendsToInvite.length !== 0) shareByPush(friendsToInvite);
   };
 
   const shareByEmail = async (to) => {
@@ -124,7 +124,7 @@ const Lobby = ({ players, activePlayer, display }) => {
               <span>Settings</span>
             </button>
 
-            <button className="lobby-btn" onClick={shareByPush}>
+            <button className="lobby-btn" onClick={onShare}>
               <img src={share} alt="Invite" />
               <span>Invite</span>
             </button>
