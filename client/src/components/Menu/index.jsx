@@ -3,7 +3,7 @@ import Lobby from "../Lobby";
 // import Modal from "../Modal";
 
 
-export default function Menu ({ socket, username, room, players, activePlayer, display }){
+export default function Menu ({ socket, username, room, players, activePlayer, display, setRoom, deleteToken, loggedIn }){
   const [show, setShow] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ export default function Menu ({ socket, username, room, players, activePlayer, d
 
 
     {show &&
-      <div hideEnterButton={true} onClose={() => setShow(false)}>
+      <div onClose={() => setShow(false)}>
         
         <div className="modal-main">
           <div className="menu-content" onClick={(e) => e.stopPropagation()}>
@@ -30,6 +30,9 @@ export default function Menu ({ socket, username, room, players, activePlayer, d
               players={players}
               activePlayer={activePlayer}
               display={'active-view'}
+              setRoom={setRoom}
+              deleteToken={deleteToken}
+              loggedIn={loggedIn}
               /> 
             </div>
 

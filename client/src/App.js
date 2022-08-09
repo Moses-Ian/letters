@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
-import { io } from "socket.io-client";
 import Auth from "./utils/auth";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
-import { useMutation } from "@apollo/client";
-import { EXTEND } from "./utils/mutations";
-import useWindowSize from "./utils/useWindowSize";
-
+import { L3ttersProvider } from "./utils/GlobalState";
 
 //graphql
 import {
@@ -53,21 +49,13 @@ const swipeConfig = {
 };
 
 function App() {
-  const [socket, setSocket] = useState(null);
-	const [username, setUsername] = useState('Guest');
-	const [usernameReady, setUsernameReady] = useState(false);	//don't try to join a room until username is ready
-	const [jwt, setJWT] = useState(null);
   const [room, setRoom] = useState("");
 	const [display, setDisplay] = useState('game');
-  const [extend] = useMutation(EXTEND, { client });
-	const { width, height } = useWindowSize();
-  const [isYourTurn, setTurn] = useState(false);
-  const [round, setRound] = useState(1);
+	const [jwt, setJWT] = useState(null);
 
-	const isMobile = (width <= 450);
+	// constants
 	const loggedIn = Auth.loggedIn();
-	const decodedToken = Auth.decodeToken(Auth.getToken())
-	const dailyHints = decodedToken ? decodedToken.data.dailyHints : 0;
+
 	// app-install stuff
 	const isApp = (document.referrer.startsWith('android-app://') ||
 			window.matchMedia('(display-mode: standalone)').matches ||
@@ -90,154 +78,51 @@ function App() {
 		})
 	};
 
-  const attachListeners = (socket) => {
-    socket.on("connect", () => {
-      console.log(`You connected with id: ${socket.id}`);
-    });
-  };
-
 	const swipeHandlers = useSwipeable({
 		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
 		onSwipedLeft:  (eventData) => setDisplay(display === 'lobby' ? 'game' : 'chat'),
 		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
 		...swipeConfig,
 	});
-
-	const saveToken = useCallback((jwt) => {
-		setJWT(jwt);
-		Auth.login(jwt);
-	}, []);
-	
-	const deleteToken = useCallback((jwt) => {
-		setJWT(null);
-		Auth.logout();
-	}, []);
-
-	const extendToken = async () => {
-		try {
-			const mutationResponse = await extend({
-				headers: {
-					authorization: Auth.getProfile()
-				}
-			});
-			return mutationResponse.data.extend.token;
-		} catch (err) {
-			console.error(err.message);
-			return null;
-		}
-	}
-
-  const createSocket = () => {
-    // const newSocket = io(`http://localhost:3001`);
-    const newSocket = io(); //works in production and dev ???
-    attachListeners(newSocket);
-    setSocket(newSocket);
-    return () => {
-      socket.disconnect();
-      newSocket.close();
-    };
-  }
 	
 	useEffect(() => {
-		async function updateProfile() {
-			const profile = Auth.getProfile();
-			if (profile && Auth.loggedIn()) {
-				const token = await extendToken();
-				if (!token) {
-					setUsernameReady(true);
-					return;
-				}
-				const { data } = Auth.decodeToken(token);
-				setUsername(data.username);
-				setUsernameReady(true);
-				saveToken(token);
-			}
-			setUsernameReady(true);
-		};
-		updateProfile();
-		createSocket();
 		listenInstallPrompt();
-		
+
 		return () => {
 			console.log('unrender');
 		};
-		
 	// eslint-disable-next-line
 	}, []);
-	
-	useEffect(() => {
-		const decodedToken = Auth.decodeToken(jwt);
-		if (!decodedToken) {
-			setUsername('Guest');
-			setUsernameReady(true);
-			return;
-		}
-		setUsername(decodedToken.data.username);
-		setUsernameReady(true);
-	}, [jwt]);
 	
 	console.log('App.js rendered');
 
   return (
     <ApolloProvider client={client}>
-      <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
-			{!loggedIn && room === "" ? (
-          <LandingPage 
-						socket={socket} 
-						username={username} 
-						saveToken={saveToken}
-					/>
-        ) : (
-          <Header 
-						username={username} 
-						loggedIn={loggedIn} 
-						deleteToken={deleteToken}
-					/>
-			)}
-				{room === "" ? (
-					<>
-						<JoinGame
-							socket={socket}
-							username={username}
-							setUsername={setUsername}
-							usernameReady={usernameReady}
-							room={room}
-							setRoom={setRoom}
-							width={width}
-							height={height}
-							setTurn={setTurn}
-							setRound={setRound}
-						/>
-						{!isApp && 
-							<div className="field has-text-centered">
-								<button 
-									onClick={showInstallPromotion}
-									className='install-app-button mt-2 p-2'
-								>
-										Install the app!
-								</button>
-						</div>}
-					</>
-				) : (
-          <Room 
-						socket={socket} 
-						username={username} 
-						setUsername={setUsername}
-						room={room}
-						setRoom={setRoom}
-						loggedIn={loggedIn}
-						jwt={jwt}
-						dailyHints={dailyHints}
-						saveToken={saveToken}
-						isMobile={isMobile}
-						display={display}
-						isYourTurn={isYourTurn}
-						setTurn={setTurn}
-						round={round}
-						setRound={setRound}
-					/>
-					)}
-      </div>
+			<L3ttersProvider value={{ room, setRoom, display, loggedIn, jwt, setJWT} }>
+				<div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
+				{!loggedIn && room === "" ? (
+						<LandingPage />
+					) : (
+						<Header />
+				)}
+					{room === "" ? (
+						<>
+							<JoinGame />
+							{!isApp && 
+								<div className="field has-text-centered">
+									<button 
+										onClick={showInstallPromotion}
+										className='install-app-button mt-2 p-2'
+									>
+											Install the app!
+									</button>
+							</div>}
+						</>
+					) : (
+						<Room	/>
+						)}
+				</div>
+			</L3ttersProvider>
     </ApolloProvider>
   );
 }

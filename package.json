@@ -9,7 +9,7 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
-    "test": "cd server && npm test"
+    "test": "cd server && npm run numbers-test"
   },
   "repository": {
     "type": "git",

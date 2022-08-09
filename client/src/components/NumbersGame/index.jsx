@@ -2,24 +2,26 @@ import React, { useState, useEffect, useReducer } from "react";
 import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 
 const NumbersGame = ({
-  socket,
-  username,
-  room,
   activeTimer,
   setActiveTimer,
-  isYourTurn,
-  setTurn,
-  loggedIn,
-  jwt,
-  dailyHints,
-  saveToken,
-  display,
-  timerCompleteHandler,
 }) => {
+	
+	const {
+		socket,
+		username,
+		room,
+		isYourTurn,
+		loggedIn,
+		jwt,
+		dailyHints,
+		saveToken,
+	} = useL3ttersContext();
+	
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
     //eslint-disable-next-line
@@ -197,7 +199,7 @@ const NumbersGame = ({
     setOperationArr(action);
   };
 
-  const backspace = (event) => {
+  const clear = (event) => {
     setOperationArr({ type: "CLEAR" });
     setNumbersArr({ type: "ENABLE_ALL" });
   };
@@ -225,7 +227,6 @@ const NumbersGame = ({
     if (signedToken) {
       saveToken(signedToken);
     }
-    console.log("numbers solver not done yet");
   };
 
   return (
@@ -236,42 +237,25 @@ const NumbersGame = ({
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
-          <Timer
-            setActiveTimer={setActiveTimer}
-            timerCompleteHandler={timerCompleteHandler}
-          />
+          <Timer setActiveTimer={setActiveTimer} />
         )}
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>
 
       <div className="numbers-generated has-text-centered" id="root">
-        <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
-          {showNumberSection && (
+				{showNumberSection && (
+					<Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
               <ul className="is-flex is-justify-content-center">
                 {numbersArr.map((numberObj, index) => (
                   <li className="letter-box" key={index}>
-                    {numberObj.number === 100 ? (
-                      <span
-                        className={`letter-span ${
-                          numberObj.number === 100 && "hundred"
-                        }`}
-                      >
-                        {numberObj.number}
-                      </span>
-                    ) : (
-                      <span className="letter-span">{numberObj.number}</span>
-                    )}
-                    {/* other options for dealing with the hundred:
-                  <span className='letter-span'>{numberObj.number}</span>
-									<span className='letter-span'>1<sup>00<div /></sup></span>
-                */}
+                    <span className={`letter-span ${numberObj.number === '100' && 'hundred'}`}>{numberObj.number}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          )}
-        </Tippy>
+					</Tippy>
+				)}
 
         {showAddNumberBtns && (
           <>
@@ -361,7 +345,7 @@ const NumbersGame = ({
             </button>
             <button
               className="l-parentheses-btn button is-warning mr-1"
-              id="add"
+              id="left-parens"
               onClick={operationSymbol}
               data-symbol="("
             >
@@ -369,7 +353,7 @@ const NumbersGame = ({
             </button>
             <button
               className="r-parentheses-btn button is-warning"
-              id="add"
+              id="right-parens"
               onClick={operationSymbol}
               data-symbol=")"
             >
@@ -377,8 +361,8 @@ const NumbersGame = ({
             </button>
             <button
               className="button is-small is-warning ml-3 mt-1"
-              id=" multiply"
-              onClick={backspace}
+              id="clear"
+              onClick={clear}
             >
               Reset
             </button>

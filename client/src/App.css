@@ -209,13 +209,20 @@ textarea {
   display: inline;
 }
 
-.players,
 .wotd-head,
 .lobby-btn {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 20px;
-  margin: 5px;
+  width: 250px;
+  text-align: center;
+}
+
+.players {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 5px auto;
   width: 250px;
   text-align: center;
 }
@@ -240,17 +247,11 @@ textarea {
   height: 110px;
   color: var(--primary-color);
   border: none;
+  margin: 5px;
 }
 
 .friends {
   display: inline-block;
-}
-
-.add-btn {
-  float: right;
-  border: none;
-  outline: none;
-  background-color: var(--sixth-color);
 }
 
 .search-btn {
@@ -282,14 +283,16 @@ textarea {
 }
 
 .button-flex {
-  margin-left: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .wotd-head {
   width: 250px !important;
   color: var(--quanternary-color);
   text-align: center;
-  margin-left: 54px;
+  margin: 5px auto;
 }
 
 .rendered-letters {
@@ -477,8 +480,8 @@ sup div {
 .menu-button {
   position: absolute;
   right: 0;
+  top: -120px;
   margin-right: 5px;
-  top: -50px;
 }
 
 .join-game-button {

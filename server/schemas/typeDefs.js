@@ -30,6 +30,7 @@ const typeDefs = gql`
 		users: [User]
 		user(username: String!): User
 		VAPIDPublicKey: VAPIDPublicKey
+		wordOfTheDay: String
 	}
 
 	type Mutation {

@@ -1,5 +1,6 @@
 import React from "react";
 import Confetti from "react-confetti";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
 const L = ctx => ctx.fillText("L", 0, 5);
 const THREE = ctx => ctx.fillText("3", 0, 5);
@@ -10,6 +11,7 @@ const S = ctx => ctx.fillText("S", 0, 5);
 const rectangle = (ctx, w, h) => ctx.fillRect(-w, -h, w, h);
 
 const shapes = [L, THREE, T, T, E, R, S, rectangle, rectangle, rectangle, rectangle, rectangle, rectangle];
+
 
 function draw(ctx) {
   function getRandomInt(min, max) {
@@ -28,7 +30,9 @@ function draw(ctx) {
 }
 
 
-function Winner({ usernames, width, height }) {
+function Winner({ usernames }) {
+	
+	const { width, height } = useL3ttersContext();
 	
   return (
     <>

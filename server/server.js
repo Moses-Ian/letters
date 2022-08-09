@@ -9,6 +9,7 @@ const db = require('./config/connection');
 const registerHandlers = require('./handlers');
 require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 const webPush = require('web-push');
+require('./utils/word-of-the-day');
 
 // show memory usage
 // if (process.env.NODE_ENV === 'development') {
