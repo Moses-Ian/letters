@@ -51,7 +51,6 @@ body {
 .your-turn {
   border: #edeae5 5px solid;
   border-radius: 15px;
-  /* margin: 5px; */
 }
 
 .button,
@@ -108,7 +107,6 @@ textarea {
   font-size: 15px;
   height: 10vh;
   overflow-y: auto;
-  /* overflow-y: overlay; */
   margin-bottom: 1vh;
 }
 
@@ -232,7 +230,6 @@ textarea {
 }
 
 .players ul {
-  /* display: flex; */ /* commented out because it looks abysmal with the scores added */
   max-height: 10vh;
   overflow-y: auto;
 }
@@ -333,7 +330,6 @@ textarea {
 
 sup {
   font-size: 18px;
-  /* vertical-align: super; */
   margin-top: 10px;
   height: fit-content;
   position: relative;
@@ -360,11 +356,6 @@ sup div {
   overflow-y: overlay;
   text-align: center;
 }
-
-/* .words-list ul {
-  display: inline-block;
-  text-align: left;
-} */
 
 .hidden {
   display: none;
@@ -486,7 +477,6 @@ sup div {
 .menu-button {
   position: absolute;
   right: 0;
-  /* top: -120px; */
   margin-right: 5px;
   top: -50px;
 }
@@ -581,7 +571,6 @@ sup div {
   border-radius: 5px;
   position: relative;
   text-align: center;
-  /* margin-top: 2px; */
 }
 
 .room-list-radio:checked + .room-list-label {
@@ -590,11 +579,9 @@ sup div {
 
 .room-list-label-border {
   position: absolute;
-  /* left: 20%; */
   top: 0;
   width: 95%;
   height: 100%;
-  /* border-top: 1px dotted var(--seventh-color); */
   border-bottom: 1px dotted var(--seventh-color);
 }
 
