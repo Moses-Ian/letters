@@ -14,10 +14,6 @@
   font-family: "Fugaz one", sans-serif;
 }
 
-html {
-  height: 140%;
-}
-
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
@@ -624,35 +620,32 @@ sup div {
   bottom: -6px;
 }
 
-/* yeah, its backwards */
-@media screen and (min-width: 451px) {
-  .view {
-    position: static;
-  }
-
-  .swipe-arrows {
-    display: none;
-  }
-
-  .swipe-arrows1 {
-    display: none;
-  }
+.view {
+  position: static;
 }
 
-.active-view {
-  left: 0;
+.swipe-arrows {
+  display: none;
 }
 
-.inactive-view-left {
-  left: -100vw;
-}
-
-.inactive-view-right {
-  left: 100vw;
+.swipe-arrows1 {
+  display: none;
 }
 
 /* Mobile */
 @media screen and (max-width: 450px) {
+  .active-view {
+    left: 0;
+  }
+
+  .inactive-view-left {
+    left: -100vw;
+  }
+
+  .inactive-view-right {
+    left: 100vw;
+  }
+
   .words-list {
     height: 11vh;
   }
