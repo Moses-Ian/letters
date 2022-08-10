@@ -488,10 +488,6 @@ sup div {
   padding: 6px;
 }
 
-.MW {
-  height: 50px;
-}
-
 .footer {
   background-color: var(--sixth-color) !important;
   color: var(--secondary-color);
@@ -535,7 +531,7 @@ sup div {
   color: var(--secondary-color) !important;
 }
 
-#work {
+.work {
   color: var(--seventh-color);
 }
 
@@ -657,11 +653,11 @@ sup div {
     height: 50vh;
   }
 
-  #answer-section {
+  .answer-section {
     font-size: 10px;
   }
 
-  #work {
+  .work {
     font-size: 20px;
   }
 
@@ -679,7 +675,7 @@ sup div {
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
-  #work {
+  .work {
     font-size: 15px;
   }
 
