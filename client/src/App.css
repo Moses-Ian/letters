@@ -47,7 +47,7 @@ body {
 .button,
 .hover-transition,
 input {
-  box-shadow: 2px 4px 8px #026670 !important;
+  box-shadow: 2px 4px 8px -- var(--quinary-color) !important;
   font-family: Fugaz one;
 }
 
@@ -70,7 +70,7 @@ textarea {
 .timer {
   font-size: 30px;
   color: var(--quinary-color);
-  color: #fce181;
+  color: var(--secondary-color);
   font-weight: 500;
   font-size: 45px;
 }
@@ -88,7 +88,7 @@ textarea {
   border-radius: 5px;
   padding: 2vh 2vh 1vh 2vh;
   width: auto;
-  box-shadow: 3px 8px 10px #026670;
+  box-shadow: 3px 8px 10px var(--quinary-color);
   border: #02677083 5px solid;
   border-radius: 25px;
 }
@@ -135,7 +135,7 @@ textarea {
 }
 
 .username-chat {
-  color: #5d909a;
+  color: var(--sixth-color);
 }
 
 .me-in-chat {
@@ -314,7 +314,7 @@ textarea {
   padding: 2px 0px;
   margin: 1px 4px;
   font-size: 27px;
-  color: #fce181;
+  color: var(--secondary-color);
   position: relative;
 }
 
@@ -441,7 +441,7 @@ sup div {
   font-family: Fugaz One;
   color: var(--seventh-color);
   transition: background-color 500ms ease;
-  box-shadow: 3px 8px 10px #026670 !important;
+  box-shadow: 3px 8px 10px var(--quinary-color) !important;
 }
 
 .modal-toggle-button,
@@ -476,7 +476,7 @@ sup div {
 }
 
 .join-game-button {
-  box-shadow: 3px 8px 10px #026670 !important;
+  box-shadow: 3px 8px 10px var(--quinary-color) !important;
   padding: 6px;
 }
 
@@ -528,15 +528,15 @@ sup div {
 
 .target-number {
   font-size: 40px;
-  color: #9fedd7;
+  color: var(--quanternary-color);
 }
 
 .numbers-score {
-  color: #fce181 !important;
+  color: var(--secondary-color) !important;
 }
 
 #work {
-  color: #4a4a4a;
+  color: var(--seventh-color);
 }
 
 .view {
@@ -594,7 +594,7 @@ sup div {
 .swipe-arrows {
   margin-top: 7vh;
   text-align: center;
-  color: #026670;
+  color: var(--quinary-color);
   font-size: 30px;
   opacity: 0.4;
   position: relative;
@@ -603,7 +603,7 @@ sup div {
 .swipe-arrows1 {
   margin-top: 5vh;
   text-align: center;
-  color: #026670;
+  color: var(--quinary-color);
   font-size: 30px;
   opacity: 0.4;
   position: relative;
@@ -620,32 +620,35 @@ sup div {
   bottom: -6px;
 }
 
-.view {
-  position: static;
+/* yeah, its backwards */
+@media screen and (min-width: 451px) {
+  .view {
+    position: static;
+  }
+
+  .swipe-arrows {
+    display: none;
+  }
+
+  .swipe-arrows1 {
+    display: none;
+  }
 }
 
-.swipe-arrows {
-  display: none;
+.active-view {
+  left: 0;
 }
 
-.swipe-arrows1 {
-  display: none;
+.inactive-view-left {
+  left: -100vw;
+}
+
+.inactive-view-right {
+  left: 100vw;
 }
 
 /* Mobile */
 @media screen and (max-width: 450px) {
-  .active-view {
-    left: 0;
-  }
-
-  .inactive-view-left {
-    left: -100vw;
-  }
-
-  .inactive-view-right {
-    left: 100vw;
-  }
-
   .words-list {
     height: 11vh;
   }
