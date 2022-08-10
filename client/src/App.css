@@ -40,7 +40,7 @@ body {
 }
 
 .your-turn {
-  border: #edeae5 5px solid;
+  border: var(--primary-color) 5px solid;
   border-radius: 15px;
 }
 
