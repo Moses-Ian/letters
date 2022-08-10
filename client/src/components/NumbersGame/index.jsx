@@ -51,6 +51,7 @@ const NumbersGame = ({
   const [showNumberSection, setShowNumberSection] = useState(true);
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
+	const [savedOperationArr, setSavedOperationArr] = useState([]);
 
   function operationReducer(operationArr, action) {
     let newOperation;
@@ -58,6 +59,9 @@ const NumbersGame = ({
       case "PUSH":
         newOperation = [...operationArr, action.operation];
         break;
+			case "PUSH_ALL":
+				newOperation = [...operationArr, '(', ...action.operation, ')'];
+				break;
       case "CLEAR":
         newOperation = new Array(0).fill("");
         break;
@@ -228,7 +232,21 @@ const NumbersGame = ({
       saveToken(signedToken);
     }
   };
-
+	
+	const save = () => {
+		setSavedOperationArr(operationArr);
+		clear();
+	};
+	
+	const useSavedOperationArr = () => {
+		console.log(savedOperationArr.join(''));
+		const action = {
+			type: "PUSH_ALL",
+			operation: savedOperationArr
+		};
+		setOperationArr(action);
+	}
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
@@ -306,6 +324,13 @@ const NumbersGame = ({
                 {numberObj.number}
               </button>
             ))}
+						<button
+							className="button mr-1"
+							disabled={!savedOperationArr.length}
+							onClick={useSavedOperationArr}
+						>
+							{savedOperationArr.join('')}
+						</button>
           </div>
         )}
 
@@ -392,13 +417,21 @@ const NumbersGame = ({
               {`${dailyHints} Hints`}
             </button>
             <button
-              className="button is-warning mb-6 mt-4"
+              className="button is-warning mb-6 mt-4 mr-2"
               id="check-answer"
               onClick={calculateTotal}
               disabled={!(activeTimer === "COUNTING")}
             >
               Submit Answer
             </button>
+						<button
+							className="button is-warning mb-6 mt-4"
+							id="save"
+							onClick={save}
+							disabled={!(activeTimer === "COUNTING")}
+						>
+							Save
+						</button>
           </>
         )}
       </div>

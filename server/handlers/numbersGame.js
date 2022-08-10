@@ -19,6 +19,7 @@ addSmallNumber = (room) => {
 
   io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 addLargeNumber = (room) => {
@@ -31,6 +32,7 @@ addLargeNumber = (room) => {
   if (addNumber(g, number)) g.largeNumberCount++;
   io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 const addNumber = (g, number) => {

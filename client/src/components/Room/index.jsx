@@ -72,7 +72,7 @@ function Room() {
 	const nextRoundBtn = () => {
 		//this is only for dev.
 		socket.emit("update-scores", room);
-		socket.emit("next-round", room);
+		socket.emit("next-round-button", room);
 	}
 	
 	const updateRound = (newRound, activeUsername) => {

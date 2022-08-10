@@ -95,7 +95,7 @@ const registerGameHandler = (newio, socket) => {
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
   //debug
 	socket.on("update-scores", updateScores);
-  socket.on("next-round", nextRound);
+  socket.on("next-round-button", nextRoundClicked);
   socket.on("print-all-rooms", printAllRooms);
   socket.on("print-room", printRoom);
   socket.on("print-players", printPlayers);
