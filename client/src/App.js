@@ -22,7 +22,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
-	// console.log(Auth.decodeToken(token));
+  // console.log(Auth.decodeToken(token));
   return {
     headers: {
       ...headers,
@@ -50,79 +50,80 @@ const swipeConfig = {
 
 function App() {
   const [room, setRoom] = useState("");
-	const [display, setDisplay] = useState('game');
-	const [jwt, setJWT] = useState(null);
+  const [display, setDisplay] = useState("game");
+  const [jwt, setJWT] = useState(null);
 
-	// constants
-	const loggedIn = Auth.loggedIn();
+  // constants
+  const loggedIn = Auth.loggedIn();
 
-	// app-install stuff
-	const isApp = (document.referrer.startsWith('android-app://') ||
-			window.matchMedia('(display-mode: standalone)').matches ||
-			navigator.standalone);
+  // app-install stuff
+  const isApp =
+    document.referrer.startsWith("android-app://") ||
+    window.matchMedia("(display-mode: standalone)").matches ||
+    navigator.standalone;
 
-	//ask the user if they want to install the app
-	const showInstallPromotion = event => {
-		const promptEvent = window.deferredPrompt;
-		if (!promptEvent) 
-			return;
-		//this baby does it all -> if they say yes, it downloads and opens the app
-		promptEvent.prompt()
-	}
+  //ask the user if they want to install the app
+  const showInstallPromotion = (event) => {
+    const promptEvent = window.deferredPrompt;
+    if (!promptEvent) return;
+    //this baby does it all -> if they say yes, it downloads and opens the app
+    promptEvent.prompt();
+  };
 
-	//listen for the before-install-prompt event
-	const listenInstallPrompt = () => {
-		window.addEventListener('beforeinstallprompt', event => {
-			event.preventDefault();
-			window.deferredPrompt = event
-		})
-	};
+  //listen for the before-install-prompt event
+  const listenInstallPrompt = () => {
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      window.deferredPrompt = event;
+    });
+  };
 
-	const swipeHandlers = useSwipeable({
-		// onSwiped: (eventData) => console.log("User Swiped!", eventData),
-		onSwipedLeft:  (eventData) => setDisplay(display === 'lobby' ? 'game' : 'chat'),
-		onSwipedRight: (eventData) => setDisplay(display === 'chat'  ? 'game' : 'lobby'),
-		...swipeConfig,
-	});
-	
-	useEffect(() => {
-		listenInstallPrompt();
+  const swipeHandlers = useSwipeable({
+    onSwiped: (eventData) => console.log("User Swiped!", eventData),
+    onSwipedLeft: (eventData) =>
+      setDisplay(display === "lobby" ? "game" : "chat"),
+    onSwipedRight: (eventData) =>
+      setDisplay(display === "chat" ? "game" : "lobby"),
+    ...swipeConfig,
+  });
 
-		return () => {
-			console.log('unrender');
-		};
-	// eslint-disable-next-line
-	}, []);
-	
-	console.log('App.js rendered');
+  useEffect(() => {
+    listenInstallPrompt();
+
+    return () => {
+      console.log("unrender");
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  console.log("App.js rendered");
 
   return (
     <ApolloProvider client={client}>
-			<L3ttersProvider value={{ room, setRoom, display, loggedIn, jwt, setJWT} }>
-				<div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
-				{!loggedIn && room === "" ? (
-						<LandingPage />
-					) : (
-						<Header />
-				)}
-					{room === "" ? (
-						<>
-							<JoinGame />
-							{!isApp && 
-								<div className="field has-text-centered">
-									<button 
-										onClick={showInstallPromotion}
-										className='install-app-button mt-2 p-2'
-									>
-											Install the app!
-									</button>
-							</div>}
-						</>
-					) : (
-						<Room	/>
-						)}
-				</div>
-			</L3ttersProvider>
+      <L3ttersProvider
+        value={{ room, setRoom, display, loggedIn, jwt, setJWT }}
+      >
+        <div className="App container pt-3 pl-3 pr-3 pb-0" {...swipeHandlers}>
+          {!loggedIn && room === "" ? <LandingPage /> : <Header />}
+          {room === "" ? (
+            <>
+              <JoinGame />
+              {!isApp && (
+                <div className="field has-text-centered">
+                  <button
+                    onClick={showInstallPromotion}
+                    className="install-app-button mt-2 p-2"
+                  >
+                    Install the app!
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <Room />
+          )}
+        </div>
+      </L3ttersProvider>
     </ApolloProvider>
   );
 }

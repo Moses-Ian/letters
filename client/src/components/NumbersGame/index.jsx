@@ -6,22 +6,18 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 
-const NumbersGame = ({
-  activeTimer,
-  setActiveTimer,
-}) => {
-	
-	const {
-		socket,
-		username,
-		room,
-		isYourTurn,
-		loggedIn,
-		jwt,
-		dailyHints,
-		saveToken,
-	} = useL3ttersContext();
-	
+const NumbersGame = ({ activeTimer, setActiveTimer }) => {
+  const {
+    socket,
+    username,
+    room,
+    isYourTurn,
+    loggedIn,
+    jwt,
+    dailyHints,
+    saveToken,
+  } = useL3ttersContext();
+
   useEffect(() => {
     socket.emit("get-numbers-state", room, setGameState);
     //eslint-disable-next-line
@@ -261,19 +257,25 @@ const NumbersGame = ({
       </div>
 
       <div className="numbers-generated has-text-centered" id="root">
-				{showNumberSection && (
-					<Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
+        {showNumberSection && (
+          <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
               <ul className="is-flex is-justify-content-center">
                 {numbersArr.map((numberObj, index) => (
                   <li className="letter-box" key={index}>
-                    <span className={`letter-span ${numberObj.number === '100' && 'hundred'}`}>{numberObj.number}</span>
+                    <span
+                      className={`letter-span ${
+                        numberObj.number === "100" && "hundred"
+                      }`}
+                    >
+                      {numberObj.number}
+                    </span>
                   </li>
                 ))}
               </ul>
             </div>
-					</Tippy>
-				)}
+          </Tippy>
+        )}
 
         {showAddNumberBtns && (
           <>
@@ -312,7 +314,7 @@ const NumbersGame = ({
         )}
 
         {showAnswerBtn && (
-          <div id="answer-section">
+          <div className="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
                 className="button mr-1"
@@ -394,7 +396,7 @@ const NumbersGame = ({
           </div>
         )}
 
-        <div id="work">
+        <div className="work">
           <h1 className="mt-4" id="show-operation">
             {operationArr.join(" ")}
           </h1>
