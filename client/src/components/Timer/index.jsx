@@ -18,15 +18,15 @@ function Timer({ setActiveTimer }) {
     <div className="timer-wrapper is-flex is-justify-content-center m-0">
       <CountdownCircleTimer
         isPlaying
-        duration={30}
+        duration={45}
         size={90}
         strokeWidth={7}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[15, 8, 5, 0]}
         onComplete={() => {
-					setActiveTimer("DONE");
-					return { shouldRepeat: false, delay: 1 };
-				}}
+          setActiveTimer("DONE");
+          return { shouldRepeat: false, delay: 1 };
+        }}
       >
         {renderTime}
       </CountdownCircleTimer>
