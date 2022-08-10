@@ -14,10 +14,6 @@
   font-family: "Fugaz one", sans-serif;
 }
 
-html {
-  height: 140%;
-}
-
 body {
   color: var(--secondary-color);
   font-family: Fugaz One;
@@ -27,11 +23,6 @@ body {
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  /* overflow-y: scroll; */
-}
-
-#root {
-  /* height: 100%; */
 }
 
 .App {
@@ -49,15 +40,14 @@ body {
 }
 
 .your-turn {
-  border: #edeae5 5px solid;
+  border: var(--primary-color) 5px solid;
   border-radius: 15px;
-  /* margin: 5px; */
 }
 
 .button,
 .hover-transition,
 input {
-  box-shadow: 2px 4px 8px #026670 !important;
+  box-shadow: 2px 4px 8px -- var(--quinary-color) !important;
   font-family: Fugaz one;
 }
 
@@ -80,7 +70,7 @@ textarea {
 .timer {
   font-size: 30px;
   color: var(--quinary-color);
-  color: #fce181;
+  color: var(--secondary-color);
   font-weight: 500;
   font-size: 45px;
 }
@@ -98,7 +88,7 @@ textarea {
   border-radius: 5px;
   padding: 2vh 2vh 1vh 2vh;
   width: auto;
-  box-shadow: 3px 8px 10px #026670;
+  box-shadow: 3px 8px 10px var(--quinary-color);
   border: #02677083 5px solid;
   border-radius: 25px;
 }
@@ -108,7 +98,6 @@ textarea {
   font-size: 15px;
   height: 10vh;
   overflow-y: auto;
-  /* overflow-y: overlay; */
   margin-bottom: 1vh;
 }
 
@@ -146,7 +135,7 @@ textarea {
 }
 
 .username-chat {
-  color: #5d909a;
+  color: var(--sixth-color);
 }
 
 .me-in-chat {
@@ -224,7 +213,7 @@ textarea {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 20px;
-	margin: 5px auto;
+  margin: 5px auto;
   width: 250px;
   text-align: center;
 }
@@ -239,7 +228,6 @@ textarea {
 }
 
 .players ul {
-  /* display: flex; */ /* commented out because it looks abysmal with the scores added */
   max-height: 10vh;
   overflow-y: auto;
 }
@@ -250,7 +238,7 @@ textarea {
   height: 110px;
   color: var(--primary-color);
   border: none;
-	margin: 5px;
+  margin: 5px;
 }
 
 .friends {
@@ -286,16 +274,16 @@ textarea {
 }
 
 .button-flex {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .wotd-head {
   width: 250px !important;
   color: var(--quanternary-color);
   text-align: center;
-	margin: 5px auto;
+  margin: 5px auto;
 }
 
 .rendered-letters {
@@ -326,7 +314,7 @@ textarea {
   padding: 2px 0px;
   margin: 1px 4px;
   font-size: 27px;
-  color: #fce181;
+  color: var(--secondary-color);
   position: relative;
 }
 
@@ -336,7 +324,6 @@ textarea {
 
 sup {
   font-size: 18px;
-  /* vertical-align: super; */
   margin-top: 10px;
   height: fit-content;
   position: relative;
@@ -363,11 +350,6 @@ sup div {
   overflow-y: overlay;
   text-align: center;
 }
-
-/* .words-list ul {
-  display: inline-block;
-  text-align: left;
-} */
 
 .hidden {
   display: none;
@@ -459,7 +441,7 @@ sup div {
   font-family: Fugaz One;
   color: var(--seventh-color);
   transition: background-color 500ms ease;
-  box-shadow: 3px 8px 10px #026670 !important;
+  box-shadow: 3px 8px 10px var(--quinary-color) !important;
 }
 
 .modal-toggle-button,
@@ -494,7 +476,7 @@ sup div {
 }
 
 .join-game-button {
-  box-shadow: 3px 8px 10px #026670 !important;
+  box-shadow: 3px 8px 10px var(--quinary-color) !important;
   padding: 6px;
 }
 
@@ -504,10 +486,6 @@ sup div {
 
 .hover-transititon {
   padding: 6px;
-}
-
-.MW {
-  height: 50px;
 }
 
 .footer {
@@ -546,15 +524,15 @@ sup div {
 
 .target-number {
   font-size: 40px;
-  color: #9fedd7;
+  color: var(--quanternary-color);
 }
 
 .numbers-score {
-  color: #fce181 !important;
+  color: var(--secondary-color) !important;
 }
 
-#work {
-  color: #4a4a4a;
+.work {
+  color: var(--seventh-color);
 }
 
 .view {
@@ -583,7 +561,6 @@ sup div {
   border-radius: 5px;
   position: relative;
   text-align: center;
-  /* margin-top: 2px; */
 }
 
 .room-list-radio:checked + .room-list-label {
@@ -592,11 +569,9 @@ sup div {
 
 .room-list-label-border {
   position: absolute;
-  /* left: 20%; */
   top: 0;
   width: 95%;
   height: 100%;
-  /* border-top: 1px dotted var(--seventh-color); */
   border-bottom: 1px dotted var(--seventh-color);
 }
 
@@ -615,7 +590,7 @@ sup div {
 .swipe-arrows {
   margin-top: 7vh;
   text-align: center;
-  color: #026670;
+  color: var(--quinary-color);
   font-size: 30px;
   opacity: 0.4;
   position: relative;
@@ -624,7 +599,7 @@ sup div {
 .swipe-arrows1 {
   margin-top: 5vh;
   text-align: center;
-  color: #026670;
+  color: var(--quinary-color);
   font-size: 30px;
   opacity: 0.4;
   position: relative;
@@ -639,42 +614,6 @@ sup div {
 .arrow-image1 {
   position: inherit;
   bottom: -6px;
-}
-
-/* Desktop */
-@media screen and (min-width: 1280px) {
-  /* .lobby {
-    display: none;
-  } */
-}
-
-@media screen and (min-width: 1024px) {
-  /* .lobby {
-    display: none;
-  } */
-}
-
-/* Tablets */
-@media screen and (max-width: 1024px) {
-  /* when you start manually setting widths at different screen sizes, you know you should have taken a different approach */
-
-  /* .live-chat-input { */
-  /* width: 90%; */
-  /* } */
-
-  /* .landing-letters:hover,
-  .winner:hover,
-  .ties:hover {
-    text-shadow: 10px 10px 4px black, 6px 6px 10px black;
-    font-size: 5rem;
-} */
-
-  /* .swipe-arrows {
-    display: none;
-  }
-  .swipe-arrows1 {
-    display: none;
-  } */
 }
 
 /* yeah, its backwards */
@@ -706,47 +645,21 @@ sup div {
 
 /* Mobile */
 @media screen and (max-width: 450px) {
-  /* .chat-form { */
-  /* height: 5vh; */
-  /* position: relative; */
-  /* } */
-
-  /* .live-chat-input { */
-  /* width: 78%; */
-  /* position: absolute; */
-  /* bottom: -3px; */
-  /* } */
-
-  /* .live-chat-button { */
-  /* display: show; */
-  /* position: absolute; */
-  /* bottom: -2px; */
-  /* right: 10px; */
-  /* } */
-
   .words-list {
     height: 11vh;
   }
 
   .live-chat-message {
-    /* overflow-y: overlay; */
     height: 50vh;
   }
 
-  #answer-section {
+  .answer-section {
     font-size: 10px;
   }
 
-  #work {
+  .work {
     font-size: 20px;
   }
-
-  /* .swipe-arrows {
-    display: show;
-  }
-  .swipe-arrows1 {
-    display: show;
-  } */
 
   .sign-up-button {
     font-size: 14px;
@@ -762,16 +675,7 @@ sup div {
 
 /* Galaxy fold - smaller phones*/
 @media screen and (max-width: 280px) {
-  /* .live-chat-input { */
-  /* width: 73%; */
-  /* } */
-
-  /* .live-chat-message { */
-  /* overflow-y: overlay; */
-  /* height: 52vh; */
-  /* } */
-
-  #work {
+  .work {
     font-size: 15px;
   }
 
