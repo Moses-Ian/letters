@@ -48,7 +48,9 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
 	const [savedOperationArr, setSavedOperationArr] = useState([]);
-
+	const [savedOperationIndexes, setSavedOperationIndexes] = useState([]);
+	const [usedSavedOperation, setUsedSavedOperation] = useState(false);
+	
   function operationReducer(operationArr, action) {
     let newOperation;
     switch (action.type) {
@@ -202,6 +204,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const clear = (event) => {
     setOperationArr({ type: "CLEAR" });
     setNumbersArr({ type: "ENABLE_ALL" });
+		setUsedSavedOperation(false);
   };
 
   const setGameState = (numbers, operations, target, numberCount) => {
@@ -231,16 +234,45 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 	
 	const save = () => {
 		setSavedOperationArr(operationArr);
+		setSavedOperationIndexes(numbersArr.reduce((list, number, index) => number.disabled ? [...list, index] : list, []));
 		clear();
 	};
 	
+	const disableSavedOperation = () => {
+		// if there isn't anything saved, or if we used it -> disabled it
+		if (savedOperationArr.length === 0 || usedSavedOperation)
+			return true;
+		
+		// if we used any of the associated numbers -> disable it
+		let disabled = false;
+		savedOperationIndexes.forEach(savedIndex => {
+			numbersArr.forEach((number, numberIndex) => {
+				if (numberIndex === savedIndex && number.disabled)
+					disabled = true;
+			});
+		});
+		return disabled;
+	}
+	
 	const useSavedOperationArr = () => {
-		console.log(savedOperationArr.join(''));
+		// add the saved stuff to the operations
 		const action = {
 			type: "PUSH_ALL",
 			operation: savedOperationArr
 		};
 		setOperationArr(action);
+		
+		// flag that we used it
+		setUsedSavedOperation(true);
+		
+		// disable the buttons that got used
+		savedOperationIndexes.forEach(index => {
+			const action = {
+				type: "DISABLE",
+				index
+			};
+			setNumbersArr(action);
+		});
 	}
 	
   return (
@@ -323,13 +355,15 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
                 {numberObj.number}
               </button>
             ))}
-						<button
-							className="button mr-1"
-							disabled={!savedOperationArr.length}
-							onClick={useSavedOperationArr}
-						>
-							{savedOperationArr.join('')}
-						</button>
+						{savedOperationArr.length !== 0 &&
+							<button
+								className="button mr-1"
+								disabled={disableSavedOperation()}
+								onClick={useSavedOperationArr}
+							>
+								{savedOperationArr.join('')}
+							</button>
+						}
           </div>
         )}
 

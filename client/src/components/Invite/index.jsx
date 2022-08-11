@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Modal from "../Modal";
 import share from "../../assets/images/share.png";
@@ -23,6 +24,7 @@ export default function Invite () {
 	const [resultMsg, setResultMsg] = useState("");
 	const [checked, setChecked] = useState([]);
 	const [resultMsg2, setResultMsg2] = useState("");
+	const [resultMsg3, setResultMsg3] = useState("");
 	
   const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
   const [sendNotification] = useMutation(SEND_NOTIFICATION);
@@ -39,23 +41,24 @@ export default function Invite () {
 			setChecked(new Array(friendsData.me.friends.length).fill(false));
 	}, [show, friendsData]);
 
+	// this doesn't get called right now
   const onShare = async () => {
     console.log("share");
     console.log(url(room));
 
     //if the os has native share features, use those
-    // if (navigator.share) {
-    //   navigator.share({
-    //     title: "Join a game on L3tters.com!",
-    //     url: url(room),
-    //     text: `Join ${username} in a game of L3tters!`,
-    //   });
-    //   return;
-    // }
+    if (navigator.share) {
+      navigator.share({
+        title: "Join a game on L3tters.com!",
+        url: url(room),
+        text: `Join ${username} in a game of L3tters!`,
+      });
+      return;
+    }
 
-    //invite all my friends for now
+    // invite all my friends for now
     // const friendsToInvite = friendsData.me.friends.map(
-    //   (friend) => friend.username
+      // (friend) => friend.username
     // );
     // if (friendsToInvite.length !== 0) shareByPush(friendsToInvite);
   };
@@ -120,6 +123,17 @@ export default function Invite () {
     }
   };
 	
+	const copyLink = () => {
+		console.log("copy link");
+		try {
+			navigator.clipboard.writeText(url(room));
+			setResultMsg3("Link copied to clipboard.");
+		} catch (err) {
+			console.error(err);
+			setResultMsg3("Something went wrong.");
+		}
+	};
+	
 	return (
 		<div>
 			<button className="lobby-btn" onClick={() => setShow(true)}>
@@ -172,13 +186,13 @@ export default function Invite () {
 					:
 						<p>You should add some friends.</p>
 					}
-					<button className="search-btn mt-2 ml-1 button is-small is-warning">Send</button>
+					<button className="search-btn ml-1 button is-small is-warning">Send</button>
 					<div>{resultMsg2}</div>
 				</form>
 				
 				{/* link to copy */}
-				<button className="l3tters-btn">Copy Link</button>
-				
+				<button className="l3tters-btn mt-2 ml-1" onClick={copyLink}>Copy Link</button>
+				<div>{resultMsg3}</div>
 				
 				
 				
