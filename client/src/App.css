@@ -1,12 +1,12 @@
 :root {
-  --bg: #ededf6;
-  --primary-color: #edeae5;
-  --secondary-color: #fce181;
-  --tertiary-color: #fef9c7;
-  --quanternary-color: #9fedd7;
-  --quinary-color: #026670;
-  --sixth-color: #5d909a;
-  --seventh-color: #4a4a4a;
+  --bg: #ededf6;									/* light grayish blue */
+  --primary-color: #edeae5;       /* beige              */
+  --secondary-color: #fce181;     /* soft yellow        */
+  --tertiary-color: #fef9c7;      /* very soft yellow   */
+  --quanternary-color: #9fedd7;   /* very soft cyan     */
+  --quinary-color: #026670;       /* very dark cyan     */
+  --sixth-color: #5d909a;         /* dark cyan          */
+  --seventh-color: #4a4a4a;       /* very dark gray     */
   font-family: "Fugaz one", cursive;
 }
 

@@ -160,6 +160,11 @@ const resolvers = {
 			}
 		},
 		shareLobbyByEmail: async (parent, args, context) => {
+			return {
+				success: true,
+				message: "We currently exceeded our messaging limits. Tomorrow we should be able to reset and try again.",
+				error: null
+			};
 			try {
 				//verify user
 				if (!context.user) throw new AuthenticationError('You need to be logged in!');
