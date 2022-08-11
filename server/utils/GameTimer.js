@@ -10,6 +10,7 @@ const SIXTY_SECONDS = 60 * 1000;
 const FIVE_SECONDS = 5 * 1000;
 const FORTY_FIVE_SECONDS = 45 * 1000;
 const SEVEN_SECONDS = 7 * 1000;
+const TWO_SECONDS = 2 * 1000;
 
 // defining them like this makes them public
 ADDED_CHARACTER = 0;
@@ -27,43 +28,51 @@ class GameTimer {
 
   start() {
     this.state = START;
-    // console.log('start');
+		this.clear();
+    console.log('start');
     // do nothing
   }
 
   select() {
     this.state = SELECT;
-    // console.log('select');
+		this.clear();
+    console.log('select');
     this.timeout = setTimeout(() => this.add(), SIXTY_SECONDS);
   }
 
   add() {
     this.state = ADD;
-    // console.log('add');
+		this.clear();
+    console.log('add');
     this.room.addRandom(this.name);
     if (this.room.letterCount === 9) {
       this.submit();
     } else if (this.room.numberCount === 6) {
-      this.timeout = setTimeout(() => this.target(), FIVE_SECONDS);
+      this.timeout = setTimeout(() => this.target(), TWO_SECONDS);
     } else {
       this.timeout = setTimeout(() => this.add(), FIVE_SECONDS);
     }
   }
 
   target() {
-    getRandomNumber(this.name);
+		this.state = TARGET;
+		this.clear();
+		console.log('target');
+    getTargetNumber(this.name);
     this.submit();
   }
 
   submit() {
     this.state = SUBMIT;
-    // console.log('submit');
+		this.clear();
+    console.log('submit');
     this.timeout = setTimeout(() => this.results(), FORTY_FIVE_SECONDS);
   }
 
   results() {
     this.state = RESULTS;
-    // console.log('results');
+		this.clear();
+    console.log('results');
     updateScores(this.name);
     if (this.room.round === 6) {
       this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
@@ -77,7 +86,8 @@ class GameTimer {
 
   end() {
     this.state = END;
-    // console.log('end');
+		// this.clear();
+    console.log('end');
     // literally do nothing
   }
 
@@ -91,6 +101,10 @@ class GameTimer {
       this.clear();
       this.submit();
     }
+		if (code === ADDED_CHARACTER && this.room.numberCount === 6) {
+			this.clear();
+      this.timeout = setTimeout(() => this.target(), TWO_SECONDS);
+		}
     if (code === ADDED_CHARACTER && this.state === START) this.select();
     if (code === SET_TARGET) {
       this.clear();
@@ -98,7 +112,7 @@ class GameTimer {
     }
     if (code === NEXT_ROUND && this.state !== SELECT) {
       this.clear();
-      this.select();
+      this.start();
     }
   }
 }

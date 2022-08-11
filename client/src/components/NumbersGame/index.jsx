@@ -40,7 +40,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     DEFAULT_NUMBERS
   );
   const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
-  const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
   const [userTotal, setUserTotal] = useReducer(totalReducer, []);
@@ -131,10 +130,8 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 
   // addNumber
   const addNumber = (number, index) => {
-    if (index === 5) {
-      setShowTargetBtn(true);
+    if (index === 5) 
       setShowAddNumberBtns(false);
-    }
 
     const action = {
       type: "PUSH",
@@ -148,7 +145,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   };
 
   // generateNumber
-  function getRandomNumber() {
+  function getTarget() {
     socket.emit("set-target", room);
   }
 
@@ -157,7 +154,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 
     setShowAnswerBtn(true);
     setShowOperationBtn(true);
-    setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
     setActiveTimer("COUNTING");
@@ -328,18 +324,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
               </button>
             </div>
           </>
-        )}
-
-        {showTargetBtn && (
-          <div className="has-text-centered">
-            <button
-              className="button is-warning mt-4"
-              onClick={getRandomNumber}
-              disabled={!isYourTurn}
-            >
-              Target
-            </button>
-          </div>
         )}
 
         {showAnswerBtn && (

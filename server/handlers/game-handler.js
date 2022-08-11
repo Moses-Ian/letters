@@ -9,7 +9,7 @@ const {
 const {
 	addSmallNumber,
 	addLargeNumber,
-	getRandomNumber,
+	getTargetNumber,
 	calculateTotal,
 	getNumbersState,
 	getNumbersHint
@@ -35,6 +35,9 @@ class MyMap extends Map {
 	}
 	set(key, value) {
 		return super.set(key.toLowerCase(), value);
+	}
+	delete(key) {
+		return super.delete(key.toLowerCase());
 	}
 }
 
@@ -73,7 +76,7 @@ const registerGameHandler = (newio, socket) => {
   // numbers game
   socket.on("add-small", addSmallNumber);
   socket.on("add-large", addLargeNumber);
-  socket.on("set-target", getRandomNumber);
+  socket.on("set-target", getTargetNumber);
   socket.on("submit-calculation", (operationArr, username, room) =>
 		calculateTotal(socket, operationArr, username, room));
   socket.on("get-numbers-state", getNumbersState);
