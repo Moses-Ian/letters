@@ -60,12 +60,8 @@ export default function Invite () {
 
   const shareByEmail = async () => {
     //sends the email once the 'to' field has been filled
-    //clicking the button should open up a modal first
-    // to be filled by user -> MUST VALIDATE
-		
 		const address = sanitize(emailState);
-    // const to = [address];
-    const to = ["imoses2@hotmail.com"];
+    const to = [address];
     try {
       to.forEach((email) => {
         if (!validateEmail(email)) throw `Invalid email - ${email}`;
@@ -76,12 +72,14 @@ export default function Invite () {
           to,
         },
       });
-      console.log(response.data.shareLobbyByEmail);
-			setErrorMsg("");
+			if (response.data.shareLobbyByEmail.success)
+				setErrorMsg("Invite sent.");
+			else
+				setErrorMsg("Something went wrong.");
+			setEmailState("");
     } catch (err) {
       console.error(err);
 			setErrorMsg("Invalid email address.");
-			console.log(to);
     }
   };
 
