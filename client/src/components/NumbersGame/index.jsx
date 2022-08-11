@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
+const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
 
 const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const {
@@ -143,11 +144,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     };
     setNumbersArr(action);
   };
-
-  // generateNumber
-  function getTarget() {
-    socket.emit("set-target", room);
-  }
 
   function addTarget(target) {
     setTargetNumber(target);
@@ -353,54 +349,15 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 
         {showOperationBtn && (
           <div className="mt-4">
-            <button
-              className="multiply-btn button is-warning mr-1"
-              onClick={operationSymbol}
-              data-symbol="*"
-            >
-              *
-            </button>
-            <button
-              className="subtract-btn button is-warning mr-1"
-              onClick={operationSymbol}
-              data-symbol="-"
-            >
-              -
-            </button>
-            <button
-              className="divide-btn button is-warning mr-1"
-              onClick={operationSymbol}
-              data-symbol="/"
-            >
-              /
-            </button>
-            <button
-              className="add-btn button is-warning mr-1"
-              onClick={operationSymbol}
-              data-symbol="+"
-            >
-              +
-            </button>
-            <button
-              className="l-parentheses-btn button is-warning mr-1"
-              onClick={operationSymbol}
-              data-symbol="("
-            >
-              (
-            </button>
-            <button
-              className="r-parentheses-btn button is-warning"
-              onClick={operationSymbol}
-              data-symbol=")"
-            >
-              )
-            </button>
-            <button
-              className="button is-small is-warning ml-3 mt-1"
-              onClick={clear}
-            >
-              Reset
-            </button>
+						{OPERATIONS.map(op => (
+							<button
+								className="button is-warning mr-1"
+								onClick={operationSymbol}
+								data-symbol={op}
+							>
+								{op}
+							</button>
+						))}
           </div>
         )}
 
