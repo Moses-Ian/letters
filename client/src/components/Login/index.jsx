@@ -44,7 +44,7 @@ export default function Login() {
 
   return (
 		<div className="Login">
-			<button className="modal-toggle-button" onClick={() => setShow(true)}>
+			<button className="l3tters-btn modal-toggle-button" onClick={() => setShow(true)}>
 				Login
 			</button>
 

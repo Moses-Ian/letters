@@ -128,7 +128,7 @@ export default function Friends (){
 	
 	
   return (
-    <div className="friends">
+    <div>
       <button className="lobby-btn" onClick={() => setShow(true)}>
         <img src={friend} alt="Friends list"/><span>Friends</span>
       </button>
@@ -137,7 +137,7 @@ export default function Friends (){
     <form>
       <Modal hideEnterButton={true} title="Friends" onClose={() => setShow(false)}>
         <div>
-            <p className="join-modal-body">Search users to add to friends!!</p>
+          <p>Search users to add to friends!!</p>
 						
           <div className="flex-friend mt-2">
             <input
@@ -166,7 +166,7 @@ export default function Friends (){
 					
         </div>
         <div>
-					<p className=" join-modal-body mt-3">See who's online</p>
+					<p className="mt-3">See who's online</p>
 					<ul>
 					{
 						listOfPlayers.map((player, index) => (

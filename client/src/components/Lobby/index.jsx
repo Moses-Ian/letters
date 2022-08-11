@@ -101,7 +101,7 @@ const Lobby = ({ players, activePlayer, display }) => {
           <div className="wotd-head">
             <p>WORD OF THE DAY!!</p>
             <p>
-              <span className="wotd">
+              <span className="wotd highlight">
                 {!loadWord ? wordData.wordOfTheDay : "---"}
               </span>
             </p>

@@ -51,7 +51,7 @@ export default function Register() {
 
   return (
 		<div className="Register">
-			<button className="sign-up-button" onClick={() => setShow(true)}>
+			<button className="l3tters-btn modal-toggle-button" onClick={() => setShow(true)}>
 				{" "}
 				Sign Up{" "}
 			</button>

@@ -256,7 +256,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>
 
-      <div className="numbers-generated has-text-centered" id="root">
+      <div className="numbers-generated has-text-centered">
         {showNumberSection && (
           <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
@@ -282,7 +282,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             <div className="has-text-centered mt-4">
               <button
                 className="button is-warning mr-2"
-                id="small-number-btn"
                 onClick={addSmallNumber}
                 disabled={!isYourTurn}
               >
@@ -290,7 +289,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
               </button>
               <button
                 className="button is-warning"
-                id="large-number-btn"
                 onClick={addLargeNumber}
                 disabled={!isYourTurn}
               >
@@ -304,7 +302,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           <div className="has-text-centered">
             <button
               className="button is-warning mt-4"
-              id="target"
               onClick={getRandomNumber}
               disabled={!isYourTurn}
             >
@@ -337,10 +334,9 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         )}
 
         {showOperationBtn && (
-          <div className="mt-4" id="operation">
+          <div className="mt-4">
             <button
               className="multiply-btn button is-warning mr-1"
-              id=" multiply"
               onClick={operationSymbol}
               data-symbol="*"
             >
@@ -348,7 +344,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="subtract-btn button is-warning mr-1"
-              id="subtract"
               onClick={operationSymbol}
               data-symbol="-"
             >
@@ -356,7 +351,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="divide-btn button is-warning mr-1"
-              id="divide"
               onClick={operationSymbol}
               data-symbol="/"
             >
@@ -364,7 +358,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="add-btn button is-warning mr-1"
-              id="add"
               onClick={operationSymbol}
               data-symbol="+"
             >
@@ -372,7 +365,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="l-parentheses-btn button is-warning mr-1"
-              id="left-parens"
               onClick={operationSymbol}
               data-symbol="("
             >
@@ -380,7 +372,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="r-parentheses-btn button is-warning"
-              id="right-parens"
               onClick={operationSymbol}
               data-symbol=")"
             >
@@ -388,7 +379,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="button is-small is-warning ml-3 mt-1"
-              id="clear"
               onClick={clear}
             >
               Reset
@@ -397,7 +387,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         )}
 
         <div className="work">
-          <h1 className="mt-4" id="show-operation">
+          <h1 className="mt-4">
             {operationArr.join(" ")}
           </h1>
           {userTotal.map((total, index) => (
@@ -420,7 +410,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
             <button
               className="button is-warning mb-6 mt-4 mr-2"
-              id="check-answer"
               onClick={calculateTotal}
               disabled={!(activeTimer === "COUNTING")}
             >
@@ -428,7 +417,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </button>
 						<button
 							className="button is-warning mb-6 mt-4"
-							id="save"
 							onClick={save}
 							disabled={!(activeTimer === "COUNTING")}
 						>

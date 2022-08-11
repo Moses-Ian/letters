@@ -127,11 +127,6 @@ function Room() {
     <>
 			<div className="room">
 			
-				{/* <button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
-					Leave
-				</button> */}
-				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
-					
 				{ isMobile ? <Lobby
 					players={players}
 					activePlayer={activePlayer}
