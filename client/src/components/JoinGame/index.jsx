@@ -107,7 +107,7 @@ export default function JoinGame() {
 	if (!show) return (
 		<div className="field has-text-centered">
 			<button
-				className="join-game-button is-warning"
+				className="l3tters-btn is-warning p-2"
 				onClick={openModal}
 			>
 				Join as {username}
@@ -118,7 +118,7 @@ export default function JoinGame() {
 	return (
 		<form onSubmit={joinRoomHandler}>
 			<Modal title="Join Game" submitText="Enter Game" onClose={() => setShow(false)}>
-				<p className="join-modal-body">
+				<p>
 					What is the name of the room you would like to join?
 				</p>
 				
@@ -143,7 +143,7 @@ export default function JoinGame() {
 					))}
 				</div>	
 				) : (
-					<p className='join-modal-body mt-3 mb-3'>
+					<p className='mt-3 mb-3'>
 						There are currently no active games. Create one!
 					</p>)
 				}

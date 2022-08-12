@@ -72,7 +72,7 @@ function Room() {
 	const nextRoundBtn = () => {
 		//this is only for dev.
 		socket.emit("update-scores", room);
-		socket.emit("next-round", room);
+		socket.emit("next-round-button", room);
 	}
 	
 	const updateRound = (newRound, activeUsername) => {
@@ -127,11 +127,6 @@ function Room() {
     <>
 			<div className="room">
 			
-				{/* <button className="modal-toggle-button is-warning leave-button" onClick={leaveRoom}>
-					Leave
-				</button> */}
-				{/* <button className="modal-toggle-button is-warning menu-button">Menu</button> */}
-					
 				{ isMobile ? <Lobby
 					players={players}
 					activePlayer={activePlayer}

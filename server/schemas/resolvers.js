@@ -232,7 +232,7 @@ const resolvers = {
 						path: 'friends', 
 						select: 'username subscription',
 						match: {$and: [
-							{ username: { $ne: context.user.username } },
+							// { username: { $ne: context.user.username } },
 							{ username: { $in: args.input.friends  } },
 							{ subscription: { $exists: true      } }] }
 					});

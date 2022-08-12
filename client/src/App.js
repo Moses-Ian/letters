@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import Auth from "./utils/auth";
@@ -112,7 +113,7 @@ function App() {
                 <div className="field has-text-centered">
                   <button
                     onClick={showInstallPromotion}
-                    className="install-app-button mt-2 p-2"
+                    className="l3tters-btn mt-2 p-2"
                   >
                     Install the app!
                   </button>

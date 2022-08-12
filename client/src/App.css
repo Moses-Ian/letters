@@ -1,12 +1,12 @@
 :root {
-  --bg: #ededf6;
-  --primary-color: #edeae5;
-  --secondary-color: #fce181;
-  --tertiary-color: #fef9c7;
-  --quanternary-color: #9fedd7;
-  --quinary-color: #026670;
-  --sixth-color: #5d909a;
-  --seventh-color: #4a4a4a;
+  --bg: #ededf6;									/* light grayish blue */
+  --primary-color: #edeae5;       /* beige              */
+  --secondary-color: #fce181;     /* soft yellow        */
+  --tertiary-color: #fef9c7;      /* very soft yellow   */
+  --quanternary-color: #9fedd7;   /* very soft cyan     */
+  --quinary-color: #026670;       /* very dark cyan     */
+  --sixth-color: #5d909a;         /* dark cyan          */
+  --seventh-color: #4a4a4a;       /* very dark gray     */
   font-family: "Fugaz one", cursive;
 }
 
@@ -45,9 +45,8 @@ body {
 }
 
 .button,
-.hover-transition,
 input {
-  box-shadow: 2px 4px 8px -- var(--quinary-color) !important;
+  box-shadow: 2px 4px 8px var(--quinary-color) !important;
   font-family: Fugaz one;
 }
 
@@ -60,11 +59,6 @@ textarea {
   resize: none;
   height: auto;
   text-align: center;
-}
-
-.button:hover,
-.lobby-btn:hover {
-  background-color: var(--quanternary-color);
 }
 
 .timer {
@@ -187,26 +181,12 @@ textarea {
 
 .game-header-3 {
   color: var(--quanternary-color);
-  font-family: Fugaz One;
 }
 
 .welcome {
   color: var(--secondary-color);
   font-size: 20px;
   margin-bottom: 30px;
-}
-
-.players-ul {
-  display: inline;
-}
-
-.wotd-head,
-.lobby-btn {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 10px 20px;
-  width: 250px;
-  text-align: center;
 }
 
 .players {
@@ -232,17 +212,22 @@ textarea {
   overflow-y: auto;
 }
 
-.lobby-btn,
-.bonus {
+.wotd-head {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+.lobby-btn {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
   width: 120px;
   height: 110px;
   color: var(--primary-color);
   border: none;
   margin: 5px;
-}
-
-.friends {
-  display: inline-block;
 }
 
 .search-btn {
@@ -263,12 +248,10 @@ textarea {
 }
 
 .bonus {
+  color: var(--primary-color);
+  margin: 5px;
   height: 50px;
   font-size: 14px;
-}
-
-.bonus,
-.wotd {
   display: inline-block;
   margin-top: 15px;
 }
@@ -286,61 +269,16 @@ textarea {
   margin: 5px auto;
 }
 
-.rendered-letters {
-  text-align: center;
-  padding-top: 6vh;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
-}
-
-.letter-box {
-  list-style-type: none;
-  display: inline-block;
-  margin: 6px 2px;
-  padding-top: 2px;
-  background-color: #0267705c;
-  border-radius: 3px;
-  width: calc((100vw - 1.5rem - 110px) / 9);
-  max-width: 50px;
-  flex-grow: 1;
-  border: 0.5px solid #edeae535;
-}
-
-.hundred {
-  font-size: 23px !important;
-}
-
-.letter-span {
-  padding: 2px 0px;
-  margin: 1px 4px;
-  font-size: 27px;
-  color: var(--secondary-color);
-  position: relative;
-}
-
 .mwlogo img {
   height: 50px;
 }
 
-sup {
-  font-size: 18px;
-  margin-top: 10px;
-  height: fit-content;
-  position: relative;
-  left: 0;
-  top: 3px;
-}
-
-sup div {
-  width: 22px;
-  border-bottom: 1px solid var(--secondary-color);
-  position: absolute;
-  left: 0;
-  top: 22px;
-}
-
-.active-player,
 .wotd {
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.highlight {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 17px #fff;
 }
@@ -376,15 +314,6 @@ sup div {
   box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.3);
 }
 
-.modal-show .modal-content {
-  transform: translateY(0);
-}
-
-.modal-header,
-.modal-footer {
-  padding: 10px;
-}
-
 .modal-title {
   margin: 0;
   font-size: 25px;
@@ -395,9 +324,6 @@ sup div {
   padding: 10px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-}
-
-.join-modal-body {
   color: var(--secondary-color);
 }
 
@@ -426,13 +352,7 @@ sup div {
   background-color: var(--quanternary-color);
 }
 
-.hover-transition,
-.modal-enter-button,
-.modal-close-button,
-.modal-toggle-button,
-.join-game-button,
-.sign-up-button,
-.install-app-button {
+.l3tters-btn {
   background-color: var(--secondary-color);
   margin-right: 5px;
   border-radius: 5px;
@@ -444,28 +364,16 @@ sup div {
   box-shadow: 3px 8px 10px var(--quinary-color) !important;
 }
 
-.modal-toggle-button,
-.sign-up-button {
+.modal-toggle-button {
   width: 90px;
   margin-top: 1vh;
   height: 30px;
 }
 
-.hover-transition:hover,
-.modal-enter-button:hover,
-.modal-close-button:hover,
-.modal-toggle-button:hover,
-.join-game-button:hover,
-.sign-up-button:hover,
-.install-app-button:hover {
+.button:hover,
+.l3tters-btn:hover,
+.lobby-btn:hover {
   background-color: var(--quanternary-color);
-}
-
-.leave-button {
-  position: absolute;
-  right: 0;
-  top: -85px;
-  margin-right: 5px;
 }
 
 .menu-button {
@@ -475,17 +383,8 @@ sup div {
   margin-right: 5px;
 }
 
-.join-game-button {
-  box-shadow: 3px 8px 10px var(--quinary-color) !important;
-  padding: 6px;
-}
-
 .room-name {
   color: var(--primary-color);
-}
-
-.hover-transititon {
-  padding: 6px;
 }
 
 .footer {
@@ -518,8 +417,36 @@ sup div {
   margin-top: 1vh;
 }
 
-.numbers-divide {
-  margin-left: 1vw;
+.rendered-letters {
+  text-align: center;
+  padding-top: 6vh;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.letter-box {
+  list-style-type: none;
+  display: inline-block;
+  margin: 6px 2px;
+  padding-top: 2px;
+  background-color: #0267705c;
+  border-radius: 3px;
+  width: calc((100vw - 1.5rem - 110px) / 9);
+  max-width: 50px;
+  flex-grow: 1;
+  border: 0.5px solid #edeae535;
+}
+
+.letter-span {
+  padding: 2px 0px;
+  margin: 1px 4px;
+  font-size: 27px;
+  color: var(--secondary-color);
+  position: relative;
+}
+
+.hundred {
+  font-size: 23px !important;
 }
 
 .target-number {
@@ -588,15 +515,6 @@ sup div {
 }
 
 .swipe-arrows {
-  margin-top: 7vh;
-  text-align: center;
-  color: var(--quinary-color);
-  font-size: 30px;
-  opacity: 0.4;
-  position: relative;
-}
-
-.swipe-arrows1 {
   margin-top: 5vh;
   text-align: center;
   color: var(--quinary-color);
@@ -626,9 +544,6 @@ sup div {
     display: none;
   }
 
-  .swipe-arrows1 {
-    display: none;
-  }
 }
 
 .active-view {
@@ -677,13 +592,6 @@ sup div {
 @media screen and (max-width: 280px) {
   .work {
     font-size: 15px;
-  }
-
-  .leave-button {
-    font-size: 10px;
-    width: 40px;
-    height: 20px;
-    top: -90px;
   }
 
   .landing-letters {

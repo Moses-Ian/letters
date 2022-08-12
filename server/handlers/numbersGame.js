@@ -19,6 +19,7 @@ addSmallNumber = (room) => {
 
   io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 addLargeNumber = (room) => {
@@ -31,6 +32,7 @@ addLargeNumber = (room) => {
   if (addNumber(g, number)) g.largeNumberCount++;
   io.to(g.name).emit("add-number", number, g.numberCount);
   g.numberCount++;
+	g.gameTimer.interrupt(ADDED_CHARACTER);
 };
 
 const addNumber = (g, number) => {
@@ -39,7 +41,7 @@ const addNumber = (g, number) => {
   return true;
 };
 
-getRandomNumber = (room) => {
+getTargetNumber = (room) => {
   let g = rooms.get(room);
   if (g.numberCount == 6) {
     let randomNumber = Math.floor(Math.random() * (999 - 101)) + 101;
@@ -144,7 +146,7 @@ async function getHint(numbers, target) {
 module.exports = {
 	addSmallNumber,
 	addLargeNumber,
-	getRandomNumber,
+	getTargetNumber,
 	calculateTotal,
 	getNumbersState,
 	getNumbersHint

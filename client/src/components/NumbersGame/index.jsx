@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
+const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
 
 const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const {
@@ -40,23 +41,31 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     DEFAULT_NUMBERS
   );
   const [showAddNumberBtns, setShowAddNumberBtns] = useState(true);
-  const [showTargetBtn, setShowTargetBtn] = useState(false);
   const [targetNumber, setTargetNumber] = useState(null);
   const [showAnswerBtn, setShowAnswerBtn] = useState(false);
   const [userTotal, setUserTotal] = useReducer(totalReducer, []);
   const [showNumberSection, setShowNumberSection] = useState(true);
   const [showOperationBtn, setShowOperationBtn] = useState(false);
   const [showCheckAnswerBtn, setShowCheckAnswerBtn] = useState(false);
-
+	const [savedOperationArr, setSavedOperationArr] = useState([]);
+	const [savedOperationIndexes, setSavedOperationIndexes] = useState([]);
+	const [usedSavedOperation, setUsedSavedOperation] = useState(false);
+	
   function operationReducer(operationArr, action) {
     let newOperation;
     switch (action.type) {
       case "PUSH":
         newOperation = [...operationArr, action.operation];
         break;
+			case "PUSH_ALL":
+				newOperation = [...operationArr, '(', ...action.operation, ')'];
+				break;
       case "CLEAR":
         newOperation = new Array(0).fill("");
         break;
+			case "BACKSPACE":
+				newOperation = operationArr.slice(0, -1);
+				break;
       default:
         throw new Error();
     }
@@ -125,10 +134,8 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 
   // addNumber
   const addNumber = (number, index) => {
-    if (index === 5) {
-      setShowTargetBtn(true);
+    if (index === 5) 
       setShowAddNumberBtns(false);
-    }
 
     const action = {
       type: "PUSH",
@@ -141,17 +148,11 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     setNumbersArr(action);
   };
 
-  // generateNumber
-  function getRandomNumber() {
-    socket.emit("set-target", room);
-  }
-
   function addTarget(target) {
     setTargetNumber(target);
 
     setShowAnswerBtn(true);
     setShowOperationBtn(true);
-    setShowTargetBtn(false);
     setShowNumberSection(false);
     setShowCheckAnswerBtn(true);
     setActiveTimer("COUNTING");
@@ -198,7 +199,28 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const clear = (event) => {
     setOperationArr({ type: "CLEAR" });
     setNumbersArr({ type: "ENABLE_ALL" });
+		setUsedSavedOperation(false);
   };
+	
+	const backspace = event => {
+		// get the last item
+		const deleted = operationArr.at(-1);
+		
+		// if the last item was in numbersArr, undisable it
+		numbersArr.forEach((number, index) => {
+			if (number.disabled && number.number == deleted) {
+				const action = {
+					type: "ENABLE",
+					index
+				};
+				setNumbersArr(action);
+			}
+		});
+		
+		// delete the last item
+		const action = { type: "BACKSPACE" };
+		setOperationArr(action);
+	}
 
   const setGameState = (numbers, operations, target, numberCount) => {
     if (operations.length === 0 && numbers[0] === "") return;
@@ -224,7 +246,50 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
       saveToken(signedToken);
     }
   };
-
+	
+	const save = () => {
+		setSavedOperationArr(operationArr);
+		setSavedOperationIndexes(numbersArr.reduce((list, number, index) => number.disabled ? [...list, index] : list, []));
+		clear();
+	};
+	
+	const disableSavedOperation = () => {
+		// if there isn't anything saved, or if we used it -> disabled it
+		if (savedOperationArr.length === 0 || usedSavedOperation)
+			return true;
+		
+		// if we used any of the associated numbers -> disable it
+		let disabled = false;
+		savedOperationIndexes.forEach(savedIndex => {
+			numbersArr.forEach((number, numberIndex) => {
+				if (numberIndex === savedIndex && number.disabled)
+					disabled = true;
+			});
+		});
+		return disabled;
+	}
+	
+	const useSavedOperationArr = () => {
+		// add the saved stuff to the operations
+		const action = {
+			type: "PUSH_ALL",
+			operation: savedOperationArr
+		};
+		setOperationArr(action);
+		
+		// flag that we used it
+		setUsedSavedOperation(true);
+		
+		// disable the buttons that got used
+		savedOperationIndexes.forEach(index => {
+			const action = {
+				type: "DISABLE",
+				index
+			};
+			setNumbersArr(action);
+		});
+	}
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
       <div className="target-number has-text-centered mt-4">
@@ -238,7 +303,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         {activeTimer === "WAIT" && <p>Waiting for the next round...</p>}
       </div>
 
-      <div className="numbers-generated has-text-centered" id="root">
+      <div className="numbers-generated has-text-centered">
         {showNumberSection && (
           <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
             <div className="rendered-letters column">
@@ -264,7 +329,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             <div className="has-text-centered mt-4">
               <button
                 className="button is-warning mr-2"
-                id="small-number-btn"
                 onClick={addSmallNumber}
                 disabled={!isYourTurn}
               >
@@ -272,7 +336,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
               </button>
               <button
                 className="button is-warning"
-                id="large-number-btn"
                 onClick={addLargeNumber}
                 disabled={!isYourTurn}
               >
@@ -280,19 +343,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
               </button>
             </div>
           </>
-        )}
-
-        {showTargetBtn && (
-          <div className="has-text-centered">
-            <button
-              className="button is-warning mt-4"
-              id="target"
-              onClick={getRandomNumber}
-              disabled={!isYourTurn}
-            >
-              Target
-            </button>
-          </div>
         )}
 
         {showAnswerBtn && (
@@ -308,71 +358,40 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
                 {numberObj.number}
               </button>
             ))}
+						{savedOperationArr.length !== 0 &&
+							<button
+								className="button mr-1"
+								disabled={disableSavedOperation()}
+								onClick={useSavedOperationArr}
+							>
+								{savedOperationArr.join('')}
+							</button>
+						}
           </div>
         )}
 
         {showOperationBtn && (
-          <div className="mt-4" id="operation">
-            <button
-              className="multiply-btn button is-warning mr-1"
-              id=" multiply"
-              onClick={operationSymbol}
-              data-symbol="*"
-            >
-              *
-            </button>
-            <button
-              className="subtract-btn button is-warning mr-1"
-              id="subtract"
-              onClick={operationSymbol}
-              data-symbol="-"
-            >
-              -
-            </button>
-            <button
-              className="divide-btn button is-warning mr-1"
-              id="divide"
-              onClick={operationSymbol}
-              data-symbol="/"
-            >
-              /
-            </button>
-            <button
-              className="add-btn button is-warning mr-1"
-              id="add"
-              onClick={operationSymbol}
-              data-symbol="+"
-            >
-              +
-            </button>
-            <button
-              className="l-parentheses-btn button is-warning mr-1"
-              id="left-parens"
-              onClick={operationSymbol}
-              data-symbol="("
-            >
-              (
-            </button>
-            <button
-              className="r-parentheses-btn button is-warning"
-              id="right-parens"
-              onClick={operationSymbol}
-              data-symbol=")"
-            >
-              )
-            </button>
+          <div className="mt-4">
+						{OPERATIONS.map(op => (
+							<button
+								className="button is-warning mr-1"
+								onClick={operationSymbol}
+								data-symbol={op}
+							>
+								{op}
+							</button>
+						))}
             <button
               className="button is-small is-warning ml-3 mt-1"
-              id="clear"
-              onClick={clear}
+              onClick={backspace}
             >
-              Reset
+              Backspace
             </button>
           </div>
         )}
 
         <div className="work">
-          <h1 className="mt-4" id="show-operation">
+          <h1 className="mt-4">
             {operationArr.join(" ")}
           </h1>
           {userTotal.map((total, index) => (
@@ -394,13 +413,19 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
               {`${dailyHints} Hints`}
             </button>
             <button
-              className="button is-warning mb-6 mt-4"
-              id="check-answer"
+              className="button is-warning mb-6 mt-4 mr-2"
               onClick={calculateTotal}
               disabled={!(activeTimer === "COUNTING")}
             >
               Submit Answer
             </button>
+						<button
+							className="button is-warning mb-6 mt-4"
+							onClick={save}
+							disabled={!(activeTimer === "COUNTING")}
+						>
+							Save
+						</button>
           </>
         )}
       </div>

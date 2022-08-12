@@ -1,3 +1,4 @@
+
 import React from "react";
 
 const Players = ({players, activePlayer}) => {
@@ -13,7 +14,7 @@ const Players = ({players, activePlayer}) => {
 						className={
 							"playerLi " +
 							(activePlayer === player.username
-								? "active-player"
+								? "highlight"
 								: "not-active")
 						}
 						key={index}

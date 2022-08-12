@@ -1,0 +1,38 @@
+There are two key states to keep track of:
+numbersArr and operationArr
+
+numbersArr is an array of six objects. Each object has two properties:
+number: a string
+disabled: a boolean
+
+number is used to set the text of its associated button.
+disabled is used to set whether the button is disabled.
+
+you set numbersArr using the setNumbersArr and its associated reducer.
+
+numbersReducer takes an action object. That object's properties are:
+type: (required) a string. can be PUSH, DISABLE, ENABLE, ENABLE_ALL, or RENDER_NUMBERS
+numberObj: (if type is PUSH) an object, defined as above (with the properties number and disabled)
+index: (if type is PUSH, DISABLE, or ENABLE) an integer 0 to 5.
+numbersArr: (if type is RENDER_NUMBERS) a numbersArr, as defined above
+
+PUSH sets the numberObj at the given index value to the given numberObj
+DISABLE sets the numberObj at the given index value to true
+ENABLE sets the numberObj at the given index value to false
+ENABLE_ALL sets all of the numberObj to false
+RENDER_NUMBERS sets the numbersArr to the given numbersArr
+
+operationArr is an array of strings
+
+operationArr is displayed by joining the array with operationArr.join(' ')
+
+you set operationArr using the setOperationArr function and its associated reducer.
+
+operationReducer takes an action object. That object's properties are:
+type: (required) a string. can be PUSH or CLEAR
+operation: (if type is PUSH) a string. should be a number or one of +-*/()
+operation: (if type is PUSH_ALL) an operationArr. will automatically add parentheses
+
+PUSH adds an operation to the operationArr
+PUSH_ALL adds a set of operations to the operationArr
+CLEAR sets the operationArr to an empty, zero length array

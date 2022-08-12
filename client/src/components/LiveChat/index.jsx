@@ -149,7 +149,7 @@ function LiveChat({ display }) {
 					</button>
 				</form>
 			</div>
-			<p className="swipe-arrows1"><span className="arrow-image1"><img src={swipeLeft} alt="left arrow"/></span> Swipe to play</p>
+			<p className="swipe-arrows"><span className="arrow-image1"><img src={swipeLeft} alt="left arrow"/></span> Swipe to play</p>
 		</div>
   );
 }
