@@ -63,6 +63,9 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
       case "CLEAR":
         newOperation = new Array(0).fill("");
         break;
+			case "BACKSPACE":
+				newOperation = operationArr.slice(0, -1);
+				break;
       default:
         throw new Error();
     }
@@ -198,6 +201,26 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     setNumbersArr({ type: "ENABLE_ALL" });
 		setUsedSavedOperation(false);
   };
+	
+	const backspace = event => {
+		// get the last item
+		const deleted = operationArr.at(-1);
+		
+		// if the last item was in numbersArr, undisable it
+		numbersArr.forEach((number, index) => {
+			if (number.disabled && number.number == deleted) {
+				const action = {
+					type: "ENABLE",
+					index
+				};
+				setNumbersArr(action);
+			}
+		});
+		
+		// delete the last item
+		const action = { type: "BACKSPACE" };
+		setOperationArr(action);
+	}
 
   const setGameState = (numbers, operations, target, numberCount) => {
     if (operations.length === 0 && numbers[0] === "") return;
@@ -358,6 +381,12 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 								{op}
 							</button>
 						))}
+            <button
+              className="button is-small is-warning ml-3 mt-1"
+              onClick={backspace}
+            >
+              Backspace
+            </button>
           </div>
         )}
 
