@@ -412,8 +412,7 @@ textarea {
 }
 
 .numbers-generated {
-  font-size: 25px;
-  color: var(--quanternary-color);
+  /* font-size: 25px; */
   margin-top: 1vh;
 }
 
@@ -425,6 +424,7 @@ textarea {
 	flex-direction: row;
 	justify-content: center;
 	flex-wrap: wrap;
+  color: var(--quanternary-color);
 }
 
 .letter-box {
@@ -467,7 +467,7 @@ textarea {
 }
 
 .numbers-score {
-  color: var(--secondary-color) !important;
+  color: black !important;
 }
 
 .work {

@@ -338,7 +338,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </div>
           </Tippy>
         )}
-							{/*className="button is-warning mr-2"*/}
 
         {showAddNumberBtns && (
           <>
@@ -423,11 +422,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           <h1 className="mt-4">
             {operationArr.join(" ")}
           </h1>
-          {userTotal.map((total, index) => (
-            <li className="numbers-score" key={index}>
-              {total.username}: {cleanNumber(total.total)}: {total.score} points
-            </li>
-          ))}
         </div>
 
         {showCheckAnswerBtn && (
@@ -457,6 +451,17 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 						</button>
           </>
         )}
+
+				<div className="words-list pl-2 mt-4">
+					<ul className="words-list-items">
+						{userTotal.map((total, index) => (
+							<li className="numbers-score" key={index}>
+								{total.username}: {cleanNumber(total.total)}: {total.score} points
+							</li>
+						))}
+					</ul>
+				</div>
+				
       </div>
     </div>
   );
