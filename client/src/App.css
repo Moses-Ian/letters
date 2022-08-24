@@ -422,6 +422,9 @@ textarea {
   padding-top: 6vh;
   padding-right: 0 !important;
   padding-left: 0 !important;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .letter-box {
@@ -432,9 +435,14 @@ textarea {
   background-color: #0267705c;
   border-radius: 3px;
   width: calc((100vw - 1.5rem - 110px) / 9);
+	min-width: 40px;
   max-width: 50px;
   flex-grow: 1;
   border: 0.5px solid #edeae535;
+}
+
+.letter-box.number-box {
+	min-width: 48px;
 }
 
 .letter-span {
@@ -443,6 +451,10 @@ textarea {
   font-size: 27px;
   color: var(--secondary-color);
   position: relative;
+}
+
+.letters-input {
+	min-width: 171px;
 }
 
 .hundred {
@@ -586,6 +598,10 @@ textarea {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 5rem;
   }
+	
+	.letters-form-div {
+		flex-direction: column;
+	}
 }
 
 /* Galaxy fold - smaller phones*/

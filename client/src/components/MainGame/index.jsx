@@ -60,7 +60,7 @@ const MainGame = ({
   useEffect(() => {
     if (display !== "active-view") return;
     elementRef.current.scrollIntoView({
-      behavior: "smooth",
+      // behavior: "smooth",
       block: "end",
       inline: "nearest",
     });
@@ -193,9 +193,17 @@ const MainGame = ({
         content="Click the buttons to select consonant and vowel letters to fill all the boxes. The longest valid word earns more points!"
         className="tippy"
       >
-        <div className="rendered-letters column">
+        <div className="rendered-letters column is-flex">
+					{/* We do 2 here so that they can split on very small screens */}
           <ul className="is-flex is-justify-content-center">
-            {letters.map((letter, index) => (
+            {letters.slice(0,5).map((letter, index) => (
+              <li className="letter-box" key={index}>
+                <span className="letter-span">{letter}</span>
+              </li>
+            ))}
+          </ul>
+          <ul className="letters-list is-flex is-justify-content-center">
+            {letters.slice(5).map((letter, index) => (
               <li className="letter-box" key={index}>
                 <span className="letter-span">{letter}</span>
               </li>
@@ -247,10 +255,10 @@ const MainGame = ({
 
       <div className="field">
         <form>
-          <div className="field has-addons mt-2 is-justify-content-center">
-            <div className="control">
+          <div className="letters-form-div field has-addons mt-2 is-flex is-justify-content-center is-align-items-center">
+            <div className="control m-1">
               <input
-                className="button is-warning mr-1"
+                className="button is-warning"
                 type="button"
                 value={`${dailyHints} Hints`}
                 disabled={
@@ -260,10 +268,10 @@ const MainGame = ({
               />
             </div>
 
-            <div className="control">
+            <div className="control m-1">
               <input
                 onChange={handleInputChange}
-                className="input is-warning"
+                className="letters-input input is-warning"
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
@@ -275,9 +283,9 @@ const MainGame = ({
               )}
             </div>
 
-            <div className="control">
+            <div className="control m-1">
               <input
-                className="button is-warning ml-1"
+                className="button is-warning"
                 type="submit"
                 value="Submit"
                 disabled={!(activeTimer === "COUNTING")}

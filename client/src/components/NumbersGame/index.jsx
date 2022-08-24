@@ -3,6 +3,7 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
 import { useL3ttersContext } from "../../utils/GlobalState";
+import { cleanNumber } from "../../utils";
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
@@ -306,10 +307,24 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
       <div className="numbers-generated has-text-centered">
         {showNumberSection && (
           <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
-            <div className="rendered-letters column">
+            <div className="rendered-letters column is-flex">
+							{/* We do 2 here so that they can split on very small screens */}
               <ul className="is-flex is-justify-content-center">
-                {numbersArr.map((numberObj, index) => (
-                  <li className="letter-box" key={index}>
+                {numbersArr.slice(0,3).map((numberObj, index) => (
+                  <li className="letter-box number-box" key={index}>
+                    <span
+                      className={`letter-span ${
+                        numberObj.number === "100" && "hundred"
+                      }`}
+                    >
+                      {numberObj.number}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="is-flex is-justify-content-center">
+                {numbersArr.slice(3).map((numberObj, index) => (
+                  <li className="letter-box number-box" key={index}>
                     <span
                       className={`letter-span ${
                         numberObj.number === "100" && "hundred"
@@ -323,19 +338,20 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             </div>
           </Tippy>
         )}
+							{/*className="button is-warning mr-2"*/}
 
         {showAddNumberBtns && (
           <>
-            <div className="has-text-centered mt-4">
+            <div className="has-text-centered mt-2 is-flex is-flex-wrap-wrap is-justify-content-center is-align-content-space-between">
               <button
-                className="button is-warning mr-2"
+                className="button is-warning m-1"
                 onClick={addSmallNumber}
                 disabled={!isYourTurn}
               >
                 Small Number
               </button>
               <button
-                className="button is-warning"
+                className="button is-warning m-1"
                 onClick={addLargeNumber}
                 disabled={!isYourTurn}
               >
@@ -349,7 +365,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           <div className="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
-                className="button mr-1"
+                className="button m-1"
                 data-index={index}
                 disabled={numberObj.disabled}
                 key={index}
@@ -360,7 +376,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             ))}
 						{savedOperationArr.length !== 0 &&
 							<button
-								className="button mr-1"
+								className="button m-1"
 								disabled={disableSavedOperation()}
 								onClick={useSavedOperationArr}
 							>
@@ -371,18 +387,31 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         )}
 
         {showOperationBtn && (
-          <div className="mt-4">
-						{OPERATIONS.map(op => (
-							<button
-								className="button is-warning mr-1"
-								onClick={operationSymbol}
-								data-symbol={op}
-							>
-								{op}
-							</button>
-						))}
+          <div className="is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center mt-4">
+						<div>
+							{OPERATIONS.slice(0,4).map(op => (
+								<button
+									className="button is-warning m-1"
+									onClick={operationSymbol}
+									data-symbol={op}
+								>
+									{op}
+								</button>
+							))}
+						</div>
+						<div>
+							{OPERATIONS.slice(4).map(op => (
+								<button
+									className="button is-warning m-1"
+									onClick={operationSymbol}
+									data-symbol={op}
+								>
+									{op}
+								</button>
+							))}
+						</div>
             <button
-              className="button is-small is-warning ml-3 mt-1"
+              className="button is-small is-warning ml-3 m-1"
               onClick={backspace}
             >
               Backspace
@@ -396,7 +425,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           </h1>
           {userTotal.map((total, index) => (
             <li className="numbers-score" key={index}>
-              {total.username}: {total.total}: {total.score} points
+              {total.username}: {cleanNumber(total.total)}: {total.score} points
             </li>
           ))}
         </div>
