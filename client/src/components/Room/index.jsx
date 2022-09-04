@@ -9,7 +9,7 @@ import Players from "../Players";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = true;
+const DEVELOP = false;
 
 function Room() {
 	
@@ -61,7 +61,6 @@ function Room() {
 	
 	const updateSubmissions = submissionsArr => {
 		setSubmissions(submissionsArr);
-		console.log(submissionsArr);
 	};
 	
   const generatePlayerList = async (playersArr, turn) => {
@@ -166,7 +165,8 @@ function Room() {
 						)
 					: (
 						<Winner 
-							usernames={getWinner()} 
+							usernames={getWinner()}
+							restartGame={restartGame}
 						/>
 					)}
 					{DEVELOP &&
