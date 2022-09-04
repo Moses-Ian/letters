@@ -142,7 +142,7 @@ class GameObj {
 			addSmallNumber(this.name);
 			return;
 		}
-		if (this.smallNumberCount >= 6) {
+		if (this.smallNumberCount >= 4) {
 			addLargeNumber(this.name);
 			return;
 		}

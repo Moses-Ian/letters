@@ -14,7 +14,6 @@ const TWO_SECONDS = 2 * 1000;
 
 // defining them like this makes them public
 ADDED_CHARACTER = 0;
-SET_TARGET = 1;
 NEXT_ROUND = 2;
 
 class GameTimer {
@@ -88,7 +87,7 @@ class GameTimer {
     this.state = END;
 		// this.clear();
     console.log('end');
-    // literally do nothing
+		nextRound(this.name);
   }
 
   clear() {
@@ -101,16 +100,12 @@ class GameTimer {
       this.clear();
       this.submit();
     }
-		if (code === ADDED_CHARACTER && this.room.numberCount === 6) {
+		else if (code === ADDED_CHARACTER && this.room.numberCount === 6) {
 			this.clear();
       this.timeout = setTimeout(() => this.target(), TWO_SECONDS);
 		}
-    if (code === ADDED_CHARACTER && this.state === START) this.select();
-    if (code === SET_TARGET) {
-      this.clear();
-      this.submit();
-    }
-    if (code === NEXT_ROUND && this.state !== SELECT) {
+    else if (code === ADDED_CHARACTER && this.state === START) this.select();
+    else if (code === NEXT_ROUND && this.state !== SELECT) {
       this.clear();
       this.start();
     }
