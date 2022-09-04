@@ -7,6 +7,20 @@ import "tippy.js/dist/tippy.css";
 import { sanitize } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
+const bestWord = words => {
+	let bestIndex;
+	let bestScore = 0;
+	
+	words.forEach((word, index) => {
+		if (word.score > bestScore) {
+			bestIndex = index;
+			bestScore = word.score;
+		}
+	});
+	
+	return bestIndex;
+};
+
 const MainGame = ({
   activeTimer,
   setActiveTimer,
@@ -51,6 +65,8 @@ const MainGame = ({
   const [badWordMsg, setBadWordMsg] = useState(false);
   const elementRef = useRef();
   const inputRef = useRef();
+	
+	const highlightIndex = bestWord(words);
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -299,7 +315,7 @@ const MainGame = ({
       <div className="words-list pl-2 mt-4">
         <ul className="word-list-items">
           {words.map((word, index) => (
-            <li key={index}>
+            <li key={index} className={index === highlightIndex ? 'highlight-score' : ''}>
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}

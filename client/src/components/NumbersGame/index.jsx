@@ -8,6 +8,20 @@ import { cleanNumber } from "../../utils";
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
 const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
 
+const bestTotal = totals => {
+	let bestIndex;
+	let bestScore = 0;
+	
+	totals.forEach((total, index) => {
+		if (total.score > bestScore) {
+			bestIndex = index;
+			bestScore = total.score;
+		}
+	});
+	
+	return bestIndex;
+};
+
 const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const {
     socket,
@@ -52,6 +66,8 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 	const [savedOperationIndexes, setSavedOperationIndexes] = useState([]);
 	const [usedSavedOperation, setUsedSavedOperation] = useState(false);
 	
+	const highlightIndex = bestTotal(userTotal);
+
   function operationReducer(operationArr, action) {
     let newOperation;
     switch (action.type) {
@@ -455,7 +471,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 				<div className="words-list pl-2 mt-4">
 					<ul className="words-list-items">
 						{userTotal.map((total, index) => (
-							<li className="numbers-score" key={index}>
+							<li key={index} className={index === highlightIndex ? 'highlight-score' : ''}>
 								{total.username}: {cleanNumber(total.total)}: {total.score} points
 							</li>
 						))}

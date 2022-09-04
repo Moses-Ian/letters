@@ -8,6 +8,8 @@
   --sixth-color: #5d909a;         /* dark cyan          */
   --seventh-color: #4a4a4a;       /* very dark gray     */
   font-family: "Fugaz one", cursive;
+	
+	--quinary-color-alpha: #02667060;
 }
 
 * {
@@ -466,8 +468,15 @@ textarea {
   color: var(--quanternary-color);
 }
 
-.numbers-score {
-  color: black !important;
+.highlight-score {
+	color: var(--secondary-color);
+	background: var(--quinary-color-alpha);
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 4px;
+	padding-right: 4px;
+	border-radius: 4px;
 }
 
 .work {
