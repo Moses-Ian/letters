@@ -59,6 +59,7 @@ export default function Login() {
 								placeholder="Email"
 								name="email"
 								onChange={handleChange}
+								autoComplete="username"
 							></input>
 						</div>
 						<div>
@@ -68,6 +69,7 @@ export default function Login() {
 								placeholder="Password"
 								name="password"
 								onChange={handleChange}
+								autoComplete="current-password"
 							></input>
 							{errorMsg && 
 								<div className="modal-error-msg">
