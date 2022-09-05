@@ -4,9 +4,30 @@ import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
 import { useL3ttersContext } from "../../utils/GlobalState";
 import { cleanNumber } from "../../utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus, faXmark, faDivide, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
-const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
+const OPERATIONS = [
+	{
+		data: "+", 
+		icon: faPlus
+	}, {
+		data: "-", 
+		icon: faMinus
+	}, {
+		data: "*", 
+		icon: faXmark
+	}, {
+		data: "/", 
+		icon: faDivide
+	}, {
+		data: "(", 
+		// the fontawesome brackets are pro icons
+	}, {
+		data: ")",
+	}
+];
 
 const bestTotal = totals => {
 	let bestIndex;
@@ -408,9 +429,11 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 								<button
 									className="button is-warning m-1"
 									onClick={operationSymbol}
-									data-symbol={op}
+									data-symbol={op.data}
 								>
-									{op}
+									<span className="icon">
+										<FontAwesomeIcon className="fa-lg" icon={op.icon} />
+									</span>
 								</button>
 							))}
 						</div>
@@ -419,17 +442,19 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 								<button
 									className="button is-warning m-1"
 									onClick={operationSymbol}
-									data-symbol={op}
+									data-symbol={op.data}
 								>
-									{op}
+									<span style={{fontSize: "1.33em"}}>{op.data}</span>
 								</button>
 							))}
 						</div>
             <button
-              className="button is-small is-warning ml-3 m-1"
+              className="button is-warning ml-4 m-1"
               onClick={backspace}
             >
-              Backspace
+              <span className="icon">
+								<FontAwesomeIcon className="fa-lg" icon={faDeleteLeft} />
+							</span>
             </button>
           </div>
         )}
