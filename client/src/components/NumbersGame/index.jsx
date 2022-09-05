@@ -246,6 +246,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 		
 		// if the last item was in numbersArr, undisable it
 		numbersArr.forEach((number, index) => {
+			// eslint-disable-next-line
 			if (number.disabled && number.number == deleted) {
 				const action = {
 					type: "ENABLE",

@@ -5,10 +5,9 @@ import share from "../../assets/images/share.png";
 import { sanitize, validateEmail } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   GET_FRIENDS,
-  QUERY_USER,
 } from "../../utils/queries";
 import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from "../../utils/mutations";
 
@@ -16,7 +15,7 @@ import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from "../../utils/mutations";
 const url = (room) => `${window.location.origin}/join?room=${room}`;
 
 export default function Invite () {
-  const { socket, username, room, setRoom, deleteToken, loggedIn } =
+  const { room } =
     useL3ttersContext();
 
   const [show, setShow] = useState(false);
@@ -28,12 +27,13 @@ export default function Invite () {
 	
   const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
   const [sendNotification] = useMutation(SEND_NOTIFICATION);
-  const [getFriends, { loading, error: friendsError, data: friendsData }] =
+  const [getFriends, { data: friendsData }] =
     useLazyQuery(GET_FRIENDS); //data: friendsData takes data and puts it into friendsData
 
 	useEffect(() => {
 		if (show)
 			getFriends();
+	//eslint-disable-next-line
 	}, [show]);
 	
 	useEffect(() => {
@@ -42,7 +42,7 @@ export default function Invite () {
 	}, [show, friendsData]);
 
 	// this doesn't get called right now
-  const onShare = async () => {
+/*  const onShare = async () => {
     console.log("share");
     console.log(url(room));
 
@@ -62,7 +62,7 @@ export default function Invite () {
     // );
     // if (friendsToInvite.length !== 0) shareByPush(friendsToInvite);
   };
-	
+*/	
 	const handleEmailChange = event => {
 		setEmailState(event.target.value);
 	}
@@ -78,7 +78,7 @@ export default function Invite () {
     const to = [address];
     try {
       to.forEach((email) => {
-        if (!validateEmail(email)) throw `Invalid email - ${email}`;
+        if (!validateEmail(email)) throw new Error(`Invalid email - ${email}`);
       });
       const response = await shareLobbyByEmail({
         variables: {

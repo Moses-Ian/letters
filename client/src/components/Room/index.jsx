@@ -24,7 +24,6 @@ function Room() {
 		isYourTurn,
 		setTurn,
 		round,
-		leaveRoom,
 		deleteToken,
 		loggedIn,
 		setRound

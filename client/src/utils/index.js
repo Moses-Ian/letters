@@ -13,7 +13,9 @@ export function validateEmail(email) {
 };
 
 export function cleanNumber(value) {
+	// eslint-disable-next-line
 	if (Math.floor(value) == value) return value;
+	// eslint-disable-next-line
 	if (Math.floor(value*10) == value*10) return value;
 	return Math.floor(value*100) / 100;
 }

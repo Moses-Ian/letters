@@ -3,7 +3,7 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 
 
 const Header = () => {
-	const { username, loggedIn, deleteToken } = useL3ttersContext()
+	const { username } = useL3ttersContext()
 	
   return (
     <>
