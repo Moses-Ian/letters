@@ -10,7 +10,7 @@ import Results from "../Results";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = true;
+const DEVELOP = false;
 
 function Room() {
 	

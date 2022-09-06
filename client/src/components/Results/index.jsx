@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../Modal";
 import "../../App.css";
 import { useL3ttersContext } from "../../utils/GlobalState";

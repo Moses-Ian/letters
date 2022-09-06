@@ -28,21 +28,21 @@ class GameTimer {
   start() {
     this.state = START;
 		this.clear();
-    console.log('start');
+    // console.log('start');
     // do nothing
   }
 
   select() {
     this.state = SELECT;
 		this.clear();
-    console.log('select');
+    // console.log('select');
     this.timeout = setTimeout(() => this.add(), SIXTY_SECONDS);
   }
 
   add() {
     this.state = ADD;
 		this.clear();
-    console.log('add');
+    // console.log('add');
     this.room.addRandom(this.name);
     if (this.room.letterCount === 9) {
       this.submit();
@@ -56,7 +56,7 @@ class GameTimer {
   target() {
 		this.state = TARGET;
 		this.clear();
-		console.log('target');
+		// console.log('target');
     getTargetNumber(this.name);
     this.submit();
   }
@@ -64,14 +64,14 @@ class GameTimer {
   submit() {
     this.state = SUBMIT;
 		this.clear();
-    console.log('submit');
+    // console.log('submit');
     this.timeout = setTimeout(() => this.results(), FORTY_FIVE_SECONDS);
   }
 
   results() {
     this.state = RESULTS;
 		this.clear();
-    console.log('results');
+    // console.log('results');
     updateScores(this.name);
     if (this.room.round === 6) {
       this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
@@ -86,7 +86,7 @@ class GameTimer {
   end() {
     this.state = END;
 		// this.clear();
-    console.log('end');
+    // console.log('end');
 		nextRound(this.name);
   }
 

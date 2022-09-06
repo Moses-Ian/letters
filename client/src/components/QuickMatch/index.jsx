@@ -3,7 +3,7 @@
 	When the user clicks the button, the socket emits 'join-queue'. The server puts the socket in a queue. When the server is ready, it emits 'tell-room', passing the room name as data. The component's socket then emits 'join-game', passing the relevant data. 'onJoin' is a callback function that handles the returned data from the server. Once that function is run, the user is in the game.
 	When the user closes the modal, the socket listener for 'tell-room' is turned off. when they open it again, it's turned back on. Is this the simplest way to deal with the issue? idk but it works.
 */
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../Modal";
 import { useL3ttersContext } from "../../utils/GlobalState";
 import { useStopwatch } from 'react-timer-hook';
@@ -22,7 +22,7 @@ export default function QuickMatch() {
 	} = useL3ttersContext();
 	
   const [show, setShow] = useState(false);
-	const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
+	const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: false });
 	
   const joinRoom = (name) => {
 		console.log('should join room...');
@@ -43,6 +43,7 @@ export default function QuickMatch() {
 		if (!usernameReady) return;
 		if (!show) return;
 		socket.on('tell-room', joinRoom);
+	//eslint-disable-next-line
 	}, [socket, usernameReady, show]); 
 
 	const joinQueue = () => {

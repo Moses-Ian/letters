@@ -431,6 +431,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 									className="button is-warning m-1"
 									onClick={operationSymbol}
 									data-symbol={op.data}
+									key={op.data}
 								>
 									<span className="icon">
 										<FontAwesomeIcon className="fa-lg" icon={op.icon} />
@@ -444,6 +445,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 									className="button is-warning m-1"
 									onClick={operationSymbol}
 									data-symbol={op.data}
+									key={op.data}
 								>
 									<span style={{fontSize: "1.33em"}}>{op.data}</span>
 								</button>
