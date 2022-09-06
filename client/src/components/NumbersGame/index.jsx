@@ -226,7 +226,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   };
 
   const operationSymbol = (event) => {
-    let text = event.target.dataset.symbol;
+    let text = event.currentTarget.dataset.symbol;
     let action = {
       type: "PUSH",
       operation: text,

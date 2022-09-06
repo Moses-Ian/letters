@@ -12,7 +12,7 @@ updateScores = (room) => {
 			player.submission = {};
 		} else 
 			// send an empty object to prevent react from bitching
-			submissions.push({});
+			submissions.push({username: player.username});
 	});
   io.to(g.name).emit("send-submissions", submissions);
   setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 100);
