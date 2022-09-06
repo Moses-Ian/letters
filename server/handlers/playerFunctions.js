@@ -62,11 +62,11 @@ updateUsername = (socket, room, username) => {
   setTimeout(() => io.to(g.name).emit("send-players", g.getPlayers(), g.turn), 1500);
 };
 
-joinRoom = (socket, room, oldRoom, username, callback) => {
+joinRoom = (socket, room, oldRoom, username, options, callback) => {
   //get the rooms
   let g = rooms.get(room);
   if (!g) {
-    g = new Game(room); //create the room
+    g = new Game(room, options); //create the room
     rooms.set(room, g);
   }
   //join the rooms
@@ -132,6 +132,30 @@ disconnect = (socket, reason) => {
   });
 };
 
+joinQueue = socket => {
+	queue.push(socket.id);
+	if (queue.length >= 2)
+		giveRooms();
+}
+
+giveRooms = () => {
+	const idA = queue.shift();
+	const idB = queue.shift();
+	const roomName = 'Room-' + idA;
+	
+	// add a delay so that it 'feels' right
+	setTimeout(() => tellRoom(idA, roomName), 3000);
+	setTimeout(() => tellRoom(idB, roomName), 3000);
+}
+
+tellRoom = (id, name) => {
+	io.to(id).emit('tell-room', name);
+}
+
+leaveQueue = socket => {
+	queue.splice(queue.indexOf(socket.id), 1);
+}
+
 module.exports = {
 	listRooms,
 	updateUsername,
@@ -141,5 +165,7 @@ module.exports = {
 	nextRound,
 	getRealUsernames,
 	restartGame,
-	disconnect
+	disconnect,
+	joinQueue,
+	leaveQueue
 };

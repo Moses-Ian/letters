@@ -1,10 +1,10 @@
 const GameTimer = require("./GameTimer");
 
 class GameObj {
-	constructor (name) {
+	constructor (name, options) {
 		//room
 		this.name = name || '';	
-		this.visible = true;
+		this.visible = options.visible === undefined ? true : options.visible;
 		this.gameTimer = new GameTimer(this);
 		// this.password = '';
 		// letters game

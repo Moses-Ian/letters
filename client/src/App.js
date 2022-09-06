@@ -4,6 +4,7 @@ import { useSwipeable } from "react-swipeable";
 import Auth from "./utils/auth";
 import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
+import QuickMatch from "./components/QuickMatch";
 import JoinGame from "./components/JoinGame";
 import Room from "./components/Room";
 import { L3ttersProvider } from "./utils/GlobalState";
@@ -108,6 +109,7 @@ function App() {
           {!loggedIn && room === "" ? <LandingPage /> : <Header />}
           {room === "" ? (
             <>
+							<QuickMatch />
               <JoinGame />
               {!isApp && (
                 <div className="field has-text-centered">

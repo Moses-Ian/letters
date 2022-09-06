@@ -93,7 +93,7 @@ export default function JoinGame() {
   };
 
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, username, onJoin);
+    socket.emit("join-game", name, room, username, {}, onJoin);
   };
 	
 	const onJoin = (success, newRoom, turn, round, newUsername) => {
