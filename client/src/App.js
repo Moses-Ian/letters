@@ -6,6 +6,7 @@ import LandingPage from "./components/LandingPage";
 import Header from "./components/Header";
 import QuickMatch from "./components/QuickMatch";
 import JoinGame from "./components/JoinGame";
+import Feedback from "./components/Feedback";
 import Room from "./components/Room";
 import { L3ttersProvider } from "./utils/GlobalState";
 
@@ -111,6 +112,7 @@ function App() {
             <>
 							<QuickMatch />
               <JoinGame />
+							<Feedback />
               {!isApp && (
                 <div className="field has-text-centered">
                   <button
