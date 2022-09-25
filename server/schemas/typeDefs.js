@@ -42,22 +42,9 @@ const typeDefs = gql`
 		addHints(email: String!, dailyHints: Int!): User
 		sendEmail(input: EmailInput!): Response!
 		shareLobbyByEmail(room: String!, to: [String]): Response!
+		sendFeedback(input: FeedbackInput!): Response!
 		registerPushSubscription(subscription: SubscriptionInput!): Void
 		sendNotification(input: NotificationInput!): Void
-	}
-	
-	type User {
-		_id: ID
-		username: String
-		email: String
-		friendCount: Int
-		lastLogin: Date
-		dailyHints: Int
-		friends: [User]
-	}
-	
-	type VAPIDPublicKey {
-		VAPIDPublicKey: String
 	}
 	
 	input SubscriptionInput {
@@ -76,6 +63,41 @@ const typeDefs = gql`
 		friends: [String]!
 	}
 	
+	input EmailInput {
+		message: String!
+		from: String!
+	}
+	
+	input FeedbackInput {
+		feedbackType: String
+		comment: String
+		doesDo: String
+		email: String
+		extra: String
+		how: String
+		makeHappen: String
+		screenshots: String
+		shouldDo: String
+		whatIsFeature: String
+		whatIsFunctionality: String
+		whyFeature: String
+		whyFunctionality: String
+	}
+	
+	type User {
+		_id: ID
+		username: String
+		email: String
+		friendCount: Int
+		lastLogin: Date
+		dailyHints: Int
+		friends: [User]
+	}
+	
+	type VAPIDPublicKey {
+		VAPIDPublicKey: String
+	}
+	
 	type Auth {
 		token: ID!
 		user: User
@@ -84,11 +106,6 @@ const typeDefs = gql`
 	type Email {
 		message: String
 		from: String
-	}
-	
-	input EmailInput {
-		message: String!
-		from: String!
 	}
 	
 	type Response {

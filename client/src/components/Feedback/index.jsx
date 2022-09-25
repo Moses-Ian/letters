@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Modal from "../Modal";
 
+//graphql
+import { useMutation } from '@apollo/client';
+import { SEND_FEEDBACK } from '../../utils/mutations';
+
 const feedbackType = [
 	{
 		value: 'bugfix',
@@ -85,6 +89,7 @@ const Feedback = () => {
 		{ feedbackType: '' }
 	]);
 	const [images, setImages] = useState([]);
+	const [sendFeedback] = useMutation(SEND_FEEDBACK);
 	
 	const formQuestions = formQuestionsList[formState[0].feedbackType];
 
@@ -112,15 +117,28 @@ const Feedback = () => {
 		setImages([...event.target.files]);
 	}
 	
-	const handleFormSubmit = event => {
+	const handleFormSubmit = async event => {
 		event.preventDefault();
 		// do something
-		console.log(formState);
+		const input = formState[1];
+		input.feedbackType = formState[0].feedbackType;
+		try {
+			const mutationResponse = await sendFeedback({
+				variables: {
+					input
+				}
+			});
+		} catch (e) {
+			console.log(e);
+		}
+		console.log(input);
 		setFormState([
 			{ feedbackType: '' }
 		]);
 		setShow(false);
 	}
+	
+	console.log(formState);
 	
 	if (!show) return (
 		<div className="field has-text-centered">
