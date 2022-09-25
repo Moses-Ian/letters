@@ -555,6 +555,25 @@ textarea {
   bottom: -6px;
 }
 
+.feedback .radio {
+	display: block;
+}
+
+.feedback .radio+.radio {
+	margin-left: inherit;
+}
+
+.feedback textarea {
+	text-align: left;
+	padding: 5px;
+	width: 100%;
+}
+
+.feedback .email {
+	padding: 5px;
+	width: 100%;
+}
+
 /* yeah, its backwards */
 @media screen and (min-width: 451px) {
   .view {
