@@ -88,7 +88,6 @@ const Feedback = () => {
 	const [formState, setFormState] = useState([
 		{ feedbackType: '' }
 	]);
-	const [images, setImages] = useState([]);
 	const [sendFeedback] = useMutation(SEND_FEEDBACK);
 	
 	const formQuestions = formQuestionsList[formState[0].feedbackType];
@@ -98,7 +97,6 @@ const Feedback = () => {
 	}
 	
 	const handleFormChange = event => {
-		// console.log(event.target.name, event.target.value);
 		const {name, value} = event.target
 		if (name === 'feedback-type') {
 			const formData = [...formState];
@@ -113,13 +111,8 @@ const Feedback = () => {
 		}
 	}
 	
-	const handleImageChange = event => {
-		setImages([...event.target.files]);
-	}
-	
 	const handleFormSubmit = async event => {
 		event.preventDefault();
-		// do something
 		const input = formState[1];
 		input.feedbackType = formState[0].feedbackType;
 		try {
@@ -202,19 +195,6 @@ const Feedback = () => {
 										value={formState[1][generalQuestions[0].name]}
 										rows={3}
 										onChange={handleFormChange}
-									/>
-								</div>
-							</div>
-							<div className='field'>
-								<label className='label'>
-									{generalQuestions[1].text}
-								</label>
-								<div className='control'>
-									<input
-										type='file'
-										multiple
-										accept='image/*'
-										onChange={handleImageChange}
 									/>
 								</div>
 							</div>

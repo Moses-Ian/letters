@@ -47,9 +47,10 @@ const Lobby = ({ players, activePlayer, display }) => {
           </div>
 
           <div className="button-flex">
-            <button className="lobby-btn">
+            <button className="lobby-btn coming-soon" disabled>
               <img src={dollar} alt="Store" />
               <span>Store</span>
+							<div className='banner'>Coming Soon</div>
             </button>
 
             <button className="lobby-btn">

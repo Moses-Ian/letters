@@ -232,6 +232,29 @@ textarea {
   margin: 5px;
 }
 
+.lobby-btn:disabled {
+	opacity: .5;
+}
+
+.lobby-btn:disabled:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.coming-soon {
+	position: relative;
+	overflow: hidden;
+}
+
+.banner {
+	position: absolute;
+	top: 28%;
+	right: -35px;
+	background-color: var(--secondary-color);
+	color: var(--seventh-color);
+	transform: rotate(45deg);
+	width: 150px;
+}
+
 .search-btn {
   box-shadow: none !important;
 }
