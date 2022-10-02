@@ -22,8 +22,10 @@ body {
   height: 100%;
   background-image: url("./assets/images/background5.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  /* background-size: cover; */
+  /* background-position: center; */
+	background-size: 100% 50%;
+  background-position: top;
   overflow: hidden;
 }
 
@@ -312,6 +314,7 @@ textarea {
   height: 10.5vh;
   overflow-y: overlay;
   text-align: center;
+	color: black;
 }
 
 .hidden {
