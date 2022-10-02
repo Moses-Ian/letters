@@ -201,6 +201,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     // setShowCheckAnswerBtn(false);
     setNumbersArr({ type: "ENABLE_ALL" });
     setOperationArr({ type: "CLEAR" });
+		setUsedSavedOperation(false);
   }
 
   function scoreAnswer(total, operationArr, username, score) {
