@@ -8,6 +8,8 @@
   --sixth-color: #5d909a;         /* dark cyan          */
   --seventh-color: #4a4a4a;       /* very dark gray     */
   font-family: "Fugaz one", cursive;
+	
+	--quinary-color-alpha: #02667060;
 }
 
 * {
@@ -230,6 +232,29 @@ textarea {
   margin: 5px;
 }
 
+.lobby-btn:disabled {
+	opacity: .5;
+}
+
+.lobby-btn:disabled:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.coming-soon {
+	position: relative;
+	overflow: hidden;
+}
+
+.banner {
+	position: absolute;
+	top: 28%;
+	right: -35px;
+	background-color: var(--secondary-color);
+	color: var(--seventh-color);
+	transform: rotate(45deg);
+	width: 150px;
+}
+
 .search-btn {
   box-shadow: none !important;
 }
@@ -287,6 +312,7 @@ textarea {
   height: 10.5vh;
   overflow-y: overlay;
   text-align: center;
+	color: black;
 }
 
 .hidden {
@@ -412,8 +438,7 @@ textarea {
 }
 
 .numbers-generated {
-  font-size: 25px;
-  color: var(--quanternary-color);
+  /* font-size: 25px; */
   margin-top: 1vh;
 }
 
@@ -422,6 +447,10 @@ textarea {
   padding-top: 6vh;
   padding-right: 0 !important;
   padding-left: 0 !important;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+  color: var(--quanternary-color);
 }
 
 .letter-box {
@@ -432,9 +461,14 @@ textarea {
   background-color: #0267705c;
   border-radius: 3px;
   width: calc((100vw - 1.5rem - 110px) / 9);
+	min-width: 40px;
   max-width: 50px;
   flex-grow: 1;
   border: 0.5px solid #edeae535;
+}
+
+.letter-box.number-box {
+	min-width: 48px;
 }
 
 .letter-span {
@@ -443,6 +477,10 @@ textarea {
   font-size: 27px;
   color: var(--secondary-color);
   position: relative;
+}
+
+.letters-input {
+	min-width: 171px;
 }
 
 .hundred {
@@ -454,8 +492,15 @@ textarea {
   color: var(--quanternary-color);
 }
 
-.numbers-score {
-  color: var(--secondary-color) !important;
+.highlight-score {
+	color: var(--secondary-color);
+	background: var(--quinary-color-alpha);
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 4px;
+	padding-right: 4px;
+	border-radius: 4px;
 }
 
 .work {
@@ -534,6 +579,25 @@ textarea {
   bottom: -6px;
 }
 
+.feedback .radio {
+	display: block;
+}
+
+.feedback .radio+.radio {
+	margin-left: inherit;
+}
+
+.feedback textarea {
+	text-align: left;
+	padding: 5px;
+	width: 100%;
+}
+
+.feedback .email {
+	padding: 5px;
+	width: 100%;
+}
+
 /* yeah, its backwards */
 @media screen and (min-width: 451px) {
   .view {
@@ -586,6 +650,10 @@ textarea {
     text-shadow: 10px 10px 4px black, 6px 6px 10px black;
     font-size: 5rem;
   }
+	
+	.letters-form-div {
+		flex-direction: column;
+	}
 }
 
 /* Galaxy fold - smaller phones*/

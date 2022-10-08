@@ -7,6 +7,20 @@ import "tippy.js/dist/tippy.css";
 import { sanitize } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
+const bestWord = words => {
+	let bestIndex;
+	let bestScore = 0;
+	
+	words.forEach((word, index) => {
+		if (word.score > bestScore) {
+			bestIndex = index;
+			bestScore = word.score;
+		}
+	});
+	
+	return bestIndex;
+};
+
 const MainGame = ({
   activeTimer,
   setActiveTimer,
@@ -45,12 +59,16 @@ const MainGame = ({
   const [lettersInput, setLettersInput] = useState("");
   const [letters, setLetters] = useReducer(
     letterReducer,
-    new Array(9).fill("")
+    new Array(9).fill({ letter: "", disabled: false })
   );
   const [words, setWords] = useReducer(wordReducer, []);
   const [badWordMsg, setBadWordMsg] = useState(false);
+	const [showLetterCards, setShowLetterCards] = useState(true);
+	const [showLetterButtons, setShowLetterButtons] = useState(false);
   const elementRef = useRef();
   const inputRef = useRef();
+	
+	const highlightIndex = bestWord(words);
 
   useEffect(() => {
     if (isYourTurn) document.body.classList.add("your-turn");
@@ -60,7 +78,7 @@ const MainGame = ({
   useEffect(() => {
     if (display !== "active-view") return;
     elementRef.current.scrollIntoView({
-      behavior: "smooth",
+      // behavior: "smooth",
       block: "end",
       inline: "nearest",
     });
@@ -72,16 +90,30 @@ const MainGame = ({
     let newLetters;
     switch (action.type) {
       case "PUSH":
-        const { letter, index } = action;
+        const { letterObj, index } = action;
         newLetters = [
           ...letters.slice(0, index),
-          letter,
+          letterObj,
           ...letters.slice(index + 1),
         ];
         break;
       case "CLEAR":
-        newLetters = new Array(9).fill("");
+        newLetters = new Array(9).fill({ letter: "", disabled: false });
         break;
+			case "DISABLE": 
+				newLetters = letters;
+				newLetters[action.index].disabled = true;
+				break;
+			case "ENABLE": 
+				newLetters = letters;
+				newLetters[action.index].disabled = false;
+				break;
+			case "ENABLE_ALL":
+				newLetters = letters.map(letterObj => ({
+					letter: letterObj.letter,
+					disabled: false
+				}));
+				break;
       case "RENDER_LETTERS":
         newLetters = [...action.letters];
         break;
@@ -121,15 +153,20 @@ const MainGame = ({
   const addLetter = (letter, index) => {
     setLetters({
       type: "PUSH",
-      letter,
+      letterObj: {
+				letter,
+				disabled: false
+			},
       index,
     });
     if (index === 8) {
       setActiveTimer("COUNTING");
+			setShowLetterCards(false);
+			setShowLetterButtons(true);
       // waits for the input to disable. if it is, then focus on it
-      setTimeout(() => {
-        if (inputRef.current) inputRef.current.focus();
-      }, 6);
+      // setTimeout(() => {
+        // if (inputRef.current) inputRef.current.focus();
+      // }, 6);
     }
   };
 
@@ -137,6 +174,18 @@ const MainGame = ({
     const inputValue = e.target.value;
     setLettersInput(inputValue);
   };
+	
+	const selectLetter = (e) => {
+		let text = e.target.innerText;
+		let index = e.target.dataset.index;
+		
+		setLetters({
+			type: "DISABLE",
+			index
+		});
+		//i'm not sure about this
+		setLettersInput(lettersInput.concat(text));
+	};
 
   const submitWord = (event) => {
     event.preventDefault();
@@ -146,6 +195,7 @@ const MainGame = ({
     socket.emit("submit-word", word, username, room);
     setLettersInput("");
     setBadWordMsg(false);
+		setLetters({ type: "ENABLE_ALL" });
   };
 
   const appendWord = (submittedWord, submittedUser, submittedScore) => {
@@ -187,22 +237,34 @@ const MainGame = ({
     }
   };
 	
+	console.log(letters);
+	
   return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
-      <Tippy
-        content="Click the buttons to select consonant and vowel letters to fill all the boxes. The longest valid word earns more points!"
-        className="tippy"
-      >
-        <div className="rendered-letters column">
-          <ul className="is-flex is-justify-content-center">
-            {letters.map((letter, index) => (
-              <li className="letter-box" key={index}>
-                <span className="letter-span">{letter}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Tippy>
+			{showLetterCards && (
+				<Tippy
+					content="Click the buttons to select consonant and vowel letters to fill all the boxes. The longest valid word earns more points!"
+					className="tippy"
+				>
+					<div className="rendered-letters column is-flex">
+						{/* We do 2 here so that they can split on very small screens */}
+						<ul className="is-flex is-justify-content-center">
+							{letters.slice(0,5).map((letterObj, index) => (
+								<li className="letter-box" key={index}>
+									<span className="letter-span">{letterObj.letter}</span>
+								</li>
+							))}
+						</ul>
+						<ul className="letters-list is-flex is-justify-content-center">
+							{letters.slice(5).map((letterObj, index) => (
+								<li className="letter-box" key={index}>
+									<span className="letter-span">{letterObj.letter}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				</Tippy>
+			)}
 
       <div className="timer">
         {(activeTimer === "COUNTING" || activeTimer === "DONE") && (
@@ -244,13 +306,29 @@ const MainGame = ({
           </button>
         </div>
       </div>
+			
+			{showLetterButtons && (
+				<div className="answer-section has-text-centered">
+					{letters.map((letterObj, index) => (
+						<button
+							className="button m-1"
+							data-index={index}
+							disabled={letterObj.disabled}
+							key={index}
+							onClick={selectLetter}
+						>
+							{letterObj.letter}
+						</button>
+					))}
+				</div>
+			)}
 
       <div className="field">
         <form>
-          <div className="field has-addons mt-2 is-justify-content-center">
-            <div className="control">
+          <div className="letters-form-div field has-addons mt-2 is-flex is-justify-content-center is-align-items-center">
+            <div className="control m-1">
               <input
-                className="button is-warning mr-1"
+                className="button is-warning"
                 type="button"
                 value={`${dailyHints} Hints`}
                 disabled={
@@ -260,10 +338,10 @@ const MainGame = ({
               />
             </div>
 
-            <div className="control">
+            <div className="control m-1">
               <input
                 onChange={handleInputChange}
-                className="input is-warning"
+                className="letters-input input is-warning"
                 type="text"
                 placeholder="Your word here"
                 value={lettersInput}
@@ -275,9 +353,9 @@ const MainGame = ({
               )}
             </div>
 
-            <div className="control">
+            <div className="control m-1">
               <input
-                className="button is-warning ml-1"
+                className="button is-warning"
                 type="submit"
                 value="Submit"
                 disabled={!(activeTimer === "COUNTING")}
@@ -291,7 +369,7 @@ const MainGame = ({
       <div className="words-list pl-2 mt-4">
         <ul className="word-list-items">
           {words.map((word, index) => (
-            <li key={index}>
+            <li key={index} className={index === highlightIndex ? 'highlight-score' : ''}>
               {word.username}: {word.word}: {word.score} points
             </li>
           ))}

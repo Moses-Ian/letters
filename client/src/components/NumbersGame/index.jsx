@@ -3,9 +3,45 @@ import Timer from "../Timer";
 import "bulma/css/bulma.min.css";
 import Tippy from "@tippyjs/react";
 import { useL3ttersContext } from "../../utils/GlobalState";
+import { cleanNumber } from "../../utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus, faXmark, faDivide, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 
 const DEFAULT_NUMBERS = new Array(6).fill({ number: "", disabled: false });
-const OPERATIONS = ["+", "-", "*", "/", "(", ")"];
+const OPERATIONS = [
+	{
+		data: "+", 
+		icon: faPlus
+	}, {
+		data: "-", 
+		icon: faMinus
+	}, {
+		data: "*", 
+		icon: faXmark
+	}, {
+		data: "/", 
+		icon: faDivide
+	}, {
+		data: "(", 
+		// the fontawesome brackets are pro icons
+	}, {
+		data: ")",
+	}
+];
+
+const bestTotal = totals => {
+	let bestIndex;
+	let bestScore = 0;
+	
+	totals.forEach((total, index) => {
+		if (total.score > bestScore) {
+			bestIndex = index;
+			bestScore = total.score;
+		}
+	});
+	
+	return bestIndex;
+};
 
 const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   const {
@@ -51,6 +87,8 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 	const [savedOperationIndexes, setSavedOperationIndexes] = useState([]);
 	const [usedSavedOperation, setUsedSavedOperation] = useState(false);
 	
+	const highlightIndex = bestTotal(userTotal);
+
   function operationReducer(operationArr, action) {
     let newOperation;
     switch (action.type) {
@@ -163,6 +201,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
     // setShowCheckAnswerBtn(false);
     setNumbersArr({ type: "ENABLE_ALL" });
     setOperationArr({ type: "CLEAR" });
+		setUsedSavedOperation(false);
   }
 
   function scoreAnswer(total, operationArr, username, score) {
@@ -188,7 +227,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
   };
 
   const operationSymbol = (event) => {
-    let text = event.target.dataset.symbol;
+    let text = event.currentTarget.dataset.symbol;
     let action = {
       type: "PUSH",
       operation: text,
@@ -208,6 +247,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 		
 		// if the last item was in numbersArr, undisable it
 		numbersArr.forEach((number, index) => {
+			// eslint-disable-next-line
 			if (number.disabled && number.number == deleted) {
 				const action = {
 					type: "ENABLE",
@@ -306,10 +346,24 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
       <div className="numbers-generated has-text-centered">
         {showNumberSection && (
           <Tippy content="Click the buttons to pick large or small numbers, then click 'Target' and try to reach it using simple math. The closer you get, the higher the score!">
-            <div className="rendered-letters column">
+            <div className="rendered-letters column is-flex">
+							{/* We do 2 here so that they can split on very small screens */}
               <ul className="is-flex is-justify-content-center">
-                {numbersArr.map((numberObj, index) => (
-                  <li className="letter-box" key={index}>
+                {numbersArr.slice(0,3).map((numberObj, index) => (
+                  <li className="letter-box number-box" key={index}>
+                    <span
+                      className={`letter-span ${
+                        numberObj.number === "100" && "hundred"
+                      }`}
+                    >
+                      {numberObj.number}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="is-flex is-justify-content-center">
+                {numbersArr.slice(3).map((numberObj, index) => (
+                  <li className="letter-box number-box" key={index}>
                     <span
                       className={`letter-span ${
                         numberObj.number === "100" && "hundred"
@@ -326,16 +380,16 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 
         {showAddNumberBtns && (
           <>
-            <div className="has-text-centered mt-4">
+            <div className="has-text-centered mt-2 is-flex is-flex-wrap-wrap is-justify-content-center is-align-content-space-between">
               <button
-                className="button is-warning mr-2"
+                className="button is-warning m-1"
                 onClick={addSmallNumber}
                 disabled={!isYourTurn}
               >
                 Small Number
               </button>
               <button
-                className="button is-warning"
+                className="button is-warning m-1"
                 onClick={addLargeNumber}
                 disabled={!isYourTurn}
               >
@@ -349,7 +403,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           <div className="answer-section">
             {numbersArr.map((numberObj, index) => (
               <button
-                className="button mr-1"
+                className="button m-1"
                 data-index={index}
                 disabled={numberObj.disabled}
                 key={index}
@@ -360,7 +414,7 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
             ))}
 						{savedOperationArr.length !== 0 &&
 							<button
-								className="button mr-1"
+								className="button m-1"
 								disabled={disableSavedOperation()}
 								onClick={useSavedOperationArr}
 							>
@@ -371,21 +425,40 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
         )}
 
         {showOperationBtn && (
-          <div className="mt-4">
-						{OPERATIONS.map(op => (
-							<button
-								className="button is-warning mr-1"
-								onClick={operationSymbol}
-								data-symbol={op}
-							>
-								{op}
-							</button>
-						))}
+          <div className="is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center mt-4">
+						<div>
+							{OPERATIONS.slice(0,4).map(op => (
+								<button
+									className="button is-warning m-1"
+									onClick={operationSymbol}
+									data-symbol={op.data}
+									key={op.data}
+								>
+									<span className="icon">
+										<FontAwesomeIcon className="fa-lg" icon={op.icon} />
+									</span>
+								</button>
+							))}
+						</div>
+						<div>
+							{OPERATIONS.slice(4).map(op => (
+								<button
+									className="button is-warning m-1"
+									onClick={operationSymbol}
+									data-symbol={op.data}
+									key={op.data}
+								>
+									<span style={{fontSize: "1.33em"}}>{op.data}</span>
+								</button>
+							))}
+						</div>
             <button
-              className="button is-small is-warning ml-3 mt-1"
+              className="button is-warning ml-4 m-1"
               onClick={backspace}
             >
-              Backspace
+              <span className="icon">
+								<FontAwesomeIcon className="fa-lg" icon={faDeleteLeft} />
+							</span>
             </button>
           </div>
         )}
@@ -394,11 +467,6 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
           <h1 className="mt-4">
             {operationArr.join(" ")}
           </h1>
-          {userTotal.map((total, index) => (
-            <li className="numbers-score" key={index}>
-              {total.username}: {total.total}: {total.score} points
-            </li>
-          ))}
         </div>
 
         {showCheckAnswerBtn && (
@@ -428,6 +496,17 @@ const NumbersGame = ({ activeTimer, setActiveTimer }) => {
 						</button>
           </>
         )}
+
+				<div className="words-list pl-2 mt-4">
+					<ul className="words-list-items">
+						{userTotal.map((total, index) => (
+							<li key={index} className={index === highlightIndex ? 'highlight-score' : ''}>
+								{total.username}: {cleanNumber(total.total)}: {total.score} points
+							</li>
+						))}
+					</ul>
+				</div>
+				
       </div>
     </div>
   );

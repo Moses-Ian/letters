@@ -67,6 +67,7 @@ export default function Register() {
 								placeholder="Username"
 								name="username"
 								onChange={handleChange}
+								autoComplete="username"
 							></input>
 						</div>
 						<div>
@@ -76,6 +77,7 @@ export default function Register() {
 								placeholder="Email"
 								name="email"
 								onChange={handleChange}
+								autoComplete="email"
 							></input>
 						</div>
 						<div>
@@ -85,6 +87,7 @@ export default function Register() {
 								placeholder="Password"
 								name="password"
 								onChange={handleChange}
+								autoComplete="new-password"
 							></input>
 							{errorMsg ? (
 								<div className="modal-error-msg">

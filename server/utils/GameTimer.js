@@ -14,7 +14,6 @@ const TWO_SECONDS = 2 * 1000;
 
 // defining them like this makes them public
 ADDED_CHARACTER = 0;
-SET_TARGET = 1;
 NEXT_ROUND = 2;
 
 class GameTimer {
@@ -29,21 +28,21 @@ class GameTimer {
   start() {
     this.state = START;
 		this.clear();
-    console.log('start');
+    // console.log('start');
     // do nothing
   }
 
   select() {
     this.state = SELECT;
 		this.clear();
-    console.log('select');
+    // console.log('select');
     this.timeout = setTimeout(() => this.add(), SIXTY_SECONDS);
   }
 
   add() {
     this.state = ADD;
 		this.clear();
-    console.log('add');
+    // console.log('add');
     this.room.addRandom(this.name);
     if (this.room.letterCount === 9) {
       this.submit();
@@ -57,7 +56,7 @@ class GameTimer {
   target() {
 		this.state = TARGET;
 		this.clear();
-		console.log('target');
+		// console.log('target');
     getTargetNumber(this.name);
     this.submit();
   }
@@ -65,14 +64,14 @@ class GameTimer {
   submit() {
     this.state = SUBMIT;
 		this.clear();
-    console.log('submit');
+    // console.log('submit');
     this.timeout = setTimeout(() => this.results(), FORTY_FIVE_SECONDS);
   }
 
   results() {
     this.state = RESULTS;
 		this.clear();
-    console.log('results');
+    // console.log('results');
     updateScores(this.name);
     if (this.room.round === 6) {
       this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
@@ -87,8 +86,8 @@ class GameTimer {
   end() {
     this.state = END;
 		// this.clear();
-    console.log('end');
-    // literally do nothing
+    // console.log('end');
+		nextRound(this.name);
   }
 
   clear() {
@@ -101,16 +100,12 @@ class GameTimer {
       this.clear();
       this.submit();
     }
-		if (code === ADDED_CHARACTER && this.room.numberCount === 6) {
+		else if (code === ADDED_CHARACTER && this.room.numberCount === 6) {
 			this.clear();
       this.timeout = setTimeout(() => this.target(), TWO_SECONDS);
 		}
-    if (code === ADDED_CHARACTER && this.state === START) this.select();
-    if (code === SET_TARGET) {
-      this.clear();
-      this.submit();
-    }
-    if (code === NEXT_ROUND && this.state !== SELECT) {
+    else if (code === ADDED_CHARACTER && this.state === START) this.select();
+    else if (code === NEXT_ROUND && this.state !== SELECT) {
       this.clear();
       this.start();
     }

@@ -2,6 +2,8 @@ import React, { useState, useReducer, useEffect } from "react";
 import Modal from "../Modal";
 import { sanitize } from "../../utils";
 import { useL3ttersContext } from "../../utils/GlobalState";
+// this might make the webpack much bigger -> we might want to store this in indexdb or something
+let words = require('../../utils/words_9');
 
 export default function JoinGame() {
 	
@@ -45,6 +47,8 @@ export default function JoinGame() {
       // const savedRoom = localStorage.getItem("room");
       // if (savedRoom) joinRoom(savedRoom);
 		// }
+		let randomWord = words[Math.floor(Math.random() * words.length)];
+		setRoomInput(randomWord);
 	// eslint-disable-next-line
 	}, [socket, usernameReady]);
 	
@@ -93,7 +97,7 @@ export default function JoinGame() {
   };
 
   const joinRoom = (name) => {
-    socket.emit("join-game", name, room, username, onJoin);
+    socket.emit("join-game", name, room, username, {}, onJoin);
   };
 	
 	const onJoin = (success, newRoom, turn, round, newUsername) => {

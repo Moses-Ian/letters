@@ -19,6 +19,7 @@
     "react-dom": "^18.1.0",
     "react-scripts": "^4.0.3",
     "react-swipeable": "^7.0.0",
+    "react-timer-hook": "^3.0.5",
     "session": "^0.1.0",
     "socket.io-client": "^4.5.1",
     "web-vitals": "^2.1.4"

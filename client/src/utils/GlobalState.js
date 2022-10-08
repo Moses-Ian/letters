@@ -46,7 +46,6 @@ const L3ttersProvider = ({ value = {}, ...props }) => {
 	
 	// token stuff
 	const saveToken = useCallback((jwt) => {
-		console.log('saveToken');
 		setJWT(jwt);
 		Auth.login(jwt);
 	// eslint-disable-next-line

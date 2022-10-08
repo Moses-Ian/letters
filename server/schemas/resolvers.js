@@ -202,6 +202,38 @@ const resolvers = {
 				};
 			}
 		},
+		sendFeedback: async (parent, args, context) => {
+			console.log(args);
+			try {
+				//verify user
+				if (!context.user) throw new AuthenticationError('You need to be logged in!');
+				
+				//build the message
+				const message = {
+					to: 'imoses2@hotmail.com',
+					// from: 'feedback@L3tters.com,
+					from: 'epsilon.studios@L3tters.com',
+					subject: 'L3tters Feedback',
+					text: `We got some feedback:
+${JSON.stringify(args.input)}`
+				}
+				
+				//send email
+				const email = await sendgridMail.send(message);
+				return {
+					success: true,
+					message: 'Successfully sent email',
+					error: null
+				}
+			} catch(err) {
+				console.error(err);
+				return {
+					success: false,
+					message: null,
+					error: err
+				};
+			}
+		},
 		registerPushSubscription: async (parent, args, context) => {
 			try {
 				//verify user

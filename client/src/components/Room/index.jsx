@@ -6,10 +6,11 @@ import Winner from "../Winner";
 import LiveChat from "../LiveChat";
 import Menu from "../Menu"
 import Players from "../Players";
+import Results from "../Results";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 const MAX_ROUNDS = 6;	//this could be a game setting
-const DEVELOP = true;
+const DEVELOP = false;
 
 function Room() {
 	
@@ -24,7 +25,6 @@ function Room() {
 		isYourTurn,
 		setTurn,
 		round,
-		leaveRoom,
 		deleteToken,
 		loggedIn,
 		setRound
@@ -34,6 +34,7 @@ function Room() {
   const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
 	const [submissions, setSubmissions] = useState([]);
+	const [showResults, setShowResults] = useState(false);
 	
   useEffect(() => {
 		socket.on("set-lobby", setLobby);
@@ -61,7 +62,7 @@ function Room() {
 	
 	const updateSubmissions = submissionsArr => {
 		setSubmissions(submissionsArr);
-		console.log(submissionsArr);
+		setShowResults(true);
 	};
 	
   const generatePlayerList = async (playersArr, turn) => {
@@ -80,6 +81,7 @@ function Room() {
 		setTurn(activeUsername === username);
 		setActivePlayer(activeUsername);
 		setActiveTimer("IDLE");
+		setShowResults(false);
 	}
 
   const restartGame = (event) => {
@@ -122,7 +124,6 @@ function Room() {
 		return best.map(index => players[index].username);
 	}
 	
-
   return (
     <>
 			<div className="room">
@@ -149,6 +150,13 @@ function Room() {
 		
 				<div className={`view ${setGameDisplay()}`}>
 				
+					<Results 
+						showResults={showResults} 
+						setShowResults={setShowResults} 
+						submissions={submissions}
+						players={players}
+					/>
+				
 					<Players players={players} activePlayer={activePlayer} />
 				
 					{round <= MAX_ROUNDS ? 
@@ -166,7 +174,8 @@ function Room() {
 						)
 					: (
 						<Winner 
-							usernames={getWinner()} 
+							usernames={getWinner()}
+							restartGame={restartGame}
 						/>
 					)}
 					{DEVELOP &&

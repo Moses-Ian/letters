@@ -1,10 +1,10 @@
 const GameTimer = require("./GameTimer");
 
 class GameObj {
-	constructor (name) {
+	constructor (name, options) {
 		//room
 		this.name = name || '';	
-		this.visible = true;
+		this.visible = options.visible === undefined ? true : options.visible;
 		this.gameTimer = new GameTimer(this);
 		// this.password = '';
 		// letters game
@@ -142,7 +142,7 @@ class GameObj {
 			addSmallNumber(this.name);
 			return;
 		}
-		if (this.smallNumberCount >= 6) {
+		if (this.smallNumberCount >= 4) {
 			addLargeNumber(this.name);
 			return;
 		}

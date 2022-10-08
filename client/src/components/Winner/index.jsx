@@ -30,10 +30,17 @@ function draw(ctx) {
 }
 
 
-function Winner({ usernames }) {
+function Winner({ usernames, restartGame }) {
 	
-	const { width, height } = useL3ttersContext();
+	const { width, height, socket, room, setRoom } = 
+		useL3ttersContext();
 	
+	// this code is duplicated from Lobby
+  const leaveRoom = () => {
+    socket.emit("leave-game", room, () => setRoom(""));
+    localStorage.removeItem("room");
+  };
+
   return (
     <>
 			<div className='confetti'>
@@ -53,6 +60,15 @@ function Winner({ usernames }) {
 					<h2 className="ties">{usernames.join('\n')}</h2>
 				</>
 			)}
+			<div className="m-3 has-text-centered is-flex is-justify-content-center">
+				<button className="button is-warning m-2" onClick={restartGame}>
+					Restart
+				</button>
+
+				<button className="button is-warning m-2" onClick={leaveRoom}>
+					Leave Game
+				</button>
+			</div>
     </>
   );
 };

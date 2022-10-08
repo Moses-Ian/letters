@@ -24,7 +24,9 @@ const {
 	nextRound,
 	getRealUsernames,
 	restartGame,
-	disconnect
+	disconnect,
+	joinQueue,
+	leaveQueue
 } = require('./playerFunctions');
 
 //classes
@@ -48,6 +50,7 @@ class MyMap extends Map {
 //variables
 //==================================
 global.rooms = new MyMap();
+global.queue = new Array(0);
 
 //variables
 //==================================
@@ -87,8 +90,8 @@ const registerGameHandler = (newio, socket) => {
 	socket.on("update-username", (room, username) => 
 		updateUsername(socket, room, username)
 	);
-  socket.on("join-game", (room, oldRoom, username, cb) =>
-    joinRoom(socket, room, oldRoom, username, cb)
+  socket.on("join-game", (room, oldRoom, username, options, cb) =>
+    joinRoom(socket, room, oldRoom, username, options, cb)
   );
 	socket.on("leave-game", (oldRoom, cb) =>
 		leaveRoom(socket, oldRoom, cb)
@@ -96,6 +99,8 @@ const registerGameHandler = (newio, socket) => {
 	socket.on("get-real-usernames", getRealUsernames);
   socket.on("restart-game", restartGame);
   socket.on("disconnecting", (reason) => disconnect(socket, reason));
+	socket.on("join-queue", () => joinQueue(socket));
+	socket.on("leave-queue", () => leaveQueue(socket));
   //debug
 	socket.on("update-scores", updateScores);
   socket.on("next-round-button", nextRoundClicked);
