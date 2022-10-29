@@ -9,6 +9,7 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
+		"build-app": "cd client && bubblewrap build",
     "test": "cd server && npm run numbers-test"
   },
   "repository": {

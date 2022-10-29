@@ -13,6 +13,8 @@
 # production
 /build
 /client/build
+/client/app
+/client/.gradle
 
 # misc
 .DS_Store

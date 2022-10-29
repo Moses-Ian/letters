@@ -1,1 +1,7 @@
 node_modules
+keytool.bat
+android.keystore
+app-release-signed.apk
+app-release-signed.apk.idsig
+app-release-unsigned-aligned.apk
+app-release-bundle.aab
