@@ -1,0 +1,8 @@
+com/l3tters/www/twa/BuildConfig.java
+ com.l3tters.www.twa.BuildConfig
+com/l3tters/www/twa/LauncherActivity.java
+ com.l3tters.www.twa.LauncherActivity
+com/l3tters/www/twa/Application.java
+ com.l3tters.www.twa.Application
+com/l3tters/www/twa/DelegationService.java
+ com.l3tters.www.twa.DelegationService

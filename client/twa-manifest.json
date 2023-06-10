@@ -1,0 +1,41 @@
+{
+  "packageId": "com.l3tters.www.twa",
+  "host": "l3tters.com",
+  "name": "L3tters",
+  "launcherName": "L3tters",
+  "display": "standalone",
+  "themeColor": "#FFFFFF",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#026670",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://www.l3tters.com/icons/icon-144.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "F:\\projects_bootcamp\\letters\\client\\android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "3",
+  "appVersionCode": 3,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://www.l3tters.com/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://www.l3tters.com/",
+  "minSdkVersion": 19,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "3"
+}
