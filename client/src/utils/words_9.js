@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 module.exports = [
 'AARDVARKS',
 'AARONICAL',
@@ -6385,6 +6386,8 @@ module.exports = [
 'BUFOTALIN',
 'BUFOTENIN',
 'BUFOTOXIN',
+'BUGGERIES',
+'BUGGERING',
 'BUGGINESS',
 'BUGHOUSES',
 'BUGLEWEED',
