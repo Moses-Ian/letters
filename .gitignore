@@ -13,6 +13,8 @@
 # production
 /build
 /client/build
+/client/app
+/client/.gradle
 
 # misc
 .DS_Store
@@ -31,4 +33,3 @@ yarn-error.log*
 .DS_Store
 
 #logs
-logs
