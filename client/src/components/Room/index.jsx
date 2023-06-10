@@ -1,124 +1,201 @@
-import React, {useState, useEffect} from "react";
-
-import MW from "../../assets/images/Merriam-Webster.png";
+import React, { useState, useEffect } from "react";
+import Lobby from '../Lobby';
 import MainGame from "../MainGame";
 import NumbersGame from "../NumbersGame";
+import Winner from "../Winner";
 import LiveChat from "../LiveChat";
+import Menu from "../Menu"
+import Players from "../Players";
+import Results from "../Results";
+import { useL3ttersContext } from "../../utils/GlobalState";
 
-function Room({ socket, username, room }) {
+const MAX_ROUNDS = 6;	//this could be a game setting
+const DEVELOP = false;
+
+function Room() {
+	
+	const { 
+		isMobile, 
+		socket,
+		username, 
+		setUsername, 
+		room, 
+		setRoom,
+		display,
+		isYourTurn,
+		setTurn,
+		round,
+		deleteToken,
+		loggedIn,
+		setRound
+	} = useL3ttersContext();
 	
   const [players, setPlayers] = useState([]);
-  const [activeTimer, setActiveTimer] = useState(false);
-  const [isYourTurn, setTurn] = useState(false);
-	const [round, setRound] = useState(1);
+  const [activeTimer, setActiveTimer] = useState("IDLE");
   const [activePlayer, setActivePlayer] = useState("");
-	const [score, setScore] = useState(0);
-
-	useEffect(() => {
+	const [submissions, setSubmissions] = useState([]);
+	const [showResults, setShowResults] = useState(false);
+	
+  useEffect(() => {
+		socket.on("set-lobby", setLobby);
+		socket.on("send-submissions", updateSubmissions);
     socket.on("send-players", generatePlayerList);
     socket.on("your-turn", () => setTurn(true));
-		socket.on("new-round", newRound => setRound(newRound))
-
-    return () => {
-      socket.disconnect();
-    };
-	}, []);
-
-  const generatePlayerList = (playersArr) => {
-    console.log("players list");
-    console.log(playersArr[0].username);
-
-    const newPlayersArr = playersArr.map((player) => {
-      return player.username;
-    });
-    setPlayers(newPlayersArr);
+    socket.on("new-round", updateRound);
+		socket.on("update-username", (newUsername) => setUsername(newUsername));
+		
+	//eslint-disable-next-line
+  }, [socket]);
+	
+  useEffect(() => {
+    if (isYourTurn) document.body.classList.add("your-turn");
+    else document.body.classList.remove("your-turn");
+  }, [isYourTurn]);
+	
+	const setLobby = (newRound, newPlayers, newTurn) => {
+		setRound(newRound);
+		setPlayers(newPlayers);
+		setActivePlayer(newPlayers[newTurn].username);
+		setTurn(newPlayers[newTurn].username === username);
+		setActiveTimer("IDLE");
+	}
+	
+	const updateSubmissions = submissionsArr => {
+		setSubmissions(submissionsArr);
+		setShowResults(true);
+	};
+	
+  const generatePlayerList = async (playersArr, turn) => {
+    setPlayers(playersArr);
+    setActivePlayer(playersArr[turn].username);
   };
 
-  const nextRound = () => {
-    socket.emit("next-round", room);
-    socket.emit("save-score", score, room, username);
-		setScore(0);
-  };
+	const nextRoundBtn = () => {
+		//this is only for dev.
+		socket.emit("update-scores", room);
+		socket.emit("next-round-button", room);
+	}
+	
+	const updateRound = (newRound, activeUsername) => {
+		setRound(newRound);
+		setTurn(activeUsername === username);
+		setActivePlayer(activeUsername);
+		setActiveTimer("IDLE");
+		setShowResults(false);
+	}
 
-  const restartLetters = (event) => {
-    socket.emit("restart-letters", room);
+  const restartGame = (event) => {
+    socket.emit("restart-game", room);
     setActiveTimer(false);
   };
 
-  return (
-		<>
-    <div className="is-flex is-flex-direction-column">
-      <h1 className="room-name has-text-centered is-size-4">
-        You are playing in: {room}
-      </h1>
-      {/* TODO remove this */}
-      {/* <h2>{isYourTurn ? "It is your turn" : "It is not your turn"}</h2> */}
-
-      {/* TODO add players in room */}
-      {/* TODO add active turn highlighted */}
-      <div className="players is-align-self-center">
-        <div>
-          <h1 className="has-text-warning">Players:</h1>
-        </div>
-        <ul>
-          {players.map((player, index) => (
-            <li
-              className={
-                "playerLi " +
-                (activePlayer === player.username
-                  ? "active-player"
-                  : "not-active")
-              }
-              key={index}
-            >
-              - {player}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-			{round % 2
-			? <MainGame 
-					socket={socket} 
-					username={username} 
-					room={room} 
-					activeTimer={activeTimer}
-					setActiveTimer={setActiveTimer}
-					isYourTurn={isYourTurn}
-					setTurn={setTurn}
-					score={score}
-					setScore={setScore}
-				/>
-			: <NumbersGame 
-					socket={socket} 
-					username={username} 
-					room={room} 
-					activeTimer={activeTimer}
-					setActiveTimer={setActiveTimer}
-					isYourTurn={isYourTurn}
-					setTurn={setTurn}
-					score={score}
-					setScore={setScore}
-				/>
+	const setLobbyDisplay = () => {
+		if (!isMobile || display==='lobby')
+			return 'active-view';
+		return 'inactive-view-left';
+	}
+	
+	const setGameDisplay = () => {
+		if (!isMobile || display === 'game')
+			return 'active-view';
+		if (display === 'lobby')
+			return 'inactive-view-right';
+		if (display === 'chat')
+			return 'inactive-view-left';
+	}
+	
+	const setChatDisplay = () => {
+		if (!isMobile || display==='chat')
+			return 'active-view';
+		return 'inactive-view-right';
+	}
+	
+	const getWinner = () => {
+		let topScore = 0;
+		let best = [];
+		for(let i=0; i<players.length; i++) {
+			if (players[i].score > topScore) {
+				topScore = players[i].score;
+				best = [i];
+			} else if (players[i].score === topScore) {
+				best.push(i);
 			}
- 
-			<div className="m-3 has-text-centered">
-        <button className="button is-warning m-2" onClick={restartLetters}>
-          Restart
-        </button>
+		}
+		return best.map(index => players[index].username);
+	}
+	
+  return (
+    <>
+			<div className="room">
+			
+				{ isMobile ? <Lobby
+					players={players}
+					activePlayer={activePlayer}
+					display={setLobbyDisplay()}
+				/> 
+			:
+				<Menu 
+					socket={socket}
+					username={username}
+					room={room}
+					players={players}
+					activePlayer={activePlayer}
+					display={setLobbyDisplay()}
+					setRoom={setRoom}
+					deleteToken={deleteToken}
+					loggedIn={loggedIn}
+				/>
+				}	 
 
-        <button className="button is-warning m-2" onClick={nextRound}>
-          Next Round
-        </button>
-      </div>
-			
-			<div className="webster is-flex is-align-self-flex-end pr-2">
-				<img className="MW" src={MW} alt="Merriam Webster API" />
+		
+				<div className={`view ${setGameDisplay()}`}>
+				
+					<Results 
+						showResults={showResults} 
+						setShowResults={setShowResults} 
+						submissions={submissions}
+						players={players}
+					/>
+				
+					<Players players={players} activePlayer={activePlayer} />
+				
+					{round <= MAX_ROUNDS ? 
+						round % 2 ? (
+							<MainGame
+								activeTimer={activeTimer}
+								setActiveTimer={setActiveTimer}
+								display={setGameDisplay()}
+							/>
+						) : (
+							<NumbersGame
+								activeTimer={activeTimer}
+								setActiveTimer={setActiveTimer}
+							/>
+						)
+					: (
+						<Winner 
+							usernames={getWinner()}
+							restartGame={restartGame}
+						/>
+					)}
+					{DEVELOP &&
+						<div className="m-3 has-text-centered is-flex is-justify-content-center">
+							<button className="button is-warning m-2" onClick={restartGame}>
+								Restart
+							</button>
+
+							<button className="button is-warning m-2" onClick={nextRoundBtn}>
+								Next Round
+							</button>
+						</div>
+					}
+				</div>
+
+				<LiveChat 
+					display={setChatDisplay()}
+				/>
 			</div>
-			
-			<LiveChat socket={socket} username={username} room={room} />
-    </div>
-		</>
+    </>
   );
 }
 

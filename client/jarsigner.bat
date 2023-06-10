@@ -1,0 +1,1 @@
+"C:\Users\Ian\.bubblewrap\jdk\jdk-11.0.9.1+1\bin\jarsigner" -keystore android.keystore "F:\projects_bootcamp\letters\client\app-release.aab" ian_key

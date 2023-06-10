@@ -22,6 +22,8 @@ export const QUERY_ME = gql`
       username
       email
       friendCount
+			lastLogin
+			dailyHints
       friends {
         _id
         username
@@ -30,3 +32,18 @@ export const QUERY_ME = gql`
   }
 `;
 
+export const GET_FRIENDS = gql`
+	query {
+		me {
+			friends {
+				username
+			}
+		}
+	}
+`;
+
+export const QUERY_WORD_OF_THE_DAY = gql`
+	query {
+		wordOfTheDay
+	}
+`;

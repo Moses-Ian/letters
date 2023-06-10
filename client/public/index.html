@@ -20,28 +20,21 @@
       rel="stylesheet"
     />
 
-    <title>Letters</title>
+    <title>L3tters</title>
   </head>
-  <body>
-    <div id="root">
+  <body id="body" style="background-color:#026670">
+    <div id="root" style="display:none;height:100vh">
       <noscript>You need to enable JavaScript to run this app.</noscript>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- <script src="..src/assets/js/script.js"></script>
-    <script src="..src/assets/js/idb.js"></script> -->
   </body>
 
-  <script>
-    // FYI commented out to avoid displaying an error
-    // (function () {
-    //   if ("serviceWorker" in navigator) {
-    //     navigator.serviceWorker
-    //       .register("./service-worker.js")
-    //       .then(() => console.log("Service Worker registered successfully."))
-    //       .catch((error) =>
-    //         console.log("Service Worker registration failed:", error)
-    //       );
-    //   }
-    // })();
-  </script>
+	<script>
+		//reduces flash on reload
+		window.onload = () => {
+			setTimeout(() => {
+				document.getElementById("root").style.display = "";
+			}, 200);
+		}
+	</script>
+  <script src='./register-service-worker.js'></script>
 </html>

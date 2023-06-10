@@ -6,6 +6,10 @@ class AuthService {
 		const token = this.getToken();
     return token ? decode(token) : token;
   }
+	
+	decodeToken(token) {
+		return token ? decode(token) : token;
+	}
 
   // check if the user is still logged in
   loggedIn() {
@@ -29,26 +33,16 @@ class AuthService {
     }
   }
 
-  // retrieve token from localStorage
   getToken() {
-    // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
   }
-
-  // set token to localStorage and reload page to homepage
+	
   login(idToken) {
-    // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
-
-    window.location.assign('/');
   }
 
-  // clear token from localStorage and force logout with reload
   logout() {
-    // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
-    // this will reload the page and reset the state of the application
-    window.location.assign('/');
   }
 }
 

@@ -1,102 +1,166 @@
-import React, { useState, useEffect } from "react";
-import MainGame from "../MainGame";
-import LiveChat from "../LiveChat";
-import "../../App.css";
-import {sanitize} from '../../utils';
-import NumbersGame from "../NumbersGame";
+import React, { useState, useReducer, useEffect } from "react";
+import Modal from "../Modal";
+import { sanitize } from "../../utils";
+import { useL3ttersContext } from "../../utils/GlobalState";
+// this might make the webpack much bigger -> we might want to store this in indexdb or something
+let words = require('../../utils/words_9');
 
-export default function JoinGame({ socket, username, room, setRoom }) {
+export default function JoinGame() {
+	
+	const { 
+		socket,
+		username, 
+		setUsername,
+		usernameReady, 
+		room, 
+		setRoom, 
+		setTurn,
+		setRound
+	} = useL3ttersContext();
+	
   const [show, setShow] = useState(false);
   const [roomInput, setRoomInput] = useState("");
+  const [roomList, setRoomList] = useReducer(roomReducer, []);
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
-  // if we don't want the room on refresh function, comment the useEffect
-  // useEffect(() => {
-  //   if (socket) {
-  //     const savedRoom = localStorage.getItem("room");
-  //     if (savedRoom) joinRoom(savedRoom);
-  //   }
-  // }, [socket]);
+  function roomReducer(roomList, action) {
+    let newRoomList;
+    switch (action.type) {
+      case "SET":
+        newRoomList = [...action.rooms];
+        break;
+      default:
+        throw new Error();
+    }
+    return newRoomList;
+  }
 
-  const joinRoom = (name) => {
-    socket.emit("join-game", name, room, username, (success, newRoom) => {
-      setRoom(newRoom);
-      localStorage.setItem("room", newRoom);
-    });
-    console.log(`joinRoom ${name}`);
-  };
-
-  const joinRoomHandler = (e) => {
-    e.preventDefault();
-    // let r = roomInput.trim();
-    let r = sanitize(roomInput);
-    if (r != "" && r != room) joinRoom(r);
-    setShow(false);
-  };
+	useEffect(() => {
+		if (!socket) return;
+		if (!usernameReady) return;
+		// eslint-disable-next-line
+		const path = joinRoomOnLoad();
+		if (path === "nopath")
+			socket.emit('list-rooms', listRooms);
+		// if we don't want the room on refresh function, comment the if block
+		// if (path === "nopath") {
+      // const savedRoom = localStorage.getItem("room");
+      // if (savedRoom) joinRoom(savedRoom);
+		// }
+		let randomWord = words[Math.floor(Math.random() * words.length)];
+		setRoomInput(randomWord);
+	// eslint-disable-next-line
+	}, [socket, usernameReady]);
+	
+	const joinRoomOnLoad = () => {
+		if (document.location.pathname !== '/join') return "nopath";
+		const params = document.location.search.slice(1).split('&');
+		const query = params.reduce(
+			(result, element) => {
+				const [key, value] = element.split('=');
+				if (!key || !value) return result;
+				result[key] = value;
+				return result;
+			},
+			{}
+		);
+		if (query.room) joinRoom(query.room);
+	};
+	
+	const openModal = () => {
+		setShow(true);
+	}
+	
+	const listRooms = (rooms) => {
+		if(rooms.length !== 0)
+			setRoomList({
+				type: 'SET', 
+				rooms
+			});
+	}
+	
+	const handleSelectedRoomChange = e => {
+		setSelectedRoom(e.target.value);
+	}
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setRoomInput(inputValue);
   };
 
-  const closeModal = (e) => {
-    e.stopPropagation();
+  const joinRoomHandler = (e) => {
+    e.preventDefault();
+    let r = sanitize(roomInput);
+    if (r !== "" && r !== room) joinRoom(r);
+    if (selectedRoom) joinRoom(selectedRoom);
     setShow(false);
   };
 
-  return (
-    <>
-    
-      <div className="field has-text-centered">
-        {room === "" ? (
-          <button
-            className="join-game-button is-warning"
-            onClick={() => setShow(true)}
-          >
-            Join as {username}
-          </button>
-        ) : (
-          ""
-        )}
-      </div>
+  const joinRoom = (name) => {
+    socket.emit("join-game", name, room, username, {}, onJoin);
+  };
+	
+	const onJoin = (success, newRoom, turn, round, newUsername) => {
+		setRoom(newRoom);
+		setTurn(turn);
+		setRound(round);
+		if (newUsername !== username) setUsername(newUsername);
+		localStorage.setItem("room", newRoom);
+	};
 
+	if (!show) return (
+		<div className="field has-text-centered">
+			<button
+				className="l3tters-btn is-warning p-2"
+				onClick={openModal}
+			>
+				Join as {username}
+			</button>
+		</div>
+	)
 
-        
-      {show ? (
-        <div className="modal-main" onClick={closeModal}>
-          <form className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h4 className="modal-title">Join Game</h4>
-            </div>
-            <div className="modal-body">
-              <p className="join-modal-body">
-                What is the name of the room you would like to join?
-                {/* Which room would you like to join? */}
-              </p>
-              <input
-                autoFocus
-                className="type-box input mt-2"
-                type="text"
-                placeholder="Type room name"
-                onChange={handleInputChange}
-                value={roomInput}
-              />
-            </div>
-            <div className="modal-footer">
-              <input
-                type="submit"
-                className="modal-enter-button"
-                value="Enter Game"
-                onClick={joinRoomHandler}
-              />
-              <button className="modal-close-button" onClick={closeModal}>
-                Close
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        ""
-      )}
-		</>
-  );
+	return (
+		<form onSubmit={joinRoomHandler}>
+			<Modal title="Join Game" submitText="Enter Game" onClose={() => setShow(false)}>
+				<p>
+					What is the name of the room you would like to join?
+				</p>
+				
+				{roomList.length !== 0
+				?	(<div className="room-list m-2">
+					{roomList.map((room, index) => (
+						<div className="room-list-div" key={room.name}>
+							<input 
+								className="room-list-radio"
+								type='radio' 
+								name='joinroom' 
+								id={room.name}
+								value={room.name}
+								checked={selectedRoom === room.name} 
+								onChange={handleSelectedRoomChange}
+							/>
+							<label className="room-list-label pl-2 pt-1 pb-1" htmlFor={room.name}>
+								{room.name}
+								<div className="room-list-label-border" />
+							</label>
+						</div>
+					))}
+				</div>	
+				) : (
+					<p className='mt-3 mb-3'>
+						There are currently no active games. Create one!
+					</p>)
+				}
+				
+				<input
+					autoFocus
+					className="type-box input mt-2"
+					type="text"
+					placeholder="Type room name"
+					onChange={handleInputChange}
+					value={roomInput}
+				/>
+			</Modal>
+		</form>
+	)
 }

@@ -4,24 +4,31 @@
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "seed": "node seeders/seeds.js"
+    "seed": "node seeders/seeds.js",
+    "test": "jest --watch -verbose",
+	"numbers-test": "jest numbers-solver -verbose"
   },
   "devDependencies": {
+    "jest": "^28.1.1",
     "nodemon": "^2.0.16"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "apollo-server-express": "^2.11.0",
+    "bad-words": "^3.0.4",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "express-session": "^1.17.3",
     "graphql": "15.5.0",
     "jsonwebtoken": "^8.5.1",
+    "luxon": "^2.4.0",
+    "math-expression-evaluator": "^1.3.14",
     "mongoose": "^6.3.3",
     "node-fetch": "^2.6.7",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "web-push": "^3.5.0"
   }
 }

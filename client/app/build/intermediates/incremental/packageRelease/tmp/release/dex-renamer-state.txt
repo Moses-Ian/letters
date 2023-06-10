@@ -1,0 +1,4 @@
+#Sat Oct 08 17:16:28 MST 2022
+base.0=F\:\\projects_bootcamp\\letters\\client\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

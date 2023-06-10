@@ -8,23 +8,28 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
+    "@tippyjs/react": "^4.2.6",
     "apollo-client": "^2.6.10",
     "graphql": "15.5.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.1.0",
     "react-bulma-components": "^4.1.0",
+    "react-confetti": "^6.1.0",
     "react-countdown-circle-timer": "^3.0.9",
     "react-dom": "^18.1.0",
     "react-scripts": "^4.0.3",
+    "react-swipeable": "^7.0.0",
+    "react-timer-hook": "^3.0.5",
     "session": "^0.1.0",
     "socket.io-client": "^4.5.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+		"sass": "sass --watch --no-source-map src/sass/styles.scss:src/App.css"
   },
   "eslintConfig": {
     "extends": [
