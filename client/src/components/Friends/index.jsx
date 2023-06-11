@@ -9,7 +9,7 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 //graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
-import { ADD_FRIEND_USERNAME } from "../../utils/mutations";
+import { ADD_FRIEND_USERNAME, REQUEST_FRIEND_USERNAME } from "../../utils/mutations";
 
 
 export default function Friends (){
@@ -21,6 +21,7 @@ export default function Friends (){
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
+	const [requestFriendMutation] = useMutation(REQUEST_FRIEND_USERNAME);
 	const [searchState, setSearchState] = useState('');
 	const [getUser] = useLazyQuery(QUERY_USER);
 	const [errorMsg, setErrorMsg] = useState('');
@@ -82,6 +83,22 @@ export default function Friends (){
 		let {username} = event.target.closest('li').dataset;
 		try {
 			const mutationResponse = await addFriendMutation({
+				variables: {
+					username
+				}
+			});
+			updatePlayersAreFriend(mutationResponse.data.addFriendByUsername.friends);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+	
+	const requestFriend = async event => {
+		event.preventDefault();
+		event.stopPropagation();
+		let {username} = event.target.closest('li').dataset;
+		try {
+			const mutationResponse = await requestFriendMutation({
 				variables: {
 					username
 				}
@@ -159,7 +176,7 @@ export default function Friends (){
 								{searchResult.username}
 								{searchResult.isFriend 
 								? '✓'
-								:	<button className="add-btn" onClick={addFriend}><img src={add} alt="Add button"/></button>}
+								:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
 							</li>
 						</ul>
 					}
@@ -174,7 +191,7 @@ export default function Friends (){
 								{player} 
 								{playersAreFriend[index] 
 								? '✓'
-								:	<button className="add-btn" onClick={addFriend}><img src={add} alt="Add button"/></button>}
+								:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
 							</li>
 						))
 					}

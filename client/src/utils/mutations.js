@@ -58,6 +58,16 @@ export const ADD_FRIEND_USERNAME = gql`
 	}
 `;
 
+export const REQUEST_FRIEND_USERNAME = gql`
+	mutation requestFriendByUsername($username: String!) {
+		requestFriendByUsername(username: $username) {
+			friends {
+				username
+			}
+		}
+	}
+`;
+
 export const SEND_EMAIL = gql`
 	mutation sendEmail($input:EmailInput!) {
 		sendEmail(input:$input) {

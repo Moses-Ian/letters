@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const sendgridMail = require('@sendgrid/mail');
-const { User } = require('../models');
+const { User, Friend } = require('../models');
 const { sanitize, validateEmail } = require('../utils/helpers');
 const { signToken } = require('../utils/auth');
 const { DateTime } = require('luxon');
@@ -120,6 +120,50 @@ const resolvers = {
 				).populate('friends');
 
 				return updatedUser;
+			}
+
+			throw new AuthenticationError('You need to be logged in!');
+		},
+		requestFriendByUsername: async (parent, { username }, context) => {
+			console.log('requestFriendByUsername');
+			if (context.user) {
+				console.log(context.user);
+				const user = context.user;
+				const friend = await User.findOne({username})
+					.select('_id');
+				if (!friend)
+					throw new Error(`No user named ${username}!`);
+				
+				const sentRequest = await Friend.findOneAndUpdate(
+					{ requester: user, recipient: friend },
+					{ $set: { status: 'requested' }},
+					{ upsert: true, new: true }
+				);
+				console.log(sentRequest);
+				const receivedRequest = await Friend.findOneAndUpdate(
+					{ requester: user, recipient: friend },
+					{ $set: { status: 'received' }},
+					{ upsert: true, new: true }
+				);
+				console.log(receivedRequest);
+				
+				try
+				{
+					const updateUser = await User.findOneAndUpdate(
+						{ _id: user },
+						{ $push: { friends: sentRequest._id }}
+					);
+					console.log(updateUser);
+				} catch (e) {
+					console.error(e);
+				}
+				const updateFriend = await User.findOneAndUpdate(
+					{ _id: friend },
+					{ $push: { friends: receivedRequest._id }}
+				);
+				console.log(updateFriend);
+
+				return updateUser;
 			}
 
 			throw new AuthenticationError('You need to be logged in!');

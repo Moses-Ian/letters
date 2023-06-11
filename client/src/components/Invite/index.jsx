@@ -12,7 +12,7 @@ import {
 import { SHARE_LOBBY_BY_EMAIL, SEND_NOTIFICATION } from "../../utils/mutations";
 
 //this is very cute and absolutely not necessary
-const url = (room) => `${window.location.origin}/join?room=${room}`;
+const url = room => `${window.location.origin}/join?room=${room}`;
 
 export default function Invite () {
   const { room } =
@@ -27,8 +27,7 @@ export default function Invite () {
 	
   const [shareLobbyByEmail] = useMutation(SHARE_LOBBY_BY_EMAIL);
   const [sendNotification] = useMutation(SEND_NOTIFICATION);
-  const [getFriends, { data: friendsData }] =
-    useLazyQuery(GET_FRIENDS); //data: friendsData takes data and puts it into friendsData
+  const [getFriends, { data: friendsData }] = useLazyQuery(GET_FRIENDS); //data: friendsData takes data and puts it into friendsData
 
 	useEffect(() => {
 		if (show)
