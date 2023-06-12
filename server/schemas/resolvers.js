@@ -141,22 +141,17 @@ const resolvers = {
 				);
 				console.log(sentRequest);
 				const receivedRequest = await Friend.findOneAndUpdate(
-					{ requester: user, recipient: friend },
+					{ requester: friend, recipient: user },
 					{ $set: { status: 'received' }},
 					{ upsert: true, new: true }
 				);
 				console.log(receivedRequest);
 				
-				try
-				{
-					const updateUser = await User.findOneAndUpdate(
-						{ _id: user },
-						{ $push: { friends: sentRequest._id }}
-					);
-					console.log(updateUser);
-				} catch (e) {
-					console.error(e);
-				}
+				const updateUser = await User.findOneAndUpdate(
+					{ _id: user },
+					{ $push: { friends: sentRequest._id }}
+				);
+				console.log(updateUser);
 				const updateFriend = await User.findOneAndUpdate(
 					{ _id: friend },
 					{ $push: { friends: receivedRequest._id }}

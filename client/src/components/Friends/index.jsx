@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Modal from "../Modal";
+import FriendListItem from "../FriendListItem";
 import friend from "../../assets/images/friend.png";
-import add from "../../assets/images/add-friend.png"
 import { sanitize } from "../../utils";
 import Auth from "../../utils/auth";
 import { useL3ttersContext } from "../../utils/GlobalState";
@@ -9,7 +9,6 @@ import { useL3ttersContext } from "../../utils/GlobalState";
 //graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
-import { ADD_FRIEND_USERNAME, REQUEST_FRIEND_USERNAME } from "../../utils/mutations";
 
 
 export default function Friends (){
@@ -20,8 +19,6 @@ export default function Friends (){
 	// const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
-	const [addFriendMutation] = useMutation(ADD_FRIEND_USERNAME);
-	const [requestFriendMutation] = useMutation(REQUEST_FRIEND_USERNAME);
 	const [searchState, setSearchState] = useState('');
 	const [getUser] = useLazyQuery(QUERY_USER);
 	const [errorMsg, setErrorMsg] = useState('');
@@ -76,38 +73,6 @@ export default function Friends (){
 			});
 		}
 	}
-	
-	const addFriend = async event => {
-		event.preventDefault();
-		event.stopPropagation();
-		let {username} = event.target.closest('li').dataset;
-		try {
-			const mutationResponse = await addFriendMutation({
-				variables: {
-					username
-				}
-			});
-			updatePlayersAreFriend(mutationResponse.data.addFriendByUsername.friends);
-		} catch (e) {
-			console.error(e);
-		}
-	};
-	
-	const requestFriend = async event => {
-		event.preventDefault();
-		event.stopPropagation();
-		let {username} = event.target.closest('li').dataset;
-		try {
-			const mutationResponse = await requestFriendMutation({
-				variables: {
-					username
-				}
-			});
-			updatePlayersAreFriend(mutationResponse.data.addFriendByUsername.friends);
-		} catch (e) {
-			console.error(e);
-		}
-	};
 	
 	const handleChange = event => {
 		setSearchState(event.target.value);
@@ -169,15 +134,14 @@ export default function Friends (){
           <button className="search-btn ml-1 button is-small is-warning" onClick={searchUsers}>Find</button>
         </div>
 
-					<div>{errorMsg}</div>
+				<div>{errorMsg}</div>
 					{searchResult &&
 						<ul>
-							<li data-username={searchResult.username}>
-								{searchResult.username}
-								{searchResult.isFriend 
-								? '✓'
-								:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
-							</li>
+							<FriendListItem 
+								username={searchResult.username} 
+								isFriend={searchResult.isFriend} 
+								updatePlayersAreFriend={updatePlayersAreFriend} 
+							/>
 						</ul>
 					}
 					
@@ -187,12 +151,12 @@ export default function Friends (){
 					<ul>
 					{
 						listOfPlayers.map((player, index) => (
-							<li key={index} data-username={player}>
-								{player} 
-								{playersAreFriend[index] 
-								? '✓'
-								:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
-							</li>
+							<FriendListItem 
+								key={index} 
+								username={player} 
+								isFriend={playersAreFriend[index]} 
+								updatePlayersAreFriend={updatePlayersAreFriend} 
+							/>
 						))
 					}
 					</ul>
@@ -203,5 +167,3 @@ export default function Friends (){
     </div>
   )
 }
-
-
