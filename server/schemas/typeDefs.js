@@ -92,7 +92,7 @@ const typeDefs = gql`
 		friendCount: Int
 		lastLogin: Date
 		dailyHints: Int
-		friends: [User]
+		friends: [Friend]
 	}
 	
 	type VAPIDPublicKey {
@@ -117,6 +117,12 @@ const typeDefs = gql`
 	
 	type Void {
 		void: String
+	}
+	
+	type Friend {
+		requester: User
+		recipient: User
+		status: String
 	}
 
 `;

@@ -1,10 +1,10 @@
 import add from "../../assets/images/add-friend.png"
 
 //graphql
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { REQUEST_FRIEND_USERNAME } from "../../utils/mutations";
 
-export default function FriendListItem ({ username, isFriend, updatePlayersAreFriend }){
+export default function FriendListItem ({ username, friendStatus, updatePlayersAreFriend }){
 	
 	const [requestFriendMutation] = useMutation(REQUEST_FRIEND_USERNAME);
 
@@ -25,10 +25,12 @@ export default function FriendListItem ({ username, isFriend, updatePlayersAreFr
 		}
 	};
 	
+	console.log(`user=${username} status=${friendStatus}`);
+	
 	return (
 		<li data-username={username}>
 			{username}
-			{isFriend 
+			{friendStatus == 'friends' 
 			? '✓'
 			:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
 		</li>

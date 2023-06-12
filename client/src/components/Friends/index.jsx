@@ -7,7 +7,7 @@ import Auth from "../../utils/auth";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
 //graphql
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { GET_FRIENDS, QUERY_USER } from "../../utils/queries";
 
 
@@ -47,6 +47,7 @@ export default function Friends (){
 
 	//once both of those queries resolve, compare them to see which users in game are my friends
 	useEffect(() => {
+		console.log("useEffect");
 		if (friendsError) {
 			console.error(friendsError);
 			return;
@@ -54,9 +55,10 @@ export default function Friends (){
 		if (loading) return;
 		if (listOfPlayers.length === 0) return;
 		if (!friendsData) {
-			setPlayersAreFriend(new Array(listOfPlayers.length).fill(false));
+			setPlayersAreFriend(new Array(listOfPlayers.length).fill('add friend'));
 			return;
 		}
+		console.log(friendsData.me.friends);
 		updatePlayersAreFriend(friendsData.me.friends);
 	// eslint-disable-next-line
 	}, [listOfPlayers, loading, friendsError, friendsData]);
@@ -139,7 +141,7 @@ export default function Friends (){
 						<ul>
 							<FriendListItem 
 								username={searchResult.username} 
-								isFriend={searchResult.isFriend} 
+								friendStatus={searchResult.isFriend} 
 								updatePlayersAreFriend={updatePlayersAreFriend} 
 							/>
 						</ul>
@@ -154,7 +156,7 @@ export default function Friends (){
 							<FriendListItem 
 								key={index} 
 								username={player} 
-								isFriend={playersAreFriend[index]} 
+								friendStatus={playersAreFriend[index]} 
 								updatePlayersAreFriend={updatePlayersAreFriend} 
 							/>
 						))

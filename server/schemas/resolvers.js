@@ -18,7 +18,10 @@ const resolvers = {
 			if (context.user) {
 				const userData = await User.findOne({ _id: context.user._id })
 					.select('-__v -password')
-					.populate('friends');
+					.populate({
+						path: 'friends',
+						populate: 'requester recipient'
+					});
 				return userData;
 			}
 
@@ -127,10 +130,9 @@ const resolvers = {
 		requestFriendByUsername: async (parent, { username }, context) => {
 			console.log('requestFriendByUsername');
 			if (context.user) {
-				console.log(context.user);
 				const user = context.user;
 				const friend = await User.findOne({username})
-					.select('_id');
+					.select('_id username');
 				if (!friend)
 					throw new Error(`No user named ${username}!`);
 				
@@ -139,24 +141,20 @@ const resolvers = {
 					{ $set: { status: 'requested' }},
 					{ upsert: true, new: true }
 				);
-				console.log(sentRequest);
 				const receivedRequest = await Friend.findOneAndUpdate(
 					{ requester: friend, recipient: user },
 					{ $set: { status: 'received' }},
 					{ upsert: true, new: true }
 				);
-				console.log(receivedRequest);
 				
 				const updateUser = await User.findOneAndUpdate(
 					{ _id: user },
 					{ $push: { friends: sentRequest._id }}
 				);
-				console.log(updateUser);
 				const updateFriend = await User.findOneAndUpdate(
 					{ _id: friend },
 					{ $push: { friends: receivedRequest._id }}
 				);
-				console.log(updateFriend);
 
 				return updateUser;
 			}

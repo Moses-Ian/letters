@@ -62,7 +62,13 @@ export const REQUEST_FRIEND_USERNAME = gql`
 	mutation requestFriendByUsername($username: String!) {
 		requestFriendByUsername(username: $username) {
 			friends {
-				username
+				requester {
+					username
+				}
+				recipient {
+					username
+				}
+				status
 			}
 		}
 	}

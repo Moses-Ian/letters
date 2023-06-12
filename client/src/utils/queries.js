@@ -36,7 +36,13 @@ export const GET_FRIENDS = gql`
 	query {
 		me {
 			friends {
-				username
+				requester {
+					username
+				}
+				recipient {
+					username
+				}
+				status
 			}
 		}
 	}
