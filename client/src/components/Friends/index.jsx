@@ -15,8 +15,8 @@ export default function Friends (){
 	const { socket, room } = useL3ttersContext();
 	
   const [show, setShow] = useState(false);
-	const [listOfPlayers, setListOfPlayers] = useState([]);
-	// const [listOfPlayers, setListOfPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
+	const [players, setPlayers] = useState([]);
+	// const [players, setPlayers] = useState(['ian3', 'chris', 'hadas', 'moses']); // debug
 	const [getFriends, { loading, error: friendsError, data: friendsData }] = useLazyQuery(GET_FRIENDS);	//data: friendsData takes data and puts it into friendsData
 	const [playersAreFriend, setPlayersAreFriend] = useState([false]);
 	const [searchState, setSearchState] = useState('');
@@ -42,7 +42,11 @@ export default function Friends (){
 		}
 		
 		//show the other players
-		setListOfPlayers(data);
+		setPlayers(data.map(username => {
+			let player = new Object();
+			player.username = username;
+			return player;
+		}));
 	}
 
 	//once both of those queries resolve, compare them to see which users in game are my friends
@@ -53,25 +57,33 @@ export default function Friends (){
 			return;
 		}
 		if (loading) return;
-		if (listOfPlayers.length === 0) return;
+		if (players.length === 0) return;
 		if (!friendsData) {
-			setPlayersAreFriend(new Array(listOfPlayers.length).fill('add friend'));
+			setPlayersAreFriend(new Array(players.length).fill('add friend'));
 			return;
 		}
 		console.log(friendsData.me.friends);
 		updatePlayersAreFriend(friendsData.me.friends);
 	// eslint-disable-next-line
-	}, [listOfPlayers, loading, friendsError, friendsData]);
+	}, [players, loading, friendsError, friendsData]);
 	
 	const updatePlayersAreFriend = (friends) => {
-		let friendDataMap = friends.map(friend => friend.username);
-		let friendMap = listOfPlayers.map(player => friendDataMap.includes(player));
-		setPlayersAreFriend(friendMap);	
+		console.log(players);
+		console.log(friends);
+		let playerFriendStatuses = [...players];
+		playerFriendStatuses.forEach(player => {
+			let friend = friends.find(friend => 
+				friend.recipient.username == player.username || 
+				friend.requestor.username == player.username
+			);
+			player.status = friend == null ? 'add friend' : friend.status;
+		});
+		setPlayersAreFriend(playerFriendStatuses);	
 		
 		if (searchResult) {
 			setSearchResult({
 				...searchResult,
-				isFriend: friendDataMap.includes(searchResult.username)
+				// isFriend: friendDataMap.includes(searchResult.username)
 			});
 		}
 	}
@@ -152,11 +164,11 @@ export default function Friends (){
 					<p className="mt-3">See who's online</p>
 					<ul>
 					{
-						listOfPlayers.map((player, index) => (
+						players.map((player, index) => (
 							<FriendListItem 
 								key={index} 
-								username={player} 
-								friendStatus={playersAreFriend[index]} 
+								username={player.username} 
+								friendStatus={player.status} 
 								updatePlayersAreFriend={updatePlayersAreFriend} 
 							/>
 						))
