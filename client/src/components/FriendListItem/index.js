@@ -1,4 +1,5 @@
-import add from "../../assets/images/add-friend.png"
+import add from "../../assets/images/add-friend.png";
+import sent from "../../assets/images/sent.svg";
 
 //graphql
 import { useMutation } from "@apollo/client";
@@ -30,9 +31,15 @@ export default function FriendListItem ({ username, friendStatus, updatePlayersA
 	return (
 		<li data-username={username}>
 			{username}
-			{friendStatus == 'friends' 
-			? '✓'
-			:	<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button"/></button>}
+			{friendStatus == 'friends' &&
+				'✓'}
+			{friendStatus == 'add friend' &&
+				<button className="add-btn" onClick={requestFriend}><img src={add} alt="Add button" /></button>}
+			{friendStatus == 'requested' &&
+				<span className='icon'>
+					<img src={sent} alt='Friend request sent' />
+				</span>
+			}
 		</li>
 	);
 }

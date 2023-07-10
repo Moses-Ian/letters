@@ -74,7 +74,7 @@ export default function Friends (){
 		playerFriendStatuses.forEach(player => {
 			let friend = friends.find(friend => 
 				friend.recipient.username == player.username || 
-				friend.requestor.username == player.username
+				friend.requester.username == player.username
 			);
 			player.status = friend == null ? 'add friend' : friend.status;
 		});
