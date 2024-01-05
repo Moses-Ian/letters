@@ -101,6 +101,7 @@ leaveRoom = (socket, room, cb = ()=>{}) => {
 };
 
 tellTurn = (g, turn) => {
+	console.log("tell turn: " + turn);
   let player = g.players[turn];
   setTimeout(() => io.to(player.id).emit("your-turn"), 1000);
 };
