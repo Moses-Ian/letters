@@ -78,6 +78,7 @@ class GameObj {
 	}
 	
 	nextTurn() {
+		/*
 		if (this.players.length === 2) {
 			if (this.round % 4 === 1 || this.round % 4 === 3)
 				this.turn++
@@ -86,6 +87,8 @@ class GameObj {
 		}
 		if (this.turn >= this.players.length)
 			this.turn = 0;
+		*/
+		this.turn = 0;	// for the demo, it is always my turn
 		this.clearBoard();
 		this.round++;
 		return this.turn;

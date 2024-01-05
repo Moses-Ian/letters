@@ -9,7 +9,7 @@ import Players from "../Players";
 import Results from "../Results";
 import { useL3ttersContext } from "../../utils/GlobalState";
 
-const MAX_ROUNDS = 6;	//this could be a game setting
+const MAX_ROUNDS = 5;	//this could be a game setting
 const DEVELOP = false;
 
 function Room() {
@@ -53,6 +53,7 @@ function Room() {
   }, [isYourTurn]);
 	
 	const setLobby = (newRound, newPlayers, newTurn) => {
+		console.log("set lobby: " + newPlayers[newTurn].username === username);
 		setRound(newRound);
 		setPlayers(newPlayers);
 		setActivePlayer(newPlayers[newTurn].username);
