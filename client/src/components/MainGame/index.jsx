@@ -237,9 +237,7 @@ const MainGame = ({
     }
   };
 	
-	console.log(letters);
-	
-  return (
+	return (
     <div className="is-flex is-flex-direction-column is-justify-content-center">
 			{showLetterCards && (
 				<Tippy

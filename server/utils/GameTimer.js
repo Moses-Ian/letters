@@ -73,7 +73,8 @@ class GameTimer {
 		this.clear();
     // console.log('results');
     updateScores(this.name);
-    if (this.room.round === 6) {
+    //if (this.room.round === 6) {	// for the demo, we will only do 5 rounds
+    if (this.room.round === 5) {
       this.timeout = setTimeout(() => this.end(), SEVEN_SECONDS);
     } else {
       this.timeout = setTimeout(() => {
